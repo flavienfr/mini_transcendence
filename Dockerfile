@@ -5,6 +5,7 @@ WORKDIR /yt_larry_scott
 COPY Gemfile /yt_larry_scott/Gemfile
 COPY Gemfile.lock /yt_larry_scott/Gemfile.lock
 RUN bundle install
+# Eviter cette de copy all
 COPY . /yt_larry_scott
 
 # Add a script to be executed every time the container starts.

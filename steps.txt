@@ -1,0 +1,44 @@
+# be sure docker deskop is launched
+
+# only if error:
+# rvm install "ruby-2.5.8"
+
+# ---------------
+part 1 - https://youtu.be/vn27fUbOLbg
+
+# generate the Rails skeleton app using docker-compose run:
+# only if rails file structure isn't already generated
+$ docker-compose run web rails new . --force --no-deps --database=postgresql
+
+# cf. later error logs on mac os
+$ brew install yarn
+
+# ---------------
+part 2 - https://www.youtube.com/watch?v=a7eMsiTwhvk
+
+# create .env file with "DATABASE_PASSWORD='password'" inside
+
+# change database.yml (already done)
+
+$ docker-compose build
+
+# cf. error logs on mac os: https://stackoverflow.com/questions/57891751/webpacker-configuration-file-not-found-rails-6-0-0
+$ docker-compose run web rails webpacker:install
+
+$ docker-compose run web bundle
+
+# create the database
+$ docker-compose run web rake db:create
+
+# migrate the database
+$ docker-compose run web rake db:migrate
+
+$ docker-compose up
+
+# ---------------
+# to clean, finish with
+$ docker-compose down
+
+# ---------------
+# clean files to restart
+$rm -rf README.md bin db lib public storage vendor Rakefile config log sources test app config.ru package.json tmp

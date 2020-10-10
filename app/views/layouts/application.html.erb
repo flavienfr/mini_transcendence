@@ -3,13 +3,31 @@
   <head>
     <title>YtLarryScott</title>
     <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+	<%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+	<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
   </head>
 
   <body>
-    <%= yield %>
+    <nav class="site-header sticky-top py-1">
+      <div class="container d-flex flex-column flex-md-row justify-content-between">
+  	    <a class="navbar-brand" href="<%= root_path %>">
+  	      <img src="https://www.pinclipart.com/picdir/middle/45-451634_ping-pong-video-games-paddle-pong-transparent-clipart.png" width="100" height="50" alt="">
+  	    </a>
+ 	    <a class="py-2 d-none d-md-inline-block" href="/test">test</a>
+ 	    <a class="py-2 d-none d-md-inline-block" href="/test">test</a>
+ 	    <a class="py-2 d-none d-md-inline-block" href="/test">test</a>
+ 	    <a class="py-2 d-none d-md-inline-block" href="/test">test</a>
+ 	    <a class="py-2 d-none d-md-inline-block" href="/test">test</a>
+ 	    <a class="py-2 d-none d-md-inline-block" href="/test">test</a>
+ 	    <a class="py-2 d-none d-md-inline-block" href="/test">test</a>
+	  </div>
+	  <hr>
+	</nav>
+
+	<%= yield %>
+
   </body>
 </html>

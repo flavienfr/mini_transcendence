@@ -1,0 +1,45 @@
+.table{
+/*    border: 3px solid red;*/
+    margin: 120px 0 0 0;
+    background: #FFFFFF;
+  /*  position: absolute;*/
+    overflow : visible;
+}
+
+thead{
+    background: #333333;
+    color: #d0d0d0; 
+}
+
+.bouton{
+    border: 4px solid #333333;
+    border-radius: 8px;
+    background: #8C0303;
+    color: #f3f3f3;
+    width: 80px;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+.bouton:hover{
+    background: #b40a0a;
+/*    border: 4px solid #666666;
+    color: #6e6d6d; */
+}
+/*
+.close{
+    border: 4px solid #333333;
+    border-radius: 8px;
+    background: #333333;
+    color: #f3f3f3;
+    width: 80px;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}*/
+
+tr{
+    border: 5px solid #333333;
+}
+

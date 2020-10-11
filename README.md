@@ -1,7 +1,10 @@
 # README
 
-see ./steps.txt
+# Docker
+Stop all running containers: 
+	docker stop $(docker ps -a -q)
+Delete all stopped containers:
+	docker rm $(docker ps -a -q)
+Remove all images:
+	docker rmi $(docker images -q)
 
-tutorial : "Set Up Ruby on Rails with Docker/Docker Compose":
-- part 1 https://www.youtube.com/watch?v=vn27fUbOLbg&t=980s
-- part 2 https://www.youtube.com/watch?v=a7eMsiTwhvk

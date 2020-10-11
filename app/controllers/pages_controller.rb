@@ -1,9 +1,24 @@
 class PagesController < ApplicationController
 
-	def home
+	def live
 	end
 
-	def test
+	def play
+	end
+
+	def tournament
+	end
+
+	def guild
+	end
+	
+	def war
+	end
+
+	def profil
+	end
+
+	def option
 	end
 
 end

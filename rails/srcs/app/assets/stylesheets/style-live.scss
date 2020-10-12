@@ -1,0 +1,21 @@
+.active_game {
+    flex:  0 0 250px;
+    background-color: greenyellow; 
+}
+
+.chat {
+    flex:  0 0 350px;
+    background-color: rgb(200, 200, 200); 
+}
+
+@media (max-width: 1100px) {
+	.active_game {
+		flex:  0 0 50px;
+	}
+}
+
+@media (max-width: 770px) {
+  .chat, .active_game {
+	display: none; 
+  } 
+}

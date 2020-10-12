@@ -2,6 +2,7 @@
 // present in this directory. You're encouraged to place your actual application logic in
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
+import 'bootstrap'
 
 require("@rails/ujs").start()
 require("turbolinks").start()
@@ -15,7 +16,3 @@ require("channels")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
-
-//= require jquery3
-//= require popper
-//= require bootstrap-sprockets

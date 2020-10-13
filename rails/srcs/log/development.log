@@ -11271,3 +11271,523 @@ Processing by PagesController#option as HTML
 Completed 200 OK in 16ms (Views: 14.9ms | ActiveRecord: 0.0ms | Allocations: 9815)
 
 
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE DATABASE "ft_transcendence_development" ENCODING = 'unicode'[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE DATABASE "ft_transcendence_test" ENCODING = 'unicode'[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(2657814603636264240)[0m
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.9ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(2657814603636264240)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:33:25 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 135.2ms | Allocations: 57209)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 166ms (Views: 158.7ms | ActiveRecord: 0.0ms | Allocations: 73430)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:33:29 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 2.0ms | Allocations: 1189)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 14.8ms | ActiveRecord: 0.0ms | Allocations: 10865)
+
+
+Started GET "/play" for 172.18.0.1 at 2020-10-13 14:33:30 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#play as HTML
+  Rendering pages/play.html.erb within layouts/application
+  Rendered pages/play.html.erb within layouts/application (Duration: 0.3ms | Allocations: 87)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 14ms (Views: 12.7ms | ActiveRecord: 0.0ms | Allocations: 10050)
+
+
+Started GET "/tournament" for 172.18.0.1 at 2020-10-13 14:33:31 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#tournament as HTML
+  Rendering pages/tournament.html.erb within layouts/application
+  Rendered pages/tournament.html.erb within layouts/application (Duration: 1.9ms | Allocations: 1439)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 15ms (Views: 14.0ms | ActiveRecord: 0.0ms | Allocations: 11253)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:33:32 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.6ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 14ms (Views: 13.1ms | ActiveRecord: 0.0ms | Allocations: 10843)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:41:56 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 12.2ms | Allocations: 8816)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 24ms (Views: 23.7ms | ActiveRecord: 0.0ms | Allocations: 18375)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:42:11 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 17.6ms | Allocations: 8042)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 32ms (Views: 30.3ms | ActiveRecord: 0.0ms | Allocations: 17593)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:42:17 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 14.6ms | Allocations: 7145)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 27.8ms | ActiveRecord: 0.0ms | Allocations: 16704)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:42:21 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 26.6ms | Allocations: 8391)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 43ms (Views: 41.8ms | ActiveRecord: 0.0ms | Allocations: 17952)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:43:11 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 2.7ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 34ms (Views: 32.9ms | ActiveRecord: 0.0ms | Allocations: 16461)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:43:30 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 3.0ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 25.3ms | ActiveRecord: 0.0ms | Allocations: 11279)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:46:34 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 27.8ms | Allocations: 8382)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 42ms (Views: 40.6ms | ActiveRecord: 0.0ms | Allocations: 17951)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:46:35 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 5.0ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 25.4ms | ActiveRecord: 0.0ms | Allocations: 10840)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:46:54 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 17.8ms | Allocations: 7947)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 32ms (Views: 30.4ms | ActiveRecord: 0.0ms | Allocations: 17524)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:47:09 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 26.8ms | Allocations: 8426)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 42ms (Views: 40.5ms | ActiveRecord: 0.0ms | Allocations: 17981)
+
+
+Started GET "/tournament" for 172.18.0.1 at 2020-10-13 14:47:21 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#tournament as HTML
+  Rendering pages/tournament.html.erb within layouts/application
+  Rendered pages/tournament.html.erb within layouts/application (Duration: 2.5ms | Allocations: 1169)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 25ms (Views: 24.0ms | ActiveRecord: 0.0ms | Allocations: 10849)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:47:26 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.6ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 15ms (Views: 14.4ms | ActiveRecord: 0.0ms | Allocations: 10853)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:48:36 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 6.3ms | Allocations: 1766)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 34ms (Views: 32.2ms | ActiveRecord: 0.0ms | Allocations: 18589)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:48:44 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 3.0ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 25.4ms | ActiveRecord: 0.0ms | Allocations: 18967)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:49:10 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 2.9ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 34ms (Views: 32.9ms | ActiveRecord: 0.0ms | Allocations: 17318)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:49:11 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 2.2ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 14ms (Views: 13.4ms | ActiveRecord: 0.0ms | Allocations: 10845)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:49:18 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 4.7ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 32ms (Views: 30.2ms | ActiveRecord: 0.0ms | Allocations: 16524)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:51:43 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.7ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 24ms (Views: 22.8ms | ActiveRecord: 0.0ms | Allocations: 18196)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:51:53 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.5ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 15.2ms | ActiveRecord: 0.0ms | Allocations: 10887)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:52:25 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.5ms | Allocations: 1187)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 19.3ms | ActiveRecord: 0.0ms | Allocations: 18144)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:52:34 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 2.2ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 24ms (Views: 23.0ms | ActiveRecord: 0.0ms | Allocations: 17329)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:53:03 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.5ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 21ms (Views: 19.7ms | ActiveRecord: 0.0ms | Allocations: 17785)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:53:14 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.7ms | Allocations: 1187)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 21ms (Views: 20.1ms | ActiveRecord: 0.0ms | Allocations: 16846)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:56:32 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 19.3ms | ActiveRecord: 0.0ms | Allocations: 16537)
+
+
+Started GET "/tournament" for 172.18.0.1 at 2020-10-13 14:57:09 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#tournament as HTML
+  Rendering pages/tournament.html.erb within layouts/application
+  Rendered pages/tournament.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1169)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 15ms (Views: 13.9ms | ActiveRecord: 0.0ms | Allocations: 10824)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-13 14:57:11 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+  Rendered pages/guild.html.erb within layouts/application (Duration: 0.3ms | Allocations: 89)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 14.5ms | ActiveRecord: 0.0ms | Allocations: 10050)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:57:12 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 2.1ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 19ms (Views: 18.0ms | ActiveRecord: 0.0ms | Allocations: 10860)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:58:13 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 2.0ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.2ms | ActiveRecord: 0.0ms | Allocations: 16532)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 14:58:34 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.3ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 19ms (Views: 18.6ms | ActiveRecord: 0.0ms | Allocations: 17357)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:01:40 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 19.4ms | ActiveRecord: 0.0ms | Allocations: 18116)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:02:10 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.6ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 21.2ms | ActiveRecord: 0.0ms | Allocations: 17359)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:02:21 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.6ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 20.9ms | ActiveRecord: 0.0ms | Allocations: 17774)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:02:44 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.6ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 23ms (Views: 22.1ms | ActiveRecord: 0.0ms | Allocations: 17378)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:04:08 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 2.3ms | Allocations: 1348)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 24ms (Views: 22.6ms | ActiveRecord: 0.0ms | Allocations: 19490)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:04:42 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 21.0ms | ActiveRecord: 0.0ms | Allocations: 18969)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:05:27 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 14ms (Views: 13.5ms | ActiveRecord: 0.0ms | Allocations: 10884)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:05:46 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.6ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 19.2ms | ActiveRecord: 0.0ms | Allocations: 16513)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:06:07 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.6ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 19.3ms | ActiveRecord: 0.0ms | Allocations: 17319)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:06:12 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 2.2ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 25.0ms | ActiveRecord: 0.0ms | Allocations: 16872)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:06:17 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.6ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 19ms (Views: 18.6ms | ActiveRecord: 0.0ms | Allocations: 16588)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:06:51 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.5ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 19ms (Views: 18.4ms | ActiveRecord: 0.0ms | Allocations: 18561)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:07:05 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 19ms (Views: 18.5ms | ActiveRecord: 0.0ms | Allocations: 17764)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:07:35 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.9ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 24ms (Views: 22.6ms | ActiveRecord: 0.0ms | Allocations: 17337)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:07:41 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 2.9ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 27.5ms | ActiveRecord: 0.0ms | Allocations: 16493)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:07:49 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 4.0ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 35ms (Views: 33.0ms | ActiveRecord: 0.0ms | Allocations: 18187)
+
+
+Started GET "/" for 172.18.0.1 at 2020-10-13 15:08:27 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1187)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 19.7ms | ActiveRecord: 0.0ms | Allocations: 18105)
+
+
+Started GET "/" for 172.18.0.1 at 2020-10-13 15:08:35 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 4.4ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 26.9ms | ActiveRecord: 0.0ms | Allocations: 16002)
+
+
+Started GET "/" for 172.18.0.1 at 2020-10-13 15:08:42 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 2.1ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 16.8ms | ActiveRecord: 0.0ms | Allocations: 10883)
+
+
+Started GET "/" for 172.18.0.1 at 2020-10-13 15:09:39 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.8ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 21.3ms | ActiveRecord: 0.0ms | Allocations: 17756)
+
+
+Started GET "/tournament" for 172.18.0.1 at 2020-10-13 15:09:57 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#tournament as HTML
+  Rendering pages/tournament.html.erb within layouts/application
+  Rendered pages/tournament.html.erb within layouts/application (Duration: 1.7ms | Allocations: 1300)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 15ms (Views: 13.9ms | ActiveRecord: 0.0ms | Allocations: 11120)
+
+
+Started GET "/play" for 172.18.0.1 at 2020-10-13 15:10:04 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#play as HTML
+  Rendering pages/play.html.erb within layouts/application
+  Rendered pages/play.html.erb within layouts/application (Duration: 0.3ms | Allocations: 82)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 14ms (Views: 13.5ms | ActiveRecord: 0.0ms | Allocations: 10049)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-13 15:10:05 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.9ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 15ms (Views: 13.7ms | ActiveRecord: 0.0ms | Allocations: 10841)
+
+

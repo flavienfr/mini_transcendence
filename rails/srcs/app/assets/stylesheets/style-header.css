@@ -38,9 +38,16 @@ body {
 
 #body-page {
     background: #CCCCCC;
-    position: absolute;
-    height: 89.3%;
-    width: 99%;
+	position: absolute;
+/**** Chagement **********/
+	top: 80px;
+	bottom:0px; 
+	left: 0px;
+	right: 0px;
+    /*height: 89.3%;
+	width: 99%;*/
+/*************************/	
+
     border: 6px solid #333333;
     border-radius: 8px;
     margin: 0 6px;

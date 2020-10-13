@@ -10,12 +10,7 @@
 	height: 100%;
 }
 
-.col{
-	height: 100%;	
-}
-
 .active_game{
-/*	height: 87.8vh;*/
 	height: 100%;	
 	border-right: 4px solid #333333;
 }
@@ -33,7 +28,6 @@
 	min-width: 350px;	/*flex:  0 0 350px;*/
   
 	background-color: rgb(200, 200, 200);
-/*	height: 87.8vh;*/
 	height: 100%;
 	border-left: 4px solid #333333;
 
@@ -58,12 +52,13 @@
 /**** chat_footer ****/
 
 .chat_footer {
-	padding: 0 0 20px 0; /* Buggy */
+	padding: 0 0 10px 0; /* Buggy */
 }
 
 .chat_footer_btn{
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 }
 /*************************/
 

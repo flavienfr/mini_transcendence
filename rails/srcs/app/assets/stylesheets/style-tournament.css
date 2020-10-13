@@ -45,12 +45,14 @@ thead{
     border-radius: 8px;
     background: #8C0303;
     width: 80px;
+    height: 33px;
     margin: 0;
     text-align: center;
 }
 
 .bouton a{
     display: block;
+    height: 10px;
     width: 73.5px;
     text-align: center;
     text-decoration: none;

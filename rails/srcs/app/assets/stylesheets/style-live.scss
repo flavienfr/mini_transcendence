@@ -18,12 +18,12 @@
 .chat_header{
     display: flex;
 	justify-content: space-between;
-	padding: 5px 0 5px 0;
+	align-items: center;
 	border-bottom: solid;
 }
 
 .chat_header button{
-	margin: 5px 0 5px 0;
+	/*margin: 5px 0 5px 0;*/
 }
 
 .chat_header a:hover{

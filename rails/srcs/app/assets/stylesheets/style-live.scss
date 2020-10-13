@@ -3,6 +3,15 @@
     background-color: rgb(200, 200, 200);
 }
 
+.active_game{
+	height: 87.8vh;
+	border-right: 4px solid #333333;
+}
+
+.text-center{
+	background-color: white;
+}
+
 .chat {
 	display: flex;
 	justify-content: space-between;
@@ -12,7 +21,9 @@
 	min-width: 350px;	/*flex:  0 0 350px;*/
   
 	background-color: rgb(200, 200, 200);
-	height: 100vh
+	height: 87.8vh;
+	border-left: 4px solid #333333;
+
 }
 /**** chat_header ****/
 .chat_header{
@@ -34,7 +45,7 @@
 /**** chat_footer ****/
 
 .chat_footer {
-	padding: 0 0 90px 0; /* Buggy */
+	padding: 0 0 20px 0; /* Buggy */
 }
 
 .chat_footer_btn{

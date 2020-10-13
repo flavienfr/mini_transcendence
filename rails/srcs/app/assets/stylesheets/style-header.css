@@ -45,9 +45,16 @@ body {
 }
 
 #icon-menu {
-    color: #333333; 
+    color: #333333;
 }
 
 #icon-menu:hover{
-    background: #b4b5b4;
+    color: #b4b5b4;
+}
+
+.badge{
+    position: absolute;
+    margin: 0;
+    background: #b40a0a;
+    color: #ffffff; 
 }

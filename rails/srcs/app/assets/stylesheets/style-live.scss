@@ -1,12 +1,47 @@
 .active_game {
     flex:  0 0 250px;
-    background-color: greenyellow; 
+    background-color: rgb(200, 200, 200);
 }
 
 .chat {
-    flex:  0 0 350px;
-    background-color: rgb(200, 200, 200); 
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+
+	max-width: 350px;   /* Buggy */
+	min-width: 350px;	/*flex:  0 0 350px;*/
+  
+	background-color: rgb(200, 200, 200);
+	height: 100vh
 }
+/**** chat_header ****/
+.chat_header{
+    display: flex;
+	justify-content: space-between;
+	padding: 5px 0 5px 0;
+	border-bottom: solid;
+}
+
+.chat_header button{
+	margin: 5px 0 5px 0;
+}
+
+.chat_header a:hover{
+	background: #b4b5b4;
+}
+/*************************/
+
+/**** chat_footer ****/
+
+.chat_footer {
+	padding: 0 0 90px 0; /* Buggy */
+}
+
+.chat_footer_btn{
+	display: flex;
+	justify-content: space-between;
+}
+/*************************/
 
 @media (max-width: 1100px) {
 	.active_game {

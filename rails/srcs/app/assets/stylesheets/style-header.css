@@ -1,5 +1,6 @@
 body {
     overflow-y: hidden;
+    overflow-x: hidden;
  }
 
 #text-menu{
@@ -28,8 +29,8 @@ body {
 
 .navbar{
 	padding: 0;
-	/*box-shadow: 0 .5rem .5rem rgba(0, 0, 0, 0.1);
-	z-index: 1;*/
+	/*box-shadow: 0 .5rem .5rem rgba(0, 0, 0, 0.1);*/
+	z-index: 1;
 }
 
 .navbar-brand{
@@ -44,13 +45,14 @@ body {
 	bottom:0px; 
 	left: 0px;
 	right: 0px;
-    /*height: 89.3%;
-	width: 99%;*/
+    height: auto;
+    overflow: hidden;
+/*	width: 99%;*/
 /*************************/	
 
     border: 6px solid #333333;
     border-radius: 8px;
-    margin: 0 6px;
+    margin: 0 5px 5px 5px;
 }
 
 #icon-menu {

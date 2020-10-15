@@ -1,0 +1,126 @@
+/*** active game ***/
+.active_game {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+	align-items: center;
+
+	max-width: 150px;   /* Buggy */
+	min-width: 150px;	/*flex:  0 0 350px;*/
+	background-color: rgb(200, 200, 200);
+}
+.active_game h2 {
+	font-size:20px;
+}
+/***********************/
+
+.container-live-play{
+	height: 100%;
+}
+.row{
+	height: 100%;
+}
+
+.active_game{
+	height: 100%;	
+	border-right: 4px solid #333333;
+}
+
+.text-center{
+	background-color: white;
+}
+
+.chat {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+
+	max-width: 350px;   /* Buggy */
+	min-width: 350px;	/*flex:  0 0 350px;*/
+  
+	background-color: rgb(200, 200, 200);
+	height: 100%;
+	border-left: 4px solid #333333;
+}
+
+.main_chat_header, .create_chat_header,
+.param_chat_header, .protected_chat_header{
+	height: 50px;
+	border-bottom: 4px solid #333333;
+}
+
+/**** Main_chat ****/
+.main_chat_header{
+    display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.main_chat_header button{
+	/*margin: 5px 0 5px 0;*/
+}
+
+.main_chat_header a:hover{
+	background: #b4b5b4;
+}
+
+.main_chat_footer {
+	padding: 0 0 10px 0; /* Buggy */
+}
+
+.main_chat_footer_btn{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+/*************************/
+/*** create_chat, param_chat ***/
+.create_chat_header, .param_chat_header{
+	position: relative;
+}
+.create_chat_header a, .param_chat_header a{
+	position: absolute;
+	right: 0px;
+	top: 0px
+}
+/*************************/
+/*** create_chat ***/
+
+.create_chat_header h2{
+	font-size: 25px;
+	position: absolute;
+	left: 50px;
+	top: 10px
+}
+
+/*************************/
+/*** param_chat ***/
+.param_chat_header h2{
+	font-size: 25px;
+	position: absolute;
+	left: 90px;
+	top: 10px
+}
+/*************************/
+/*** protected_chat ***/
+.protected_chat_header h2{
+	font-size: 25px;
+	position: absolute;
+	left: 90px;
+	top: 10px
+}
+/*************************/
+
+
+@media (max-width: 1000px) {
+	.active_game {
+		max-width: 100px;   /* Buggy */
+		min-width: 100px;	/*flex:  0 0 350px;*/
+	}
+}
+
+@media (max-width: 770px) {
+  .chat, .active_game {
+	display: none; 
+  } 
+}

@@ -1,0 +1,120 @@
+.war_container{
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+}
+
+.war_pannel{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	width: 75%;
+	max-width: 1000px;
+	max-height: 1000px;
+	min-height: 300px;
+
+	height: 75%;
+	border: 4px solid #333333;
+}
+
+.war_pannel_header{
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	border-bottom: 4px solid #333333;
+	max-height: 20%;
+	color: white;
+	background: #333333;
+}
+.war_pannel_header{
+	font-size: large;
+}
+
+.name_img_owner, .name_img_officer{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.name_img_owner p, .name_img_officer p{
+	margin-bottom: 0;
+}
+.name_img_owner img, .name_img_officer img{
+	border: 2px solid #333333;
+}
+
+.war_pannel_body{
+	display: flex;
+	align-items: center;
+	flex-grow:4;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.war_pannel_body .body_1{
+	display: flex;
+	justify-content: space-around;
+}
+
+.war_pannel_body .time_picker{
+	display: flex;
+	max-width: 200px;
+}
+
+.body_1 .selector{
+	width: 40%;
+}
+
+.war_time{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 60%;
+	height: 60%;
+	border: 4px solid #333333;
+	max-width: 500px;
+}
+.war_time h2{
+
+}
+.war_time  .selector input{
+	max-width: 200px;
+}
+.war_time .time_picker{
+	
+}
+
+.war_pannel_footer{
+	display: flex;
+	justify-content: center;	
+	flex-grow:0.5;
+}
+.war_pannel_footer button{
+	width: 250px;
+}
+
+@media (max-height: 720px) {
+	.war_pannel_header img{
+		display: none;
+	}
+	.war_pannel_header{
+		font-size: medium;
+	}
+	.war_pannel_body{
+		justify-content: space-evenly;
+		flex-direction: row;
+	}
+	.war_time{
+		border: none;
+	}
+}
+
+@media (max-width: 720px) {
+	.war_pannel_header{
+		font-size: medium;
+	}
+}

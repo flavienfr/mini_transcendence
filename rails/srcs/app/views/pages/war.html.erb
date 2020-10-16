@@ -1,1 +1,76 @@
-<h1> war page </h1>
+<!-- Mettre dans le balise head -->
+<%= stylesheet_link_tag "style-war.css" %>
+
+<!-- REMPLACER LES BTN AVEC JQUERY BTN -->
+
+<div class="war_container">
+	<div class="war_pannel">
+		<div class="war_pannel_header">
+
+			<div class="selector">
+				<select class="form-control form-control-md">
+					<option>The order</option>
+					<option>The alliance</option>
+					<option>The z</option>
+				</select>
+			</div>
+			<p>SCORE: ...</p>
+			<div class="name_img_owner">
+				<p>OWNER</p>
+				<img src="<%= image_url('profil-photo.png') %>" width="50" height="50" alt="" class="profil profil-photo">
+				<p>@player name</p>
+			</div>
+			<div class="name_img_officer">
+				<p>OFFICER</p>
+				<img src="<%= image_url('profil-photo.png') %>" width="50" height="50" alt="" class="profil profil-photo">
+				<p>@player name</p>
+			</div>
+
+		</div>
+		<div class="war_pannel_body">
+
+			<div class="body_1">
+				<div class="time_picker">
+					<div class="selector">
+						<label for="guildName">Start time</label>
+						<input type="text" class="form-control" id="inputGuildName">
+					</div>
+					<div class="selector">
+						<label for="guildName">Finish time</label>
+						<input type="text" class="form-control" id="inputGuildName">
+					</div>
+				</div>
+				<div class="selector">
+					<label for="PrizePool">Prize pool</label>
+					<input type="text" class="form-control" id="inputPrizePool">
+				</div>
+			</div>
+
+			<div class="war_time">
+				<h2>War Time</h2>
+				<div class="time_picker">
+					<div class="selector">
+						<label for="guildName">Start time</label>
+						<input type="text" class="form-control" id="inputGuildName">
+					</div>
+					<div class="selector">
+						<label for="guildName">Finish time</label>
+						<input type="text" class="form-control" id="inputGuildName">
+					</div>
+				</div>
+				<div class="selector">
+					<label for="MaxUnansweredMatch">Max unanswered match</label>
+					<input type="text" class="form-control" id="inputMaxUnansweredMatch">
+				</div>
+			</div>
+
+		</div>
+		<div class="war_pannel_footer">
+
+			<div class="allGuild">
+				<button type="button" class="btn btn-primary btn-md btn-block btn-dark">Declare war</button>
+			</div>
+
+		</div>
+	</div>
+</div>

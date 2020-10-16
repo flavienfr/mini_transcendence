@@ -19394,3 +19394,3526 @@ Processing by PagesController#guild as HTML
 Completed 200 OK in 32ms (Views: 30.6ms | ActiveRecord: 0.0ms | Allocations: 18960)
 
 
+Started GET "/live" for 172.18.0.1 at 2020-10-16 00:16:35 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 2.9ms | Allocations: 1328)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 19.0ms | ActiveRecord: 0.0ms | Allocations: 12161)
+
+
+Started GET "/play" for 172.18.0.1 at 2020-10-16 00:16:38 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#play as HTML
+  Rendering pages/play.html.erb within layouts/application
+  Rendered pages/play.html.erb within layouts/application (Duration: 4.7ms | Allocations: 1303)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 18.7ms | ActiveRecord: 0.0ms | Allocations: 11148)
+
+
+Started GET "/tournament" for 172.18.0.1 at 2020-10-16 00:16:42 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#tournament as HTML
+  Rendering pages/tournament.html.erb within layouts/application
+  Rendered pages/tournament.html.erb within layouts/application (Duration: 2.2ms | Allocations: 1343)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 14.7ms | ActiveRecord: 0.0ms | Allocations: 11180)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 00:16:43 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+  Rendered pages/guild.html.erb within layouts/application (Duration: 2.8ms | Allocations: 1379)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 24ms (Views: 22.5ms | ActiveRecord: 0.0ms | Allocations: 11226)
+
+
+Started GET "/tournament" for 172.18.0.1 at 2020-10-16 00:16:46 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#tournament as HTML
+  Rendering pages/tournament.html.erb within layouts/application
+  Rendered pages/tournament.html.erb within layouts/application (Duration: 2.1ms | Allocations: 1184)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 21.6ms | ActiveRecord: 0.0ms | Allocations: 10863)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 00:16:47 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+  Rendered pages/guild.html.erb within layouts/application (Duration: 2.0ms | Allocations: 1188)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 18.9ms | ActiveRecord: 0.0ms | Allocations: 10877)
+
+
+Started GET "/tournament" for 172.18.0.1 at 2020-10-16 00:17:01 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#tournament as HTML
+  Rendering pages/tournament.html.erb within layouts/application
+  Rendered pages/tournament.html.erb within layouts/application (Duration: 1.5ms | Allocations: 1185)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 17ms (Views: 16.1ms | ActiveRecord: 0.0ms | Allocations: 10864)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 00:17:14 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+  Rendered pages/guild.html.erb within layouts/application (Duration: 2.0ms | Allocations: 1188)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 17ms (Views: 16.4ms | ActiveRecord: 0.0ms | Allocations: 10878)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-16 00:17:16 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 2.6ms | Allocations: 1185)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 15.2ms | ActiveRecord: 0.0ms | Allocations: 10880)
+
+
+Started GET "/play" for 172.18.0.1 at 2020-10-16 00:17:19 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#play as HTML
+  Rendering pages/play.html.erb within layouts/application
+  Rendered pages/play.html.erb within layouts/application (Duration: 2.2ms | Allocations: 1185)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 19.2ms | ActiveRecord: 0.0ms | Allocations: 10873)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-16 00:17:21 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.8ms | Allocations: 1184)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 17ms (Views: 15.6ms | ActiveRecord: 0.0ms | Allocations: 10870)
+
+
+Started GET "/play" for 172.18.0.1 at 2020-10-16 00:17:32 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#play as HTML
+  Rendering pages/play.html.erb within layouts/application
+  Rendered pages/play.html.erb within layouts/application (Duration: 1.9ms | Allocations: 1184)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 16.9ms | ActiveRecord: 0.0ms | Allocations: 10870)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 00:18:16 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+  Rendered pages/guild.html.erb within layouts/application (Duration: 1.8ms | Allocations: 1188)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 19.3ms | ActiveRecord: 0.0ms | Allocations: 10901)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-16 00:19:18 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.6ms | Allocations: 1185)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 15.0ms | ActiveRecord: 0.0ms | Allocations: 10876)
+
+
+Started GET "/play" for 172.18.0.1 at 2020-10-16 00:19:19 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#play as HTML
+  Rendering pages/play.html.erb within layouts/application
+  Rendered pages/play.html.erb within layouts/application (Duration: 1.8ms | Allocations: 1184)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 21ms (Views: 19.6ms | ActiveRecord: 0.0ms | Allocations: 10873)
+
+
+Started GET "/play" for 172.18.0.1 at 2020-10-16 00:19:22 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#play as HTML
+  Rendering pages/play.html.erb within layouts/application
+  Rendered pages/play.html.erb within layouts/application (Duration: 2.4ms | Allocations: 1185)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 18.0ms | ActiveRecord: 0.0ms | Allocations: 10866)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-16 00:19:22 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.9ms | Allocations: 1185)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 16.9ms | ActiveRecord: 0.0ms | Allocations: 10871)
+
+
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE DATABASE "ft_transcendence_development" ENCODING = 'unicode'[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE DATABASE "ft_transcendence_test" ENCODING = 'unicode'[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(2657814603636264240)[0m
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.6ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(2657814603636264240)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/live" for 172.18.0.1 at 2020-10-16 13:03:20 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 187.3ms | Allocations: 63714)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 231ms (Views: 221.0ms | ActiveRecord: 0.0ms | Allocations: 76638)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 13:03:22 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+  Rendered pages/guild.html.erb within layouts/application (Duration: 2.6ms | Allocations: 1479)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 15ms (Views: 14.5ms | ActiveRecord: 0.0ms | Allocations: 11338)
+
+
+Started GET "/option" for 172.18.0.1 at 2020-10-16 13:04:30 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#option as HTML
+  Rendering pages/option.html.erb within layouts/application
+  Rendered pages/option.html.erb within layouts/application (Duration: 0.5ms | Allocations: 84)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 14ms (Views: 13.3ms | ActiveRecord: 0.0ms | Allocations: 10075)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:04:35 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 0.5ms | Allocations: 85)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 14ms (Views: 12.9ms | ActiveRecord: 0.0ms | Allocations: 10086)
+
+
+Started GET "/tournament" for 172.18.0.1 at 2020-10-16 13:06:27 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#tournament as HTML
+  Rendering pages/tournament.html.erb within layouts/application
+  Rendered pages/tournament.html.erb within layouts/application (Duration: 2.6ms | Allocations: 1481)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 15ms (Views: 13.8ms | ActiveRecord: 0.0ms | Allocations: 11315)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 13:06:27 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+  Rendered pages/guild.html.erb within layouts/application (Duration: 2.0ms | Allocations: 1189)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 15.4ms | ActiveRecord: 0.0ms | Allocations: 10875)
+
+
+Started GET "/tournament" for 172.18.0.1 at 2020-10-16 13:06:32 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#tournament as HTML
+  Rendering pages/tournament.html.erb within layouts/application
+  Rendered pages/tournament.html.erb within layouts/application (Duration: 1.2ms | Allocations: 1184)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 19.9ms | ActiveRecord: 0.0ms | Allocations: 10874)
+
+
+Started GET "/play" for 172.18.0.1 at 2020-10-16 13:06:33 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#play as HTML
+  Rendering pages/play.html.erb within layouts/application
+  Rendered pages/play.html.erb within layouts/application (Duration: 7.6ms | Allocations: 1309)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 35ms (Views: 32.1ms | ActiveRecord: 0.0ms | Allocations: 11148)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-16 13:06:33 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.7ms | Allocations: 1186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 15ms (Views: 14.5ms | ActiveRecord: 0.0ms | Allocations: 10870)
+
+
+Started GET "/tournament" for 172.18.0.1 at 2020-10-16 13:06:35 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#tournament as HTML
+  Rendering pages/tournament.html.erb within layouts/application
+  Rendered pages/tournament.html.erb within layouts/application (Duration: 1.5ms | Allocations: 1184)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 17.2ms | ActiveRecord: 0.0ms | Allocations: 10893)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 13:06:59 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+  Rendered pages/guild.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1188)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 15.1ms | ActiveRecord: 0.0ms | Allocations: 10889)
+
+
+Started GET "/tournament" for 172.18.0.1 at 2020-10-16 13:07:45 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#tournament as HTML
+  Rendering pages/tournament.html.erb within layouts/application
+  Rendered pages/tournament.html.erb within layouts/application (Duration: 1.6ms | Allocations: 1184)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 14.9ms | ActiveRecord: 0.0ms | Allocations: 10876)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 13:07:46 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+  Rendered pages/guild.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1188)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 14ms (Views: 13.5ms | ActiveRecord: 0.0ms | Allocations: 10883)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:07:47 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 0.0ms | Allocations: 4)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 13ms (Views: 12.4ms | ActiveRecord: 0.0ms | Allocations: 9842)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 13:08:43 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+  Rendered pages/guild.html.erb within layouts/application (Duration: 2.1ms | Allocations: 1189)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 20.3ms | ActiveRecord: 0.0ms | Allocations: 10879)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-16 13:08:52 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 1.5ms | Allocations: 1184)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 15.7ms | ActiveRecord: 0.0ms | Allocations: 10867)
+
+
+Started GET "/tournament" for 172.18.0.1 at 2020-10-16 13:08:53 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#tournament as HTML
+  Rendering pages/tournament.html.erb within layouts/application
+  Rendered pages/tournament.html.erb within layouts/application (Duration: 2.0ms | Allocations: 1184)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 17ms (Views: 15.9ms | ActiveRecord: 0.0ms | Allocations: 10875)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:10:07 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 0.1ms | Allocations: 4)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 15ms (Views: 14.1ms | ActiveRecord: 0.0ms | Allocations: 9848)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:16:27 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 34.9ms | Allocations: 27175)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 51ms (Views: 50.1ms | ActiveRecord: 0.0ms | Allocations: 37928)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:16:40 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.0ms | Allocations: 7887)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 26.4ms | ActiveRecord: 0.0ms | Allocations: 17488)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:17:49 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.7ms | Allocations: 9267)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 31ms (Views: 30.0ms | ActiveRecord: 0.0ms | Allocations: 20004)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:18:09 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 17.7ms | Allocations: 10023)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 33ms (Views: 31.1ms | ActiveRecord: 0.0ms | Allocations: 19623)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:19:51 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.4ms | Allocations: 1309)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 21ms (Views: 19.9ms | ActiveRecord: 0.0ms | Allocations: 12146)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:36:39 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 1.9ms | Allocations: 1327)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 19.3ms | ActiveRecord: 0.0ms | Allocations: 12176)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:42:16 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.7ms | Allocations: 10034)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.1ms | ActiveRecord: 0.0ms | Allocations: 19621)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:42:25 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.1ms | Allocations: 8690)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 28.3ms | ActiveRecord: 0.0ms | Allocations: 18280)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:42:31 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.7ms | Allocations: 1773)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 21.1ms | ActiveRecord: 0.0ms | Allocations: 11370)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:42:57 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.2ms | Allocations: 9146)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 25.0ms | ActiveRecord: 0.0ms | Allocations: 18750)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:43:19 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 19.6ms | Allocations: 9611)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 36ms (Views: 34.4ms | ActiveRecord: 0.0ms | Allocations: 19208)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:43:38 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 8.2ms | Allocations: 8751)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 21ms (Views: 20.6ms | ActiveRecord: 0.0ms | Allocations: 18345)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:44:19 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.7ms | Allocations: 9170)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 31ms (Views: 29.1ms | ActiveRecord: 0.0ms | Allocations: 18770)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:44:39 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 1.8ms | Allocations: 1332)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 16.8ms | ActiveRecord: 0.0ms | Allocations: 12166)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:48:03 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 18.6ms | Allocations: 9186)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 35ms (Views: 33.4ms | ActiveRecord: 0.0ms | Allocations: 18783)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:48:12 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 18.8ms | Allocations: 8314)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 35ms (Views: 32.7ms | ActiveRecord: 0.0ms | Allocations: 17914)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:48:53 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 21.0ms | Allocations: 9613)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 37ms (Views: 34.9ms | ActiveRecord: 0.0ms | Allocations: 19215)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:49:27 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 22.6ms | Allocations: 9236)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 40ms (Views: 37.4ms | ActiveRecord: 0.0ms | Allocations: 18840)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:50:40 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 24.3ms | Allocations: 10051)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 39ms (Views: 37.6ms | ActiveRecord: 0.0ms | Allocations: 19645)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:50:46 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 5.0ms | Allocations: 1234)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 26.8ms | ActiveRecord: 0.0ms | Allocations: 10933)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:50:47 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.7ms | Allocations: 1193)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 23ms (Views: 21.0ms | ActiveRecord: 0.0ms | Allocations: 10882)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:50:50 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 8.5ms | Allocations: 1773)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 39ms (Views: 36.6ms | ActiveRecord: 0.0ms | Allocations: 11378)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:51:06 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 21.3ms | Allocations: 9614)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 38ms (Views: 36.1ms | ActiveRecord: 0.0ms | Allocations: 19218)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 13:51:37 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 7.9ms | Allocations: 1773)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 27.9ms | ActiveRecord: 0.0ms | Allocations: 11376)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 14:23:29 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 9.1ms | Allocations: 10051)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 23ms (Views: 22.0ms | ActiveRecord: 0.0ms | Allocations: 19655)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 14:23:40 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 18.9ms | Allocations: 8719)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 36ms (Views: 34.0ms | ActiveRecord: 0.0ms | Allocations: 18321)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 14:44:08 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.3ms | Allocations: 9767)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.3ms | ActiveRecord: 0.0ms | Allocations: 20516)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 14:44:16 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.4ms | Allocations: 1338)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 18.2ms | ActiveRecord: 0.0ms | Allocations: 12167)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 14:56:52 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.3ms | Allocations: 1389)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 19.0ms | ActiveRecord: 0.0ms | Allocations: 12216)
+
+
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE DATABASE "ft_transcendence_development" ENCODING = 'unicode'[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE DATABASE "ft_transcendence_test" ENCODING = 'unicode'[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(2657814603636264240)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(2657814603636264240)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE DATABASE "ft_transcendence_development" ENCODING = 'unicode'[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE DATABASE "ft_transcendence_test" ENCODING = 'unicode'[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(2657814603636264240)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(2657814603636264240)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE DATABASE "ft_transcendence_development" ENCODING = 'unicode'[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE DATABASE "ft_transcendence_test" ENCODING = 'unicode'[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(2657814603636264240)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(2657814603636264240)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/war" for 172.18.0.1 at 2020-10-16 15:03:40 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 172.9ms | Allocations: 68456)
+Completed 500 Internal Server Error in 181ms (ActiveRecord: 0.0ms | Allocations: 71152)
+
+
+  
+ActionView::Template::Error (Error: File to import not found or unreadable: bootstrap-sprockets.
+        on line 4:1 of app/assets/stylesheets/application.scss
+>> @import 'bootstrap-sprockets';
+
+   ^
+):
+  
+app/assets/stylesheets/application.scss:4
+Started GET "/war" for 172.18.0.1 at 2020-10-16 15:13:14 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 249.6ms | Allocations: 45879)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 464ms (Views: 462.9ms | ActiveRecord: 0.0ms | Allocations: 85581)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 15:37:24 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.0ms | Allocations: 1347)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 17ms (Views: 15.9ms | ActiveRecord: 0.0ms | Allocations: 12369)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 15:42:10 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 4.4ms | Allocations: 1357)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 24.0ms | ActiveRecord: 0.0ms | Allocations: 12186)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 15:43:54 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.9ms | Allocations: 1358)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 24ms (Views: 23.0ms | ActiveRecord: 0.0ms | Allocations: 12181)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 15:49:23 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.9ms | Allocations: 1359)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 22.5ms | ActiveRecord: 0.0ms | Allocations: 12193)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 15:49:42 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.5ms | Allocations: 1359)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 21ms (Views: 19.7ms | ActiveRecord: 0.0ms | Allocations: 12192)
+
+
+Started GET "/war?appt-time=23%3A59" for 172.18.0.1 at 2020-10-16 15:49:46 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Parameters: {"appt-time"=>"23:59"}
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 1.3ms | Allocations: 1193)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 14ms (Views: 12.9ms | ActiveRecord: 0.0ms | Allocations: 10893)
+
+
+Started GET "/war?appt-time=00%3A00" for 172.18.0.1 at 2020-10-16 15:49:49 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Parameters: {"appt-time"=>"00:00"}
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.1ms | Allocations: 1196)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 23ms (Views: 17.7ms | ActiveRecord: 0.0ms | Allocations: 10893)
+
+
+Started GET "/war?appt-time=00%3A00" for 172.18.0.1 at 2020-10-16 15:52:41 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Parameters: {"appt-time"=>"00:00"}
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.4ms | Allocations: 1363)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 23ms (Views: 20.8ms | ActiveRecord: 0.0ms | Allocations: 12199)
+
+
+Started GET "/war?appt-time=00%3A00" for 172.18.0.1 at 2020-10-16 15:54:23 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Parameters: {"appt-time"=>"00:00"}
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.3ms | Allocations: 1360)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 16.5ms | ActiveRecord: 0.0ms | Allocations: 12196)
+
+
+Started GET "/war?appt-time=00%3A00" for 172.18.0.1 at 2020-10-16 16:01:17 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Parameters: {"appt-time"=>"00:00"}
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 4.6ms | Allocations: 1193)
+[Webpacker] Compiling...
+[Webpacker] Compilation failed:
+Hash: 56d019705811e35705e8
+Version: webpack 4.44.2
+Time: 2056ms
+Built at: 10/16/2020 4:01:21 PM
+                                     Asset       Size       Chunks                         Chunk Names
+    js/application-a170d32fa1a5b4f86906.js   1000 KiB  application  [emitted] [immutable]  application
+js/application-a170d32fa1a5b4f86906.js.map    970 KiB  application  [emitted] [dev]        application
+                             manifest.json  364 bytes               [emitted]              
+Entrypoint application = js/application-a170d32fa1a5b4f86906.js js/application-a170d32fa1a5b4f86906.js.map
+[./app/javascript/channels sync recursive _channel\.js$] ./app/javascript/channels sync _channel\.js$ 160 bytes {application} [built]
+[./app/javascript/channels/index.js] 211 bytes {application} [built]
+[./app/javascript/packs/application.js] 1.13 KiB {application} [built]
+[./node_modules/webpack/buildin/global.js] (webpack)/buildin/global.js 905 bytes {application} [built]
+[./node_modules/webpack/buildin/module.js] (webpack)/buildin/module.js 552 bytes {application} [built]
+    + 161 hidden modules
+
+ERROR in ./app/javascript/packs/application.js
+Module not found: Error: Can't resolve './Entrypoint.js' in '/ft_transcendence/app/javascript/packs'
+ @ ./app/javascript/packs/application.js 40:0-41 43:18-28
+
+Completed 200 OK in 3407ms (Views: 3405.4ms | ActiveRecord: 0.0ms | Allocations: 11973)
+
+
+Started GET "/war?appt-time=00%3A00" for 172.18.0.1 at 2020-10-16 16:08:38 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Parameters: {"appt-time"=>"00:00"}
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 1.6ms | Allocations: 1194)
+[Webpacker] Compiling...
+[Webpacker] Compilation failed:
+Hash: 183d8538675e8d783769
+Version: webpack 4.44.2
+Time: 520ms
+Built at: 10/16/2020 4:08:40 PM
+                                     Asset       Size       Chunks                         Chunk Names
+    js/application-fbca193755c71ffa462d.js   6.57 KiB  application  [emitted] [immutable]  application
+js/application-fbca193755c71ffa462d.js.map   3.53 KiB  application  [emitted] [dev]        application
+                             manifest.json  364 bytes               [emitted]              
+Entrypoint application = js/application-fbca193755c71ffa462d.js js/application-fbca193755c71ffa462d.js.map
+[./app/javascript/packs/application.js] 2.67 KiB {application} [built] [failed] [1 error]
+
+ERROR in ./app/javascript/packs/application.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /ft_transcendence/app/javascript/packs/application.js: Unexpected token, expected ";" (2:5)
+
+  1 | 
+> 2 | Skip to content
+    |      ^
+  3 | Pull requests
+  4 | Issues
+  5 | Marketplace
+    at Parser._raise (/ft_transcendence/node_modules/@babel/parser/lib/index.js:766:17)
+    at Parser.raiseWithData (/ft_transcendence/node_modules/@babel/parser/lib/index.js:759:17)
+    at Parser.raise (/ft_transcendence/node_modules/@babel/parser/lib/index.js:753:17)
+    at Parser.unexpected (/ft_transcendence/node_modules/@babel/parser/lib/index.js:8966:16)
+    at Parser.semicolon (/ft_transcendence/node_modules/@babel/parser/lib/index.js:8948:40)
+    at Parser.parseExpressionStatement (/ft_transcendence/node_modules/@babel/parser/lib/index.js:11971:10)
+    at Parser.parseStatementContent (/ft_transcendence/node_modules/@babel/parser/lib/index.js:11567:19)
+    at Parser.parseStatement (/ft_transcendence/node_modules/@babel/parser/lib/index.js:11431:17)
+    at Parser.parseBlockOrModuleBlockBody (/ft_transcendence/node_modules/@babel/parser/lib/index.js:12013:25)
+    at Parser.parseBlockBody (/ft_transcendence/node_modules/@babel/parser/lib/index.js:11999:10)
+    at Parser.parseTopLevel (/ft_transcendence/node_modules/@babel/parser/lib/index.js:11362:10)
+    at Parser.parse (/ft_transcendence/node_modules/@babel/parser/lib/index.js:13045:10)
+    at parse (/ft_transcendence/node_modules/@babel/parser/lib/index.js:13098:38)
+    at parser (/ft_transcendence/node_modules/@babel/core/lib/parser/index.js:54:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/ft_transcendence/node_modules/@babel/core/lib/transformation/normalize-file.js:99:38)
+    at normalizeFile.next (<anonymous>)
+    at run (/ft_transcendence/node_modules/@babel/core/lib/transformation/index.js:31:50)
+    at run.next (<anonymous>)
+    at Function.transform (/ft_transcendence/node_modules/@babel/core/lib/transform.js:27:41)
+    at transform.next (<anonymous>)
+    at step (/ft_transcendence/node_modules/gensync/index.js:254:32)
+    at /ft_transcendence/node_modules/gensync/index.js:266:13
+    at async.call.result.err.err (/ft_transcendence/node_modules/gensync/index.js:216:11)
+    at /ft_transcendence/node_modules/gensync/index.js:184:28
+    at /ft_transcendence/node_modules/@babel/core/lib/gensync-utils/async.js:72:7
+    at /ft_transcendence/node_modules/gensync/index.js:108:33
+    at step (/ft_transcendence/node_modules/gensync/index.js:280:14)
+    at /ft_transcendence/node_modules/gensync/index.js:266:13
+    at async.call.result.err.err (/ft_transcendence/node_modules/gensync/index.js:216:11)
+
+Completed 200 OK in 1658ms (Views: 1656.7ms | ActiveRecord: 0.0ms | Allocations: 11975)
+
+
+Started GET "/war?appt-time=23%3A00" for 172.18.0.1 at 2020-10-16 16:08:42 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Parameters: {"appt-time"=>"23:00"}
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.2ms | Allocations: 1193)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 18.9ms | ActiveRecord: 0.0ms | Allocations: 10894)
+
+
+Started GET "/war?appt-time=23%3A00" for 172.18.0.1 at 2020-10-16 16:11:34 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Parameters: {"appt-time"=>"23:00"}
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.1ms | Allocations: 1193)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 19ms (Views: 17.9ms | ActiveRecord: 0.0ms | Allocations: 10896)
+
+
+Started GET "/war?appt-time=23%3A00" for 172.18.0.1 at 2020-10-16 16:12:42 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Parameters: {"appt-time"=>"23:00"}
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 1.7ms | Allocations: 1193)
+[Webpacker] Compiling...
+[Webpacker] Compilation failed:
+Hash: 6285685746787ffead17
+Version: webpack 4.44.2
+Time: 1604ms
+Built at: 10/16/2020 4:12:45 PM
+                                     Asset       Size       Chunks                         Chunk Names
+    js/application-70ffa573cf44c6e41397.js    727 KiB  application  [emitted] [immutable]  application
+js/application-70ffa573cf44c6e41397.js.map    650 KiB  application  [emitted] [dev]        application
+                             manifest.json  364 bytes               [emitted]              
+Entrypoint application = js/application-70ffa573cf44c6e41397.js js/application-70ffa573cf44c6e41397.js.map
+[./app/javascript/channels sync recursive _channel\.js$] ./app/javascript/channels sync _channel\.js$ 160 bytes {application} [built]
+[./app/javascript/channels/index.js] 211 bytes {application} [built]
+[./app/javascript/packs/application.js] 759 bytes {application} [built]
+[./node_modules/webpack/buildin/global.js] (webpack)/buildin/global.js 905 bytes {application} [built]
+[./node_modules/webpack/buildin/module.js] (webpack)/buildin/module.js 552 bytes {application} [built]
+    + 158 hidden modules
+
+ERROR in ./app/javascript/packs/application.js
+Module not found: Error: Can't resolve './Entrypoint.js' in '/ft_transcendence/app/javascript/packs'
+ @ ./app/javascript/packs/application.js 32:0-41 35:18-28
+
+Completed 200 OK in 2751ms (Views: 2750.5ms | ActiveRecord: 0.0ms | Allocations: 11971)
+
+
+Started GET "/war?appt-time=23%3A00" for 172.18.0.1 at 2020-10-16 16:14:02 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Parameters: {"appt-time"=>"23:00"}
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.8ms | Allocations: 1360)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 25ms (Views: 22.9ms | ActiveRecord: 0.0ms | Allocations: 12215)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 16:14:06 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered pages/guild.html.erb within layouts/application (Duration: 9.7ms | Allocations: 3771)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 23.6ms | ActiveRecord: 0.0ms | Allocations: 13522)
+
+
+Started GET "/tournament" for 172.18.0.1 at 2020-10-16 16:14:07 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#tournament as HTML
+  Rendering pages/tournament.html.erb within layouts/application
+  Rendered pages/tournament.html.erb within layouts/application (Duration: 4.7ms | Allocations: 1487)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 19.7ms | ActiveRecord: 0.0ms | Allocations: 11331)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 16:14:08 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered pages/guild.html.erb within layouts/application (Duration: 8.8ms | Allocations: 3463)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 26.1ms | ActiveRecord: 0.0ms | Allocations: 13064)
+
+
+Started GET "/play" for 172.18.0.1 at 2020-10-16 16:14:09 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#play as HTML
+  Rendering pages/play.html.erb within layouts/application
+  Rendered pages/play.html.erb within layouts/application (Duration: 3.7ms | Allocations: 1455)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 25ms (Views: 23.6ms | ActiveRecord: 0.0ms | Allocations: 11290)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-16 16:14:09 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 7.1ms | Allocations: 1335)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 57ms (Views: 53.9ms | ActiveRecord: 0.0ms | Allocations: 11186)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:14:10 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 7.4ms | Allocations: 1193)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 50ms (Views: 47.6ms | ActiveRecord: 0.0ms | Allocations: 10895)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:16:13 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.4ms | Allocations: 1359)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 18.8ms | ActiveRecord: 0.0ms | Allocations: 12195)
+
+
+Started GET "/" for 172.18.0.1 at 2020-10-16 16:16:17 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 2.4ms | Allocations: 1328)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 21ms (Views: 20.3ms | ActiveRecord: 0.0ms | Allocations: 11180)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 16:16:19 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered pages/guild.html.erb within layouts/application (Duration: 5.7ms | Allocations: 3704)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 19ms (Views: 18.1ms | ActiveRecord: 0.0ms | Allocations: 13450)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:16:21 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 1.5ms | Allocations: 1193)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 15ms (Views: 14.0ms | ActiveRecord: 0.0ms | Allocations: 10892)
+
+
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE DATABASE "ft_transcendence_development" ENCODING = 'unicode'[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE DATABASE "ft_transcendence_test" ENCODING = 'unicode'[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(2657814603636264240)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(2657814603636264240)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE DATABASE "ft_transcendence_development" ENCODING = 'unicode'[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE DATABASE "ft_transcendence_test" ENCODING = 'unicode'[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(2657814603636264240)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_advisory_unlock(2657814603636264240)[0m
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:28:19 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.3ms | Allocations: 1361)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 52ms (Views: 50.8ms | ActiveRecord: 0.0ms | Allocations: 48007)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 16:28:22 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered pages/guild.html.erb within layouts/application (Duration: 5.7ms | Allocations: 3705)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 18.9ms | ActiveRecord: 0.0ms | Allocations: 13461)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:28:24 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.1ms | Allocations: 1193)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 20.5ms | ActiveRecord: 0.0ms | Allocations: 10899)
+
+
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE DATABASE "ft_transcendence_development" ENCODING = 'unicode'[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE DATABASE "ft_transcendence_test" ENCODING = 'unicode'[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(2657814603636264240)[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.9ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(2657814603636264240)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:29:17 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 20.4ms | Allocations: 12786)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 43ms (Views: 37.7ms | ActiveRecord: 0.0ms | Allocations: 25734)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:33:04 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.0ms | Allocations: 1342)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 17ms (Views: 15.7ms | ActiveRecord: 0.0ms | Allocations: 12172)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:33:39 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.4ms | Allocations: 1345)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 16.7ms | ActiveRecord: 0.0ms | Allocations: 12189)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:41:10 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 1.9ms | Allocations: 1342)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 20.9ms | ActiveRecord: 0.0ms | Allocations: 12174)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:42:03 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.0ms | Allocations: 1348)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 23ms (Views: 21.9ms | ActiveRecord: 0.0ms | Allocations: 12198)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:47:37 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 1.7ms | Allocations: 1360)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 14.6ms | ActiveRecord: 0.0ms | Allocations: 12203)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:48:09 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 1.7ms | Allocations: 1361)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 15ms (Views: 14.5ms | ActiveRecord: 0.0ms | Allocations: 12195)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:50:28 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.1ms | Allocations: 1360)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 17ms (Views: 16.2ms | ActiveRecord: 0.0ms | Allocations: 12195)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:55:18 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 119.9ms | Allocations: 52941)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 135ms (Views: 134.0ms | ActiveRecord: 0.0ms | Allocations: 63685)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:55:19 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.1ms | Allocations: 1193)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 15.4ms | ActiveRecord: 0.0ms | Allocations: 10885)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:57:00 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 10.7ms | Allocations: 9211)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.3ms | ActiveRecord: 0.0ms | Allocations: 18809)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 16:57:40 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.6ms | Allocations: 8378)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.6ms | ActiveRecord: 0.0ms | Allocations: 17975)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:03:20 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 8.7ms | Allocations: 9370)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 23ms (Views: 22.2ms | ActiveRecord: 0.0ms | Allocations: 20109)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:03:28 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.0ms | Allocations: 8780)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 25.1ms | ActiveRecord: 0.0ms | Allocations: 18375)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:03:55 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.7ms | Allocations: 8859)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 27.0ms | ActiveRecord: 0.0ms | Allocations: 18461)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:04:55 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.3ms | Allocations: 9640)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.0ms | ActiveRecord: 0.0ms | Allocations: 19250)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:05:01 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.2ms | Allocations: 8795)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 25.1ms | ActiveRecord: 0.0ms | Allocations: 18388)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:05:50 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 8.6ms | Allocations: 8827)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 20.9ms | ActiveRecord: 0.0ms | Allocations: 18417)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:05:55 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.6ms | Allocations: 10103)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 28.7ms | ActiveRecord: 0.0ms | Allocations: 19706)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:09:56 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 15.9ms | Allocations: 8837)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 34ms (Views: 33.3ms | ActiveRecord: 0.0ms | Allocations: 18439)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:14:28 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 8.1ms | Allocations: 9234)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 21.2ms | ActiveRecord: 0.0ms | Allocations: 18832)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:14:44 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 15.0ms | Allocations: 10109)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 32ms (Views: 30.5ms | ActiveRecord: 0.0ms | Allocations: 19711)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:14:54 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.4ms | Allocations: 9238)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 33ms (Views: 32.6ms | ActiveRecord: 0.0ms | Allocations: 18834)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:16:08 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 10.7ms | Allocations: 9191)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 25.3ms | ActiveRecord: 0.0ms | Allocations: 18792)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:16:15 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 9.8ms | Allocations: 9220)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 23ms (Views: 22.7ms | ActiveRecord: 0.0ms | Allocations: 18816)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:19:15 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 10.4ms | Allocations: 9647)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 25ms (Views: 24.6ms | ActiveRecord: 0.0ms | Allocations: 19243)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:19:28 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 8.2ms | Allocations: 9309)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 21.5ms | ActiveRecord: 0.0ms | Allocations: 18905)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:19:38 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 10.2ms | Allocations: 8838)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 27.1ms | ActiveRecord: 0.0ms | Allocations: 18438)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:20:05 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 8.8ms | Allocations: 9684)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 23ms (Views: 21.8ms | ActiveRecord: 0.0ms | Allocations: 19288)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:20:21 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.0ms | Allocations: 10119)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 25.5ms | ActiveRecord: 0.0ms | Allocations: 19723)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:20:49 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.3ms | Allocations: 9716)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.7ms | ActiveRecord: 0.0ms | Allocations: 19310)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:21:10 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.4ms | Allocations: 9235)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.0ms | ActiveRecord: 0.0ms | Allocations: 18835)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:21:38 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.7ms | Allocations: 9233)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 32ms (Views: 30.9ms | ActiveRecord: 0.0ms | Allocations: 18841)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:21:44 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.0ms | Allocations: 1234)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 17ms (Views: 15.7ms | ActiveRecord: 0.0ms | Allocations: 10928)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:21:58 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 8.8ms | Allocations: 8384)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 21.3ms | ActiveRecord: 0.0ms | Allocations: 17978)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:22:21 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.0ms | Allocations: 9290)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.1ms | ActiveRecord: 0.0ms | Allocations: 18886)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:23:03 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.1ms | Allocations: 8832)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.6ms | ActiveRecord: 0.0ms | Allocations: 18441)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:23:11 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 10.3ms | Allocations: 9730)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 25ms (Views: 24.7ms | ActiveRecord: 0.0ms | Allocations: 19336)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:23:16 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 10.4ms | Allocations: 9228)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 23ms (Views: 22.6ms | ActiveRecord: 0.0ms | Allocations: 18828)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:23:21 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 15.6ms | Allocations: 10124)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 35ms (Views: 34.4ms | ActiveRecord: 0.0ms | Allocations: 19736)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:23:23 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1194)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 13ms (Views: 12.3ms | ActiveRecord: 0.0ms | Allocations: 10894)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:23:28 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.2ms | Allocations: 10125)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 25ms (Views: 24.5ms | ActiveRecord: 0.0ms | Allocations: 19730)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:25:07 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.2ms | Allocations: 9726)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 34ms (Views: 31.7ms | ActiveRecord: 0.0ms | Allocations: 19321)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:25:28 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 9.7ms | Allocations: 9735)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 25.0ms | ActiveRecord: 0.0ms | Allocations: 19333)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:25:51 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.8ms | Allocations: 9325)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 25.3ms | ActiveRecord: 0.0ms | Allocations: 18932)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:30:33 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 1.6ms | Allocations: 1193)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 15ms (Views: 14.3ms | ActiveRecord: 0.0ms | Allocations: 10886)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:31:03 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.0ms | Allocations: 8860)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 31ms (Views: 30.7ms | ActiveRecord: 0.0ms | Allocations: 18468)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:31:11 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.3ms | Allocations: 9276)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 34ms (Views: 33.0ms | ActiveRecord: 0.0ms | Allocations: 18876)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:32:48 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.6ms | Allocations: 9249)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 36ms (Views: 35.0ms | ActiveRecord: 0.0ms | Allocations: 18857)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:32:53 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.8ms | Allocations: 9673)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 34ms (Views: 32.8ms | ActiveRecord: 0.0ms | Allocations: 19259)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:33:59 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 10.4ms | Allocations: 9308)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 24ms (Views: 22.9ms | ActiveRecord: 0.0ms | Allocations: 18912)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:34:17 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.1ms | Allocations: 9715)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 27.3ms | ActiveRecord: 0.0ms | Allocations: 19311)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 17:36:36 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+  Rendered pages/guild.html.erb within layouts/application (Duration: 2.5ms | Allocations: 1488)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 16.9ms | ActiveRecord: 0.0ms | Allocations: 11344)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:36:37 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 1.5ms | Allocations: 1193)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 14ms (Views: 13.5ms | ActiveRecord: 0.0ms | Allocations: 10892)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 17:36:38 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+  Rendered pages/guild.html.erb within layouts/application (Duration: 1.6ms | Allocations: 1193)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 15ms (Views: 13.9ms | ActiveRecord: 0.0ms | Allocations: 10878)
+
+
+Started GET "/tournament" for 172.18.0.1 at 2020-10-16 17:36:38 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#tournament as HTML
+  Rendering pages/tournament.html.erb within layouts/application
+  Rendered pages/tournament.html.erb within layouts/application (Duration: 3.0ms | Allocations: 1486)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 16.6ms | ActiveRecord: 0.0ms | Allocations: 11335)
+
+
+Started GET "/play" for 172.18.0.1 at 2020-10-16 17:36:39 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#play as HTML
+  Rendering pages/play.html.erb within layouts/application
+  Rendered pages/play.html.erb within layouts/application (Duration: 2.3ms | Allocations: 1454)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 17ms (Views: 15.4ms | ActiveRecord: 0.0ms | Allocations: 11297)
+
+
+Started GET "/live" for 172.18.0.1 at 2020-10-16 17:36:40 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#live as HTML
+  Rendering pages/live.html.erb within layouts/application
+  Rendered pages/live.html.erb within layouts/application (Duration: 2.3ms | Allocations: 1334)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 19ms (Views: 18.2ms | ActiveRecord: 0.0ms | Allocations: 11180)
+
+
+Started GET "/profil" for 172.18.0.1 at 2020-10-16 17:36:41 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#profil as HTML
+  Rendering pages/profil.html.erb within layouts/application
+  Rendered pages/profil.html.erb within layouts/application (Duration: 3.7ms | Allocations: 2026)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 15.5ms | ActiveRecord: 0.0ms | Allocations: 11840)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 17:37:32 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+  Rendered pages/guild.html.erb within layouts/application (Duration: 1.8ms | Allocations: 1193)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 17ms (Views: 16.5ms | ActiveRecord: 0.0ms | Allocations: 10896)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:37:34 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 1.5ms | Allocations: 1194)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 13ms (Views: 12.6ms | ActiveRecord: 0.0ms | Allocations: 10896)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:37:51 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.9ms | Allocations: 1850)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 24.6ms | ActiveRecord: 0.0ms | Allocations: 12659)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:38:02 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.1ms | Allocations: 1849)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 20.7ms | ActiveRecord: 0.0ms | Allocations: 12654)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:38:09 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.0ms | Allocations: 1853)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 21ms (Views: 19.4ms | ActiveRecord: 0.0ms | Allocations: 12662)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:38:35 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.1ms | Allocations: 2118)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 18.4ms | ActiveRecord: 0.0ms | Allocations: 12909)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:39:23 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.6ms | Allocations: 2121)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 20ms (Views: 19.4ms | ActiveRecord: 0.0ms | Allocations: 12910)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:39:52 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.5ms | Allocations: 10024)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.6ms | ActiveRecord: 0.0ms | Allocations: 19588)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:40:00 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.0ms | Allocations: 10462)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 32ms (Views: 31.0ms | ActiveRecord: 0.0ms | Allocations: 20031)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:40:24 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 9.9ms | Allocations: 10462)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 25ms (Views: 24.1ms | ActiveRecord: 0.0ms | Allocations: 20034)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:41:58 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 7.7ms | Allocations: 2124)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 46ms (Views: 43.3ms | ActiveRecord: 0.0ms | Allocations: 12946)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:43:09 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 10.8ms | Allocations: 10428)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 25.4ms | ActiveRecord: 0.0ms | Allocations: 19984)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:43:17 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.4ms | Allocations: 9156)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 27.3ms | ActiveRecord: 0.0ms | Allocations: 18727)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:44:38 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.4ms | Allocations: 10419)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.3ms | ActiveRecord: 0.0ms | Allocations: 19989)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:44:39 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.7ms | Allocations: 1916)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 15ms (Views: 14.2ms | ActiveRecord: 0.0ms | Allocations: 11575)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:44:43 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.3ms | Allocations: 2496)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 17ms (Views: 16.4ms | ActiveRecord: 0.0ms | Allocations: 12061)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:45:02 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.9ms | Allocations: 9962)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 34ms (Views: 33.3ms | ActiveRecord: 0.0ms | Allocations: 19527)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:45:11 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.8ms | Allocations: 10876)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 26.8ms | ActiveRecord: 0.0ms | Allocations: 20436)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:45:23 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 4.3ms | Allocations: 2496)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 17.2ms | ActiveRecord: 0.0ms | Allocations: 12064)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:46:27 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.8ms | Allocations: 9516)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.3ms | ActiveRecord: 0.0ms | Allocations: 19083)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:46:28 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.6ms | Allocations: 1917)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 17.4ms | ActiveRecord: 0.0ms | Allocations: 11590)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:46:40 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.0ms | Allocations: 2496)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 15.3ms | ActiveRecord: 0.0ms | Allocations: 12062)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 17:46:41 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+  Rendered pages/guild.html.erb within layouts/application (Duration: 2.0ms | Allocations: 1346)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 15ms (Views: 14.0ms | ActiveRecord: 0.0ms | Allocations: 11199)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:46:42 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 4.3ms | Allocations: 1916)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 21ms (Views: 19.6ms | ActiveRecord: 0.0ms | Allocations: 11582)
+
+
+Started GET "/guild" for 172.18.0.1 at 2020-10-16 17:46:44 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#guild as HTML
+  Rendering pages/guild.html.erb within layouts/application
+  Rendered pages/guild.html.erb within layouts/application (Duration: 1.7ms | Allocations: 1193)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 17.0ms | ActiveRecord: 0.0ms | Allocations: 10888)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:46:45 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 6.5ms | Allocations: 1917)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 40ms (Views: 38.2ms | ActiveRecord: 0.0ms | Allocations: 11591)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:52:34 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.1ms | Allocations: 1916)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 14ms (Views: 13.7ms | ActiveRecord: 0.0ms | Allocations: 11583)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:53:03 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.7ms | Allocations: 9586)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 31ms (Views: 29.9ms | ActiveRecord: 0.0ms | Allocations: 19157)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:53:09 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.6ms | Allocations: 10476)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 35ms (Views: 34.3ms | ActiveRecord: 0.0ms | Allocations: 20054)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:53:16 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.7ms | Allocations: 10884)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 25.9ms | ActiveRecord: 0.0ms | Allocations: 20450)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:53:30 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.5ms | Allocations: 9535)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.2ms | ActiveRecord: 0.0ms | Allocations: 19105)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:53:36 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.5ms | Allocations: 10880)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 24ms (Views: 23.3ms | ActiveRecord: 0.0ms | Allocations: 20446)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:54:02 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.1ms | Allocations: 10480)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.5ms | ActiveRecord: 0.0ms | Allocations: 20049)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:54:12 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.3ms | Allocations: 10460)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 25ms (Views: 24.1ms | ActiveRecord: 0.0ms | Allocations: 20026)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:54:29 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.0ms | Allocations: 10483)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 31ms (Views: 29.7ms | ActiveRecord: 0.0ms | Allocations: 20043)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:56:21 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.5ms | Allocations: 9626)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.6ms | ActiveRecord: 0.0ms | Allocations: 19194)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:56:29 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.4ms | Allocations: 10464)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 26.7ms | ActiveRecord: 0.0ms | Allocations: 20022)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:56:35 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.0ms | Allocations: 2496)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 19ms (Views: 18.1ms | ActiveRecord: 0.0ms | Allocations: 12071)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:57:16 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.5ms | Allocations: 10027)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 29.1ms | ActiveRecord: 0.0ms | Allocations: 19607)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:57:17 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.4ms | Allocations: 1917)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 17ms (Views: 16.6ms | ActiveRecord: 0.0ms | Allocations: 11601)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:59:09 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.7ms | Allocations: 10460)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 24ms (Views: 23.7ms | ActiveRecord: 0.0ms | Allocations: 20028)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:59:22 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.8ms | Allocations: 10454)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 32ms (Views: 31.2ms | ActiveRecord: 0.0ms | Allocations: 20016)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:59:31 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.9ms | Allocations: 10021)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.5ms | ActiveRecord: 0.0ms | Allocations: 19599)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:59:43 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.3ms | Allocations: 9534)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 26.9ms | ActiveRecord: 0.0ms | Allocations: 19104)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 17:59:58 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.8ms | Allocations: 2496)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 16.7ms | ActiveRecord: 0.0ms | Allocations: 12070)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:01:08 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.3ms | Allocations: 10486)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.4ms | ActiveRecord: 0.0ms | Allocations: 20056)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:01:21 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 8.8ms | Allocations: 10487)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 21.1ms | ActiveRecord: 0.0ms | Allocations: 20053)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:01:30 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 10.0ms | Allocations: 10494)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 24ms (Views: 23.2ms | ActiveRecord: 0.0ms | Allocations: 20063)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:01:58 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 26.7ms | Allocations: 9984)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 51ms (Views: 49.6ms | ActiveRecord: 0.0ms | Allocations: 19556)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:02:01 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.9ms | Allocations: 2497)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 15.5ms | ActiveRecord: 0.0ms | Allocations: 12067)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:03:01 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.2ms | Allocations: 10894)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 25.0ms | ActiveRecord: 0.0ms | Allocations: 20462)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:03:02 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.3ms | Allocations: 1916)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 14.8ms | ActiveRecord: 0.0ms | Allocations: 11572)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:03:11 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 17.5ms | Allocations: 10000)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 36ms (Views: 35.4ms | ActiveRecord: 0.0ms | Allocations: 19573)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:03:18 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 16.7ms | Allocations: 10460)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 37ms (Views: 35.7ms | ActiveRecord: 0.0ms | Allocations: 20028)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:03:30 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.6ms | Allocations: 10430)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 25.8ms | ActiveRecord: 0.0ms | Allocations: 19993)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:03:45 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.9ms | Allocations: 10059)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.2ms | ActiveRecord: 0.0ms | Allocations: 19634)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:05:09 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 9.7ms | Allocations: 10064)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 25.2ms | ActiveRecord: 0.0ms | Allocations: 19639)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:07:23 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 15.5ms | Allocations: 10897)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 34ms (Views: 32.9ms | ActiveRecord: 0.0ms | Allocations: 20464)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:07:28 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.1ms | Allocations: 10442)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 27.1ms | ActiveRecord: 0.0ms | Allocations: 20015)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:07:34 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.9ms | Allocations: 2496)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 15.5ms | ActiveRecord: 0.0ms | Allocations: 12065)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:07:40 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 4.6ms | Allocations: 2496)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 19ms (Views: 18.5ms | ActiveRecord: 0.0ms | Allocations: 12060)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:08:05 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.7ms | Allocations: 10896)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 31ms (Views: 29.9ms | ActiveRecord: 0.0ms | Allocations: 20464)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:08:11 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 10.8ms | Allocations: 10899)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 23ms (Views: 22.4ms | ActiveRecord: 0.0ms | Allocations: 20467)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:08:23 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 15.2ms | Allocations: 10064)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 33ms (Views: 32.6ms | ActiveRecord: 0.0ms | Allocations: 19633)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:09:28 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.7ms | Allocations: 10900)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.5ms | ActiveRecord: 0.0ms | Allocations: 20470)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:09:37 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.0ms | Allocations: 9547)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 24ms (Views: 23.1ms | ActiveRecord: 0.0ms | Allocations: 19107)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:09:42 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.5ms | Allocations: 2496)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 16.8ms | ActiveRecord: 0.0ms | Allocations: 12062)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:12:11 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.5ms | Allocations: 2126)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 16.9ms | ActiveRecord: 0.0ms | Allocations: 12928)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:12:46 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.2ms | Allocations: 2120)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 23ms (Views: 21.2ms | ActiveRecord: 0.0ms | Allocations: 12922)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:15:10 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 17.3ms | Allocations: 10478)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 33ms (Views: 31.7ms | ActiveRecord: 0.0ms | Allocations: 20045)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:15:21 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 10.2ms | Allocations: 10034)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 24ms (Views: 23.6ms | ActiveRecord: 0.0ms | Allocations: 19607)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:15:30 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.3ms | Allocations: 10472)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 27.7ms | ActiveRecord: 0.0ms | Allocations: 20051)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:16:03 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.5ms | Allocations: 10484)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 29.0ms | ActiveRecord: 0.0ms | Allocations: 20058)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:16:11 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 10.7ms | Allocations: 10908)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 24.9ms | ActiveRecord: 0.0ms | Allocations: 20481)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:16:18 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.3ms | Allocations: 10475)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 27.3ms | ActiveRecord: 0.0ms | Allocations: 20054)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:16:30 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.2ms | Allocations: 10910)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 25ms (Views: 24.6ms | ActiveRecord: 0.0ms | Allocations: 20472)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:16:48 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.7ms | Allocations: 10908)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 32ms (Views: 30.7ms | ActiveRecord: 0.0ms | Allocations: 20485)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:18:33 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 17.5ms | Allocations: 10492)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 35ms (Views: 34.5ms | ActiveRecord: 0.0ms | Allocations: 20077)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:18:48 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.0ms | Allocations: 10916)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 25.7ms | ActiveRecord: 0.0ms | Allocations: 20481)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:19:12 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 10.7ms | Allocations: 10914)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 24ms (Views: 23.6ms | ActiveRecord: 0.0ms | Allocations: 20489)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:19:33 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.2ms | Allocations: 10917)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 25ms (Views: 24.5ms | ActiveRecord: 0.0ms | Allocations: 20477)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:19:42 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.2ms | Allocations: 10451)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 25.6ms | ActiveRecord: 0.0ms | Allocations: 20030)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:19:53 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.3ms | Allocations: 10916)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 25ms (Views: 24.3ms | ActiveRecord: 0.0ms | Allocations: 20477)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:19:54 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.5ms | Allocations: 1917)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 15ms (Views: 14.4ms | ActiveRecord: 0.0ms | Allocations: 11581)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:20:07 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.9ms | Allocations: 1957)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 17ms (Views: 16.2ms | ActiveRecord: 0.0ms | Allocations: 11633)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:20:41 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.9ms | Allocations: 10913)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 29.5ms | ActiveRecord: 0.0ms | Allocations: 20483)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:21:13 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.8ms | Allocations: 10489)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.3ms | ActiveRecord: 0.0ms | Allocations: 20058)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:21:26 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.2ms | Allocations: 10494)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 29.0ms | ActiveRecord: 0.0ms | Allocations: 20066)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:21:34 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.2ms | Allocations: 10528)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 29.4ms | ActiveRecord: 0.0ms | Allocations: 20100)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:22:53 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 8.3ms | Allocations: 10922)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 21ms (Views: 20.2ms | ActiveRecord: 0.0ms | Allocations: 20489)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:23:49 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 10.5ms | Allocations: 10050)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 25ms (Views: 23.9ms | ActiveRecord: 0.0ms | Allocations: 19618)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:23:56 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.2ms | Allocations: 10918)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.5ms | ActiveRecord: 0.0ms | Allocations: 20494)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:24:49 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.0ms | Allocations: 9625)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 26.6ms | ActiveRecord: 0.0ms | Allocations: 19188)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:25:23 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.7ms | Allocations: 10486)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.3ms | ActiveRecord: 0.0ms | Allocations: 20050)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:25:29 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 16.1ms | Allocations: 10486)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 29.8ms | ActiveRecord: 0.0ms | Allocations: 20063)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:25:43 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.9ms | Allocations: 10516)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 29.1ms | ActiveRecord: 0.0ms | Allocations: 20088)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:25:48 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.8ms | Allocations: 10921)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 26.2ms | ActiveRecord: 0.0ms | Allocations: 20489)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:25:49 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.9ms | Allocations: 1917)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 16.9ms | ActiveRecord: 0.0ms | Allocations: 11581)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:26:32 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.2ms | Allocations: 10496)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 32ms (Views: 31.0ms | ActiveRecord: 0.0ms | Allocations: 20072)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:26:46 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 18.2ms | Allocations: 10457)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 33ms (Views: 32.0ms | ActiveRecord: 0.0ms | Allocations: 20025)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:27:57 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.0ms | Allocations: 10061)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 29.1ms | ActiveRecord: 0.0ms | Allocations: 19622)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:32:54 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 18.9ms | Allocations: 9585)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 34ms (Views: 33.1ms | ActiveRecord: 0.0ms | Allocations: 19156)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:33:11 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.6ms | Allocations: 10059)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 28.8ms | ActiveRecord: 0.0ms | Allocations: 19620)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:33:18 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.8ms | Allocations: 10931)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 25.1ms | ActiveRecord: 0.0ms | Allocations: 20497)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:33:36 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.3ms | Allocations: 2498)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 15.1ms | ActiveRecord: 0.0ms | Allocations: 12056)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:33:44 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 17.3ms | Allocations: 10031)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 33ms (Views: 32.4ms | ActiveRecord: 0.0ms | Allocations: 19615)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:34:42 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 15.4ms | Allocations: 10127)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 26.9ms | ActiveRecord: 0.0ms | Allocations: 19697)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:34:59 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.3ms | Allocations: 10523)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.0ms | ActiveRecord: 0.0ms | Allocations: 20089)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:35:29 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 16.5ms | Allocations: 10124)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 31ms (Views: 30.6ms | ActiveRecord: 0.0ms | Allocations: 19694)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:35:30 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.1ms | Allocations: 1916)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 14ms (Views: 13.6ms | ActiveRecord: 0.0ms | Allocations: 11581)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:40:10 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 16.9ms | Allocations: 11140)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 36ms (Views: 35.0ms | ActiveRecord: 0.0ms | Allocations: 21843)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:40:33 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 22.1ms | Allocations: 11139)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 41ms (Views: 39.7ms | ActiveRecord: 0.0ms | Allocations: 21848)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:41:29 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.4ms | Allocations: 10937)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 27.2ms | ActiveRecord: 0.0ms | Allocations: 20516)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:41:33 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.3ms | Allocations: 10533)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.7ms | ActiveRecord: 0.0ms | Allocations: 20110)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:47:13 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.4ms | Allocations: 10535)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.7ms | ActiveRecord: 0.0ms | Allocations: 20093)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:47:21 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.7ms | Allocations: 10545)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 33ms (Views: 32.0ms | ActiveRecord: 0.0ms | Allocations: 20118)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:47:45 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.6ms | Allocations: 10542)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 29.1ms | ActiveRecord: 0.0ms | Allocations: 20122)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:48:00 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 16.3ms | Allocations: 10540)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 29.1ms | ActiveRecord: 0.0ms | Allocations: 20114)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:48:08 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 17.2ms | Allocations: 10484)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 33ms (Views: 32.4ms | ActiveRecord: 0.0ms | Allocations: 20051)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:48:24 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 2.6ms | Allocations: 1959)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 16ms (Views: 15.4ms | ActiveRecord: 0.0ms | Allocations: 11639)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:48:41 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.7ms | Allocations: 10064)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 36ms (Views: 33.9ms | ActiveRecord: 0.0ms | Allocations: 19625)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:48:59 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 18.8ms | Allocations: 10939)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 35ms (Views: 34.1ms | ActiveRecord: 0.0ms | Allocations: 20512)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:49:03 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 20.0ms | Allocations: 10472)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 37ms (Views: 36.5ms | ActiveRecord: 0.0ms | Allocations: 20036)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:49:15 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 16.1ms | Allocations: 10511)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 33ms (Views: 32.0ms | ActiveRecord: 0.0ms | Allocations: 20079)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:49:42 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 16.8ms | Allocations: 10102)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 34ms (Views: 33.0ms | ActiveRecord: 0.0ms | Allocations: 19665)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:49:55 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.9ms | Allocations: 10095)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 33ms (Views: 32.0ms | ActiveRecord: 0.0ms | Allocations: 19669)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:50:01 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.2ms | Allocations: 2498)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 17ms (Views: 16.3ms | ActiveRecord: 0.0ms | Allocations: 12069)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:50:49 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.8ms | Allocations: 10942)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.0ms | ActiveRecord: 0.0ms | Allocations: 20497)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:50:56 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.3ms | Allocations: 10083)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 31ms (Views: 29.9ms | ActiveRecord: 0.0ms | Allocations: 19652)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:51:12 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.2ms | Allocations: 10940)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.5ms | ActiveRecord: 0.0ms | Allocations: 20503)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:51:18 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.0ms | Allocations: 2497)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 23ms (Views: 22.2ms | ActiveRecord: 0.0ms | Allocations: 12079)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:51:23 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 5.1ms | Allocations: 2497)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 19ms (Views: 18.0ms | ActiveRecord: 0.0ms | Allocations: 12068)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:51:34 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 4.9ms | Allocations: 2498)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 21ms (Views: 20.2ms | ActiveRecord: 0.0ms | Allocations: 12083)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:54:25 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 26.3ms | Allocations: 10045)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 53ms (Views: 52.1ms | ActiveRecord: 0.0ms | Allocations: 19616)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:54:31 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 18.6ms | Allocations: 10539)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 34ms (Views: 33.2ms | ActiveRecord: 0.0ms | Allocations: 20103)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:55:20 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 16.5ms | Allocations: 10500)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 35ms (Views: 33.8ms | ActiveRecord: 0.0ms | Allocations: 20074)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:57:38 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 15.3ms | Allocations: 10934)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 27.9ms | ActiveRecord: 0.0ms | Allocations: 20525)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:58:07 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.5ms | Allocations: 10935)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 27.4ms | ActiveRecord: 0.0ms | Allocations: 20509)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:58:19 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 20.2ms | Allocations: 10938)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 38ms (Views: 36.7ms | ActiveRecord: 0.0ms | Allocations: 20514)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 18:59:05 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 7.7ms | Allocations: 2497)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 32ms (Views: 29.9ms | ActiveRecord: 0.0ms | Allocations: 12065)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 19:00:01 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 30.4ms | Allocations: 10935)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 49ms (Views: 44.6ms | ActiveRecord: 0.0ms | Allocations: 20502)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 19:00:05 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 20.2ms | Allocations: 10530)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 40ms (Views: 38.3ms | ActiveRecord: 0.0ms | Allocations: 20096)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 19:00:11 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.4ms | Allocations: 10499)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 25ms (Views: 24.2ms | ActiveRecord: 0.0ms | Allocations: 20060)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 19:00:18 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.6ms | Allocations: 2497)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 17.1ms | ActiveRecord: 0.0ms | Allocations: 12074)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 20:41:01 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 20.9ms | Allocations: 10935)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 49ms (Views: 44.9ms | ActiveRecord: 0.0ms | Allocations: 20505)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 20:41:11 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.7ms | Allocations: 10045)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 29.2ms | ActiveRecord: 0.0ms | Allocations: 19618)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 20:41:21 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.3ms | Allocations: 10082)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 27.4ms | ActiveRecord: 0.0ms | Allocations: 19649)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 20:41:28 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.2ms | Allocations: 2497)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 21.6ms | ActiveRecord: 0.0ms | Allocations: 12073)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 20:41:31 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 5.0ms | Allocations: 2498)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 19ms (Views: 18.0ms | ActiveRecord: 0.0ms | Allocations: 12066)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:08:12 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 24.4ms | Allocations: 10103)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 54ms (Views: 49.1ms | ActiveRecord: 0.0ms | Allocations: 19673)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:08:34 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.7ms | Allocations: 10545)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 32ms (Views: 31.1ms | ActiveRecord: 0.0ms | Allocations: 20124)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:08:45 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.1ms | Allocations: 10510)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 27.3ms | ActiveRecord: 0.0ms | Allocations: 20071)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:09:08 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 18.2ms | Allocations: 10536)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 37ms (Views: 36.4ms | ActiveRecord: 0.0ms | Allocations: 20104)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:22:02 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 15.8ms | Allocations: 10944)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 31ms (Views: 29.7ms | ActiveRecord: 0.0ms | Allocations: 20513)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:23:56 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.7ms | Allocations: 10485)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.2ms | ActiveRecord: 0.0ms | Allocations: 20058)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:24:06 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.8ms | Allocations: 10949)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 35ms (Views: 33.0ms | ActiveRecord: 0.0ms | Allocations: 20528)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:24:48 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 33.5ms | Allocations: 10574)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 48ms (Views: 47.1ms | ActiveRecord: 0.0ms | Allocations: 20143)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:25:21 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 17.5ms | Allocations: 10506)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 37ms (Views: 35.7ms | ActiveRecord: 0.0ms | Allocations: 20071)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:25:40 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 16.2ms | Allocations: 10964)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 31ms (Views: 30.2ms | ActiveRecord: 0.0ms | Allocations: 20525)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:25:52 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.9ms | Allocations: 9699)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.7ms | ActiveRecord: 0.0ms | Allocations: 19262)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:25:57 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.8ms | Allocations: 2497)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 19ms (Views: 18.5ms | ActiveRecord: 0.0ms | Allocations: 12069)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:26:44 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.5ms | Allocations: 10516)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 28.5ms | ActiveRecord: 0.0ms | Allocations: 20079)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:26:59 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 18.2ms | Allocations: 10950)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 37ms (Views: 35.5ms | ActiveRecord: 0.0ms | Allocations: 20517)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:27:32 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.2ms | Allocations: 10061)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 25ms (Views: 24.0ms | ActiveRecord: 0.0ms | Allocations: 19635)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:28:01 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.3ms | Allocations: 10524)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 32ms (Views: 31.2ms | ActiveRecord: 0.0ms | Allocations: 20095)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:28:27 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.9ms | Allocations: 9607)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 25.3ms | ActiveRecord: 0.0ms | Allocations: 19169)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:29:22 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.1ms | Allocations: 9613)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 23ms (Views: 22.2ms | ActiveRecord: 0.0ms | Allocations: 19181)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:29:27 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 10.2ms | Allocations: 10959)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 21.0ms | ActiveRecord: 0.0ms | Allocations: 20532)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:31:59 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 18.6ms | Allocations: 10555)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 36ms (Views: 35.2ms | ActiveRecord: 0.0ms | Allocations: 20127)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:33:22 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 16.8ms | Allocations: 10131)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 37ms (Views: 35.9ms | ActiveRecord: 0.0ms | Allocations: 19693)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:33:31 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 15.8ms | Allocations: 9656)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 33ms (Views: 31.2ms | ActiveRecord: 0.0ms | Allocations: 19224)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:33:49 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 19.5ms | Allocations: 10966)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 34ms (Views: 32.6ms | ActiveRecord: 0.0ms | Allocations: 20535)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:34:01 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 17.2ms | Allocations: 10970)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 32ms (Views: 31.2ms | ActiveRecord: 0.0ms | Allocations: 20535)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:34:11 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 16.9ms | Allocations: 9629)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 35ms (Views: 34.4ms | ActiveRecord: 0.0ms | Allocations: 19206)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:34:19 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.9ms | Allocations: 10526)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 27.4ms | ActiveRecord: 0.0ms | Allocations: 20093)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:34:55 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.4ms | Allocations: 10965)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 25.1ms | ActiveRecord: 0.0ms | Allocations: 20543)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:39:31 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 18.6ms | Allocations: 9623)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 33ms (Views: 32.4ms | ActiveRecord: 0.0ms | Allocations: 19205)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:39:43 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.3ms | Allocations: 10521)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 32ms (Views: 30.7ms | ActiveRecord: 0.0ms | Allocations: 20096)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:40:04 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.8ms | Allocations: 10549)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 29.6ms | ActiveRecord: 0.0ms | Allocations: 20118)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:40:23 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.2ms | Allocations: 10577)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 24ms (Views: 23.2ms | ActiveRecord: 0.0ms | Allocations: 20151)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:40:44 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.4ms | Allocations: 9251)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 27.5ms | ActiveRecord: 0.0ms | Allocations: 18812)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 22:40:59 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.4ms | Allocations: 10986)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 29ms (Views: 27.7ms | ActiveRecord: 0.0ms | Allocations: 20548)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:02:53 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 7.6ms | Allocations: 2127)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 25ms (Views: 24.0ms | ActiveRecord: 0.0ms | Allocations: 12941)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:05:30 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.9ms | Allocations: 2120)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 23ms (Views: 20.7ms | ActiveRecord: 0.0ms | Allocations: 12920)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:06:12 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.9ms | Allocations: 1916)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 21.3ms | ActiveRecord: 0.0ms | Allocations: 11594)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:06:27 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 5.1ms | Allocations: 2123)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 25ms (Views: 22.6ms | ActiveRecord: 0.0ms | Allocations: 12925)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:06:36 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 15.9ms | Allocations: 10978)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 28.7ms | ActiveRecord: 0.0ms | Allocations: 20547)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:06:43 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 16.8ms | Allocations: 10567)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 33ms (Views: 32.4ms | ActiveRecord: 0.0ms | Allocations: 20138)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:07:04 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 15.3ms | Allocations: 10973)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 28.8ms | ActiveRecord: 0.0ms | Allocations: 20552)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:07:10 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.9ms | Allocations: 10522)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 37ms (Views: 36.2ms | ActiveRecord: 0.0ms | Allocations: 20097)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:07:27 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.7ms | Allocations: 10974)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 26.9ms | ActiveRecord: 0.0ms | Allocations: 20539)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:07:41 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.5ms | Allocations: 10971)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 28ms (Views: 26.7ms | ActiveRecord: 0.0ms | Allocations: 20538)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:08:06 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 15.0ms | Allocations: 10107)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 32ms (Views: 31.2ms | ActiveRecord: 0.0ms | Allocations: 19680)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:08:15 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 20.2ms | Allocations: 10060)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 38ms (Views: 37.6ms | ActiveRecord: 0.0ms | Allocations: 19625)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:08:22 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 18.4ms | Allocations: 10552)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 38ms (Views: 36.6ms | ActiveRecord: 0.0ms | Allocations: 20119)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:08:28 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 16.2ms | Allocations: 10095)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 31ms (Views: 30.2ms | ActiveRecord: 0.0ms | Allocations: 19664)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:08:32 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.3ms | Allocations: 2497)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 18ms (Views: 17.2ms | ActiveRecord: 0.0ms | Allocations: 12070)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:09:48 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 3.1ms | Allocations: 1917)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 21ms (Views: 19.9ms | ActiveRecord: 0.0ms | Allocations: 11570)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:10:37 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 17.0ms | Allocations: 10958)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 35ms (Views: 34.4ms | ActiveRecord: 0.0ms | Allocations: 20531)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:11:03 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 19.3ms | Allocations: 10499)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 34ms (Views: 32.6ms | ActiveRecord: 0.0ms | Allocations: 20060)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:11:37 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 4.5ms | Allocations: 2498)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 19ms (Views: 17.9ms | ActiveRecord: 0.0ms | Allocations: 12064)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:11:59 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.8ms | Allocations: 9717)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 25.3ms | ActiveRecord: 0.0ms | Allocations: 19300)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:12:08 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.2ms | Allocations: 9678)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 24ms (Views: 23.1ms | ActiveRecord: 0.0ms | Allocations: 19242)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:12:23 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 17.3ms | Allocations: 10955)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 32ms (Views: 31.1ms | ActiveRecord: 0.0ms | Allocations: 20522)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:12:29 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.2ms | Allocations: 10549)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.4ms | ActiveRecord: 0.0ms | Allocations: 20125)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:13:00 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 4.2ms | Allocations: 2499)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 21ms (Views: 17.6ms | ActiveRecord: 0.0ms | Allocations: 12075)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:13:35 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 11.8ms | Allocations: 10955)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 23ms (Views: 22.6ms | ActiveRecord: 0.0ms | Allocations: 20533)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:13:40 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 18.0ms | Allocations: 10953)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 35ms (Views: 33.5ms | ActiveRecord: 0.0ms | Allocations: 20516)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:13:50 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 17.0ms | Allocations: 10955)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 31ms (Views: 29.7ms | ActiveRecord: 0.0ms | Allocations: 20533)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:16:15 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 22.3ms | Allocations: 10969)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 39ms (Views: 37.6ms | ActiveRecord: 0.0ms | Allocations: 20533)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:16:25 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 19.7ms | Allocations: 10532)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 38ms (Views: 37.1ms | ActiveRecord: 0.0ms | Allocations: 20095)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:16:52 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 13.0ms | Allocations: 10967)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.3ms | ActiveRecord: 0.0ms | Allocations: 20536)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:17:09 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 21.9ms | Allocations: 10967)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 39ms (Views: 37.5ms | ActiveRecord: 0.0ms | Allocations: 20535)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:18:06 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 12.9ms | Allocations: 10548)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 27ms (Views: 26.0ms | ActiveRecord: 0.0ms | Allocations: 20123)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:19:03 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 21.2ms | Allocations: 10974)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 36ms (Views: 34.9ms | ActiveRecord: 0.0ms | Allocations: 20544)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:19:17 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 18.7ms | Allocations: 10973)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 35ms (Views: 34.3ms | ActiveRecord: 0.0ms | Allocations: 20543)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:19:32 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 19.3ms | Allocations: 10569)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 36ms (Views: 34.8ms | ActiveRecord: 0.0ms | Allocations: 20150)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:19:41 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 19.0ms | Allocations: 10974)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 34ms (Views: 32.7ms | ActiveRecord: 0.0ms | Allocations: 20544)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:19:54 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 9.0ms | Allocations: 2497)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 26ms (Views: 24.2ms | ActiveRecord: 0.0ms | Allocations: 12067)
+
+
+Started GET "/war" for 172.18.0.1 at 2020-10-16 23:20:09 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by PagesController#war as HTML
+  Rendering pages/war.html.erb within layouts/application
+  Rendered pages/war.html.erb within layouts/application (Duration: 14.2ms | Allocations: 10971)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 30ms (Views: 29.7ms | ActiveRecord: 0.0ms | Allocations: 20539)
+
+

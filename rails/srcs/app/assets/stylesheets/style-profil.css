@@ -1,9 +1,10 @@
 .container-head{
-    height: 45%;
+    height: 37%;
     margin: auto;
     width: 100%;
 /*    border: 2px solid red;*/
     overflow: hidden;
+    border-bottom: 2px solid #ebebeb;
 }
 
 .space1{
@@ -28,7 +29,16 @@
     display: inline-block;
   /*  border: 2px solid red;*/
     float: left;
-    width: 40%;
+    width: 38%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.space4{
+    display: inline-block;
+  /*  border: 2px solid red;*/
+    float: left;
+    width: 30%;
     height: 100%;
     overflow: hidden;
 }
@@ -42,7 +52,7 @@
 .row2{
     width: 100%; 
     height: 40%;
-  /*  border: 2px solid red;*/
+    padding-top: 1%;
     overflow: hidden;
 
 }
@@ -54,10 +64,31 @@
 
 .fleche{
     width: 15%;
+    color: #030303;
 }
 
-.profil{
+.fleche:hover{
+    color: #4b4a4a;
+}
 
+.badge{
+    background: #258d06;
+    margin-top: 35px;
+    margin-left: -85px;
+    display: block;
+}
+
+.live-game{
+    margin-left: -85px;
+    margin-top: 55px;
+}
+
+.dropleft{
+    z-index: 1;
+}
+
+.pseudo{
+    font-weight: bold;
 }
 
 .info{
@@ -72,7 +103,7 @@
 }
 
 .name{
-
+    font-style: italic;
 }
 
 .ladder{
@@ -92,7 +123,8 @@
 
 .title{
     width: 83%;
-    color: #333333; 
+    color: #333333;
+    padding-top: 3%;
     margin: auto;
 }
 

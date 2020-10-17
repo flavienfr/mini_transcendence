@@ -26,6 +26,14 @@ body {
     background: #b4b5b4;
 }
 
+.dropdown-menu{
+    width: 300px;
+}
+
+.drop{
+    display: inline;
+    margin: 0 10% 0 10%;
+}
 
 .navbar{
 	padding: 0;

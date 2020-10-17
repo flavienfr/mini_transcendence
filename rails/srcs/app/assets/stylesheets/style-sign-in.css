@@ -2,5 +2,10 @@
 	height: 100%;
 	display: flex;
 	justify-content: center;
-	border: 1px solid red;
+	align-items: center;
+}
+
+.container button{
+	max-width: 500px;
+	height: 100px;
 }

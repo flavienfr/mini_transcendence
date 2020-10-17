@@ -1,3 +1,7 @@
+.param_form label, .param_form p{
+	font-size: 30px;
+}
+
 .param_form{
 	height: 100%;
 	display: flex;
@@ -8,6 +12,7 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
+	align-items: center;
 
 	width: 75%;
 	height: 75%;
@@ -24,9 +29,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-
-/*width: 400px;
-height: 200px;*/	
+	max-width: 400px;
 }
 
 .box_upload{
@@ -34,12 +37,15 @@ height: 200px;*/
 	flex-direction: column;
 	justify-content: space-evenly;
 	align-items: center;
-	max-width: 400px;
+	width: 150%;
 	height: 200px;
 	padding: 0 15% 0 15%;
 
 	border: 4px dashed #333333;
 	background-color: #e9e4e4;
+}
+.box_upload input{
+	width: 60%;
 }
 
 .box-auth{
@@ -48,5 +54,33 @@ height: 200px;*/
 	justify-content:space-around;
 	align-items: center;
 	width: 200px;
-	/*border: 2px solid red;*/
+}
+
+.param_form .validate-btn button{
+	width: 300px;
+	margin-bottom: 20px;
+}
+
+@media (max-height: 900px) {
+	.param_form form{
+		overflow: scroll;
+	}
+	.box_upload{
+		height: 60px;
+	}
+	.box_upload svg{
+		display: none;
+	}
+	.param_form label, .param_form p{
+		font-size: 20px;
+	}
+}
+
+@media (max-width: 700px) {
+	.param_form label, .param_form p{
+		font-size: 20px;
+	}
+	.param_form .validate-btn button{
+		width: 190px;
+	}
 }

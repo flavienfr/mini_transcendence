@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 	get '/guild', to: 'pages#guild', as: 'guild'
 	get '/war', to: 'pages#war', as: 'war'
 	get '/profil', to: 'pages#profil', as: 'profil'
+	get '/profil2', to: 'pages#profil2', as: 'profil2'
 	get '/option', to: 'pages#option', as: 'option'
 
 end

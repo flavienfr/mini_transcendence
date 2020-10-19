@@ -19,7 +19,6 @@ var bootstrap = require('bootstrap');
 
 
 // import TestRouter from "./testRouter.js"
-
 // var router = new TestRouter();
 
 // Backbone.history.start();

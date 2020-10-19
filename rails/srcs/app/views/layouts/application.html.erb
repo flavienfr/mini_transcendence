@@ -25,10 +25,10 @@
 	<div class="collapse navbar-collapse" id="navbarResponsive">
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item active" id="text-menu">
-				<a class="nav-link" href="<%= live_path %>">Live</a>
+				<a onclick="liveFunction()" class="nav-link live">Live</a>
 			</li>
 			<li class="nav-item" id="text-menu">
-				<a class="nav-link" href="<%= play_path %>">Play</a>
+				<a onclick="playFunction()" class="nav-link" >Play</a>
 			</li>
 			<li class="nav-item" id="text-menu">
 				<a class="nav-link" href="<%= tournament_path %>">Tournament</a>
@@ -116,9 +116,79 @@
 </div>
 </nav>
 
-	<div class="container-fluide" id="body-page">
-		<%= yield %>
+	<div class="container-fluide body-page" id="inside-page">
+	<%= yield %>>
 	</div>
 
   </body>
+
+
+  <script>
+
+  function liveFunction() {
+    Backbone.history.navigate("/live", {trigger: true});
+  };
+
+  function playFunction() {
+    Backbone.history.navigate("/play", {trigger: true});
+  };
+
+
+  var LiveView = Backbone.View.extend({
+	  el : '#inside-page',
+  
+	  initialize : function() {
+		  console.log("View created");
+	  },
+  
+	  render : function() {
+		  this.$el.html('<h2>test test test</h2>');
+		  console.log("Render Live");
+		  return this;
+
+	  }
+  });
+
+  var PlayView = Backbone.View.extend({
+	  el : '#inside-page',
+  
+	  initialize : function() {
+		  console.log("View created");
+	  },
+  
+	  render : function() {
+		  this.$el.html('<h2>AAaaaaaaaaaaaaaaaaaaaa</h2>');
+		  console.log("Render Play");
+		  return this;
+	  }
+  });
+ 
+  
+  var liveview = new LiveView();
+  var playview = new PlayView();
+  
+  var TestRouter = Backbone.Router.extend({
+	routes: {
+		'': "ft_1",
+		'live': "ft_live",
+		'play': "ft_play",
+	},
+	
+	ft_live: function() {
+		console.log("Click 2!");
+		liveview.render();
+	},
+	
+	ft_play: function() {
+		console.log("Click 3!");
+		playview.render();
+	},
+
+	});
+  
+  var router = new TestRouter();
+  Backbone.history.start();
+
+  </script>
+
 </html>

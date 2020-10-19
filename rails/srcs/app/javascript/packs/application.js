@@ -3,31 +3,28 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-/* Bootstrap */
 import 'bootstrap'
-
-/* à quoi ça sert ? */
 require("@rails/ujs").start()
 require("@rails/activestorage").start()
-
-/* require les fichiers dans ../channels/*.js */
 require("channels")
-
-/* jquery */
 global .$ = require('jquery');
 window.jQuery = $;
 window.$ = $;
-
-/* underscore */
 const _ = require("underscore")
 window.underscore = _;
 window._ = _;
-
-/* backbone */
 const backbone = require('backbone');
+Backbone.$ = window.$ = window.jQuery = $;  // nécessaire pour bootstrap
+var bootstrap = require('bootstrap');
 
+
+// import TestRouter from "./testRouter.js"
+
+// var router = new TestRouter();
+
+// Backbone.history.start();
 /* js */
-import Entrypoint from "./Entrypoint.js"
+// import Entrypoint from "./Entrypoint.js"
 
 /* code */
-$(document).ready(Entrypoint.start());
+/*document).ready(Entrypoint.start());*/

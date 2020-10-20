@@ -149,18 +149,22 @@
 		Backbone.history.navigate("/war", {trigger: true});
 	});
 
-	var SessionModel = Backbone.Model.extend({
-        urlRoot: "/landing",
+	var User = Backbone.Model.extend({
+        urlRoot: "/users",
 
         defaults: {
-            test : 45,
+			name: 'Name',
+			avatar: 'Avatar',
+			current_status: 'Online',
+			points: 42,
+			is_admin: true,
         }
 
 	});
 
-	var sessionmodel = new SessionModel();
+	var user = new User();
     
-    sessionmodel.save();
+    user.save();
 
   var LiveView = Backbone.View.extend({
 	  el : '#inside-page',

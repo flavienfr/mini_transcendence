@@ -2,6 +2,9 @@
 
 	<%= stylesheet_link_tag "style-live-play.css" %>
 	<div class="container-fluid container-live-play">
+	<% @users.each do |user| %>
+		<div> <%= user.name %> </div>
+	<% end %>
 		<div class="row">
 			<div class=" active_game">
 

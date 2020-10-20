@@ -1,18 +1,20 @@
 class LandingController < ApplicationController
-$id = 42
 
 def index
+
+  @users = User.all
+
 end
 
 def update
-  puts "update"
 end
 
 def create
-  $id = 43
-  puts "create"
-  
 end
 
+ private
+ def user_params
+   params.require(:user).permit(:name, :avatar, :current_status, :points, :is_admin)
+ end
 
 end

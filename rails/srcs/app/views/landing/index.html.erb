@@ -7,7 +7,7 @@
 	<body>
 		<nav class="navbar navbar-expand-md navbar-light bg-light">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="<%= root_path %>">
+				<a class="navbar-brand" id="logo">
 					<img src="<%= image_url('logo_1.png') %>" width="70" height="70" alt="">
 				</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" >
@@ -107,12 +107,13 @@
 			</div>
 		</nav>
 		<div class="container-fluide body-page" id="inside-page">
+			
+			<%= render "pages/log" %>
 			<%= render "pages/live" %>
 			<%= render "pages/play" %>
 			<%= render "pages/guild" %>
 			<%= render "pages/option" %>
 			<%= render "pages/profil" %>
-			<%= render "pages/profil2" %>
 			<%= render "pages/tournament" %>
 			<%= render "pages/war" %>
 		</div>
@@ -120,6 +121,10 @@
 
 
 <script>
+	
+	$( "#logo" ).on( "click", function() {
+		Backbone.history.navigate("/", {trigger: true});
+	});
 
 	$( "#nav_to_live" ).on( "click", function() {
 		Backbone.history.navigate("/live", {trigger: true});
@@ -153,7 +158,7 @@
         urlRoot: "/users",
 
         defaults: {
-			name: 'Name',
+			name: 'Bonjour',
 			avatar: 'Avatar',
 			current_status: 'Online',
 			points: 42,
@@ -163,6 +168,23 @@
 	});
 
 	var user = new User();
+
+	var LogView = Backbone.View.extend({
+		el : '#inside-page',
+		template: _.template($('#log-template').html()),
+	   /* template: _.template($('#chat_main-template').html()), // append les deux template en 1*/
+	
+		initialize : function() {
+		  console.log("LogView created");
+		},
+	
+		render : function() {
+		  this.$el.html(this.template);
+		  console.log("Render Log");
+		  return this;
+  
+		}
+	});
     
   var LiveView = Backbone.View.extend({
 	  el : '#inside-page',
@@ -272,6 +294,7 @@
 	  }
   });
  
+  var logview = new LogView();
   var liveview = new LiveView();
   var playview = new PlayView();
   var guildview = new GuildView();
@@ -281,7 +304,13 @@
   var warview = new WarView();
   
   var TestRouter = Backbone.Router.extend({
+
+    initialize : function() {
+		  console.log("Router created");
+	  },
+
 	routes: {
+		'': "ft_log",
 		'live': "ft_live",
 		'play': "ft_play",
 		'guild': "ft_guild",
@@ -289,6 +318,10 @@
 		'profil': "ft_profil",
 		'tournament': "ft_tournament",
 		'war': "ft_war",
+	},
+
+	ft_log: function() {
+		logview.render();
 	},
 	
 	ft_live: function() {

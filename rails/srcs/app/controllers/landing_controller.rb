@@ -1,20 +1,22 @@
 class LandingController < ApplicationController
 
-def index
+  def index
+    @users = User.all
+  end
 
-  @users = User.all
+  def update
+  end
 
-end
 
-def update
-end
+  def create
+  end
 
-def create
-end
 
- private
- def user_params
-   params.require(:user).permit(:name, :avatar, :current_status, :points, :is_admin)
- end
+  private
+  
+    def user_params
+      params.require(:user).permit(:name, :avatar, :current_status, :points, :is_admin)
+    end
+
 
 end

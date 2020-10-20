@@ -1,10 +1,7 @@
 <script type="text/template" id="live-template">
-
 	<%= stylesheet_link_tag "style-live-play.css" %>
+	
 	<div class="container-fluid container-live-play">
-	<% @users.each do |user| %>
-		<div> <%= user.name %> </div>
-	<% end %>
 		<div class="row">
 			<div class=" active_game">
 
@@ -34,6 +31,7 @@
 			<div class="col chat">
 				<%= render "pages/chat/main" %>
 	    	</div>
-	  	</div>
+		</div>
+		  
 	</div>
 </script>

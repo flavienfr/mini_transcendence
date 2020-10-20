@@ -1,8 +1,40 @@
+$( "#logo" ).on( "click", function() {
+	Backbone.history.navigate("/", {trigger: true});
+});
+
+$( "#nav_to_live" ).on( "click", function() {
+	Backbone.history.navigate("/live", {trigger: true});
+});
+
+$( "#nav_to_play" ).on( "click", function() {
+	Backbone.history.navigate("/play", {trigger: true});
+});
+
+$( "#nav_to_guild" ).on( "click", function() {
+	Backbone.history.navigate("/guild", {trigger: true});
+});
+
+$( "#nav_to_option" ).on( "click", function() {
+	Backbone.history.navigate("/option", {trigger: true});
+});
+
+$( "#nav_to_profil" ).on( "click", function() {
+	Backbone.history.navigate("/profil", {trigger: true});
+});
+
+$( "#nav_to_tournament" ).on( "click", function() {
+	Backbone.history.navigate("/tournament", {trigger: true});
+});
+
+$( "#nav_to_war" ).on( "click", function() {
+	Backbone.history.navigate("/war", {trigger: true});
+});
+
 var User = Backbone.Model.extend({
 	urlRoot: "/users",
 
 	defaults: {
-		name: 'Name',
+		name: 'Bonjour',
 		avatar: 'Avatar',
 		current_status: 'Online',
 		points: 42,
@@ -10,41 +42,30 @@ var User = Backbone.Model.extend({
 	}
 
 });
+
 var user = new User();
-/******************************************/
-$(document).ready(function() {
-	$( "#nav_to_live" ).on( "click", function() {
-		Backbone.history.navigate("/live", {trigger: true});
-	});
 
-	$( "#nav_to_play" ).on( "click", function() {
-		Backbone.history.navigate("/play", {trigger: true});
-	});
+var LogView = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($('#log-template').html()),
+   /* template: _.template($('#chat_main-template').html()), // append les deux template en 1*/
 
-	$( "#nav_to_guild" ).on( "click", function() {
-		Backbone.history.navigate("/guild", {trigger: true});
-	});
+	initialize : function() {
+	  console.log("LogView created");
+	},
 
-	$( "#nav_to_option" ).on( "click", function() {
-		Backbone.history.navigate("/option", {trigger: true});
-	});
+	render : function() {
+	  this.$el.html(this.template);
+	  console.log("Render Log");
+	  return this;
 
-	$( "#nav_to_profil" ).on( "click", function() {
-		Backbone.history.navigate("/profil", {trigger: true});
-	});
-
-	$( "#nav_to_tournament" ).on( "click", function() {
-		Backbone.history.navigate("/tournament", {trigger: true});
-	});
-
-	$( "#nav_to_war" ).on( "click", function() {
-		Backbone.history.navigate("/war", {trigger: true});
-	});
+	}
 });
 
 var LiveView = Backbone.View.extend({
   el : '#inside-page',
   template: _.template($('#live-template').html()),
+ /* template: _.template($('#chat_main-template').html()), // append les deux template en 1*/
 
   initialize : function() {
 	console.log("LiveView created");
@@ -149,6 +170,7 @@ var WarView = Backbone.View.extend({
   }
 });
 
+var logview = new LogView();
 var liveview = new LiveView();
 var playview = new PlayView();
 var guildview = new GuildView();
@@ -158,7 +180,13 @@ var tournamentview = new TournamentView();
 var warview = new WarView();
 
 var TestRouter = Backbone.Router.extend({
+
+initialize : function() {
+	  console.log("Router created");
+  },
+
 routes: {
+	'': "ft_log",
 	'live': "ft_live",
 	'play': "ft_play",
 	'guild': "ft_guild",
@@ -166,6 +194,10 @@ routes: {
 	'profil': "ft_profil",
 	'tournament': "ft_tournament",
 	'war': "ft_war",
+},
+
+ft_log: function() {
+	logview.render();
 },
 
 ft_live: function() {

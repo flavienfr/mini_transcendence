@@ -1,6 +1,4 @@
 {
-  "Entrypoint.js": "/packs/js/Entrypoint-c495abc43243095ea674.js",
-  "Entrypoint.js.map": "/packs/js/Entrypoint-c495abc43243095ea674.js.map",
   "application.js": "/packs/js/application-9d9e794062d75c71b1b1.js",
   "application.js.map": "/packs/js/application-9d9e794062d75c71b1b1.js.map",
   "entrypoints": {
@@ -12,43 +10,55 @@
         "/packs/js/application-9d9e794062d75c71b1b1.js.map"
       ]
     },
-    "Entrypoint": {
+    "file_js_tmp": {
       "js": [
-        "/packs/js/Entrypoint-c495abc43243095ea674.js"
+        "/packs/js/file_js_tmp-6faf5e664b493802c494.js"
       ],
       "js.map": [
-        "/packs/js/Entrypoint-c495abc43243095ea674.js.map"
+        "/packs/js/file_js_tmp-6faf5e664b493802c494.js.map"
       ]
     },
-    "testModele": {
+    "test/Entrypoint": {
       "js": [
-        "/packs/js/testModele-7d410c6a1d7b0b5ffdda.js"
+        "/packs/js/test/Entrypoint-3954cb65381aa05ccfb3.js"
       ],
       "js.map": [
-        "/packs/js/testModele-7d410c6a1d7b0b5ffdda.js.map"
+        "/packs/js/test/Entrypoint-3954cb65381aa05ccfb3.js.map"
       ]
     },
-    "testRouter": {
+    "test/testModele": {
       "js": [
-        "/packs/js/testRouter-e3b45cc79b41fe53fad6.js"
+        "/packs/js/test/testModele-acabcbda3bea122c1798.js"
       ],
       "js.map": [
-        "/packs/js/testRouter-e3b45cc79b41fe53fad6.js.map"
+        "/packs/js/test/testModele-acabcbda3bea122c1798.js.map"
       ]
     },
-    "testView": {
+    "test/testRouter": {
       "js": [
-        "/packs/js/testView-d6b61764f55c466f98b4.js"
+        "/packs/js/test/testRouter-68397af09e5c7915c512.js"
       ],
       "js.map": [
-        "/packs/js/testView-d6b61764f55c466f98b4.js.map"
+        "/packs/js/test/testRouter-68397af09e5c7915c512.js.map"
+      ]
+    },
+    "test/testView": {
+      "js": [
+        "/packs/js/test/testView-0f900d97e98f8c1e510c.js"
+      ],
+      "js.map": [
+        "/packs/js/test/testView-0f900d97e98f8c1e510c.js.map"
       ]
     }
   },
-  "testModele.js": "/packs/js/testModele-7d410c6a1d7b0b5ffdda.js",
-  "testModele.js.map": "/packs/js/testModele-7d410c6a1d7b0b5ffdda.js.map",
-  "testRouter.js": "/packs/js/testRouter-e3b45cc79b41fe53fad6.js",
-  "testRouter.js.map": "/packs/js/testRouter-e3b45cc79b41fe53fad6.js.map",
-  "testView.js": "/packs/js/testView-d6b61764f55c466f98b4.js",
-  "testView.js.map": "/packs/js/testView-d6b61764f55c466f98b4.js.map"
+  "file_js_tmp.js": "/packs/js/file_js_tmp-6faf5e664b493802c494.js",
+  "file_js_tmp.js.map": "/packs/js/file_js_tmp-6faf5e664b493802c494.js.map",
+  "test/Entrypoint.js": "/packs/js/test/Entrypoint-3954cb65381aa05ccfb3.js",
+  "test/Entrypoint.js.map": "/packs/js/test/Entrypoint-3954cb65381aa05ccfb3.js.map",
+  "test/testModele.js": "/packs/js/test/testModele-acabcbda3bea122c1798.js",
+  "test/testModele.js.map": "/packs/js/test/testModele-acabcbda3bea122c1798.js.map",
+  "test/testRouter.js": "/packs/js/test/testRouter-68397af09e5c7915c512.js",
+  "test/testRouter.js.map": "/packs/js/test/testRouter-68397af09e5c7915c512.js.map",
+  "test/testView.js": "/packs/js/test/testView-0f900d97e98f8c1e510c.js",
+  "test/testView.js.map": "/packs/js/test/testView-0f900d97e98f8c1e510c.js.map"
 }

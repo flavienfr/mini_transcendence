@@ -117,6 +117,7 @@
 			<%= render "pages/tournament" %>
 			<%= render "pages/war" %>
 		</div>
+		<%= javascript_pack_tag 'file_js_tmp'%>
 	</body>
 
 
@@ -158,8 +159,8 @@ var User = Backbone.Model.extend({
 	urlRoot: "/users",
 
 	defaults: {
-		name: 'Bonjour',
-		avatar: 'Avatar',
+		name: 'test',
+		avatar: 'test',
 		current_status: 'Online',
 		points: 42,
 		is_admin: true,

@@ -6,14 +6,10 @@ Rails.application.routes.draw do
 	root 'landing#index'
 	resources :landing
 
-	get '/live', to: 'pages#live', as: 'live'
-	get '/play', to: 'pages#play', as: 'play'
-	get '/tournament', to: 'pages#tournament', as: 'tournament'
-	get '/guild', to: 'pages#guild', as: 'guild'
-	get '/war', to: 'pages#war', as: 'war'
+	# TMP routes
 	get '/profil', to: 'pages#profil', as: 'profil'
 	get '/profil2', to: 'pages#profil2', as: 'profil2'
-	get '/option', to: 'pages#option', as: 'option'
+
 	get '/index', to: 'pages#index', as: 'index'
 
 

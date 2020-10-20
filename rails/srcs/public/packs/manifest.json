@@ -1,6 +1,4 @@
 {
-  "Entrypoint.js": "/packs/js/Entrypoint-c495abc43243095ea674.js",
-  "Entrypoint.js.map": "/packs/js/Entrypoint-c495abc43243095ea674.js.map",
   "application.js": "/packs/js/application-9d9e794062d75c71b1b1.js",
   "application.js.map": "/packs/js/application-9d9e794062d75c71b1b1.js.map",
   "entrypoints": {
@@ -12,43 +10,15 @@
         "/packs/js/application-9d9e794062d75c71b1b1.js.map"
       ]
     },
-    "Entrypoint": {
+    "file_js_tmp": {
       "js": [
-        "/packs/js/Entrypoint-c495abc43243095ea674.js"
+        "/packs/js/file_js_tmp-d40e165e24abe1536205.js"
       ],
       "js.map": [
-        "/packs/js/Entrypoint-c495abc43243095ea674.js.map"
-      ]
-    },
-    "testModele": {
-      "js": [
-        "/packs/js/testModele-7d410c6a1d7b0b5ffdda.js"
-      ],
-      "js.map": [
-        "/packs/js/testModele-7d410c6a1d7b0b5ffdda.js.map"
-      ]
-    },
-    "testRouter": {
-      "js": [
-        "/packs/js/testRouter-e3b45cc79b41fe53fad6.js"
-      ],
-      "js.map": [
-        "/packs/js/testRouter-e3b45cc79b41fe53fad6.js.map"
-      ]
-    },
-    "testView": {
-      "js": [
-        "/packs/js/testView-d6b61764f55c466f98b4.js"
-      ],
-      "js.map": [
-        "/packs/js/testView-d6b61764f55c466f98b4.js.map"
+        "/packs/js/file_js_tmp-d40e165e24abe1536205.js.map"
       ]
     }
   },
-  "testModele.js": "/packs/js/testModele-7d410c6a1d7b0b5ffdda.js",
-  "testModele.js.map": "/packs/js/testModele-7d410c6a1d7b0b5ffdda.js.map",
-  "testRouter.js": "/packs/js/testRouter-e3b45cc79b41fe53fad6.js",
-  "testRouter.js.map": "/packs/js/testRouter-e3b45cc79b41fe53fad6.js.map",
-  "testView.js": "/packs/js/testView-d6b61764f55c466f98b4.js",
-  "testView.js.map": "/packs/js/testView-d6b61764f55c466f98b4.js.map"
+  "file_js_tmp.js": "/packs/js/file_js_tmp-d40e165e24abe1536205.js",
+  "file_js_tmp.js.map": "/packs/js/file_js_tmp-d40e165e24abe1536205.js.map"
 }

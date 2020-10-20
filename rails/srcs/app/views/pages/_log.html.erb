@@ -2,7 +2,11 @@
 <%= stylesheet_link_tag "style-log.css" %>
 
 <div class="container-1">
-	<h3> User:</h3>
+	<h3> User: </h3>
+	<div>
+	<button class="bt" id="add-user">ADD</button>
+	<button class="bt"  id="delete-user">DELETE</button>
+	</div>
 	<% @users.each do |user| %>
 		<div class="container-2">
 			<div> <%= user.name %> </div>

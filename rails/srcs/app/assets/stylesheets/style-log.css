@@ -2,8 +2,14 @@
     padding: 10px;
 }
 
+.bt{
+    margin-bottom: 5px;
+}
+
 .container-2{
     border: 2px solid black;
+    border-radius: 8px;
+    background: white;
     display: inline-block;
     margin: 2px;
     padding: 4px;

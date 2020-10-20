@@ -168,26 +168,36 @@ var User = Backbone.Model.extend({
 
 });
 
-var user = new User();
-var user2 = new User({name: 'Salut'});
-
-user.save();
-
 var LogView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#log-template').html()),
-   /* template: _.template($('#chat_main-template').html()), // append les deux template en 1*/
 
 	initialize : function() {
 	  console.log("LogView created");
 	},
+
+	events: {
+    "click #add-user": "add",
+    "click #delete-user": "delete",
+  	},
 
 	render : function() {
 	  this.$el.html(this.template);
 	  console.log("Render Log");
 	  return this;
 
-	}
+	},
+
+	add: function() {
+		var user2 = new User({name : 'salut'});
+		console.log("Add user");
+		user2.save();
+  },
+
+	delete: function() {
+		console.log("Delete user");
+  },
+
 });
 
 var LiveView = Backbone.View.extend({
@@ -210,6 +220,7 @@ var LiveView = Backbone.View.extend({
 var PlayView = Backbone.View.extend({
   el : '#inside-page',
   template: _.template($('#play-template').html()),
+   /* template: _.template($('#chat_main-template').html()), // append les deux template en 1*/
 
   initialize : function() {
 	  console.log("PlayView created");

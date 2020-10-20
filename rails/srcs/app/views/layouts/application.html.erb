@@ -25,30 +25,30 @@
 	<div class="collapse navbar-collapse" id="navbarResponsive">
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item active" id="text-menu">
-				<a onclick="liveFunction()" class="nav-link live">Live</a>
+				<a id="nav_to_live" class="nav-link live">Live</a>
 			</li>
 			<li class="nav-item" id="text-menu">
-				<a onclick="playFunction()" class="nav-link" >Play</a>
+				<a id="nav_to_play" class="nav-link" >Play</a>
 			</li>
 			<li class="nav-item" id="text-menu">
-				<a class="nav-link" onclick="tournamentFunction()">Tournament</a>
+				<a class="nav-link" id="nav_to_tournament">Tournament</a>
 			</li>
 			<li class="nav-item" id="text-menu">
-				<a class="nav-link" onclick="guildFunction()">Guild</a>
+				<a class="nav-link" id="nav_to_guild">Guild</a>
 			</li>
 			<li class="nav-item" id="text-menu">
-				<a class="nav-link" onclick="warFunction()">War</a>
+				<a class="nav-link" id="nav_to_war">War</a>
 			</li>
 
 			<li class="nav-item">
-				<a class="nav-link" onclick="profilFunction()" id="icon-menu">
+				<a class="nav-link" id="nav_to_profil">
 					<svg width="3.6em" height="2em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
 					</svg>
 				</a>
 			  </li>
 			<li class="nav-item">
-				<a class="nav-link" onclick="optionFunction()" id="icon-menu">
+				<a class="nav-link" id="nav_to_option">
 					<svg width="3.4em" height="1.8em" viewBox="0 0 16 16" class="bi bi-gear-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 0 0-5.86 2.929 2.929 0 0 0 0 5.858z"/>
 			  		</svg>
@@ -57,7 +57,7 @@
 			<li class="nav-item">
 				<span class="badge badge-light"></span>
 				<div class="dropdown">
-					<a class="nav-link" href="#notification" id="icon-menu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<a class="nav-link" href="#notification" id="nav_to_notif" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<svg width="3.4em" height="1.8em" viewBox="0 0 16 16" class="bi bi-bell-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 							<path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
 						</svg>
@@ -133,34 +133,33 @@
 
   <script>
 
-  function liveFunction() {
-    Backbone.history.navigate("/live", {trigger: true});
-  };
+$( "#nav_to_live" ).on( "click", function() {
+	Backbone.history.navigate("/live", {trigger: true});
+});
 
-  function playFunction() {
-    Backbone.history.navigate("/play", {trigger: true});
-  };
+$( "#nav_to_play" ).on( "click", function() {
+	Backbone.history.navigate("/play", {trigger: true});
+});
 
-  function guildFunction() {
-    Backbone.history.navigate("/guild", {trigger: true});
-  };
+$( "#nav_to_guild" ).on( "click", function() {
+	Backbone.history.navigate("/guild", {trigger: true});
+});
 
-  function optionFunction() {
-    Backbone.history.navigate("/option", {trigger: true});
-  };
+$( "#nav_to_option" ).on( "click", function() {
+	Backbone.history.navigate("/option", {trigger: true});
+});
 
-  function profilFunction() {
-    Backbone.history.navigate("/profil", {trigger: true});
-  };
+$( "#nav_to_profil" ).on( "click", function() {
+	Backbone.history.navigate("/profil", {trigger: true});
+});
 
-  function tournamentFunction() {
-    Backbone.history.navigate("/tournament", {trigger: true});
-  };
+$( "#nav_to_tournament" ).on( "click", function() {
+	Backbone.history.navigate("/tournament", {trigger: true});
+});
 
-  function warFunction() {
-    Backbone.history.navigate("/war", {trigger: true});
-  };
-
+$( "#nav_to_war" ).on( "click", function() {
+	Backbone.history.navigate("/war", {trigger: true});
+});
 
   var LiveView = Backbone.View.extend({
 	  el : '#inside-page',

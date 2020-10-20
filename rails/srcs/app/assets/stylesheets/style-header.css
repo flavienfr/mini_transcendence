@@ -63,13 +63,16 @@ body {
     border-radius: 8px;
     margin: 0 5px 5px 5px;
 }
- 
 
-#icon-menu {
+#nav_to_profil,
+#nav_to_notif,
+#nav_to_option {
     color: #333333;
 }
 
-#icon-menu:hover{
+#nav_to_profil:hover,
+#nav_to_option:hover,
+#nav_to_notif:hover {
     color: #b4b5b4;
 }
 

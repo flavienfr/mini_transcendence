@@ -150,21 +150,17 @@
 	});
 
 	var SessionModel = Backbone.Model.extend({
-		defaults: {
-			id : '',
-			user_id : '',
-			token : '',
-			time_out : ''
-		}
+        urlRoot: "/landing",
+
+        defaults: {
+            test : 45,
+        }
 
 	});
 
-	var sessionmedel = new SessionModel({
-		id : '42',
-		user_id : '1',
-		token : '42',
-		time_out : '0'
-	});
+	var sessionmodel = new SessionModel();
+    
+    sessionmodel.save();
 
   var LiveView = Backbone.View.extend({
 	  el : '#inside-page',

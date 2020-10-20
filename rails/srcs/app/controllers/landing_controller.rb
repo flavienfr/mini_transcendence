@@ -1,6 +1,18 @@
 class LandingController < ApplicationController
-  def index
-    @id = 42
+$id = 42
 
-  end
+def index
+end
+
+def update
+  puts "update"
+end
+
+def create
+  $id = 43
+  puts "create"
+  
+end
+
+
 end

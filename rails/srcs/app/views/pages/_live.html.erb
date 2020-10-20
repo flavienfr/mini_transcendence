@@ -1,40 +1,37 @@
 <script type="text/template" id="live-template">
-<%= stylesheet_link_tag "style-live-play.css" %>
-<div class="container-fluid container-live-play">
-	<div class="row">
-		<div class=" active_game">
-		
-			<table class="table">
-				<thead class="thead-dark">
-					<tr>
-						<th scope="col">Active match</th>
-					</tr>
-				</thead>
-				<tbody>
-			  		<tr>
-						<td><a href="#link_to_the_game">Jean VS André</a></td>
-			  		</tr>
-			  		<tr>
-						<td><a href="#link_to_the_game">Didier VS helenne</a></td>
-			  		</tr>
-			  		<tr>
-			  			<td></td>
-			  		</tr>
-				</tbody>
-		  </table>
 
-    	</div>
-    	<div class="col text-center">
-      		<h1>Le live pong</h1>
-    	</div>
-		<div class="col chat">
+	<%= stylesheet_link_tag "style-live-play.css" %>
 
-<!-- Yield here the different chat templates -->
+	<div class="container-fluid container-live-play">
+		<div class="row">
+			<div class=" active_game">
 
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">Active match</th>
+						</tr>
+					</thead>
+					<tbody>
+				  		<tr>
+							<td><a href="#link_to_the_game">Jean VS André</a></td>
+				  		</tr>
+				  		<tr>
+							<td><a href="#link_to_the_game">Didier VS helenne</a></td>
+				  		</tr>
+				  		<tr>
+				  			<td></td>
+				  		</tr>
+					</tbody>
+			  </table>
 
-<!-- end chat -->
-
-    	</div>
-  	</div>
-</div>
+	    	</div>
+	    	<div class="col text-center">
+	      		<h1>Le live pong</h1>
+	    	</div>
+			<div class="col chat">
+				<%= render "pages/chat/main" %>
+	    	</div>
+	  	</div>
+	</div>
 </script>

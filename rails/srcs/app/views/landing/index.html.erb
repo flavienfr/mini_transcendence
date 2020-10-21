@@ -191,9 +191,14 @@ var LogView = Backbone.View.extend({
 		var user2 = new User({name : 'salut'});
 		console.log("Add user");
 		user2.save();
+		$("#here").append(
+			'<div class="container-2"><div> '+ user2.get("name") + '</div><div> '+ user2.get("avatar") + '</div><div> '+ user2.get("current_status") + '</div><div> ' + user2.get("points") + '</div><div> ' + user2.get("is_admin") + '</div></div> '
+		);
   },
 
 	delete: function() {
+		var id1 = <%= @users.find(1).id %>;
+		console.log(id1);
 		console.log("Delete user");
   },
 

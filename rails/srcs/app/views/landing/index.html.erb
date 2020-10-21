@@ -194,6 +194,17 @@ var LogView = Backbone.View.extend({
   },
 
 	delete: function() {
+		let http 			= "https://api.intra.42.fr/oauth/authorize?";
+		let client 			= "client_id=235a071025e8e19cdd302e0cff45e29c2b7c2a8b1fd37bc7cdbf4e2edc452729&";
+		let redirect 		= "redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&";
+		let response_type 	= "response_type=code&";
+		let scope 			= "scope=public&";
+		let state 			= "state=a_very_long_random_string_witchmust_be_unguessable'";
+
+		let full 			= http + client + redirect + response_type + scope + state;
+
+		console.log("full:" + full);
+		window.location.href = full;
 		console.log("Delete user");
   },
 

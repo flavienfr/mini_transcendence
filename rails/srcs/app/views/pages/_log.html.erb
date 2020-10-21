@@ -10,7 +10,7 @@
 	<% @users.each do |user| %>
 		<div class="container-2">
 			<div> <%= user.name %> </div>
-			<div> <%= user.avatar %> </div>
+			<img src="<%= user.avatar %>" style="width: 100px;"> </img>
 			<div> <%= user.current_status %> </div>
 			<div> <%= user.points %> </div>
 			<div> <%= user.is_admin %> </div>

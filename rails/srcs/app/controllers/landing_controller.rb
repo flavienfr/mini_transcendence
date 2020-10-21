@@ -98,8 +98,8 @@ class LandingController < ApplicationController
       puts user.to_yaml
 
       # ocker-compose run web rails console -> to see if it worked
+      redirect_to landings_path # à enlever pcq ça reload la page
 
     end
 
-    redirect_to landings_path # à enlever pcq ça reload la page
   end

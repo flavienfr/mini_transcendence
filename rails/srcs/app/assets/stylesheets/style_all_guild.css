@@ -1,0 +1,77 @@
+.all_guild_container{
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+.return{
+	position: absolute;
+	left:25px;
+	top:25px;
+}
+#back_to_guild:hover{
+	color: #666666;
+}
+
+.all_guilds{
+	display: flex;
+	flex-direction: column;
+	justify-self: start;
+	width: 80%;
+	height: 80%;
+
+	overflow:auto;
+	direction:ltr;
+	scrollbar-color: #333333 white;
+
+	background-color: white;
+	border: 4px solid #333333;
+}
+
+.guild{
+	display: flex;
+}
+
+.guild .name_score{
+	position: relative;
+	width: 40%;
+
+	background-color: #333333;
+	color: white;
+	border: 2px solid white;
+}
+.guild .name_score h3{
+	position: absolute;
+	left: 5%;
+	top: 5%;
+}
+.guild .name_score p{
+	position: absolute;
+	left: 30%;
+	top: 40%;
+}
+
+.owner_officer_btn{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	width: 60%;
+}
+
+.owner_officer_btn .officer, .owner_officer_btn .owner{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+@media (max-width: 620px) {
+	.guild  h3{
+		font-size: medium;
+	}
+	.guild  p{
+		font-size: small;
+	}
+}

@@ -18,13 +18,13 @@ body {
     text-align: center;
     display: block;
     line-height: 24px;
-    color: #d0d0d0;
+    color: white;
     text-decoration: none;
     font-family: Arial, Helvetica, sans-serif;
     /*border: 3px solid red;*/
 }
 #text-menu:hover{
-    background: #b4b5b4;
+    background: #666666;
 }
 
 .dropdown-menu{
@@ -73,7 +73,7 @@ body {
 #nav_to_profil:hover,
 #nav_to_option:hover,
 #nav_to_notif:hover {
-    color: #b4b5b4;
+    color: #666666;
 }
 
 .badge{

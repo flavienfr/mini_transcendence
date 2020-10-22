@@ -101,5 +101,4 @@ class LandingController < ApplicationController
       redirect_to root_path # à enlever pcq ça reload la page
 
     end
-
-  end
+end

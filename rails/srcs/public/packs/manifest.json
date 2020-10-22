@@ -1,64 +1,14 @@
 {
-  "application.js": "/packs/js/application-9d9e794062d75c71b1b1.js",
-  "application.js.map": "/packs/js/application-9d9e794062d75c71b1b1.js.map",
+  "application.js": "/packs/js/application-1538a4697c0736069870.js",
+  "application.js.map": "/packs/js/application-1538a4697c0736069870.js.map",
   "entrypoints": {
     "application": {
       "js": [
-        "/packs/js/application-9d9e794062d75c71b1b1.js"
+        "/packs/js/application-1538a4697c0736069870.js"
       ],
       "js.map": [
-        "/packs/js/application-9d9e794062d75c71b1b1.js.map"
-      ]
-    },
-    "file_js_tmp": {
-      "js": [
-        "/packs/js/file_js_tmp-6faf5e664b493802c494.js"
-      ],
-      "js.map": [
-        "/packs/js/file_js_tmp-6faf5e664b493802c494.js.map"
-      ]
-    },
-    "test/Entrypoint": {
-      "js": [
-        "/packs/js/test/Entrypoint-3954cb65381aa05ccfb3.js"
-      ],
-      "js.map": [
-        "/packs/js/test/Entrypoint-3954cb65381aa05ccfb3.js.map"
-      ]
-    },
-    "test/testModele": {
-      "js": [
-        "/packs/js/test/testModele-acabcbda3bea122c1798.js"
-      ],
-      "js.map": [
-        "/packs/js/test/testModele-acabcbda3bea122c1798.js.map"
-      ]
-    },
-    "test/testRouter": {
-      "js": [
-        "/packs/js/test/testRouter-68397af09e5c7915c512.js"
-      ],
-      "js.map": [
-        "/packs/js/test/testRouter-68397af09e5c7915c512.js.map"
-      ]
-    },
-    "test/testView": {
-      "js": [
-        "/packs/js/test/testView-0f900d97e98f8c1e510c.js"
-      ],
-      "js.map": [
-        "/packs/js/test/testView-0f900d97e98f8c1e510c.js.map"
+        "/packs/js/application-1538a4697c0736069870.js.map"
       ]
     }
-  },
-  "file_js_tmp.js": "/packs/js/file_js_tmp-6faf5e664b493802c494.js",
-  "file_js_tmp.js.map": "/packs/js/file_js_tmp-6faf5e664b493802c494.js.map",
-  "test/Entrypoint.js": "/packs/js/test/Entrypoint-3954cb65381aa05ccfb3.js",
-  "test/Entrypoint.js.map": "/packs/js/test/Entrypoint-3954cb65381aa05ccfb3.js.map",
-  "test/testModele.js": "/packs/js/test/testModele-acabcbda3bea122c1798.js",
-  "test/testModele.js.map": "/packs/js/test/testModele-acabcbda3bea122c1798.js.map",
-  "test/testRouter.js": "/packs/js/test/testRouter-68397af09e5c7915c512.js",
-  "test/testRouter.js.map": "/packs/js/test/testRouter-68397af09e5c7915c512.js.map",
-  "test/testView.js": "/packs/js/test/testView-0f900d97e98f8c1e510c.js",
-  "test/testView.js.map": "/packs/js/test/testView-0f900d97e98f8c1e510c.js.map"
+  }
 }

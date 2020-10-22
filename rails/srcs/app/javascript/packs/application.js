@@ -4,9 +4,11 @@
 // that code so it'll be compiled.
 
 import 'bootstrap'
+
 require("@rails/ujs").start()
 require("@rails/activestorage").start()
 require("channels")
+
 global .$ = require('jquery');
 window.jQuery = $;
 window.$ = $;
@@ -17,13 +19,6 @@ const backbone = require('backbone');
 Backbone.$ = window.$ = window.jQuery = $;  // nécessaire pour bootstrap
 var bootstrap = require('bootstrap');
 
-
-// import TestRouter from "./testRouter.js"
-// var router = new TestRouter();
-
-// Backbone.history.start();
-/* js */
-// import Entrypoint from "./Entrypoint.js"
-
-/* code */
-/*document).ready(Entrypoint.start());*/
+$(document).ready(function() {
+	require("components")
+});

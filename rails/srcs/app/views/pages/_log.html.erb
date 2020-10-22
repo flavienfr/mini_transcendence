@@ -1,21 +1,22 @@
 <script type="text/template" id="log-template">
 <%= stylesheet_link_tag "style-log.css" %>
 
-<div class="container-1">
+<div class="container-1" id="add">
 	<h3> User: </h3>
 	<div>
-	<button class="bt" id="add-user">ADD</button>
-	<button class="bt"  id="delete-user">DELETE</button>
-	</div>
-	<% @users.each do |user| %>
-		<div class="container-2">
-			<div> <%= user.name %> </div>
-			<div> <%= user.avatar %> </div>
-			<div> <%= user.current_status %> </div>
-			<div> <%= user.points %> </div>
-			<div> <%= user.is_admin %> </div>
-		</div>
-	<% end %>
-</div>
-</script>
+		<button class="bt" id="add-user">ADD</button>
+		<button class="bt"  id="delete-user">DELETE</button>
+		</div id="users">
 
+			<%% for(let i = 0; i < test.length; i++) { %>
+				<div class="container-2">
+					<div> <%%= test[i].id %> </div>
+					<div> <%%= test[i].avatar %> </div>
+					<div> <%%= test[i].current_status %> </div>
+					<div> <%%= test[i].point %> </div>
+					<div> <%%= test[i].is_admin %> </div>
+				</div>
+			<%% } %>
+		
+		</div>
+</script>

@@ -2,6 +2,10 @@ class LandingController < ApplicationController
 
   def index
     @users = User.all
+    #@users.each do |user|
+     #  user.destroy()
+    # end
+
   end
 
   def update

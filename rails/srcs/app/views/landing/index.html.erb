@@ -54,21 +54,35 @@ var User = Backbone.Model.extend({
 	urlRoot: "/users",
 
 	defaults: {
-		name: 'test',
+		name: 'name',
 		avatar: 'test',
 		current_status: 'Online',
 		points: 42,
 		is_admin: true,
-	}
+	},
 
 });
+
+var Users = Backbone.Collection.extend({
+	modele: User,
+	url: "/users",
+
+});
+
+var	usercollection = new Users();
 
 var LogView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#log-template').html()),
+	collection: usercollection,
 
 	initialize : function() {
 	  console.log("LogView created");
+	  this.listenTo(this.collection, 'change', this.render, this);
+	  this.collection.url = "/users.json";
+	  this.collection.fetch({reset: true});
+	  console.log(this.collection);
+	  console.log(this.collection.toJSON());
 	},
 
 	events: {
@@ -77,20 +91,36 @@ var LogView = Backbone.View.extend({
   	},
 
 	render : function() {
-	  this.$el.html(this.template);
+	  this.$el.html(this.template({test: this.collection.toJSON()}));
 	  console.log("Render Log");
 	  return this;
 
 	},
 
 	add: function() {
-		var user2 = new User({name : 'salut'});
 		console.log("Add user");
-		user2.save();
+		var user = new User({name : 'test'});
+		this.collection.create(user);
+	  	console.log(this.collection);
+	  	console.log(this.collection.toJSON());
   },
 
 	delete: function() {
 		console.log("Delete user");
+
+		var users = this.collection.toJSON();
+		var user = users[users.length - 1];
+	  	console.log(this.collection.toJSON());
+	
+		if (user){
+			var to_delete = this.collection.get(user.id);
+			console.log(to_delete.toJSON());
+			
+	  		this.collection.url = "/users"
+			to_delete.destroy();
+
+			this.collection.remove(to_delete);
+		}	
   },
 
 });

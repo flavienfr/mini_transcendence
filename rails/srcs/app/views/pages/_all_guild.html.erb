@@ -1,0 +1,61 @@
+<script type="text/template" id="all_guild-template">
+	<%= stylesheet_link_tag "style_all_guild.css" %>
+
+	<div class="all_guild_container">
+		<div class="return">
+			<a id="back_to_guild">
+				<svg width="2.5em" height="2.5em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5.5a.5.5 0 0 0 0-1H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5z"/>
+				  </svg>
+			</a>
+		</div>
+		<div class="all_guilds" id="all_guilds">
+			<!-- append guild in #all_guilds -->
+
+			<div class="guild">
+				<div class="name_score">
+					<h3>Guild</h3>
+					<p>Score: 00000</p>
+				</div>
+				<div class="owner_officer_btn">
+					<div class="owner">
+						<h3>Owner</h3>
+						<img src="<%= image_url('profil-photo.png') %>" width="40" height="40" alt="" class="profil profil-photo">
+						<p>pseudo</p>
+					</div>
+					<div class="officer">
+						<h3>Officer</h3>
+						<img src="<%= image_url('profil-photo.png') %>" width="40" height="40" alt="" class="profil profil-photo">
+						<p>pseudo</p>
+					</div>
+					<div class="btn_war">
+						<button type="button" class="btn btn-primary btn-md btn-block btn-dark">Declare war</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="guild">
+				<div class="name_score">
+					<h3>Guild</h3>
+					<p>Score: 00000</p>
+				</div>
+				<div class="owner_officer_btn">
+					<div class="owner">
+						<h3>Owner</h3>
+						<img src="<%= image_url('profil-photo.png') %>" width="40" height="40" alt="" class="profil profil-photo">
+						<p>pseudo</p>
+					</div>
+					<div class="officer">
+						<h3>Officer</h3>
+						<img src="<%= image_url('profil-photo.png') %>" width="40" height="40" alt="" class="profil profil-photo">
+						<p>pseudo</p>
+					</div>
+					<div class="btn_war">
+						<button type="button" class="btn btn-primary btn-md btn-block btn-dark">Declare war</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</script>

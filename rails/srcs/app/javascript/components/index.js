@@ -9,6 +9,7 @@ var profilview = new ProfilView();
 var tournamentview = new TournamentView();
 var warview = new WarView();
 
+
 var Router = Backbone.Router.extend({
 	routes: {
 		'': "ft_log",

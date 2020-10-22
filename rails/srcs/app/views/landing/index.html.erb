@@ -223,20 +223,30 @@ var TournamentView = Backbone.View.extend({
   }
 });
 
+var ModelGuild = Backbone.Model.extend();
+var guildTest = new ModelGuild();
+guildTest.set({
+	score:"1234",
+	owner:"didier",
+	officer:"" // set empty string for no officer
+});
+
 var WarView = Backbone.View.extend({
   el : '#inside-page',
   template: _.template($('#war-template').html()),
+  model: guildTest,
 
   initialize : function() {
 	  console.log("WarView created");
   },
 
   render : function() {
-	this.$el.html(this.template);
+	this.$el.html(this.template(this.model.toJSON()));
 	  console.log("Render War");
 	  return this;
   }
 });
+
 
 var logview = new LogView();
 var liveview = new LiveView();
@@ -249,11 +259,7 @@ var warview = new WarView();
 
 var livechatview = new LiveChatView();
 
-var TestRouter = Backbone.Router.extend({
-
-	initialize : function() {
-		console.log("Router created");
-	},
+var Router = Backbone.Router.extend({
 	routes: {
 		'': "ft_log",
 		'live': "ft_live",
@@ -290,7 +296,7 @@ var TestRouter = Backbone.Router.extend({
 	},
 });
 
-var router = new TestRouter();
+var router = new Router();
 Backbone.history.start();
 
 </script>

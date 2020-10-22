@@ -61,6 +61,17 @@ class UsersController < ApplicationController
     end
   end
 
+  def auth
+    # params avec le code
+    puts "ok users/auth"
+    puts auth_params
+    
+    # session = Session.new()
+    # session.user_id = current_user.id
+
+    redirect_to root_path
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -71,4 +82,8 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :avatar, :current_status, :points, :is_admin)
     end
-end
+
+    def auth_params
+      params.require(:user).permit(:code, :state)
+    end
+  end

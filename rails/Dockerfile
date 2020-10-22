@@ -1,7 +1,9 @@
-FROM timbru31/ruby-node:2.5
+FROM ruby:2.5
 RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
 RUN mkdir /ft_transcendence
 WORKDIR /ft_transcendence
+RUN apt-get install -y npm
+RUN npm install -g yarn
 COPY ./srcs/Gemfile /ft_transcendence/Gemfile
 COPY ./srcs/Gemfile.lock /ft_transcendence/Gemfile.lock
 RUN bundle install

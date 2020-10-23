@@ -9,3 +9,6 @@ Delete all stopped containers:
 
 Remove all images:
 * docker rmi $(docker images -q)
+
+Purger++
+* docker system prune --all --volumes

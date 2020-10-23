@@ -7,7 +7,19 @@ export var User = Backbone.Model.extend({
 		current_status: 'Online',
 		points: 42,
 		is_admin: true,
-	}
+	},
+
+	initialize : function() {
+		console.log("UserModel created");
+	  },
+
+});
+
+var ModelGuild = Backbone.Model.extend({
+
+	initialize : function() {
+		console.log("GuildModel created");
+	  },
 
 });
 
@@ -49,45 +61,76 @@ var guild_3 = new Guild({
 var guilds = new Guilds([guild_1, guild_2, guild_3]);
 /**********************/
 
+var Users = Backbone.Collection.extend({
+	modele: User,
+	url: "/users",
+
+	initialize : function() {
+		console.log("UserCollection created");
+		this.fetch({reset: true});
+	}
+});
+
+var	usercollection = new Users();
+
 export var LogView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#log-template').html()),
+	collection: usercollection,
 
 	initialize : function() {
-	  console.log("LogView created");
+		console.log("LogView created");
+		this.listenTo(this.collection, 'add remove', this.render, this);
+		this.collection.url = "/users.json";
+	  	this.collection.fetch();
+	  	console.log(this.collection.toJSON());
 	},
 
 	events: {
-    "click #add-user": "add",
-    "click #delete-user": "delete",
+    	"click #add-user": "add",
+    	"click #delete-user": "delete",
+    	"click #sign-in ": "sign",
   	},
 
 	render : function() {
-	  this.$el.html(this.template);
-	  console.log("Render Log");
-	  return this;
+	  	console.log("Render Log");
+		this.$el.html(this.template({usr: this.collection.toJSON()}));
+	  	return this;
 
 	},
 
 	add: function() {
-		var user2 = new User({name : 'salut'});
 		console.log("Add user");
-		user2.save();
-  },
+		var user = new User({name : 'test'});
+		this.collection.create(user);
+		this.render();
+	 },
+	 
+  	delete: function() {
+		console.log("Delete user");
+		var users = this.collection.toJSON();
+		var user = users[users.length - 1];
+		if (user){
+			var to_delete = this.collection.get(user.id);
+	  		this.collection.url = "/users"
+			to_delete.destroy();
+	  		console.log(this.collection.toJSON());
+			this.render();
+		}	
+	 },
+	  
+	sign: function() {
+		let http 			= "https://api.intra.42.fr/oauth/authorize?";
+		let client 			= "client_id=235a071025e8e19cdd302e0cff45e29c2b7c2a8b1fd37bc7cdbf4e2edc452729&";
+		let redirect 		= "redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&";
+		let response_type 	= "response_type=code&";
+		let scope 			= "scope=public&";
+		let state 			= "state=a_very_long_random_string_witchmust_be_unguessable'";
 
-  delete: function() {
-	let http 			= "https://api.intra.42.fr/oauth/authorize?";
-	let client 			= "client_id=235a071025e8e19cdd302e0cff45e29c2b7c2a8b1fd37bc7cdbf4e2edc452729&";
-	let redirect 		= "redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&";
-	let response_type 	= "response_type=code&";
-	let scope 			= "scope=public&";
-	let state 			= "state=a_very_long_random_string_witchmust_be_unguessable'";
-
-	let full 			= http + client + redirect + response_type + scope + state;
-
-	console.log("full:" + full);
-	window.location.href = full;
-	console.log("Delete user");
+		let full 			= http + client + redirect + response_type + scope + state;
+		console.log("full:" + full);
+		window.location.href = full;
+		console.log("Delete user");
 	},
 
 });
@@ -253,43 +296,3 @@ export var WarView = Backbone.View.extend({
 		return this;
 	}
 });
-
-/*
-export var WarView = Backbone.View.extend({
-	el : '#inside-page',
-	template: _.template($('#war-template').html()),
-	//template_guilds: _.template($('#war-guild-template').html()),
-	collection: guilds,
-	model: null,
-
-	initialize : function() {
-		this.model= this.collection.first();
-	},
-	events: {
-		"change #guild_drop_down": "render_guild_info"
-	},
-	render_guild_info : function() {
-		var guild_name = $("#guild_drop_down option:selected").text();
-		var guild_to_print = this.collection.findWhere({name: guild_name});
-		console.log("change", guild_name);
-		console.log("model", guild_to_print.attributes);
-		this.model = guild_to_print;
-		//this.render();
-
-		//DOM to change value
-	},
-	render : function() {
-		console.log("model render:", this.model.attributes);
-		// Try do modify template before rendering 
-		this.$el.html(this.template());
-		//this.$('.war_pannel_header').html(this.template_guilds(this.model.toJSON()));
-
-		_.each(this.collection.toJSON(), function(model){
-			$('#guild_drop_down').append(
-				$('<option></option>').html(model.name)
-			);
-		});
-
-		return this;
-	}
-});*/

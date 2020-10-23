@@ -1,35 +1,38 @@
+<script type="text/template" id="war-guild-template">
+	<p>SCORE: <%%= points %> </p>
+	<div class="name_img_owner">
+		<p>OWNER</p>
+		<img src="<%= image_url('profil-photo.png') %>" width="50" height="50" alt="" class="profil profil-photo">
+		<p> <%%= owner %> </p>
+	</div>
+	<div class="name_img_officer">
+		<p>OFFICER</p>
+		<%% if (officer == ""){ %>
+			<p> None </p>
+		<%% } else {%>
+			<img src="<%= image_url('profil-photo.png') %>" width="50" height="50" alt="" class="profil profil-photo">
+			<p> <%%= officer %> </p>
+		<%% } %>
+	</div>
+</script>
+
 <script type="text/template" id="war-template">
 	<%= stylesheet_link_tag "style-war.css" %>
 	<!-- REMPLACER LES BTN AVEC DATE TIME PICKET BTN -->
 
 	<div class="war_container">
 		<div class="war_pannel">
-			<div class="war_pannel_header">
-
-				<div class="selector">
-					<select id="guild_drop_down" class="form-control form-control-md">
-					</select>
-				</div>
-
-
-				<p>SCORE: <%%= points %> </p>
-				<div class="name_img_owner">
-					<p>OWNER</p>
-					<img src="<%= image_url('profil-photo.png') %>" width="50" height="50" alt="" class="profil profil-photo">
-					<p> <%%= owner %> </p>
-				</div>
-				<div class="name_img_officer">
-					<p>OFFICER</p>
-					<%% if (officer == ""){ %>
-						<p> None </p>
-					<%% } else {%>
-						<img src="<%= image_url('profil-photo.png') %>" width="50" height="50" alt="" class="profil profil-photo">
-						<p> <%%= officer %> </p>
-					<%% } %>
-				</div>
-
-				
+<!-- TODO: Render le dropw down dans le war pannel -->
+			<div class="selector">
+				<select id="guild_drop_down" class="form-control form-control-md">
+				</select>
 			</div>
+			<div class="war_pannel_header">		
+				<!-- Insertion du script war-guild-template -->
+			</div>
+<!-- ------------------------------------ -->
+
+
 			<div class="war_pannel_body">
 
 				<div class="body_1">

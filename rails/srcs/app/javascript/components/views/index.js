@@ -11,15 +11,36 @@ export var User = Backbone.Model.extend({
 
 });
 
-var ModelGuild = Backbone.Model.extend();
-var guildTest = new ModelGuild();
-guildTest.set({
+/****** froussel model */
+var Guild = Backbone.Model.extend({
+	defaults:{
+		name: "",
+		anagram: "",
+		points:"",
+		owner:"",
+		officer:"" 
+	}
+});
+var Guilds = Backbone.Collection.extend({
+	model: Guild,
+});
+
+var guild_1 = new Guild({
 	name: "Guild of war",
 	anagram: "GOF",
 	points:"1234",
 	owner:"didier",
 	officer:"" // set empty string for no officer
 });
+var guild_2 = new Guild({
+	name: "Les zouzes",
+	anagram: "SOS",
+	points:"5866",
+	owner:"sapien",
+	officer:"homo" // set empty string for no officer
+});
+var guilds = new Guilds([guild_1, guild_2]);
+/**********************/
 
 export var LogView = Backbone.View.extend({
 	el : '#inside-page',
@@ -191,17 +212,35 @@ export var TournamentView = Backbone.View.extend({
 });
 
 export var WarView = Backbone.View.extend({
-  el : '#inside-page',
-  template: _.template($('#war-template').html()),
-  model: guildTest, //donner collection  de guils ici
+	el : '#inside-page',
+	template: _.template($('#war-template').html()),
+	collection: guilds,
+	model: guild_1,
 
-  initialize : function() {
-	  console.log("WarView created");
-  },
+	initialize : function() {
+		console.log("WarView created");
+	},
+	events: {
+		"change #guild_drop_down": "render_guild_info"
+	},
+	render_guild_info : function() {
+		var guild_name = $("#guild_drop_down option:selected").text();
+		var guild_to_print = this.collection.findWhere({name: guild_name});
+		console.log("change", guild_name);
+		console.log("model", guild_to_print);
+		this.model = guild_to_print;
+		//DOM to change value
+	},
+	render : function() {
+		// Try do modify template before rendering 
+		this.$el.html(this.template(this.model.toJSON()));
 
-  render : function() {
-	this.$el.html(this.template(this.model.toJSON()));
-	  console.log("Render War");
-	  return this;
-  }
+		_.each(this.collection.toJSON(), function(model){
+			$('#guild_drop_down').append(
+				$('<option></option>').html(model.name)
+			);
+		});
+
+		return this;
+	}
 });

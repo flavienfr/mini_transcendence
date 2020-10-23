@@ -38,13 +38,18 @@ class LandingController < ApplicationController
       require "net/http"
       require "json"
 
+      puts ENV["oauth_grant_type"]
+      puts ENV["oauth_client_id"]
+      puts ENV["oauth_client_secret"]
+      puts ENV["oauth_redirect_uri"]
+      puts ENV["oauth_state"]
       header = {
-          "grant_type" => "authorization_code",
-          "client_id" => "235a071025e8e19cdd302e0cff45e29c2b7c2a8b1fd37bc7cdbf4e2edc452729",
-          "client_secret" => "bd247fc761561f68598d981c4c151e43905690f9a8f99039631e5a6b1098a2dc",
+          "grant_type" => ENV["oauth_grant_type"],
+          "client_id" => ENV["oauth_client_id"],
+          "client_secret" => ENV["oauth_client_secret"],
           "code" => code,
-          "redirect_uri" => "http://localhost:3000/",
-          "state" => "a_very_long_random_string_witchmust_be_unguessable"
+          "redirect_uri" => ENV["oauth_redirect_uri"],
+          "state" => ENV["oauth_state"]
       }
       res_access_token = Net::HTTP.post_form(URI.parse("https://api.intra.42.fr/oauth/token"), header)
       parsed_res_access_token = JSON.parse(res_access_token.body)

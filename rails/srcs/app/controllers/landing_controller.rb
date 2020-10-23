@@ -1,7 +1,7 @@
 class LandingController < ApplicationController
 
   def index
-    @users = User.all
+	@users = User.all
     
     # puts params.inspect
 

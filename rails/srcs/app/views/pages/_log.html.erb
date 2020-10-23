@@ -7,15 +7,17 @@
 	<button class="bt" id="add-user">ADD</button>
 	<button class="bt"  id="delete-user">DELETE</button>
 	</div>
-	<% @users.each do |user| %>
+	<%% for(let i = 0; i < usr.length; i++) { %>
 		<div class="container-2">
-			<div> <%= user.name %> </div>
-			<img src="<%= user.avatar %>" style="width: 100px;"> </img>
-			<div> <%= user.current_status %> </div>
-			<div> <%= user.points %> </div>
-			<div> <%= user.is_admin %> </div>
+			<div> <%%= usr[i].name + " " + i %> </div>
+			<img src="<%%= usr[i].avatar %>" style="width: 100px;"> </img>
+			<div> <%%= usr[i].current_status %> </div>
+			<div> <%%= usr[i].points %> </div>
+			<div> <%%= usr[i].is_admin %> </div>
 		</div>
-	<% end %>
+	<%% } %>
+
 </div>
+<button class="bt"  id="sign-in">SIGN</button>
 </script>
 

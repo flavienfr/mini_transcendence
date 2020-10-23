@@ -39,7 +39,14 @@ var guild_2 = new Guild({
 	owner:"sapien",
 	officer:"homo" // set empty string for no officer
 });
-var guilds = new Guilds([guild_1, guild_2]);
+var guild_3 = new Guild({
+	name: "Les toros",
+	anagram: "RED",
+	points:"41",
+	owner:"vicache",
+	officer:"los" // set empty string for no officer
+});
+var guilds = new Guilds([guild_1, guild_2, guild_3]);
 /**********************/
 
 export var LogView = Backbone.View.extend({
@@ -227,8 +234,7 @@ export var WarView = Backbone.View.extend({
 		var guild_name = $("#guild_drop_down option:selected").text();
 		var guild_to_print = this.collection.findWhere({name: guild_name});
 		console.log("change", guild_name);
-		console.log("model", guild_to_print);
-		this.model = guild_to_print;
+		console.log("model", guild_to_print.attributes);
 		//DOM to change value
 	},
 	render : function() {

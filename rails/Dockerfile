@@ -16,6 +16,7 @@ RUN yarn add jquery && yarn add underscore && yarn add backbone
 COPY ./srcs/entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
+RUN bundle exec figaro install
 EXPOSE 3000
 
 # Start the main process.

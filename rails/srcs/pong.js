@@ -8,31 +8,33 @@ canvas.addEventListener("mousemove", movePaddle);
 function drawScore(x, y,score ,color){
     context.fillStyle = color;
     context.font = "35px fantasy"; // pas responsive
+    context.beginPath();
     context.fillText(score, x, y);
+    context.closePath();
 }
 
 //draw the line at the middle
-function drawMidleLine(){
-    for(let i =  0; i <= canvas.height; i += 20){  // pas responsive
+function drawMiddleLine(line){
+    for(let i =  0; i <= canvas.height; i += 13){  // pas responsive
         drawRect(line.x, line.y + i, line.width, line.height, line.color);
     }
 }
 
-
 // draw rect
 function drawRect(x,y,w,h,color){
     context.fillStyle = color;
+    context.beginPath();
     context.fillRect(x,y,w,h);
+    context.closePath();
 }
 
 // draw ball
 function drawBall(x,y,r,color){
     context.fillStyle = color;
-    context.beginPath();
+    context.beginPath(); //each call permite to clean the last arc
     context.arc(x,y,r,0, Math.PI*2, false);
     context.closePath();
     context.fill();
-
 }
 
 //part 2 users padlle
@@ -44,7 +46,7 @@ const user1 = {
     //form 
     width : 10, // pas responsive
     height : 100, // pas responsive
-    color : "WHITE",
+    color : "GREY",
     score : 0
 }
 //User2
@@ -55,10 +57,9 @@ const user2 = {
     //form
     width : 10, // pas responsive
     height : 100, // pas responsive
-    color : "WHITE",
+    color : "GREY",
     score : 0
 }
-
 // Part 3 the ball
 const ball =  {
     //position
@@ -66,14 +67,14 @@ const ball =  {
     y : canvas.height/2, // for be at the center
     //form
     radius : 10, // pas responsive
-    speed : 5, // a voir si pas assez rapide ou trop
+    color : "RED",
+    //deplacement
     velocityX : 5,
     velocityY : 5,
-    color : "RED" 
+    speed : 5 // a voir si pas assez rapide ou trop
+
 }
-
-
-//part 4 render 
+//part 4 show 
 
 const line = {
     //pos
@@ -85,89 +86,94 @@ const line = {
     color : "WHITE"
 }
 
-function render(){ // the order is important
+function show(){ // create a new map the order is important
 // const part
 drawRect(0,0, canvas.width, canvas.height,"BLACK"); // the game place
-drawMidleLine();
+drawMiddleLine(line);
 drawScore(canvas.width/4, canvas.height/5, user1.score, "WHITE");
 drawScore(3 * canvas.width/4, canvas.height/5, user2.score, "WHITE");
 // move part
 drawRect(user1.x, user1.y, user1.width, user1.height, user1.color);
 drawRect(user2.x, user2.y, user2.width, user2.height, user2.color);
 drawBall(ball.x, ball.y, ball.radius, ball.color);
-
-
 }
 
 // part 5 collision and rules
 //collision
 function get_collision(ba, paddle) // paddle of the player
 {
-    ba.top = ba.y - ba.radius; // this is for know the limite of each point of the ball
-    ba.bottom = ba.y + ba.radius;
-    ba.left = ba.x - ba.radius;
-    ba.right = ba.x + ba.radius;
 
-    paddle.top = paddle.y; // this is for know the limit of each point of the paddle
-    paddle.bottom = paddle.height + paddle.y;
-    paddle.left = paddle.x;
-    paddle.right = paddle.x + paddle.width;
+    paddle_top = paddle.y; // this is for know the limit of each point of the paddle
+    paddle_bottom = paddle.height + paddle.y;
+    paddle_left = paddle.x;
+    paddle_right = paddle.x + paddle.width;
+    
+    ball_top = ba.y - ba.radius; // this is for know the limite of each point of the ball
+    ball_bottom = ba.y + ba.radius;
+    ball_left = ba.x - ba.radius;
+    ball_right = ba.x + ba.radius;
     
     // if are true there is get_collision else if one is false no get_collision
-    return ba.right > paddle.left && ba.bottom > paddle.top && ba.left < paddle.right && ba.top < paddle.bottom;
+    return ball_right > paddle_left && ball_bottom > paddle_top && ball_left < paddle_right && ball_top < paddle_bottom;
 }
 
 //restart when it's finished
 // penser a faire une fonction qui demander d'entrer pour demander si les joueurs sont pret et ensuite launch the game
 
-function restartBall()
-{
-    ball.x = canvas.width/2,
+function restartBall(i, y)
+{   
     ball.y =  canvas.height/2, // for be at the center
+    ball.x = canvas.width/2,
     ball.radius =  10, // pas responsive
     ball.speed = 5, // check if it's to or less speed
-    ball.velocityX = 5,
-    ball.velocityY = 5,
-    ball.color = "RED" 
+    ball.velocityX = i * 5,
+    ball.velocityY = y *5,
+    ball.color = "RED"
 }
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
 
 function isFinish()
 {
     if (ball.x - ball.radius < 0) // if the ball is to the left
     {
         user2.score++;
-        restartBall();
+        let i  = 1; // permite to launch the ball at the winner 
+        let y = (getRandomInt(3)%2) ? 1 : -1; // permite to change the y direction of the ball
+        restartBall(i, y);
     }
     if (ball.x + ball.radius > canvas.width) // if the ball is to the right
     {    user1.score++;
-        restartBall();
+        let i = -1;
+        let y = (getRandomInt(3)%2) ? -1 : 1; 
+        restartBall(i, y);
     }
 }
 
-function sync() // remake of cub3d for userdeplacement but her is the ball
+function sync() // sync the ball deplacement
 {
     ball.x += ball.velocityX;
     ball.y += ball.velocityY;
 
-    if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0){
+    if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height){ // collision to the top and the bottom
         ball.velocityY =  -ball.velocityY;  
     }
-    
     let player = (ball.x < canvas.width/2) ? user1 : user2; // determine if the ball is on the right or the left
-
     if (get_collision(ball, player) == true)
     {
+        let direction = (player == user1) ? 1 : -1; // set if the ball should go to the right or left
+
         let col = ball.y - (player.y + player.height/2); // set the colision point
         col = col/(player.height/2); // normalize the colision point 
         
         let angleRad = col * Math.PI/4; // determine the angle to return 
 
-        let direction = (ball.x < canvas.width/2) ? 1 : -1; // set if the ball should go to the right or left
-        ball.velocityX =direction * ball.speed * Math.cos(angleRad); // calculate the x deplacement + speed
-        ball.velocityY = direction * ball.speed * Math.sin(angleRad); // calculate the y deplacement + speed
+        ball.velocityY = direction * ball.speed * Math.sin(angleRad); // calculate the y deplacement + speed 
+        ball.velocityX = direction * ball.speed * Math.cos(angleRad); // calculate the x deplacement + speed
 
-        ball.speed += 0.2; // icrease the speed at each contact with the paddle
+        ball.speed += 0.2; // increase the speed at each contact with the paddle
     }
     isFinish();
 }
@@ -180,7 +186,8 @@ function movePaddle(event){ // function to permite to change the direction of th
 function playing()
 {
     sync();
-    render();
+    show();
 }
 
+//main
 setInterval(playing, 1000/50); // permet d'avoir 50 image par seconde ce qui est suffisant pour etre fluide et pas surcharger le server

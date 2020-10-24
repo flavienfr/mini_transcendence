@@ -19,6 +19,6 @@ const backbone = require('backbone');
 Backbone.$ = window.$ = window.jQuery = $;  // nécessaire pour bootstrap
 var bootstrap = require('bootstrap');
 
-$(document).ready(function() {
-	require("components")
-});
+//$(document).ready(function() {
+//	require("components")
+//});

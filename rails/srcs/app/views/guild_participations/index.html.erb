@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Guild Participations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Guild</th>
+      <th>Is admin</th>
+      <th>Is officer</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @guild_participations.each do |guild_participation| %>
+      <tr>
+        <td><%= guild_participation.user_id %></td>
+        <td><%= guild_participation.guild_id %></td>
+        <td><%= guild_participation.is_admin %></td>
+        <td><%= guild_participation.is_officer %></td>
+        <td><%= link_to 'Show', guild_participation %></td>
+        <td><%= link_to 'Edit', edit_guild_participation_path(guild_participation) %></td>
+        <td><%= link_to 'Destroy', guild_participation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Guild Participation', new_guild_participation_path %>

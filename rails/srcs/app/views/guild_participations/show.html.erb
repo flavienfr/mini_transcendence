@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @guild_participation.user_id %>
+</p>
+
+<p>
+  <strong>Guild:</strong>
+  <%= @guild_participation.guild_id %>
+</p>
+
+<p>
+  <strong>Is admin:</strong>
+  <%= @guild_participation.is_admin %>
+</p>
+
+<p>
+  <strong>Is officer:</strong>
+  <%= @guild_participation.is_officer %>
+</p>
+
+<%= link_to 'Edit', edit_guild_participation_path(@guild_participation) %> |
+<%= link_to 'Back', guild_participations_path %>

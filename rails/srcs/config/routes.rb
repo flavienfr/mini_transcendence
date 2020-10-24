@@ -1,5 +1,17 @@
 Rails.application.routes.draw do
 	  
+  resources :tournaments
+  resources :ask_for_games
+  resources :game_participations
+  resources :games
+  resources :messages
+  resources :channel_participations
+  resources :channels
+  resources :user_achievements
+  resources :achievements
+  resources :friendships
+  resources :guild_participations
+  resources :guilds
 	resources :sessions
 	
 	resources :users

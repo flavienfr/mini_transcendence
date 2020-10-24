@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Ask For Games</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>From user</th>
+      <th>To user</th>
+      <th>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ask_for_games.each do |ask_for_game| %>
+      <tr>
+        <td><%= ask_for_game.from_user_id %></td>
+        <td><%= ask_for_game.to_user_id %></td>
+        <td><%= ask_for_game.status %></td>
+        <td><%= link_to 'Show', ask_for_game %></td>
+        <td><%= link_to 'Edit', edit_ask_for_game_path(ask_for_game) %></td>
+        <td><%= link_to 'Destroy', ask_for_game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ask For Game', new_ask_for_game_path %>

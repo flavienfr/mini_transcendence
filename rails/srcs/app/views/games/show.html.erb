@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @game.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @game.end_date %>
+</p>
+
+<p>
+  <strong>Contex:</strong>
+  <%= @game.contex %>
+</p>
+
+<p>
+  <strong>Contex:</strong>
+  <%= @game.contex %>
+</p>
+
+<p>
+  <strong>Winner:</strong>
+  <%= @game.winner_id %>
+</p>
+
+<%= link_to 'Edit', edit_game_path(@game) %> |
+<%= link_to 'Back', games_path %>

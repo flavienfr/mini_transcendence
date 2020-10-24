@@ -1,0 +1,2 @@
+module AskForGamesHelper
+end

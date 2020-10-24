@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @guild.name %>
+</p>
+
+<p>
+  <strong>Anagram:</strong>
+  <%= @guild.anagram %>
+</p>
+
+<p>
+  <strong>Points:</strong>
+  <%= @guild.points %>
+</p>
+
+<p>
+  <strong>Is making war:</strong>
+  <%= @guild.is_making_war %>
+</p>
+
+<p>
+  <strong>Owner:</strong>
+  <%= @guild.owner_id %>
+</p>
+
+<%= link_to 'Edit', edit_guild_path(@guild) %> |
+<%= link_to 'Back', guilds_path %>

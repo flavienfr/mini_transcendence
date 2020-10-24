@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @game_participation.user_id %>
+</p>
+
+<p>
+  <strong>Game:</strong>
+  <%= @game_participation.game_id %>
+</p>
+
+<p>
+  <strong>Score:</strong>
+  <%= @game_participation.score %>
+</p>
+
+<p>
+  <strong>Is winner:</strong>
+  <%= @game_participation.is_winner %>
+</p>
+
+<%= link_to 'Edit', edit_game_participation_path(@game_participation) %> |
+<%= link_to 'Back', game_participations_path %>

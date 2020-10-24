@@ -1,0 +1,2 @@
+class AskForGame < ApplicationRecord
+end

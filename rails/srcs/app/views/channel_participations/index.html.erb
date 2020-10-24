@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Channel Participations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Channel</th>
+      <th>Is owner</th>
+      <th>Is admin</th>
+      <th>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @channel_participations.each do |channel_participation| %>
+      <tr>
+        <td><%= channel_participation.user_id %></td>
+        <td><%= channel_participation.channel_id %></td>
+        <td><%= channel_participation.is_owner %></td>
+        <td><%= channel_participation.is_admin %></td>
+        <td><%= channel_participation.status %></td>
+        <td><%= link_to 'Show', channel_participation %></td>
+        <td><%= link_to 'Edit', edit_channel_participation_path(channel_participation) %></td>
+        <td><%= link_to 'Destroy', channel_participation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Channel Participation', new_channel_participation_path %>

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @channel_participation.user_id %>
+</p>
+
+<p>
+  <strong>Channel:</strong>
+  <%= @channel_participation.channel_id %>
+</p>
+
+<p>
+  <strong>Is owner:</strong>
+  <%= @channel_participation.is_owner %>
+</p>
+
+<p>
+  <strong>Is admin:</strong>
+  <%= @channel_participation.is_admin %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @channel_participation.status %>
+</p>
+
+<%= link_to 'Edit', edit_channel_participation_path(@channel_participation) %> |
+<%= link_to 'Back', channel_participations_path %>

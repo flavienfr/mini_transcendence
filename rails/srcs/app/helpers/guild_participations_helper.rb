@@ -1,0 +1,2 @@
+module GuildParticipationsHelper
+end

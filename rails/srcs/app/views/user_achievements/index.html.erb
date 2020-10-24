@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>User Achievements</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Achievement</th>
+      <th>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user_achievements.each do |user_achievement| %>
+      <tr>
+        <td><%= user_achievement.user_id %></td>
+        <td><%= user_achievement.achievement_id %></td>
+        <td><%= user_achievement.status %></td>
+        <td><%= link_to 'Show', user_achievement %></td>
+        <td><%= link_to 'Edit', edit_user_achievement_path(user_achievement) %></td>
+        <td><%= link_to 'Destroy', user_achievement, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User Achievement', new_user_achievement_path %>

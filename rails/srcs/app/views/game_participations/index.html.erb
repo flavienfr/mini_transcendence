@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Game Participations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Game</th>
+      <th>Score</th>
+      <th>Is winner</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @game_participations.each do |game_participation| %>
+      <tr>
+        <td><%= game_participation.user_id %></td>
+        <td><%= game_participation.game_id %></td>
+        <td><%= game_participation.score %></td>
+        <td><%= game_participation.is_winner %></td>
+        <td><%= link_to 'Show', game_participation %></td>
+        <td><%= link_to 'Edit', edit_game_participation_path(game_participation) %></td>
+        <td><%= link_to 'Destroy', game_participation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Game Participation', new_game_participation_path %>

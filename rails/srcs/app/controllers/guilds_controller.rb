@@ -5,6 +5,7 @@ class GuildsController < ApplicationController
   # GET /guilds.json
   def index
     @guilds = Guild.all
+  
   end
 
   # GET /guilds/1

@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag "style-header.css" %>
 
-<% if (false) %> <!-- user not connected-->
+<% if @current_user == 0 %> <!-- user not connected-->
 	<%= render "pages/signin" %>
 
 <% else %>
@@ -22,10 +22,9 @@
 		<%= render "pages/chat/create" %>
 		<%= render "pages/chat/main" %>
 	</div>
-<% end %>
+
 
 <script>
-
 
 // _____________________________________ MODELS/COLLECTIONS _____________________________________________
 
@@ -34,8 +33,8 @@ var User = Backbone.Model.extend({
 	urlRoot: "/users",
 
 	defaults: {
-		name: 'test',
-		avatar: 'test',
+		name: '',
+		avatar: '',
 		current_status: 'Online',
 		points: 42,
 		is_admin: true,
@@ -53,7 +52,6 @@ var Users = Backbone.Collection.extend({
 
 	initialize : function() {
 		console.log("UserCollection created");
-		this.fetch({reset: true});
 	}
 });
 
@@ -65,40 +63,25 @@ var Guild = Backbone.Model.extend({
 		name: "",
 		anagram: "",
 		points:"",
-		owner:"",
-		officer:"" 
+		is_making_war:"",
+		owner_id:"",
+	},
+
+	initialize : function() {
+		console.log("GuildModel created");
 	}
 });
 
 var Guilds = Backbone.Collection.extend({
 	model: Guild,
+	url: "/guilds",
+
+	initialize : function() {
+		console.log("UserCollection created");
+	}
 });
 
-/*****Test guild ***/
-var guild_1 = new Guild({
-	name: "Guild of war",
-	anagram: "GOF",
-	points:"1234",
-	owner:"didier",
-	officer:"" // set empty string for no officer
-});
-var guild_2 = new Guild({
-	name: "Les zouzes",
-	anagram: "SOS",
-	points:"5866",
-	owner:"sapien",
-	officer:"homo" // set empty string for no officer
-});
-var guild_3 = new Guild({
-	name: "Les toros",
-	anagram: "RED",
-	points:"41",
-	owner:"vicache",
-	officer:"los" // set empty string for no officer
-});
-
-var guilds = new Guilds([guild_1, guild_2, guild_3]);
-
+var guildcollection = new Guilds();
 
 // __________________________________________ VIEWS ___________________________________________________
 
@@ -112,14 +95,14 @@ var LogView = Backbone.View.extend({                                            
 		console.log("LogView created");
 		this.listenTo(this.collection, 'add remove', this.render, this);
 		this.collection.url = "/users.json";
-	  	this.collection.fetch();
+	  	this.collection.fetch({wait: true});
 	  	console.log(this.collection.toJSON());
 	},
 
 	events: {
     	"click #add-user": "add",
     	"click #delete-user": "delete",
-    	"click #sign-in ": "sign",
+    	"click #logout ": "logout",
   	},
 
 	render : function() {
@@ -131,7 +114,7 @@ var LogView = Backbone.View.extend({                                            
 
 	add: function() {
 		console.log("Add user");
-		var user = new User({name : 'test'});
+		var user = new User({name : ''});
 		this.collection.create(user);
 		this.render();
 	 },
@@ -149,18 +132,10 @@ var LogView = Backbone.View.extend({                                            
 		}	
 	 },
 	  
-	sign: function() {
-		let http 			= "https://api.intra.42.fr/oauth/authorize?";
-		let client 			= "client_id=235a071025e8e19cdd302e0cff45e29c2b7c2a8b1fd37bc7cdbf4e2edc452729&";
-		let redirect 		= "redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&";
-		let response_type 	= "response_type=code&";
-		let scope 			= "scope=public&";
-		let state 			= "state=a_very_long_random_string_witchmust_be_unguessable'";
-
-		let full 			= http + client + redirect + response_type + scope + state;
-		console.log("full:" + full);
-		window.location.href = full;
-		console.log("Delete user");
+	logout: function() {
+	//	this.collection.url = "/log_out";
+	//	this.collection.fetch({wait: true});
+		window.location.href = "http://localhost:3000/";
 	},
 
 })
@@ -303,34 +278,34 @@ var WarView = Backbone.View.extend({                                            
 	el : '#inside-page',
 	template: _.template($('#war-template').html()),
 	template_guilds: _.template($('#war-guild-template').html()),
-	collection: guilds,
-	model: null,
+	collection: guildcollection,
 
 	initialize : function() {
-		this.model= this.collection.first();
+	//	this.listenTo(this.collection, 'add remove', this.render, this);
+		this.collection.url = "/guilds.json";
+	  	this.collection.fetch({wait: true});
 	},
 	events: {
 		"change #guild_drop_down": "render_guild_info"
 	},
+
 	render_guild_info : function() {
 		var guild_name = $("#guild_drop_down option:selected").text();
 		var guild_to_print = this.collection.findWhere({name: guild_name});
-		console.log("change", guild_name);
-		console.log("model", guild_to_print.attributes);
-		this.model = guild_to_print;
-		this.$('.war_pannel_header').html(this.template_guilds(this.model.toJSON()));
+		this.$('.war_pannel_header').html(this.template_guilds(guild_to_print.toJSON()));
 	},
-	render : function() {
-		this.$el.html(this.template(this.model.toJSON()));
-		this.$('.war_pannel_header').html(this.template_guilds(this.model.toJSON()));
 
-		// Try do modify template before rendering
+	render : function() {
+		var model = this.collection.first();
+		this.$el.html(this.template(model.toJSON()));
+		this.$('.war_pannel_header').html(this.template_guilds(model.toJSON()));
+
+		// Try to modify template before rendering
 		_.each(this.collection.toJSON(), function(model){
 			$('#guild_drop_down').append(
 				$('<option></option>').html(model.name)
 			);
 		});
-
 		return this;
 	}
 });
@@ -414,3 +389,5 @@ var router = new Router();
 Backbone.history.start();
 
 </script>
+
+<% end %>

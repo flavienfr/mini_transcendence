@@ -1,11 +1,16 @@
 class LandingController < ApplicationController
 
+@@current_user = 0
+
   def index
-	@users = User.all
+  @users = User.all
     
     # puts params.inspect
 
     # auth
+    
+      # puts @current_user
+    @current_user = @@current_user
     if (params[:code])
       auth(params[:code])
     end
@@ -18,7 +23,6 @@ class LandingController < ApplicationController
 
   def create
   end
-
 
   private
   
@@ -87,6 +91,7 @@ class LandingController < ApplicationController
 
       if User.where(name: parsed_res_api["displayname"]).exists?
         session.user_id = User.find_by(name: parsed_res_api["displayname"]).id
+        session[:user_id] = User.find_by(name: parsed_res_api["displayname"]).id
         session.save
       else
         user = User.create(
@@ -97,13 +102,18 @@ class LandingController < ApplicationController
           is_admin: false
         )
         session.user_id = user.id
+        session[:user_id] = user.id
         session.save
       end
+      @@current_user = session.user_id
 
+    if (params[:code])
+      
       puts user.to_yaml
 
       # ocker-compose run web rails console -> to see if it worked
       redirect_to root_path # à enlever pcq ça reload la page
 
     end
+  end
 end

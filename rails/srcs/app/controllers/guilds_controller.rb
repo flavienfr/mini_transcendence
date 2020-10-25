@@ -4,8 +4,10 @@ class GuildsController < ApplicationController
   # GET /guilds
   # GET /guilds.json
   def index
-    @guilds = Guild.all
-  
+	@guilds = Guild.all
+	puts "------------------------------------------------------------------------------------------"
+	puts Guild.all.to_yaml
+	puts "------------------------------------------------------------------------------------------"
   end
 
   # GET /guilds/1

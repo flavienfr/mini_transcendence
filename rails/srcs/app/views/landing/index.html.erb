@@ -80,6 +80,16 @@ var Guilds = Backbone.Collection.extend({
 	}
 });
 
+var Guilds = Backbone.Collection.extend({
+	model: Guild,
+	url: "/guilds",
+
+	initialize : function() {
+		console.log("UserCollection created");
+	}
+});
+
+
 var guildcollection = new Guilds();
 
 
@@ -278,10 +288,10 @@ var WarView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#war-template').html()),
 	template_guilds: _.template($('#war-guild-template').html()),
+	template_no_guilds:  _.template("NO GUILDS"),
 	collection: guildcollection,
 
 	initialize : function() {
-	//	this.listenTo(this.collection, 'add remove', this.render, this);
 		this.collection.url = "/guilds.json";
 	  	this.collection.fetch({wait: true});
 	},
@@ -296,15 +306,28 @@ var WarView = Backbone.View.extend({
 	},
 
 	render : function() {
-		var model = this.collection.first();
-		this.$el.html(this.template(model.toJSON()));
-		this.$('.war_pannel_header').html(this.template_guilds(model.toJSON()));
+		if (this.collection.length == 0){
+			model = new Guild;
 
-		_.each(this.collection.toJSON(), function(model){
+			this.$el.html(this.template(model.toJSON()));
+			this.$('.war_pannel_header').html(this.template_guilds(model.toJSON()));
+			
 			$('#guild_drop_down').append(
-				$('<option></option>').html(model.name)
+				$('<option></option>').html(model.get("name"))
 			);
-		});
+		}
+		else {
+			model = this.collection.first();
+			
+			this.$el.html(this.template(model.toJSON()));
+			this.$('.war_pannel_header').html(this.template_guilds(model.toJSON()));
+			
+			_.each(this.collection.toJSON(), function(model){
+				$('#guild_drop_down').append(
+					$('<option></option>').html(model.name)
+				);
+			});
+		}
 		return this;
 	}
 });

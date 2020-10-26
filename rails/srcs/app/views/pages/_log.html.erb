@@ -2,6 +2,16 @@
 <%= stylesheet_link_tag "style-log.css" %>
 
 <div class="container-1">
+	<div>
+		<p>current: <%= current_user.name %></p>
+	</div>
+	<% if false %>
+	<div>
+		<% @users.each do |user| %>
+			<p><%= user.name %></p>
+		<% end %>
+	</div>
+	<% end %>
 	<h3> User: </h3>
 	<div>
 	<button class="bt" id="add-user">ADD</button>
@@ -10,6 +20,7 @@
 	<%% for(let i = 0; i < usr.length; i++) { %>
 		<div class="container-2">
 			<div> <%%= usr[i].name + " " + i %> </div>
+			<div> id = <%%= usr[i].id %> </div>
 			<img src="<%%= usr[i].avatar %>" style="width: 100px;"> </img>
 			<div> <%%= usr[i].current_status %> </div>
 			<div> <%%= usr[i].points %> </div>

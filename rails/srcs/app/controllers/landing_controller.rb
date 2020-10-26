@@ -1,16 +1,19 @@
 class LandingController < ApplicationController
 
-@@current_user = 0
+# @@current_user = 0
 
   def index
-  @users = User.all
+      if (current_user)
+        @users = User.all
+      end
     
     # puts params.inspect
 
     # auth
     
       # puts @current_user
-    @current_user = @@current_user
+    # @current_user = @@current_user
+    # @@current_user
     if (params[:code])
       auth(params[:code])
     end
@@ -91,7 +94,8 @@ class LandingController < ApplicationController
 
       if User.where(name: parsed_res_api["displayname"]).exists?
         session.user_id = User.find_by(name: parsed_res_api["displayname"]).id
-        session[:user_id] = User.find_by(name: parsed_res_api["displayname"]).id
+        # session[:user_id] = User.find_by(name: parsed_res_api["displayname"]).id
+        cookies.permanent.signed[:id] = session.user_id
         session.save
       else
         user = User.create(
@@ -102,10 +106,11 @@ class LandingController < ApplicationController
           is_admin: false
         )
         session.user_id = user.id
-        session[:user_id] = user.id
+        cookies.permanent.signed[:id] = session.user_id
+        # session[:user_id] = user.id
         session.save
       end
-      @@current_user = session.user_id
+      # @@current_user = session.user_id
 
     if (params[:code])
       

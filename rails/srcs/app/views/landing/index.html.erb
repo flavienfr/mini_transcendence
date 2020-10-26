@@ -1,9 +1,10 @@
 <%= stylesheet_link_tag "style-header.css" %>
 
-<% if @current_user == 0 %> <!-- user not connected-->
+<!-- if @current_user == 0 -->
+<% if false %>
 	<%= render "pages/signin" %>
 
-<% else %>
+<% else %> 
 	<%= render "pages/navbar" %>
 
 	<div class="container-fluide body-page" id="inside-page">
@@ -26,9 +27,8 @@
 
 <script>
 
-// _____________________________________ MODELS/COLLECTIONS _____________________________________________
-
-
+// ******************************************** MODELS/COLLECTIONS ********************************************
+//_____________________________________ User _____________________________________
 var User = Backbone.Model.extend({
 	urlRoot: "/users",
 
@@ -37,13 +37,12 @@ var User = Backbone.Model.extend({
 		avatar: '',
 		current_status: 'Online',
 		points: 42,
-		is_admin: true,
+		is_admin: true
 	},
 
 	initialize : function() {
 		console.log("UserModel created");
 	  },
-
 });
 
 var Users = Backbone.Collection.extend({
@@ -57,18 +56,18 @@ var Users = Backbone.Collection.extend({
 
 var usercollection = new Users();
 
-
+//_____________________________________ Guild _____________________________________
 var Guild = Backbone.Model.extend({
+	urlRoot: "/guilds",
+
 	defaults:{
 		name: "",
 		anagram: "",
 		points:"",
 		is_making_war:"",
 		owner_id:"",
-	},
-
-	initialize : function() {
-		console.log("GuildModel created");
+		created_at:"",
+		updated_at:""
 	}
 });
 
@@ -81,12 +80,16 @@ var Guilds = Backbone.Collection.extend({
 	}
 });
 
+var Guild_owner = Backbone.Model.extend({}); //model get_guild_owner
+
 var guildcollection = new Guilds();
 
-// __________________________________________ VIEWS ___________________________________________________
 
 
-var LogView = Backbone.View.extend({                                                                       // --> Log
+//******************************************** VIEWS ********************************************
+
+//_____________________________________ LogView _____________________________________
+var LogView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#log-template').html()),
 	collection: usercollection,
@@ -114,7 +117,7 @@ var LogView = Backbone.View.extend({                                            
 
 	add: function() {
 		console.log("Add user");
-		var user = new User({name : ''});
+		var user = new User({name : 'hemil', autre:'tete'});
 		this.collection.create(user);
 		this.render();
 	 },
@@ -140,8 +143,8 @@ var LogView = Backbone.View.extend({                                            
 
 })
 
-
-var ChatView = Backbone.View.extend({                                                                      // --> Chat
+//_____________________________________ ChatView _____________________________________
+var ChatView = Backbone.View.extend({
 	template_chat_main: _.template($('#chat_main-template').html()),
 	template_chat_param: _.template($('#chat_param-template').html()),
 	template_chat_create: _.template($('#chat_create-template').html()),
@@ -165,8 +168,8 @@ var ChatView = Backbone.View.extend({                                           
 
 var chatview = new ChatView();
 
-
-var GuildView = Backbone.View.extend({                                                                      // --> Guild
+//_____________________________________ GuildView _____________________________________
+var GuildView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#guild-template').html()),
 	template_all_guild: _.template($('#all_guild-template').html()),
@@ -191,8 +194,8 @@ var GuildView = Backbone.View.extend({                                          
 	}
 })
 
-
-var LiveView = Backbone.View.extend({                                                                      // --> Live
+//_____________________________________ LiveView _____________________________________
+var LiveView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#live-template').html()),
 
@@ -208,8 +211,8 @@ var LiveView = Backbone.View.extend({                                           
 	},
 })
 
-
-var OptionView = Backbone.View.extend({                                                                      // --> Option
+//_____________________________________ OptionView _____________________________________
+var OptionView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#option-template').html()),
   
@@ -224,8 +227,8 @@ var OptionView = Backbone.View.extend({                                         
 	}
 });
 
-
-var PlayView = Backbone.View.extend({                                                                      // --> Play
+//_____________________________________ PlayView _____________________________________
+var PlayView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#play-template').html()),
 	
@@ -241,8 +244,8 @@ var PlayView = Backbone.View.extend({                                           
 	}
 })
 
-
-var ProfilView = Backbone.View.extend({                                                                      // --> Profil
+//_____________________________________ ProfilView _____________________________________
+var ProfilView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#profil-template').html()),
   
@@ -255,10 +258,10 @@ var ProfilView = Backbone.View.extend({                                         
 		console.log("Render Profil");
 		return this;
 	}
-  });
+});
 
-
-var TournamentView = Backbone.View.extend({                                                                      // --> Tournament
+//_____________________________________ TournamentView _____________________________________
+var TournamentView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#tournament-template').html()),
   
@@ -273,46 +276,59 @@ var TournamentView = Backbone.View.extend({                                     
 	}
 });
 
-
-var WarView = Backbone.View.extend({                                                                           // --> War
+//_____________________________________ WarView _____________________________________
+var WarView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#war-template').html()),
 	template_guilds: _.template($('#war-guild-template').html()),
 	collection: guildcollection,
 
 	initialize : function() {
-	//	this.listenTo(this.collection, 'add remove', this.render, this);
 		this.collection.url = "/guilds.json";
-	  	this.collection.fetch({wait: true});
+		guild_owner = new Guild_owner;
 	},
 	events: {
 		"change #guild_drop_down": "render_guild_info"
 	},
 
-	render_guild_info : function() {
+	render_guild_info : async function() {
 		var guild_name = $("#guild_drop_down option:selected").text();
-		var guild_to_print = this.collection.findWhere({name: guild_name});
-		this.$('.war_pannel_header').html(this.template_guilds(guild_to_print.toJSON()));
+		var the_guild = this.collection.findWhere({name: guild_name});
+
+		guild_owner.urlRoot = "guilds/get_guild_owner?id=" + the_guild.id;
+		await guild_owner.fetch();
+ 
+		this.$('.war_pannel_header').html(this.template_guilds(guild_owner.toJSON()));
 	},
 
-	render : function() {
-		var model = this.collection.first();
-		this.$el.html(this.template(model.toJSON()));
-		this.$('.war_pannel_header').html(this.template_guilds(model.toJSON()));
+	render : async function() {
+		await this.collection.fetch();
 
-		// Try to modify template before rendering
-		_.each(this.collection.toJSON(), function(model){
+		if (this.collection.length == 0){
+			model = new Guild;
+
+			this.$el.html(this.template(model.toJSON()));
 			$('#guild_drop_down').append(
-				$('<option></option>').html(model.name)
+				$('<option></option>').html(model.get("name"))
 			);
-		});
+			this.render_guild_info();
+		}
+		else {
+			model = this.collection.first();
+			
+			this.$el.html(this.template());
+			_.each(this.collection.toJSON(), function(model){
+				$('#guild_drop_down').append(
+					$('<option></option>').html(model.name)
+				);
+			});
+			this.render_guild_info();
+		}
 		return this;
 	}
 });
 
-// _________________________________________ ROUTER ___________________________________________________
-
-
+//******************************************** ROUTER ********************************************
 var logview = new LogView();
 var liveview = new LiveView();
 var playview = new PlayView();

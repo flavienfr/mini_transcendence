@@ -32,21 +32,21 @@ class LandingController < ApplicationController
 
     def auth(code)
 
-      puts "code:", code
+      #puts "code:", code
 
       # see https://profile.intra.42.fr/oauth/applications
 
-      puts "\n 1) Exchange your code for an access token --------------\n"
+      #puts "\n 1) Exchange your code for an access token --------------\n"
       # --- Exchange your code for an access token
       require "uri"
       require "net/http"
       require "json"
 
-      puts ENV["oauth_grant_type"]
-      puts ENV["oauth_client_id"]
-      puts ENV["oauth_client_secret"]
-      puts ENV["oauth_redirect_uri"]
-      puts ENV["oauth_state"]
+      #puts ENV["oauth_grant_type"]
+      #puts ENV["oauth_client_id"]
+      #puts ENV["oauth_client_secret"]
+      #puts ENV["oauth_redirect_uri"]
+      #puts ENV["oauth_state"]
       header = {
           "grant_type" => ENV["oauth_grant_type"],
           "client_id" => ENV["oauth_client_id"],
@@ -72,9 +72,9 @@ class LandingController < ApplicationController
         created_at: parsed_res_access_token["created_at"]
       )
 
-      puts session.to_yaml
+      #puts session.to_yaml
 
-      puts "\n 2) Make API requests with your token --------------\n"
+      #puts "\n 2) Make API requests with your token --------------\n"
       # --- Make API requests with your token
       # https://stackoverflow.com/questions/34332901/rails-http-get-request-with-no-ssl-verification-and-basic-auth
 
@@ -87,7 +87,7 @@ class LandingController < ApplicationController
       res_api = sock.start { |http| http.request(req_api) }
 
       parsed_res_api = JSON.parse(res_api.body)
-      puts parsed_res_api
+      #puts parsed_res_api
 
       if User.where(name: parsed_res_api["displayname"]).exists?
         session.user_id = User.find_by(name: parsed_res_api["displayname"]).id
@@ -109,7 +109,7 @@ class LandingController < ApplicationController
 
     if (params[:code])
       
-      puts user.to_yaml
+      #puts user.to_yaml
 
       # ocker-compose run web rails console -> to see if it worked
       redirect_to root_path # à enlever pcq ça reload la page

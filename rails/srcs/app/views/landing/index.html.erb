@@ -1,9 +1,10 @@
 <%= stylesheet_link_tag "style-header.css" %>
 
-<% if @current_user == 0 %> <!-- user not connected-->
+<!-- if @current_user == 0 -->
+<% if false %>
 	<%= render "pages/signin" %>
 
-<% else %>
+<% else %> 
 	<%= render "pages/navbar" %>
 
 	<div class="container-fluide body-page" id="inside-page">
@@ -36,13 +37,12 @@ var User = Backbone.Model.extend({
 		avatar: '',
 		current_status: 'Online',
 		points: 42,
-		is_admin: true,
+		is_admin: true
 	},
 
 	initialize : function() {
 		console.log("UserModel created");
 	  },
-
 });
 
 var Users = Backbone.Collection.extend({
@@ -80,17 +80,10 @@ var Guilds = Backbone.Collection.extend({
 	}
 });
 
-var Guilds = Backbone.Collection.extend({
-	model: Guild,
-	url: "/guilds",
-
-	initialize : function() {
-		console.log("UserCollection created");
-	}
-});
-
+var Guild_owner = Backbone.Model.extend({}); //model get_guild_owner
 
 var guildcollection = new Guilds();
+
 
 
 //******************************************** VIEWS ********************************************
@@ -124,7 +117,7 @@ var LogView = Backbone.View.extend({
 
 	add: function() {
 		console.log("Add user");
-		var user = new User({name : ''});
+		var user = new User({name : 'hemil', autre:'tete'});
 		this.collection.create(user);
 		this.render();
 	 },
@@ -288,45 +281,48 @@ var WarView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#war-template').html()),
 	template_guilds: _.template($('#war-guild-template').html()),
-	template_no_guilds:  _.template("NO GUILDS"),
 	collection: guildcollection,
 
 	initialize : function() {
 		this.collection.url = "/guilds.json";
-	  	this.collection.fetch({wait: true});
+		guild_owner = new Guild_owner;
 	},
 	events: {
 		"change #guild_drop_down": "render_guild_info"
 	},
 
-	render_guild_info : function() {
+	render_guild_info : async function() {
 		var guild_name = $("#guild_drop_down option:selected").text();
-		var guild_to_print = this.collection.findWhere({name: guild_name});
-		this.$('.war_pannel_header').html(this.template_guilds(guild_to_print.toJSON()));
+		var the_guild = this.collection.findWhere({name: guild_name});
+
+		guild_owner.urlRoot = "guilds/get_guild_owner?id=" + the_guild.id;
+		await guild_owner.fetch();
+ 
+		this.$('.war_pannel_header').html(this.template_guilds(guild_owner.toJSON()));
 	},
 
-	render : function() {
+	render : async function() {
+		await this.collection.fetch();
+
 		if (this.collection.length == 0){
 			model = new Guild;
 
 			this.$el.html(this.template(model.toJSON()));
-			this.$('.war_pannel_header').html(this.template_guilds(model.toJSON()));
-			
 			$('#guild_drop_down').append(
 				$('<option></option>').html(model.get("name"))
 			);
+			this.render_guild_info();
 		}
 		else {
 			model = this.collection.first();
 			
-			this.$el.html(this.template(model.toJSON()));
-			this.$('.war_pannel_header').html(this.template_guilds(model.toJSON()));
-			
+			this.$el.html(this.template());
 			_.each(this.collection.toJSON(), function(model){
 				$('#guild_drop_down').append(
 					$('<option></option>').html(model.name)
 				);
 			});
+			this.render_guild_info();
 		}
 		return this;
 	}

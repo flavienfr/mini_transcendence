@@ -2,11 +2,11 @@
 	<p>SCORE: <%%= points %> </p>
 	<div class="name_img_owner">
 		<p>OWNER</p>
-		<%% if (owner_id == ""){ %> <!-- replace owner_id by OWNER name -->
+		<%% if (owner_name == ""){ %> 
 			<p> None </p>
 		<%% } else {%>
 			<img src="<%= image_url('profil-photo.png') %>" width="50" height="50" alt="" class="profil profil-photo">
-			<p> <%%= owner_id %> </p>
+			<p> <%%= owner_name %> </p>
 		<%% } %>
 	</div>
 	<div class="name_img_officer">

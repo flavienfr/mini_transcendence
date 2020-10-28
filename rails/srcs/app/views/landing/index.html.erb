@@ -56,6 +56,14 @@ var Users = Backbone.Collection.extend({
 
 var usercollection = new Users();
 
+// Récupérer le current toJSON TMP
+async function get_current_user() {
+	await usercollection.fetch();
+	var currentUser = new User;
+	currentUser = usercollection.findWhere({name: "flavien"});
+	return (currentUser);
+}
+
 //_____________________________________ Guild _____________________________________
 var Guild = Backbone.Model.extend({
 	urlRoot: "/guilds.json",
@@ -63,7 +71,7 @@ var Guild = Backbone.Model.extend({
 	defaults:{
 		name: "No guild",
 		anagram: "",
-		points:"...",
+		points:"0",
 		is_making_war:"",
 		owner_id:"",
 		created_at:"",
@@ -82,8 +90,6 @@ var Guilds = Backbone.Collection.extend({
 
 var guildcollection = new Guilds();
 
-
-
 //******************************************** VIEWS ********************************************
 
 //_____________________________________ LogView _____________________________________
@@ -98,17 +104,6 @@ var LogView = Backbone.View.extend({
 		this.collection.url = "/users.json";
 	  	this.collection.fetch({wait: true});
 		console.log(this.collection.toJSON());
-
-    	//$.ajax({
-    	//   url : '/users/18', // La ressource ciblée
-    	//   type : 'GET' // Le type de la requête HTTP.
-    	//});
-		//var mdl = new User();
-		//mdl.urlRoot = "/users/18"
-		//await mdl.fetch();
-		//console.log("user: ", mdl.toJSON());
-
-
 	},
 
 	events: {
@@ -189,7 +184,22 @@ var GuildView = Backbone.View.extend({
 	},
 	events: {
 		"click #all_guild_btn": "render_all_guild",
-		"click #back_to_guild": "render"
+		"click #back_to_guild": "render",
+		"submit #create_guild": "add",
+	},
+	add: async function() {
+		var currentUser = await get_current_user();
+		console.log("currentUser.id: ", currentUser.id);
+		var guild = new Guild({
+			name : $('#inputGuildName').val(),
+			anagram: $('#inputGuildAnagram').val(),
+			owner_id : currentUser.id,
+			token: "test"
+		});
+		console.log("guild: ", guild);
+		this.collection.create(guild, {wait: true});
+		//check return error ans print message
+		this.render();
 	},
 	render : async function() {
 		await this.collection.fetch();
@@ -201,6 +211,7 @@ var GuildView = Backbone.View.extend({
 	render_all_guild : async function() {
 		await this.collection.fetch();
 		await usercollection.fetch(); //# good practice ?
+
 
 		//#le pire
 		//var users = usercollection;

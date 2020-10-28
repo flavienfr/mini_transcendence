@@ -2,29 +2,32 @@
 	<%= stylesheet_link_tag "style-guild.css" %>
 	
 	<div class="guild_container">
-		<div class="guild_create">
-			<div class="allGuild">
-				<button type="button" id="all_guild_btn" class="btn btn-primary btn-lg btn-block btn-dark">All guilds</button>
-			</div>
-			<div class="guild_create_header">
-				<h2>Create a guild</h2>
-			</div>
-			<div class="guild_create_body">
-				<div class="selector">
-					<label for="guildName">Guild name</label>
-					<input type="text" class="form-control" id="inputGuildName">
-				</div>
-				<div class="selector">
-					<label for="guildAnagram">Guild name</label>
-					<input type="text" class="form-control" id="inputGuildAnagram">
-				</div>
-			</div>
-			<div class="guild_create_footer">
-				<div class="form-group">
-					<button type="button" class="btn btn-primary btn-md btn-block btn-dark">Create a guild</button>
-				</div>
-			</div>
+		<div class="allGuild">
+			<button type="button" id="all_guild_btn" class="btn btn-primary btn-lg btn-block btn-dark">All guilds</button>
 		</div>
+		<form id="create_guild">
+			<div class="guild_create">
+				<div class="guild_create_header">
+					<h2>Create a guild</h2>
+				</div>
+
+				<div class="guild_create_body">
+					<div class="selector">
+						<label for="guildName">Guild name</label>
+						<input type="text" class="form-control" id="inputGuildName" required minlength="3" maxlength="20">
+					</div>
+					<div class="selector">
+						<label for="guildAnagram">Guild name</label>
+						<input type="text" class="form-control" id="inputGuildAnagram" required minlength="2" maxlength="5" >
+					</div>
+				</div>
+				<div class="guild_create_footer">
+					<div class="form-group">
+						<button type="submit" id="create_a_guild" class="btn btn-primary btn-md btn-block btn-dark">Create a guild</button>
+					</div>
+				</div>
+			</div>
+		</form>
 		<div class="guild_join">
 			<div class="guild_join_header">
 				<h2>Join a guild</h2>

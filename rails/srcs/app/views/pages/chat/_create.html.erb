@@ -18,10 +18,10 @@
 
 			<div class="form-group">
 				<label for="inputStatus">Channel status</label>
-				<select class="form-control form-control-md">
-					<option>Protected</option>
-					<option>Private</option>
-					<option>Public</option>
+				<select class="form-control form-control-md" id="selectScope">
+					<option>protected</option>
+					<option>private</option>
+					<option>public</option>
 				</select>
 			</div>
 
@@ -29,16 +29,49 @@
 				<label for="inputPassword">Password</label>
 				<input type="password" id="inputCreatePassword" class="form-control" aria-describedby="passwordHelpBlock">
 				<small id="passwordHelpBlock" class="form-text text-muted">
-					Your password must be 8-20 characters long
+					Your password must be 8-20 characters long, used only for private channel
 				</small>
 			</div>
 
 			<div class="form-group">
-				<button type="submit" class="btn btn-primary mb-2 btn-dark">Create</button>
+				<button type="button" onclick="ft_create_group()" class="btn btn-primary mb-2 btn-dark">Create</button>
 			</div>
 		</form>
 	</div>
 
 	<div class="create_chat_footer">
 	</div>
+	<script type="text/javascript">
+		function ft_create_group()
+		{
+			var channel_name = $("#inputChannelName").val();
+			console.log("channel_name = " + channel_name);
+			var channel_scope = $("#selectScope").val();
+			console.log(channel_scope);
+			var pwd = $("#inputCreatePassword").val();
+			console.log(pwd);
+			if (channel_scope == "protected" && pwd.length == 0)
+			{
+				alert("A password is needed for protected scope")
+				return;
+			}
+			var form_data = new FormData();
+			form_data.append("name", channel_name);
+			form_data.append("scope", channel_scope + "-group");
+			if (channel_scope == "protected")
+				form_data.append("password", pwd);
+			form_data.append("owner_id", <%== current_user.id %>);
+			$.ajax({
+				url: "/channels",
+				data: form_data,
+				processData: false,
+				contentType: false,
+				type: 'POST',
+				success: function(){
+					console.log("sent !");
+				}
+			})
+			console.log("create group !");
+		}
+	</script>
 </script>

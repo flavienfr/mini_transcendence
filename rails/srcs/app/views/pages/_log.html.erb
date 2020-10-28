@@ -2,6 +2,16 @@
 <%= stylesheet_link_tag "style-log.css" %>
 
 <div class="container-1">
+	<div>
+		<p>current: <%= current_user.name %></p>
+	</div>
+	<% if false %>
+	<div>
+		<% @users.each do |user| %>
+			<p><%= user.name %></p>
+		<% end %>
+	</div>
+	<% end %>
 	<h3> User: </h3>
 	<div>
 	<button class="bt" id="add-user">ADD</button>

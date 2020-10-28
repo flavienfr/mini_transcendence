@@ -1,11 +1,30 @@
 <%= stylesheet_link_tag "style-header.css" %>
 
-<!-- if @current_user == 0 -->
-<% if false %>
+<% if !current_user %> <!-- user not connected-->
 	<%= render "pages/signin" %>
 
 <% else %> 
 	<%= render "pages/navbar" %>
+
+	<script>
+		document.dispatchEvent(new CustomEvent("logged", {
+			detail: {id: <%= current_user.id %>}
+		}));
+		document.addEventListener("notif", function(event){
+			console.log("notif listener");
+			console.log(event.detail.data);
+			if ($("#dropdownMenuButton").text() == event.detail.data.sender.name)
+			{
+				console.log("C");
+				chatview.setElement("#live_chat_area").render_chat_main(event.detail.data.sender);
+				chatview.setElement("#play_chat_area").render_chat_main(event.detail.data.sender);
+
+			}
+			else
+				console.log("O");
+			console.log($("#dropdownMenuButton").text());
+		});
+	</script>
 
 	<div class="container-fluide body-page" id="inside-page">
 		<%= render "pages/log" %>
@@ -165,8 +184,14 @@ var ChatView = Backbone.View.extend({
 	render_chat_create : function() {
 		this.$el.html(this.template_chat_create);
 	},
-	render_chat_main : function() {
-		this.$el.html(this.template_chat_main);
+	render_chat_main : function(user_selected) {
+		console.log(user_selected)
+		if (user_selected && user_selected.name)
+			console.log("render_chat_main" + user_selected.name);
+		else
+			user_selected = {id : 0}
+		this.$el.html(this.template_chat_main({receiver: user_selected}));
+		return this;
 	}
 });
 
@@ -436,24 +461,31 @@ $( "#logo" ).on( "click", function() {
 });
 $( "#nav_to_live" ).on( "click", function() {
 	Backbone.history.navigate("/live", {trigger: true});
+	Backbone.history.loadUrl();
 });
 $( "#nav_to_play" ).on( "click", function() {
 	Backbone.history.navigate("/play", {trigger: true});
+	Backbone.history.loadUrl();
 });
 $( "#nav_to_guild" ).on( "click", function() {
 	Backbone.history.navigate("/guild", {trigger: true});
+	Backbone.history.loadUrl();
 });
 $( "#nav_to_option" ).on( "click", function() {
 	Backbone.history.navigate("/option", {trigger: true});
+	Backbone.history.loadUrl();
 });
 $( "#nav_to_profil" ).on( "click", function() {
 	Backbone.history.navigate("/profil", {trigger: true});
+	Backbone.history.loadUrl();
 });
 $( "#nav_to_tournament" ).on( "click", function() {
 	Backbone.history.navigate("/tournament", {trigger: true});
+	Backbone.history.loadUrl();
 });
 $( "#nav_to_war" ).on( "click", function() {
 	Backbone.history.navigate("/war", {trigger: true});
+	Backbone.history.loadUrl();
 });
 
 var router = new Router();

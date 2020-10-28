@@ -52,7 +52,7 @@ export var LogView = Backbone.View.extend({
 		let redirect 		= "redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&";
 		let response_type 	= "response_type=code&";
 		let scope 			= "scope=public&";
-		let state 			= "state=a_very_long_random_string_witchmust_be_unguessable'";
+		let state 			= "state=a_very_long_random_string_witchmust_be_unguessable";
 
 		let full 			= http + client + redirect + response_type + scope + state;
 		console.log("full:" + full);

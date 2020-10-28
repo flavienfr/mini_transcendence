@@ -22,7 +22,6 @@
 
 <script type="text/template" id="war-template">
 	<%= stylesheet_link_tag "style-war.css" %>
-	<!-- REMPLACER LES BTN AVEC DATE TIME PICKET BTN -->
 
 	<div class="war_container">
 		<div class="war_pannel">
@@ -40,12 +39,12 @@
 				<div class="body_1">
 					<div class="time_picker">
 						<div class="selector">
-							<label for="guildName">Start time</label>
-							<input type="text" class="form-control" id="inputGuildName">
+							<label for="startTime">Start time</label>
+							<input type="date" class="form-control" id="StartTime">
 						</div>
 						<div class="selector">
-							<label for="guildName">Finish time</label>
-							<input type="text" class="form-control" id="inputGuildName">
+							<label for="finishTime">Finish time</label>
+							<input type="text" class="form-control" id="FinishTime">
 						</div>
 					</div>
 					<div class="selector">
@@ -59,11 +58,11 @@
 					<div class="time_picker">
 						<div class="selector">
 							<label for="guildName">Start time</label>
-							<input type="text" class="form-control" id="inputGuildName">
+							<input type="text" class="form-control" id="WarStartTime">
 						</div>
 						<div class="selector">
 							<label for="guildName">Finish time</label>
-							<input type="text" class="form-control" id="inputGuildName">
+							<input type="text" class="form-control" id="WarFinishTime">
 						</div>
 					</div>
 					<div class="selector">
@@ -82,4 +81,12 @@
 			</div>
 		</div>
 	</div>
+	
+	<script>
+		//#Mettre le script autre part ?
+		$("#StartTime, #FinishTime, #WarStartTime, #WarFinishTime").flatpickr({
+			enableTime: true,
+			dateFormat: "Y-m-d H:i"
+		});
+	</script>
 </script>

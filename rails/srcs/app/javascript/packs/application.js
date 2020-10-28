@@ -3,8 +3,6 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-import 'bootstrap'
-
 require("@rails/ujs").start()
 require("@rails/activestorage").start()
 require("channels")
@@ -15,10 +13,28 @@ window.$ = $;
 const _ = require("underscore")
 window.underscore = _;
 window._ = _;
-const backbone = require('backbone');
-Backbone.$ = window.$ = window.jQuery = $;  // nécessaire pour bootstrap
-var bootstrap = require('bootstrap');
 
+// BOOTSRAP
+import 'bootstrap'
+const backbone = require('backbone');
+Backbone.$ = window.$ = window.jQuery = $;	// Useless ?
+var bootstrap = require('bootstrap');		// Useless ?
+
+// FLATPCKR (date-time picker)
+import flatpickr from "flatpickr"
+require("flatpickr/dist/flatpickr.css")
+
+// TMP FLATPCKR
+//document.addEventListener("turbolinks:load", () => {
+//	flatpickr("[data-behavior='flatpickr']", {
+//		altInput: true,
+//		altFormat: "F j, Y",
+//		dataFormat: "d-m-Y",
+//	})
+//})
+
+
+// For js in components
 //$(document).ready(function() {
 //	require("components")
 //});

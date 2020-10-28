@@ -12,49 +12,30 @@
 		<div class="all_guilds" id="all_guilds">
 			<!-- append guild in #all_guilds -->
 
-			<div class="guild">
-				<div class="name_score">
-					<h3>Guild</h3>
-					<p>Score: 00000</p>
-				</div>
-				<div class="owner_officer_btn">
-					<div class="owner">
-						<h3>Owner</h3>
-						<img src="<%= image_url('profil-photo.png') %>" width="40" height="40" alt="" class="profil profil-photo">
-						<p>pseudo</p>
+			<%%	for (let i = 0; i < guilds.length; i++) { %>
+				<%% var user = usr.findWhere({id: guilds[i].owner_id}).toJSON() %>
+				<div class="guild">
+					<div class="name_score">
+						<h3><%%= guilds[i].name %></h3>
+						<p>Score: <%%= guilds[i].points %></p>
 					</div>
-					<div class="officer">
-						<h3>Officer</h3>
-						<img src="<%= image_url('profil-photo.png') %>" width="40" height="40" alt="" class="profil profil-photo">
-						<p>pseudo</p>
-					</div>
-					<div class="btn_war">
-						<button type="button" class="btn btn-primary btn-md btn-block btn-dark">Declare war</button>
-					</div>
-				</div>
-			</div>
-
-			<div class="guild">
-				<div class="name_score">
-					<h3>Guild</h3>
-					<p>Score: 00000</p>
-				</div>
-				<div class="owner_officer_btn">
-					<div class="owner">
-						<h3>Owner</h3>
-						<img src="<%= image_url('profil-photo.png') %>" width="40" height="40" alt="" class="profil profil-photo">
-						<p>pseudo</p>
-					</div>
-					<div class="officer">
-						<h3>Officer</h3>
-						<img src="<%= image_url('profil-photo.png') %>" width="40" height="40" alt="" class="profil profil-photo">
-						<p>pseudo</p>
-					</div>
-					<div class="btn_war">
-						<button type="button" class="btn btn-primary btn-md btn-block btn-dark">Declare war</button>
+					<div class="owner_officer_btn">
+						<div class="owner">
+							<h3>Owner</h3>
+							<img src="<%%= user.avatar %>" width="80" height="80" alt="" class="profil profil-photo">
+							<p><%%= user.name %></p>
+						</div>
+						<div class="officer">
+							<h3>Officer</h3>
+							<img src="<%= image_url('profil-photo.png') %>" width="40" height="40" alt="" class="profil profil-photo">
+							<p>pseudo</p>
+						</div>
+						<div class="btn_war">
+							<button type="button" onclick="Backbone.history.navigate('/war/<%%= guilds[i].id %>', {trigger: true});" class="btn btn-primary btn-md btn-block btn-dark">Declare war</button>
+						</div>
 					</div>
 				</div>
-			</div>
+			<%% } %>
 
 		</div>
 	</div>

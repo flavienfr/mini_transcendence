@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
-	get 'guilds/get_guild_owner' => 'guilds#get_guild_owner'
+	#get 'guilds/get_guild_owner' => 'guilds#get_guild_owner'
+	
+	get '/users/:id', to: 'users#show'
   
   	resources :tournaments
   	resources :ask_for_games

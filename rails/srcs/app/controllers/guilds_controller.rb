@@ -1,12 +1,6 @@
 class GuildsController < ApplicationController
   before_action :set_guild, only: [:show, :edit, :update, :destroy]
 
-  def get_guild_owner
-	@guild = Guild.find(params[:id])
-	@owner = User.find(@guild.owner_id)
-	render json: { points: @guild.points, owner_name: @owner.name }
-  end
-
   # GET /guilds
   # GET /guilds.json
   def index

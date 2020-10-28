@@ -4,6 +4,10 @@
 	justify-content: space-evenly;
 	align-items: center;
 	align-content: center;
+
+	overflow:auto;
+	direction:ltr;
+	scrollbar-color: #333333 white;
 }
 .guild_container label{
 	font-size: 20px;
@@ -12,13 +16,9 @@
 /** BTN all guilds **/
 .allGuild{
 	position: absolute;
-	left: -5%;
-	top: -20%;
+	left:25px;
+	top:25px;
 	width: 200px;
-}
-
-.guild_create{
-	position: relative;
 }
 /*******************/
 

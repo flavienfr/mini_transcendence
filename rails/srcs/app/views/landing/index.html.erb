@@ -30,7 +30,7 @@
 // ******************************************** MODELS/COLLECTIONS ********************************************
 //_____________________________________ User _____________________________________
 var User = Backbone.Model.extend({
-	urlRoot: "/users",
+	urlRoot: "/users.json",
 
 	defaults: {
 		name: '',
@@ -47,7 +47,7 @@ var User = Backbone.Model.extend({
 
 var Users = Backbone.Collection.extend({
 	modele: User,
-	url: "/users",
+	url: "/users.json",
 
 	initialize : function() {
 		console.log("UserCollection created");
@@ -56,14 +56,22 @@ var Users = Backbone.Collection.extend({
 
 var usercollection = new Users();
 
+// Récupérer le current toJSON TMP
+async function get_current_user() {
+	await usercollection.fetch();
+	var currentUser = new User;
+	currentUser = usercollection.findWhere({name: "flavien"});
+	return (currentUser);
+}
+
 //_____________________________________ Guild _____________________________________
 var Guild = Backbone.Model.extend({
-	urlRoot: "/guilds",
+	urlRoot: "/guilds.json",
 
 	defaults:{
-		name: "",
+		name: "No guild",
 		anagram: "",
-		points:"",
+		points:"0",
 		is_making_war:"",
 		owner_id:"",
 		created_at:"",
@@ -73,18 +81,14 @@ var Guild = Backbone.Model.extend({
 
 var Guilds = Backbone.Collection.extend({
 	model: Guild,
-	url: "/guilds",
+	url: "/guilds.json",
 
 	initialize : function() {
 		console.log("UserCollection created");
 	}
 });
 
-var Guild_owner = Backbone.Model.extend({}); //model get_guild_owner
-
 var guildcollection = new Guilds();
-
-
 
 //******************************************** VIEWS ********************************************
 
@@ -94,12 +98,12 @@ var LogView = Backbone.View.extend({
 	template: _.template($('#log-template').html()),
 	collection: usercollection,
 
-	initialize : function() {
+	initialize : async function() {
 		console.log("LogView created");
 		this.listenTo(this.collection, 'add remove', this.render, this);
 		this.collection.url = "/users.json";
 	  	this.collection.fetch({wait: true});
-	  	console.log(this.collection.toJSON());
+		console.log(this.collection.toJSON());
 	},
 
 	events: {
@@ -173,23 +177,52 @@ var GuildView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#guild-template').html()),
 	template_all_guild: _.template($('#all_guild-template').html()),
+	collection: guildcollection,
 
 	initialize : function() {
 		console.log("GuildView created");
 	},
-
 	events: {
 		"click #all_guild_btn": "render_all_guild",
-		"click #back_to_guild": "render"
+		"click #back_to_guild": "render",
+		"submit #create_guild": "add",
 	},
-
-	render : function() {
-		this.$el.html(this.template);
-		console.log("Render Guild");
+	add: async function() {
+		var currentUser = await get_current_user();
+		console.log("currentUser.id: ", currentUser.id);
+		var guild = new Guild({
+			name : $('#inputGuildName').val(),
+			anagram: $('#inputGuildAnagram').val(),
+			owner_id : currentUser.id,
+			token: "test"
+		});
+		console.log("guild: ", guild);
+		this.collection.create(guild, {wait: true});
+		//check return error ans print message
+		this.render();
+	},
+	render : async function() {
+		await this.collection.fetch();
+		this.$el.html(this.template({
+			guilds: this.collection.toJSON()
+		}));
 		return this;
 	},
-	render_all_guild : function(){
-		this.$el.html(this.template_all_guild);
+	render_all_guild : async function() {
+		await this.collection.fetch();
+		await usercollection.fetch(); //# good practice ?
+
+
+		//#le pire
+		//var users = usercollection;
+		//var user = users.findWhere({id: 18})
+		//console.log("usercollection: ", user.toJSON().name);
+		//console.log("users.length: ", users.length);
+
+		this.$el.html(this.template_all_guild({
+			guilds: this.collection.toJSON(),
+			usr: usercollection
+		}));
 		return this;
 	}
 })
@@ -284,44 +317,63 @@ var WarView = Backbone.View.extend({
 	collection: guildcollection,
 
 	initialize : function() {
-		this.collection.url = "/guilds.json";
-		guild_owner = new Guild_owner;
 	},
 	events: {
 		"change #guild_drop_down": "render_guild_info"
 	},
-
 	render_guild_info : async function() {
 		var guild_name = $("#guild_drop_down option:selected").text();
 		var the_guild = this.collection.findWhere({name: guild_name});
+		the_guild = the_guild.toJSON();
+		
+		var user = new User();
+		user.urlRoot = "/users/" + the_guild.owner_id 
+		await user.fetch();
 
-		guild_owner.urlRoot = "guilds/get_guild_owner?id=" + the_guild.id;
-		await guild_owner.fetch();
- 
-		this.$('.war_pannel_header').html(this.template_guilds(guild_owner.toJSON()));
+		this.$('.war_pannel_header').html(this.template_guilds({
+			user: user.toJSON(),
+			guild: the_guild
+		}));
 	},
+	render_param_guild : async function(id_guild) {
+		await this.collection.fetch();
+		this.$el.html(this.template({
+				guilds: this.collection.toJSON()
+		}));
 
+		var the_guild = this.collection.findWhere({id: parseInt(id_guild, 10)});
+		the_guild = the_guild.toJSON();
+		$("#guild_drop_down").val(the_guild.name);
+
+		var user = new User();
+		user.urlRoot = "/users/" + the_guild.owner_id 
+		await user.fetch();
+
+		this.$('.war_pannel_header').html(this.template_guilds({
+			user: user.toJSON(),
+			guild: the_guild
+		}));
+	},
 	render : async function() {
 		await this.collection.fetch();
 
+		//# To do: mieux gérer 0 guilds
 		if (this.collection.length == 0){
-			model = new Guild;
+			var user = new User();
+			var the_guild = new Guild();
 
-			this.$el.html(this.template(model.toJSON()));
-			$('#guild_drop_down').append(
-				$('<option></option>').html(model.get("name"))
-			);
-			this.render_guild_info();
+			this.$el.html(this.template({
+				guilds: this.collection.toJSON()
+			}));
+			this.$('.war_pannel_header').html(this.template_guilds({
+				user: user.toJSON(),
+				guild: the_guild.toJSON()
+			}));
 		}
 		else {
-			model = this.collection.first();
-			
-			this.$el.html(this.template());
-			_.each(this.collection.toJSON(), function(model){
-				$('#guild_drop_down').append(
-					$('<option></option>').html(model.name)
-				);
-			});
+			this.$el.html(this.template({
+				guilds: this.collection.toJSON()
+			}));
 			this.render_guild_info();
 		}
 		return this;
@@ -347,6 +399,7 @@ var Router = Backbone.Router.extend({
 		'option': "ft_option",
 		'profil': "ft_profil",
 		'tournament': "ft_tournament",
+		'war/:id_guild': "ft_war_param",
 		'war': "ft_war",
 	},
 	ft_log: function() {
@@ -372,6 +425,9 @@ var Router = Backbone.Router.extend({
 	},
 	ft_war: function() {
 		warview.render();
+	},
+	ft_war_param: function(id_guild) {
+		warview.render_param_guild(id_guild);
 	},
 });
 

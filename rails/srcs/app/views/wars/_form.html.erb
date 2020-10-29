@@ -1,0 +1,47 @@
+<%= form_with(model: war, local: true) do |form| %>
+  <% if war.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(war.errors.count, "error") %> prohibited this war from being saved:</h2>
+
+      <ul>
+        <% war.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :start_date %>
+    <%= form.datetime_select :start_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :end_date %>
+    <%= form.datetime_select :end_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :prize_in_points %>
+    <%= form.number_field :prize_in_points %>
+  </div>
+
+  <div class="field">
+    <%= form.label :max_unanswered_call %>
+    <%= form.number_field :max_unanswered_call %>
+  </div>
+
+  <div class="field">
+    <%= form.label :winner_id %>
+    <%= form.number_field :winner_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.text_field :status %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  guild: one
+  war: one
+  war_points: 1
+  has_declared_war: false
+  nb_unanswered_call: 1
+  is_winner: false
+  status: MyString
+
+two:
+  guild: two
+  war: two
+  war_points: 1
+  has_declared_war: false
+  nb_unanswered_call: 1
+  is_winner: false
+  status: MyString

@@ -8,20 +8,25 @@
 
 # destroy all objects
 
+Message.destroy_all
+ChannelParticipation.destroy_all
+Channel.destroy_all
 
 GuildParticipation.destroy_all
 Guild.destroy_all
+
 Friendship.destroy_all
+
 Session.destroy_all
 User.destroy_all
 
 # users
 
-francis = User.create(name: "francis", avatar: "https://cdn.intra.42.fr/users/fberger.jpg", current_status: "", points: 0, is_admin: false) 
-yamin = User.create(name: "yamin", avatar: "https://cdn.intra.42.fr/users/ylegzoul.jpg", current_status: "", points: 0, is_admin: false)
-flavien = User.create(name: "flavien", avatar: "https://cdn.intra.42.fr/users/froussel.jpg", current_status: "", points: 0, is_admin: false)
-luc = User.create(name: "luc", avatar: "https://cdn.intra.42.fr/users/lhuang.jpg", current_status: "", points: 0, is_admin: false) 
-maxime = User.create(name: "maxime", avatar: "https://cdn.intra.42.fr/users/mpouzol.jpg", current_status: "", points: 0, is_admin: false) 
+francis = User.create(name: "francis", avatar: "https://cdn.intra.42.fr/users/fberger.jpg", current_status: "", points: 0, is_admin: false, guild_participation_id: nil) 
+yamin = User.create(name: "yamin", avatar: "https://cdn.intra.42.fr/users/ylegzoul.jpg", current_status: "", points: 0, is_admin: false, guild_participation_id: nil)
+flavien = User.create(name: "flavien", avatar: "https://cdn.intra.42.fr/users/froussel.jpg", current_status: "", points: 0, is_admin: false, guild_participation_id: nil)
+luc = User.create(name: "luc", avatar: "https://cdn.intra.42.fr/users/lhuang.jpg", current_status: "", points: 0, is_admin: false, guild_participation_id: nil) 
+maxime = User.create(name: "maxime", avatar: "https://cdn.intra.42.fr/users/mpouzol.jpg", current_status: "", points: 0, is_admin: false, guild_participation_id: nil) 
 
 # sessions
 # can't seed session because access_token expires 2 hours after generation

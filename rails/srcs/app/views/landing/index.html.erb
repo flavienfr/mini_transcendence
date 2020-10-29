@@ -151,9 +151,20 @@ var LogView = Backbone.View.extend({
 	 },
 	  
 	logout: function() {
-	//	this.collection.url = "/log_out";
-	//	this.collection.fetch({wait: true});
-		window.location.href = "http://localhost:3000/";
+		var form_data = new FormData();
+		var session_id = <%== current_user.sessions.last.id %>;
+		// console.log("session_id: ", session_id);
+		$.ajax({
+			url: "/sessions/" + session_id,
+			data: false,
+			processData: false,
+			contentType: false,
+			type: 'DELETE',
+			success: function(){
+				console.log("DELETE sent !");
+				window.location.href = "http://localhost:3000";
+			}
+		})
 	},
 
 })

@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @war_time.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @war_time.end_date %>
+</p>
+
+<p>
+  <strong>Ongoing match:</strong>
+  <%= @war_time.ongoing_match %>
+</p>
+
+<p>
+  <strong>A:</strong>
+  <%= @war_time.a %>
+</p>
+
+<p>
+  <strong>B:</strong>
+  <%= @war_time.b %>
+</p>
+
+<p>
+  <strong>Nb unanswered call a:</strong>
+  <%= @war_time.nb_unanswered_call_a %>
+</p>
+
+<p>
+  <strong>Nb unanswered call b:</strong>
+  <%= @war_time.nb_unanswered_call_b %>
+</p>
+
+<p>
+  <strong>War:</strong>
+  <%= @war_time.war_id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @war_time.status %>
+</p>
+
+<%= link_to 'Edit', edit_war_time_path(@war_time) %> |
+<%= link_to 'Back', war_times_path %>

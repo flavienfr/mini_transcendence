@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>War Participations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Guild</th>
+      <th>War</th>
+      <th>War points</th>
+      <th>Has declared war</th>
+      <th>Nb unanswered call</th>
+      <th>Is winner</th>
+      <th>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @war_participations.each do |war_participation| %>
+      <tr>
+        <td><%= war_participation.guild_id %></td>
+        <td><%= war_participation.war_id %></td>
+        <td><%= war_participation.war_points %></td>
+        <td><%= war_participation.has_declared_war %></td>
+        <td><%= war_participation.nb_unanswered_call %></td>
+        <td><%= war_participation.is_winner %></td>
+        <td><%= war_participation.status %></td>
+        <td><%= link_to 'Show', war_participation %></td>
+        <td><%= link_to 'Edit', edit_war_participation_path(war_participation) %></td>
+        <td><%= link_to 'Destroy', war_participation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New War Participation', new_war_participation_path %>

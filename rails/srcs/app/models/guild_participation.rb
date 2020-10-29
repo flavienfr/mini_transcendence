@@ -1,4 +1,4 @@
 class GuildParticipation < ApplicationRecord
-  belongs_to :user
-  belongs_to :guild
+  belongs_to :user, optional: false
+  belongs_to :guild, optional: false
 end

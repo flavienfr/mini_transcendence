@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>From guild:</strong>
+  <%= @ask_for_war.from_guild_id %>
+</p>
+
+<p>
+  <strong>To guild:</strong>
+  <%= @ask_for_war.to_guild_id %>
+</p>
+
+<p>
+  <strong>Terms:</strong>
+  <%= @ask_for_war.terms %>
+</p>
+
+<p>
+  <strong>Includes ladder:</strong>
+  <%= @ask_for_war.includes_ladder %>
+</p>
+
+<p>
+  <strong>War:</strong>
+  <%= @ask_for_war.war_id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @ask_for_war.status %>
+</p>
+
+<%= link_to 'Edit', edit_ask_for_war_path(@ask_for_war) %> |
+<%= link_to 'Back', ask_for_wars_path %>

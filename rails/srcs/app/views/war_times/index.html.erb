@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<h1>War Times</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Start date</th>
+      <th>End date</th>
+      <th>Ongoing match</th>
+      <th>A</th>
+      <th>B</th>
+      <th>Nb unanswered call a</th>
+      <th>Nb unanswered call b</th>
+      <th>War</th>
+      <th>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @war_times.each do |war_time| %>
+      <tr>
+        <td><%= war_time.start_date %></td>
+        <td><%= war_time.end_date %></td>
+        <td><%= war_time.ongoing_match %></td>
+        <td><%= war_time.a %></td>
+        <td><%= war_time.b %></td>
+        <td><%= war_time.nb_unanswered_call_a %></td>
+        <td><%= war_time.nb_unanswered_call_b %></td>
+        <td><%= war_time.war_id %></td>
+        <td><%= war_time.status %></td>
+        <td><%= link_to 'Show', war_time %></td>
+        <td><%= link_to 'Edit', edit_war_time_path(war_time) %></td>
+        <td><%= link_to 'Destroy', war_time, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New War Time', new_war_time_path %>

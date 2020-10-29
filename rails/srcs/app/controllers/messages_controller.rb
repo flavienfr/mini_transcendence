@@ -142,6 +142,10 @@ class MessagesController < ApplicationController
         @new_channelP_to_save = ChannelParticipation.new(@new_channelP);
         @new_channelP_to_save.save;
       end
+      channelP = Channel.find_by(id: params[:receiver_id]).channel_participations;
+      channelP.each do |participant|
+        ActionCable.server.broadcast("notification_channel_" + participant.user_id.to_s, {sender: Channel.find_by(id: params[:receiver_id])});
+      end
     end
     # @message = Message.new(message_params)
 

@@ -6,17 +6,9 @@
 			</svg>
 		</a>
 	<div class="dropdown">
-		<button class="btn btn-secondary dropdown-toggle" onclick="ft_hey()" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%%= receiver.name ? receiver.name : "Channels" %></button>
+		<button class="btn btn-secondary dropdown-toggle" onclick="ft_show_channels()" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%%= receiver.name ? receiver.name : "Channels" %></button>
 		<div class="dropdown-menu dropdown-menu-right" style="overflow-y:auto; height:auto; max-height: 200px;" aria-labelledby="dropdownMenuButton">
 			<div id="direct_msg_users" style="overflow-y:auto">
-				<p>Users</p>
-				<% if false %>
-				<% @users.each do |user| %>
-					<% if user.id != current_user.id %>
-						<a class="dropdown-item" onclick="ft_clicked(<%= user.to_json %>)" href="#channel"><%= user.name %></a>
-					<% end %>
-				<% end %>
-				<% end %>
 			</div>
 		</div>
 	</div>
@@ -77,48 +69,57 @@
 			});
 		//}
 		<%% } %>
-		function ft_clicked(user_selected)
+		function ft_show_conversation(user_selected)
 		{
 			console.log("clicked");
 			console.log(user_selected);
-			//ChatView.render_chat_main(user_selected);
-			 chatview.setElement("#live_chat_area").render_chat_main(user_selected);
-			 chatview.setElement("#play_chat_area").render_chat_main(user_selected);
-			//$("#conversation_window").append("<p>test</p></br><p>test2</p>");
-			// $.ajax({
-			// 	url: '/messages',
-			// 	data: {user_id: <%== current_user.id %>, receiver_id: <%%= receiver ? receiver.id : 0 %>},
-			// 	type: 'GET',
-			// 	dataType: 'json',
-			// 	success: function(data)
-			// 	{
-			// 		console.log(data);
-			// 	}
-			// });
+			chatview.setElement("#chat_area").render_chat_main(user_selected);
 		}
-		function ft_hey()
+		function ft_show_channels()
 		{
-			show_div = $("#direct_msg_users");
-			show_div.empty();
-			show_div.append("<p>Users</p>");
-			<% @users.each do |user| %>//fetch users ici a la place
-				<% if user.id != current_user.id %>
-					show_div.append('<a class="dropdown-item" onclick="ft_clicked(<%= user.to_json %>)" href="#channel"><%= user.name %></a>');
-				<% end %>
-			<% end %>
-			show_div.append("<p>Groups</p>");
-			<% @in_channels.each do |channel| %>
-				show_div.append('<a class="dropdown-item" onclick="ft_clicked(<%= channel.to_json %>)" href="#channel"><%= channel.name %></a>');
-			<% end %>
-			show_div.append("<p>Joignable Groups</p>");
-			<% @joignable_groups.each do |channel| %>
-				show_div.append('<a class="dropdown-item" onclick="ft_clicked(<%= channel.to_json %>)" href="#channel"><%= channel.name %></a>');
-			<% end %>
-			console.log("hey");
-			//$('#direct_msg_users').append("<a>abc</a>");
-			//var t = <%== User.all.to_json %>;//ne fonctionne pas apres ajout de user, il faut fetch
-			//console.log(t);
-			//console.log(<%= @users.to_json %>);
+			$.ajax({
+				url: '/channels',
+				type: 'GET',
+				dataType: 'json',
+				success: function(data)
+				{
+					console.log("success");
+					console.log(data);
+					show_div = $("#direct_msg_users");
+					show_div.empty();
+					if (data.channels_in && data.channels_in.length > 0)
+					{
+						show_div.append("<p>Channels In</p>");
+						i = 0;
+						while (i < data.channels_in.length)
+						{
+							show_div.append("<a class='dropdown-item' onclick='ft_show_conversation(" + JSON.stringify(data.channels_in[i]) + ")' href='#channel'>" + data.channels_in[i].name + "</a>");
+							i++;
+						}
+					}
+					if (data.users && data.users.length > 0)
+					{
+						show_div.append("<p>Users</p>");
+						i = 0;
+						while (i < data.users.length)
+						{
+							if (<%== current_user.id %> != data.users[i].id)
+								show_div.append("<a class='dropdown-item' onclick='ft_show_conversation(" + JSON.stringify(data.users[i]) + ")' href='#channel'> " + data.users[i].name + " </a>");
+							i++;
+						}
+					}
+					if (data.channels_joignable && data.channels_joignable.length > 0)
+					{
+						show_div.append("<p>Channels Joignable</p>");
+						i = 0;
+						while (i < data.channels_joignable.length)
+						{
+							show_div.append("<a class='dropdown-item' onclick='ft_show_conversation(" + JSON.stringify(data.channels_joignable[i]) + ")' href='#channel'>" + data.channels_joignable[i].name + "</a>");
+							i++;
+						}
+					}
+				}
+			});
 		}
 		function f(){
 			console.log("here");

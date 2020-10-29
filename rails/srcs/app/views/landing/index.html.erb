@@ -75,14 +75,6 @@ var Users = Backbone.Collection.extend({
 
 var usercollection = new Users();
 
-// Récupérer le current toJSON TMP
-async function get_current_user() {
-	await usercollection.fetch();
-	var currentUser = new User;
-	currentUser = usercollection.findWhere({name: "flavien"});
-	return (currentUser);
-}
-
 //_____________________________________ Guild _____________________________________
 var Guild = Backbone.Model.extend({
 	urlRoot: "/guilds.json",
@@ -213,12 +205,12 @@ var GuildView = Backbone.View.extend({
 		"submit #create_guild": "add",
 	},
 	add: async function() {
-		var currentUser = await get_current_user();
-		console.log("currentUser.id: ", currentUser.id);
+		var current_id = <%= current_user.id %>;
+		console.log("currentUser.id: ", current_id);
 		var guild = new Guild({
 			name : $('#inputGuildName').val(),
 			anagram: $('#inputGuildAnagram').val(),
-			owner_id : currentUser.id,
+			owner_id : current_id,
 			token: "test"
 		});
 		console.log("guild: ", guild);
@@ -237,12 +229,7 @@ var GuildView = Backbone.View.extend({
 		await this.collection.fetch();
 		await usercollection.fetch(); //# good practice ?
 
-
-		//#le pire
-		//var users = usercollection;
-		//var user = users.findWhere({id: 18})
-		//console.log("usercollection: ", user.toJSON().name);
-		//console.log("users.length: ", users.length);
+		console.log("current_user.id: ", <%= current_user.id %>);
 
 		this.$el.html(this.template_all_guild({
 			guilds: this.collection.toJSON(),

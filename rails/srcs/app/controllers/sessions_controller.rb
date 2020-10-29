@@ -54,11 +54,24 @@ class SessionsController < ApplicationController
   # DELETE /sessions/1
   # DELETE /sessions/1.json
   def destroy
-    @session.destroy
-    respond_to do |format|
-      format.html { redirect_to sessions_url, notice: 'Session was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    puts "------------------ DESTROY ------------------"
+    puts params
+    
+    # 1. récupérer la session du user et la supprimer
+    Session.find(params[:id]).destroy
+    
+    # 2. supprimer le cookie
+    hashed_cookies = cookies.to_hash
+    puts "hashed_cookies AVANT supprimer de l'id:", hashed_cookies    
+    cookies.delete :id
+    hashed_cookies = cookies.to_hash
+    puts "hashed_cookies APRES supprimer de l'id:", hashed_cookies
+
+    # @session.destroy
+    # respond_to do |format|
+    #   format.html { redirect_to sessions_url, notice: 'Session was successfully destroyed.' }
+    #   format.json { head :no_content }
+    # end
   end
 
   private

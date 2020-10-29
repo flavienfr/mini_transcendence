@@ -8,16 +8,22 @@ class LandingController < ApplicationController
         puts "------------a-----------"
         @joignable_groups = Channel.where("scope = ? OR scope = ?", "public-group", "protected-group");
         puts @joignable_groups.to_json;
+
         @channel_participations = User.find_by(id: current_user.id).channel_participations;
         puts @channel_participations.to_json;
+
         @joignable_groups = @joignable_groups.where.not("id IN (?)", @channel_participations.pluck(:channel_id));
-        puts @joignable_groups.to_json;#a utiliser
+        puts @joignable_groups.to_json; #a utiliser
+
         @private_channels = Channel.where("scope = ?", "private-direct");
         puts @private_channels.to_json;
+
         @channel_participations = @channel_participations.where.not("channel_id IN (?)", @private_channels.pluck(:id));
         puts @channel_participations.to_json;
+
         @in_channels = Channel.where("id IN (?)", @channel_participations.pluck(:channel_id));
-        puts @in_channels.to_json;#a utiliser
+        puts @in_channels.to_json; #a utiliser
+
         puts "---------b---------"
       end
     
@@ -132,7 +138,6 @@ class LandingController < ApplicationController
 
       # ocker-compose run web rails console -> to see if it worked
       redirect_to root_path # à enlever pcq ça reload la page
-
     end
   end
 end

@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  from_guild_id: 1
+  to_guild_id: 1
+  terms: MyText
+  includes_ladder: false
+  war: one
+  status: MyString
+
+two:
+  from_guild_id: 1
+  to_guild_id: 1
+  terms: MyText
+  includes_ladder: false
+  war: two
+  status: MyString

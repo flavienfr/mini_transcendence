@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Guild:</strong>
+  <%= @war_participation.guild_id %>
+</p>
+
+<p>
+  <strong>War:</strong>
+  <%= @war_participation.war_id %>
+</p>
+
+<p>
+  <strong>War points:</strong>
+  <%= @war_participation.war_points %>
+</p>
+
+<p>
+  <strong>Has declared war:</strong>
+  <%= @war_participation.has_declared_war %>
+</p>
+
+<p>
+  <strong>Nb unanswered call:</strong>
+  <%= @war_participation.nb_unanswered_call %>
+</p>
+
+<p>
+  <strong>Is winner:</strong>
+  <%= @war_participation.is_winner %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @war_participation.status %>
+</p>
+
+<%= link_to 'Edit', edit_war_participation_path(@war_participation) %> |
+<%= link_to 'Back', war_participations_path %>

@@ -1,0 +1,47 @@
+<%= form_with(model: ask_for_war, local: true) do |form| %>
+  <% if ask_for_war.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(ask_for_war.errors.count, "error") %> prohibited this ask_for_war from being saved:</h2>
+
+      <ul>
+        <% ask_for_war.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :from_guild_id %>
+    <%= form.number_field :from_guild_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :to_guild_id %>
+    <%= form.number_field :to_guild_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :terms %>
+    <%= form.text_area :terms %>
+  </div>
+
+  <div class="field">
+    <%= form.label :includes_ladder %>
+    <%= form.check_box :includes_ladder %>
+  </div>
+
+  <div class="field">
+    <%= form.label :war_id %>
+    <%= form.text_field :war_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.text_field :status %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

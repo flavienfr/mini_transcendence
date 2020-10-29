@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start_date: 2020-10-29 00:39:35
+  end_date: 2020-10-29 00:39:35
+  ongoing_match: false
+  a: 1
+  b: 1
+  nb_unanswered_call_a: 1
+  nb_unanswered_call_b: 1
+  war: one
+  status: MyString
+
+two:
+  start_date: 2020-10-29 00:39:35
+  end_date: 2020-10-29 00:39:35
+  ongoing_match: false
+  a: 1
+  b: 1
+  nb_unanswered_call_a: 1
+  nb_unanswered_call_b: 1
+  war: two
+  status: MyString

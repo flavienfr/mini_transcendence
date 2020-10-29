@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @war.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @war.end_date %>
+</p>
+
+<p>
+  <strong>Prize in points:</strong>
+  <%= @war.prize_in_points %>
+</p>
+
+<p>
+  <strong>Max unanswered call:</strong>
+  <%= @war.max_unanswered_call %>
+</p>
+
+<p>
+  <strong>Winner:</strong>
+  <%= @war.winner_id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @war.status %>
+</p>
+
+<%= link_to 'Edit', edit_war_path(@war) %> |
+<%= link_to 'Back', wars_path %>

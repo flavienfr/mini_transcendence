@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  resources :ask_for_wars
+  resources :war_times
+  resources :war_participations
+  resources :wars
 	#get 'guilds/get_guild_owner' => 'guilds#get_guild_owner'
 	
 	get '/users/:id', to: 'users#show'

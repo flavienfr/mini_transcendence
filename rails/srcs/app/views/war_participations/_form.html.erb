@@ -1,0 +1,52 @@
+<%= form_with(model: war_participation, local: true) do |form| %>
+  <% if war_participation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(war_participation.errors.count, "error") %> prohibited this war_participation from being saved:</h2>
+
+      <ul>
+        <% war_participation.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :guild_id %>
+    <%= form.text_field :guild_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :war_id %>
+    <%= form.text_field :war_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :war_points %>
+    <%= form.number_field :war_points %>
+  </div>
+
+  <div class="field">
+    <%= form.label :has_declared_war %>
+    <%= form.check_box :has_declared_war %>
+  </div>
+
+  <div class="field">
+    <%= form.label :nb_unanswered_call %>
+    <%= form.number_field :nb_unanswered_call %>
+  </div>
+
+  <div class="field">
+    <%= form.label :is_winner %>
+    <%= form.check_box :is_winner %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.text_field :status %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,62 @@
+<%= form_with(model: war_time, local: true) do |form| %>
+  <% if war_time.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(war_time.errors.count, "error") %> prohibited this war_time from being saved:</h2>
+
+      <ul>
+        <% war_time.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :start_date %>
+    <%= form.datetime_select :start_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :end_date %>
+    <%= form.datetime_select :end_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ongoing_match %>
+    <%= form.check_box :ongoing_match %>
+  </div>
+
+  <div class="field">
+    <%= form.label :a %>
+    <%= form.number_field :a %>
+  </div>
+
+  <div class="field">
+    <%= form.label :b %>
+    <%= form.number_field :b %>
+  </div>
+
+  <div class="field">
+    <%= form.label :nb_unanswered_call_a %>
+    <%= form.number_field :nb_unanswered_call_a %>
+  </div>
+
+  <div class="field">
+    <%= form.label :nb_unanswered_call_b %>
+    <%= form.number_field :nb_unanswered_call_b %>
+  </div>
+
+  <div class="field">
+    <%= form.label :war_id %>
+    <%= form.text_field :war_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.text_field :status %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

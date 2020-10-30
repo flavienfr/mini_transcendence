@@ -46,6 +46,9 @@
 
 <script>
 
+//****************************** GLOBAL ***************************
+var current_user_id = <%= current_user.id %>; // TMP >
+
 // ******************************************** MODELS/COLLECTIONS ********************************************
 //_____________________________________ User _____________________________________
 var User = Backbone.Model.extend({
@@ -101,6 +104,17 @@ var Guilds = Backbone.Collection.extend({
 
 var guildcollection = new Guilds();
 
+//_____________________________________ War _____________________________________
+
+var War = Backbone.Model.extend({
+	urlRoot: "/wars.json",
+});
+
+var Ask_for_war = Backbone.Model.extend({
+	urlRoot: "/ask_for_wars.json",
+});
+
+
 //******************************************** VIEWS ********************************************
 
 //_____________________________________ LogView _____________________________________
@@ -152,7 +166,7 @@ var LogView = Backbone.View.extend({
 	  
 	logout: function() {
 		var form_data = new FormData();
-		var session_id = <%== current_user.sessions.last.id %>;
+		var session_id = <%== current_user.sessions.last.id %>; //#TMP >
 		// console.log("session_id: ", session_id);
 		$.ajax({
 			url: "/sessions/" + session_id,
@@ -216,13 +230,14 @@ var GuildView = Backbone.View.extend({
 		"submit #create_guild": "add",
 	},
 	add: async function() {
-		var current_id = <%= current_user.id %>;
+		var current_id = <%= current_user.id %>; //# TMP >
 		console.log("currentUser.id: ", current_id);
+
 		var guild = new Guild({
 			name : $('#inputGuildName').val(),
 			anagram: $('#inputGuildAnagram').val(),
 			owner_id : current_id,
-			token: "test"
+			user_id: current_id,
 		});
 		console.log("guild: ", guild);
 		this.collection.create(guild, {wait: true});
@@ -240,7 +255,7 @@ var GuildView = Backbone.View.extend({
 		await this.collection.fetch();
 		await usercollection.fetch(); //# good practice ?
 
-		console.log("current_user.id: ", <%= current_user.id %>);
+		console.log("current_user.id: ", <%= current_user.id %>); //tmp >
 
 		this.$el.html(this.template_all_guild({
 			guilds: this.collection.toJSON(),
@@ -342,7 +357,28 @@ var WarView = Backbone.View.extend({
 	initialize : function() {
 	},
 	events: {
-		"change #guild_drop_down": "render_guild_info"
+		"change #guild_drop_down": "render_guild_info",
+		"submit #create_war": "add"
+	},
+	add: async function() {
+		console.log("IN add war");
+		
+		var guild_name = $("#guild_drop_down option:selected").text();
+		var the_guild = this.collection.findWhere({name: guild_name});
+		the_guild = the_guild.toJSON();
+	
+		var ask_for_war = new Ask_for_war({
+			current_user_id: current_user_id,
+			to_guild_id: the_guild.id,
+			start_date : $('#StartTime').val(),
+			end_date: $('#FinishTime').val(),
+			prize_in_points : $('#PrizePool').val(),
+			max_unanswered_call: $('#MaxUnansweredMatch').val(),
+		});
+
+		console.log("ask_for_war: ", ask_for_war);
+		await ask_for_war.save({wait: true});
+		//check return error is_in_war variable uptdate
 	},
 	render_guild_info : async function() {
 		var guild_name = $("#guild_drop_down option:selected").text();

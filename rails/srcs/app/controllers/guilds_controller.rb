@@ -24,10 +24,18 @@ class GuildsController < ApplicationController
   # POST /guilds
   # POST /guilds.json
   def create
-    @guild = Guild.new(guild_params)
+	@guild = Guild.new(guild_params)
+	@guild.save
+
+	@guild_participation = GuildParticipation.new(
+		user_id: params[:user_id],
+		guild_id: @guild.id,
+		is_admin: true,
+		is_officer: false
+	)
 
     respond_to do |format|
-      if @guild.save
+      if @guild_participation.save #CHANGÉ LE RETOUR D'ERREUR / SUCCÈS ?
         format.html { redirect_to @guild, notice: 'Guild was successfully created.' }
         format.json { render :show, status: :created, location: @guild }
       else

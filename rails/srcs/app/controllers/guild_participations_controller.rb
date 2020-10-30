@@ -27,10 +27,12 @@ class GuildParticipationsController < ApplicationController
     @guild_participation = GuildParticipation.new(guild_participation_params)
 
     respond_to do |format|
-      if @guild_participation.save
+	  if @guild_participation.save
+		puts 'ca marche bisou'
         format.html { redirect_to @guild_participation, notice: 'Guild participation was successfully created.' }
         format.json { render :show, status: :created, location: @guild_participation }
-      else
+	  else
+		puts 'CA GROSSSE DARONNE LA SALOPE'
         format.html { render :new }
         format.json { render json: @guild_participation.errors, status: :unprocessable_entity }
       end

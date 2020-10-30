@@ -1,4 +1,4 @@
 class WarTime < ApplicationRecord
-  belongs_to :war, optional: false
-  belongs_to :game, optional: true
+  belongs_to :war, optional: true
+  has_many :games, dependent: :nullify
 end

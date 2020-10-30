@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :ask_for_friendships
+  resources :tournament_participations
 	resources :ask_for_wars
 	resources :war_times
 	resources :war_participations

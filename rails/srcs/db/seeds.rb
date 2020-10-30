@@ -10,35 +10,35 @@
 
 puts "----- Message.destroy_all"
 Message.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('messages') # to reset id back to 1
+# ActiveRecord::Base.connection.reset_pk_sequence!('messages') # to reset id back to 1
 
 puts "----- ChannelParticipation.destroy_all"
 ChannelParticipation.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('channel_participations') # to reset id back to 1
+# ActiveRecord::Base.connection.reset_pk_sequence!('channel_participations') # to reset id back to 1
 
 puts "----- Channel.destroy_all"
 Channel.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('channels') # to reset id back to 1
+# ActiveRecord::Base.connection.reset_pk_sequence!('channels') # to reset id back to 1
 
 puts "----- GuildParticipation.destroy_all"
 GuildParticipation.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('guild_participations') # to reset id back to 1
+# ActiveRecord::Base.connection.reset_pk_sequence!('guild_participations') # to reset id back to 1
 
 puts "----- Guild.destroy_all"
 Guild.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('guilds') # to reset id back to 1
+# ActiveRecord::Base.connection.reset_pk_sequence!('guilds') # to reset id back to 1
 
 puts "----- Friendship.destroy_all"
 Friendship.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('friendships') # to reset id back to 1
+# ActiveRecord::Base.connection.reset_pk_sequence!('friendships') # to reset id back to 1
 
 puts "----- Session.destroy_all"
 Session.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('sessions') # to reset id back to 1
+# ActiveRecord::Base.connection.reset_pk_sequence!('sessions') # to reset id back to 1
 
 puts "----- User.destroy_all"
 User.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('users') # to reset id back to 1
+# ActiveRecord::Base.connection.reset_pk_sequence!('users') # to reset id back to 1
 
 
 # users
@@ -65,12 +65,17 @@ order = Guild.create(name: "The Order", anagram: "42", points: 1235, is_making_w
 # Assemblee
 ap1 = GuildParticipation.create(user_id: francis.id, guild_id: assemblee.id, is_admin: true, is_officer: false)
 francis.guild_participation_id = ap1.id
+francis.save
 ap2 = GuildParticipation.create(user_id: flavien.id, guild_id: assemblee.id, is_admin: false, is_officer: true)
 flavien.guild_participation_id = ap2.id
+flavien.save
 # Order
 op1 = GuildParticipation.create(user_id: yamin.id, guild_id: order.id, is_admin: true, is_officer: false)
 yamin.guild_participation_id = op1.id
+yamin.save
 op2 = GuildParticipation.create(user_id: luc.id, guild_id: order.id, is_admin: false, is_officer: true)
 luc.guild_participation_id = op2.id
+luc.save
 op3 = GuildParticipation.create(user_id: maxime.id, guild_id: order.id, is_admin: false, is_officer: true)
 maxime.guild_participation_id = op3.id
+maxime.save

@@ -10,7 +10,7 @@ export var LiveView = Backbone.View.extend({
 
 	render : function() {
 		this.$el.html(this.template);
-        chatview.setElement("#live_chat_area").render_chat_main(); // https://solvemprobler.com/blog/2013/04/07/backbone-tips-rendering-views-and-their-childviews/
+        chatview.setElement("#chat_area").render_chat_main(); // https://solvemprobler.com/blog/2013/04/07/backbone-tips-rendering-views-and-their-childviews/
 		console.log("Render Live");
 		return this;
 	},

@@ -8,36 +8,36 @@
 
 # destroy all objects
 
-puts "----- Message.destroy_all"
-Message.destroy_all
+puts "----- Message.delete_all"
+Message.delete_all
 # ActiveRecord::Base.connection.reset_pk_sequence!('messages') # to reset id back to 1
 
-puts "----- ChannelParticipation.destroy_all"
-ChannelParticipation.destroy_all
+puts "----- ChannelParticipation.delete_all"
+ChannelParticipation.delete_all
 # ActiveRecord::Base.connection.reset_pk_sequence!('channel_participations') # to reset id back to 1
 
-puts "----- Channel.destroy_all"
-Channel.destroy_all
+puts "----- Channel.delete_all"
+Channel.delete_all
 # ActiveRecord::Base.connection.reset_pk_sequence!('channels') # to reset id back to 1
 
-puts "----- GuildParticipation.destroy_all"
-GuildParticipation.destroy_all
+puts "----- GuildParticipation.delete_all"
+GuildParticipation.delete_all
 # ActiveRecord::Base.connection.reset_pk_sequence!('guild_participations') # to reset id back to 1
 
-puts "----- Guild.destroy_all"
-Guild.destroy_all
+puts "----- Guild.delete_all"
+Guild.delete_all
 # ActiveRecord::Base.connection.reset_pk_sequence!('guilds') # to reset id back to 1
 
-puts "----- Friendship.destroy_all"
-Friendship.destroy_all
+puts "----- Friendship.delete_all"
+Friendship.delete_all
 # ActiveRecord::Base.connection.reset_pk_sequence!('friendships') # to reset id back to 1
 
-puts "----- Session.destroy_all"
-Session.destroy_all
+puts "----- Session.delete_all"
+Session.delete_all
 # ActiveRecord::Base.connection.reset_pk_sequence!('sessions') # to reset id back to 1
 
-puts "----- User.destroy_all"
-User.destroy_all
+puts "----- User.delete_all"
+User.delete_all
 # ActiveRecord::Base.connection.reset_pk_sequence!('users') # to reset id back to 1
 
 

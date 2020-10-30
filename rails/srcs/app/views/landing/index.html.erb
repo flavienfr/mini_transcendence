@@ -36,6 +36,7 @@
 		<%= render "pages/tournament" %>
 		<%= render "pages/war" %>
 		<%= render "pages/all_guild" %>
+		<%= render "pages/guild_history" %>
 
 
 		<%= render "pages/chat/param" %>
@@ -219,6 +220,7 @@ var GuildView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#guild-template').html()),
 	template_all_guild: _.template($('#all_guild-template').html()),
+	template_guild_history: _.template($('#guild_history_template').html()),
 	collection: guildcollection,
 
 	initialize : function() {
@@ -245,10 +247,23 @@ var GuildView = Backbone.View.extend({
 		this.render();
 	},
 	render : async function() {
-		await this.collection.fetch();
-		this.$el.html(this.template({
-			guilds: this.collection.toJSON()
-		}));
+		var user = new User();
+		user.urlRoot = "/users/" + current_user_id 
+		await user.fetch();
+
+		if (user.guild_participation_id != null)
+		{
+			this.$el.html(this.template_guild_history({
+				guilds: this.collection.toJSON()
+			}));
+		}
+		else
+		{
+			await this.collection.fetch();
+			this.$el.html(this.template({
+				guilds: this.collection.toJSON()
+			}));
+		}
 		return this;
 	},
 	render_all_guild : async function() {

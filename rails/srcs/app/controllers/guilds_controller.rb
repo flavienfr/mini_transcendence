@@ -33,15 +33,14 @@ class GuildsController < ApplicationController
 		is_admin: true,
 		is_officer: false
 	)
+	@guild_participation.save 
+
+	user = User.find(params[:user_id])
+	user.guild_participation_id = @guild_participation.id;
+	user.save
 
     respond_to do |format|
-      if @guild_participation.save #CHANGÉ LE RETOUR D'ERREUR / SUCCÈS ?
-        format.html { redirect_to @guild, notice: 'Guild was successfully created.' }
         format.json { render :show, status: :created, location: @guild }
-      else
-        format.html { render :new }
-        format.json { render json: @guild.errors, status: :unprocessable_entity }
-      end
     end
   end
 

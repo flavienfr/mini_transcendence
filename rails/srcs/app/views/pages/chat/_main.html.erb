@@ -69,11 +69,84 @@
 			});
 		//}
 		<%% } %>
-		function ft_show_conversation(user_selected)
+		function ft_show_conversation(channel_or_user_selected)
 		{
+			//var pwd;
+			if (channel_or_user_selected.scope == "protected-group")//protected
+			{
+				var pwd;
+				$.ajax({
+					url: '/channel_participations',
+					data: {user_id: <%== current_user.id %>, receiver_id: channel_or_user_selected.id},
+					type: 'GET',
+					dataType: 'json',
+					success: function(data)
+					{
+						console.log(data);
+						console.log("got success");
+						if (data.length == 0)
+						{
+							pwd = prompt("a password is needed");
+							console.log("pwd" + pwd);
+							var data = new FormData();
+							data.append("user_id", <%== current_user.id %>);
+							data.append("receiver_id", channel_or_user_selected.id);
+							data.append("scope", channel_or_user_selected.scope);
+							data.append("password", pwd);
+							$.ajax({
+								url: '/channel_participations',
+								data: data,
+								type: 'POST',
+								processData: false,
+								contentType: false,
+								dataType: 'json',
+								success: function(data)
+								{
+									console.log(data);
+									console.log("success !!!");
+									if (data.res)
+										chatview.setElement("#chat_area").render_chat_main(channel_or_user_selected);
+								},
+								error: function(err)
+								{
+									console.log(err);
+									console.log("error !!!");
+								}
+							})
+						}
+						else
+							chatview.setElement("#chat_area").render_chat_main(channel_or_user_selected);
+					},
+					error: function(err)
+					{
+						console.log(err);
+						console.log("got error");
+					}
+				})
+				//pwd = prompt("password is needed");
+				console.log("pwd" + pwd);
+				return;
+			}
+			//public
+			//console.log("pwd:" + pwd);
 			console.log("clicked");
-			console.log(user_selected);
-			chatview.setElement("#chat_area").render_chat_main(user_selected);
+			console.log(channel_or_user_selected);
+			chatview.setElement("#chat_area").render_chat_main(channel_or_user_selected);//public donc on peut afficher directe
+			var data = new FormData();
+			data.append("user_id", <%== current_user.id %>);
+			data.append("receiver_id", channel_or_user_selected.id);
+			data.append("scope", channel_or_user_selected.scope);
+			$.ajax({
+				url: 'channel_participations',
+				data: data,
+				type: 'POST',
+				processData: false,
+				contentType: false,
+				success: function()
+				{
+					console.log("success");
+				}
+			})
 		}
 		function ft_show_channels()
 		{

@@ -4,7 +4,11 @@ class ChannelParticipationsController < ApplicationController
   # GET /channel_participations
   # GET /channel_participations.json
   def index
-    @channel_participations = ChannelParticipation.all
+    @channel_participations = ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id])
+    respond_to do |format|
+      format.html
+      format.json {render json: @channel_participations}
+    end
   end
 
   # GET /channel_participations/1
@@ -24,17 +28,49 @@ class ChannelParticipationsController < ApplicationController
   # POST /channel_participations
   # POST /channel_participations.json
   def create
-    @channel_participation = ChannelParticipation.new(channel_participation_params)
-
-    respond_to do |format|
-      if @channel_participation.save
-        format.html { redirect_to @channel_participation, notice: 'Channel participation was successfully created.' }
-        format.json { render :show, status: :created, location: @channel_participation }
+    puts params;
+    if (params[:scope] == "public-group")
+      if (ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).size == 0)
+        channelP = {};
+        channelP["user_id"] = params[:user_id];
+        channelP["channel_id"] = params[:receiver_id];
+        puts "a";
+        puts channelP;
+        puts "b";
+        channelP_to_save = ChannelParticipation.new(channelP);
+        channelP_to_save.save;
+      end
+    else
+      if (Channel.find_by(id: params[:receiver_id]).password == params[:password])
+        puts "ok password correct !"
+        channelP = {};
+        channelP["user_id"] = params[:user_id];
+        channelP["channel_id"] = params[:receiver_id];
+        channelP_to_save = ChannelParticipation.new(channelP);
+        channelP_to_save.save;
+        respond_to do |format|
+          format.html
+          format.json { render json: {res: true}};
+        end
       else
-        format.html { render :new }
-        format.json { render json: @channel_participation.errors, status: :unprocessable_entity }
+        puts "protected"
+        respond_to do |format|
+          format.html
+          format.json { render json: {res: false}};
+        end
       end
     end
+    # @channel_participation = ChannelParticipation.new(channel_participation_params)
+
+    # respond_to do |format|
+    #   if @channel_participation.save
+    #     format.html { redirect_to @channel_participation, notice: 'Channel participation was successfully created.' }
+    #     format.json { render :show, status: :created, location: @channel_participation }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @channel_participation.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /channel_participations/1

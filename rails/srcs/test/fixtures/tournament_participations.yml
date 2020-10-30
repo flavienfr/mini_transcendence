@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  tournament: one
+  status: MyString
+  score: 1
+  nb_won_game: 1
+  nb_lose_game: 1
+
+two:
+  user: two
+  tournament: two
+  status: MyString
+  score: 1
+  nb_won_game: 1
+  nb_lose_game: 1

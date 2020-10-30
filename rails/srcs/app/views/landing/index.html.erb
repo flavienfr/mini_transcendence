@@ -31,10 +31,11 @@
 		<%= render "pages/tournament" %>
 		<%= render "pages/war" %>
 		<%= render "pages/all_guild" %>
-		<%= render "pages/pongHost" %>
 		<%= render "pages/chat/param" %>
 		<%= render "pages/chat/create" %>
-		<%= render "pages/chat/main" %>
+		<%= render "pages/chat/main" %>		
+		<%= render "pages/pongHost" %>
+
 	</div>
 
 
@@ -265,8 +266,9 @@ var PongView = Backbone.View.extend({
 		this.$el.html(this.template);
 		return this;
 	}
-})
-var pongview = New PongView();
+});
+
+var pongview = new PongView();
 
 //_____________________________________ LiveView _____________________________________
 var LiveView = Backbone.View.extend({

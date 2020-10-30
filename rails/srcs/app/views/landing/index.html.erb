@@ -36,6 +36,7 @@
 		<%= render "pages/chat/param" %>
 		<%= render "pages/chat/create" %>
 		<%= render "pages/chat/main" %>
+		<%= render "pages/chat/details" %>
 	</div>
 
 
@@ -177,11 +178,13 @@ var ChatView = Backbone.View.extend({
 	template_chat_main: _.template($('#chat_main-template').html()),
 	template_chat_param: _.template($('#chat_param-template').html()),
 	template_chat_create: _.template($('#chat_create-template').html()),
+	template_chat_details: _.template($('#chat_details-template').html()),
 	
 	events: {
 		"click #main_chat_to_param": "render_chat_param",
 		"click #main_chat_to_create": "render_chat_create",
-		"click #back_to_main_chat": "render_chat_main"
+		"click #back_to_main_chat": "render_chat_main",
+		"click #show_chat_details": "render_chat_details"
 	},
 
 	render_chat_param : function() {
@@ -198,6 +201,14 @@ var ChatView = Backbone.View.extend({
 			user_selected = {id : 0}
 		this.$el.html(this.template_chat_main({receiver: user_selected}));
 		return this;
+	},
+	render_chat_details : function(e) {
+		console.log(e);
+		var channel_info = e;
+		if (!(channel_info.id))
+			channel_info = $(e.currentTarget).data('channel');
+		console.log(channel_info);
+		this.$el.html(this.template_chat_details({channel: channel_info}));
 	}
 });
 

@@ -29,7 +29,7 @@ class ChannelParticipationsController < ApplicationController
   # POST /channel_participations.json
   def create
     puts params;
-    if (params[:scope] == "public-group")
+    if (params[:scope] == "public-group" || params[:added])
       if (ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).size == 0)
         channelP = {};
         channelP["user_id"] = params[:user_id];

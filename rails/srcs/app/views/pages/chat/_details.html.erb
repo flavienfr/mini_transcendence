@@ -1,0 +1,81 @@
+<script type="text/template" id="chat_details-template">
+    <div class="details_chat_header">
+        <a id="back_to_current_chat" onclick="ft_back_to_conversation()">
+            X
+        </a>
+    </div>
+    <div id="participants_to_add">
+    </div>
+    <div id="list_of_participants">
+    </div>
+    <script>
+        function ft_back_to_conversation()
+        {
+            var channel_name = <%%= JSON.stringify(channel) %>;
+            console.log(channel_name);
+            chatview.setElement("#chat_area").render_chat_main(<%%= JSON.stringify(channel) %>);
+        }
+        $.ajax({
+            url: '/users',
+            data: {users_to_get: "not_participants", channel_id: <%%= channel.id %>},
+            //processData: false,
+            //contentType: false,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data)
+            {
+                console.log("to add" + data);
+                var show_div = $("#participants_to_add");
+                show_div.append("<p>Participants To Add</p>");
+                var i = 0;
+                while (i < data.length)
+                {
+                    show_div.append("<div><button onclick='ft_add_participant("+ data[i].id +")'>"+ data[i].name +"</button></div>");
+                    i++;
+                }
+            }
+        });
+        $.ajax({
+            url: '/users',
+            data: {users_to_get: "participants", channel_id: <%%= channel.id %>},
+            //processData: false,
+            //contentType: false,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data)
+            {
+                console.log("list" + data);
+                var show_div = $("#list_of_participants");
+                show_div.append("<p>list of participants</p>")
+                var i = 0;
+                while (i < data.length)
+                {
+                    console.log("here");
+                    show_div.append("<div><a href='/#profile/"+ data[i].id +"'>" + data[i].name + "</a></div>");
+                    i++;
+                }
+            }
+        });
+        function ft_add_participant(id)
+        {
+            var form_data = new FormData();
+            form_data.append("user_id", id);
+            form_data.append("receiver_id", <%%= channel.id %>);
+            form_data.append("scope", "<%%= channel.scope %>");
+            form_data.append("added", true);
+            console.log("id = "+id);
+            $.ajax({
+                url: '/channel_participations',
+                data: form_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function()
+                {
+                    console.log("success !");
+                    chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+                }
+            })
+        }
+    </script>
+</script>

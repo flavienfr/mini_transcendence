@@ -5,6 +5,12 @@
 				<path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
 			</svg>
 		</a>
+	<%% if (receiver.scope) {%>
+	<div>
+		<a id="show_chat_details" data-channel=<%%= JSON.stringify(receiver) %>>show
+		</a>
+	</div>
+	<%% } %>
 	<div class="dropdown">
 		<button class="btn btn-secondary dropdown-toggle" onclick="ft_show_channels()" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%%= receiver.name ? receiver.name : "Channels" %></button>
 		<div class="dropdown-menu dropdown-menu-right" style="overflow-y:auto; height:auto; max-height: 200px;" aria-labelledby="dropdownMenuButton">

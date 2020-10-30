@@ -10,11 +10,15 @@ class ChannelsController < ApplicationController
     puts joignable_groups.to_json;
     channel_participations = User.find_by(id: current_user.id).channel_participations;
     puts channel_participations.to_json;
-    joignable_groups = joignable_groups.where.not("id IN (?)", channel_participations.pluck(:channel_id));
+    if (channel_participations.size > 0)
+      joignable_groups = joignable_groups.where.not("id IN (?)", channel_participations.pluck(:channel_id));
+    end
     puts joignable_groups.to_json;#a utiliser
-    private_channels = Channel.where("scope = ?", "private-direct");
+    private_channels = Channel.where("scope = ?", "private-direct");#pour enlever les messages directs
     puts private_channels.to_json;
-    channel_participations = channel_participations.where.not("channel_id IN (?)", private_channels.pluck(:id));
+    if (private_channels.size > 0)
+      channel_participations = channel_participations.where.not("channel_id IN (?)", private_channels.pluck(:id));
+    end
     puts channel_participations.to_json;
     in_channels = Channel.where("id IN (?)", channel_participations.pluck(:channel_id));
     puts in_channels.to_json;#a utiliser

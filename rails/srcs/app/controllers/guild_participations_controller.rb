@@ -28,11 +28,9 @@ class GuildParticipationsController < ApplicationController
 
     respond_to do |format|
 	  if @guild_participation.save
-		puts 'ca marche bisou'
         format.html { redirect_to @guild_participation, notice: 'Guild participation was successfully created.' }
         format.json { render :show, status: :created, location: @guild_participation }
 	  else
-		puts 'CA GROSSSE DARONNE LA SALOPE'
         format.html { render :new }
         format.json { render json: @guild_participation.errors, status: :unprocessable_entity }
       end
@@ -56,11 +54,44 @@ class GuildParticipationsController < ApplicationController
   # DELETE /guild_participations/1
   # DELETE /guild_participations/1.json
   def destroy
-    @guild_participation.destroy
-    respond_to do |format|
-      format.html { redirect_to guild_participations_url, notice: 'Guild participation was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+	puts "-------- guild_participations --------"
+	puts @guild_participation.user.name
+	puts "-------------------------------------"
+
+	guild = @guild_participation.guild
+	user = @guild_participation.user
+	
+	#if in war can't quit
+	if (guild.is_making_war) #war_participation_id ?
+		return #erros message can't quit during war
+	end
+
+	@guild_participation.status = "quit"
+
+	# in user set to nil guild participation
+	
+	user.guild_participation_id = nil
+	user.save
+	
+
+	#If you are the last one in the guild delete guild
+	if (guild.users.size == 1)
+		guild.destroy
+		return #fin
+	end
+
+	#select other player with the biggest point to be owner
+	if (@guild_participation.is_admin)
+		new_owner = guild.users.order(points: desc).first
+		guild.owner_id = new_owner.id
+		new_owner.guild_participation_id.is_owner = true
+	end
+	
+	#@guild_participation.destroy
+    #respond_to do |format|
+    #  format.html { redirect_to guild_participations_url, notice: 'Guild participation was successfully destroyed.' }
+    #  format.json { head :no_content }
+    #end
   end
 
   private

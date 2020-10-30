@@ -43,7 +43,13 @@
 <script>
 
 //****************************** GLOBAL ***************************
-var current_user_id = <%= current_user.id %>; // TMP >
+var current_user_id = <%= current_user.id %>; // anti jaune >
+
+//var User_current = Backbone.Model.extend({
+//	urlRoot: "/users/" + current_user_id ,
+//	user.urlRoot = "/users/" + current_user_id 
+//});
+//var current_user = new User_current();
 
 // ******************************************** MODELS/COLLECTIONS ********************************************
 //_____________________________________ User _____________________________________
@@ -74,18 +80,15 @@ var Users = Backbone.Collection.extend({
 
 var usercollection = new Users();
 
+
+
 //_____________________________________ Guild _____________________________________
 var Guild = Backbone.Model.extend({
 	urlRoot: "/guilds.json",
 
 	defaults:{
 		name: "No guild",
-		anagram: "",
 		points:"0",
-		is_making_war:"",
-		owner_id:"",
-		created_at:"",
-		updated_at:""
 	}
 });
 
@@ -96,6 +99,10 @@ var Guilds = Backbone.Collection.extend({
 	initialize : function() {
 		console.log("UserCollection created");
 	}
+});
+
+var GuildParticipation = Backbone.Model.extend({
+	urlRoot: "/guild_participations",
 });
 
 var guildcollection = new Guilds();
@@ -224,7 +231,8 @@ var GuildView = Backbone.View.extend({
 	events: {
 		"click #all_guild_btn": "render_all_guild",
 		"click #back_to_guild": "render",
-		"submit #create_guild": "add",
+		"click #leave_guild_btn": "delete",
+		"submit #leave_guild": "add",
 	},
 	add: async function() {
 		var current_id = <%= current_user.id %>; //# TMP >
@@ -241,10 +249,32 @@ var GuildView = Backbone.View.extend({
 		//check return error ans print message
 		this.render();
 	},
+	delete: async function() {
+		console.log("Delete user in guild");
+
+		var user = new User();
+		user.urlRoot = "/users/" + current_user_id 
+		await user.fetch();
+		user = user.toJSON();
+
+		guildparticip = new GuildParticipation({
+			id: user.guild_participation_id,
+		});
+		guildparticip.destroy();
+
+		//if (user){
+		//	var to_delete = this.collection.get(user.id);
+	  	//	this.collection.url = "/users"
+		//	to_delete.destroy();
+	  	//	console.log(this.collection.toJSON());
+		//	this.render();
+		//}	
+	},
 	render : async function() {
 		var user = new User();
 		user.urlRoot = "/users/" + current_user_id 
 		await user.fetch();
+		user = user.toJSON();
 
 		if (user.guild_participation_id != null)
 		{

@@ -234,24 +234,28 @@ var GuildView = Backbone.View.extend({
 		"click #leave_guild_btn": "delete",
 		"submit #create_guild": "add",
 	},
-	add: async function() {
-		var current_id = <%= current_user.id %>; //# TMP >
-		console.log("currentUser.id: ", current_id);
+	add: async function(evt) {
+		evt.preventDefault();
 
 		var guild = new Guild({
 			name : $('#inputGuildName').val(),
 			anagram: $('#inputGuildAnagram').val(),
-			owner_id : current_id,
-			user_id: current_id,
+			owner_id : current_user_id,
+			user_id: current_user_id,
 		});
-		console.log("guild: ", guild);
-		await this.collection.create(guild, {wait: true});
-		//check return error ans print message
-		this.render();
+		var self = this;
+		this.collection.create(guild, {
+			success: function(model, response) {
+				console.log('success');
+				self.render();
+			},
+			error: function(model, response) {
+				console.log('fail');
+			},
+			wait: true
+		});
 	},
 	delete: async function() {
-		console.log("Delete user in guild");
-
 		var user = new User();
 		user.urlRoot = "/users/" + current_user_id 
 		await user.fetch();
@@ -260,14 +264,24 @@ var GuildView = Backbone.View.extend({
 		guildparticip = new GuildParticipation({
 			id: user.guild_participation_id,
 		});
-		guildparticip.destroy();
+		var self = this;
+		guildparticip.destroy({
+			success: function(model, response) {
+				console.log('success');
+				self.render();
+			},
+			error: function(model, response) {
+				console.log('fail');
+			},
+			wait: true
+		});
 	},
 	render : async function() {
 		var user = new User();
 		user.urlRoot = "/users/" + current_user_id 
 		await user.fetch();
 		user = user.toJSON();
-		console.log("user.guild_participation_id: ", user.guild_participation_id )
+		console.log("user.guild_participation_id: ", user.guild_participation_id)
 		if (user.guild_participation_id != null)
 		{
 			this.$el.html(this.template_guild_history({

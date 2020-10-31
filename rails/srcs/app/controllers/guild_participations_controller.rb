@@ -57,21 +57,18 @@ class GuildParticipationsController < ApplicationController
 	puts "-------- guild_participations --------"
 	guild = @guild_participation.guild
 	user = @guild_participation.user
-	
+	guild_size = guild.users.size 
+
 	#if in war can't quit
 	if (guild.is_making_war) #war_participation_id ?
 		return #erros message can't quit during war
 	end
 
-	puts "-------guild_participation_id", user.guild_participation_id
 	user.guild_participation_id = nil
 	user.save
-	puts "-------guild_participation_id", user.guild_participation_id
 
-	
-	@guild_participation.destroy
-
-	if (guild.users.size == 1)
+	if (guild_size === 1)
+		@guild_participation.destroy
 		guild.destroy
 		return
 	end
@@ -81,6 +78,8 @@ class GuildParticipationsController < ApplicationController
 		guild.owner_id = new_owner.id
 		new_owner.guild_participation_id.is_owner = true
 	end
+
+	@guild_participation.destroy
 	
 	#@guild_participation.destroy
     #respond_to do |format|

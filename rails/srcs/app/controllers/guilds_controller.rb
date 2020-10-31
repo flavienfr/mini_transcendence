@@ -26,7 +26,7 @@ class GuildsController < ApplicationController
   def create
 	@guild = Guild.new(guild_params)
 	@guild.save
-
+	#tout remplir
 	@guild_participation = GuildParticipation.new(
 		user_id: params[:user_id],
 		guild_id: @guild.id,

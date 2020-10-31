@@ -222,7 +222,7 @@ var GuildView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#guild-template').html()),
 	template_all_guild: _.template($('#all_guild-template').html()),
-	template_guild_history: _.template($('#guild_history_template').html()),
+	//template_guild_history: _.template($('#guild_history_template').html()),
 	collection: guildcollection,
 
 	initialize : function() {
@@ -231,43 +231,51 @@ var GuildView = Backbone.View.extend({
 	events: {
 		"click #all_guild_btn": "render_all_guild",
 		"click #back_to_guild": "render",
-		"click #leave_guild_btn": "delete",
+		//"click #leave_guild_btn": "delete",
 		"submit #create_guild": "add",
 	},
 	add: async function() {
 		var current_id = <%= current_user.id %>; //# TMP >
-		console.log("currentUser.id: ", current_id);
-
-		var guild = new Guild({
-			name : $('#inputGuildName').val(),
-			anagram: $('#inputGuildAnagram').val(),
-			owner_id : current_id,
-			user_id: current_id,
-		});
-		console.log("guild: ", guild);
-		await this.collection.create(guild, {wait: true});
+		//console.log("currentUser.id: ", current_id);
+//
+		//var guild = new Guild({
+		//	name : $('#inputGuildName').val(),
+		//	anagram: $('#inputGuildAnagram').val(),
+		//	owner_id : current_id,
+		//	user_id: current_id,
+		//});
+		//console.log("guild: ", guild);
+		//this.collection.create(guild, {wait: true});
 		//check return error ans print message
-		this.render();
+		//this.render();
 	},
 	delete: async function() {
-		console.log("Delete user in guild");
+		//console.log("Delete user in guild");
+//
+		//var user = new User();
+		//user.urlRoot = "/users/" + current_user_id 
+		//await user.fetch();
+		//user = user.toJSON();
+//
+		//guildparticip = new GuildParticipation({
+		//	id: user.guild_participation_id,
+		//});
+		//guildparticip.destroy();
 
-		var user = new User();
-		user.urlRoot = "/users/" + current_user_id 
-		await user.fetch();
-		user = user.toJSON();
-
-		guildparticip = new GuildParticipation({
-			id: user.guild_participation_id,
-		});
-		guildparticip.destroy();
+		//if (user){
+		//	var to_delete = this.collection.get(user.id);
+	  	//	this.collection.url = "/users"
+		//	to_delete.destroy();
+	  	//	console.log(this.collection.toJSON());
+		//	this.render();
+		//}	
 	},
 	render : async function() {
 		var user = new User();
 		user.urlRoot = "/users/" + current_user_id 
 		await user.fetch();
 		user = user.toJSON();
-		console.log("user.guild_participation_id: ", user.guild_participation_id )
+
 		if (user.guild_participation_id != null)
 		{
 			this.$el.html(this.template_guild_history({

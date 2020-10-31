@@ -55,9 +55,6 @@ class GuildParticipationsController < ApplicationController
   # DELETE /guild_participations/1.json
   def destroy
 	puts "-------- guild_participations --------"
-	puts @guild_participation.user.name
-	puts "-------------------------------------"
-
 	guild = @guild_participation.guild
 	user = @guild_participation.user
 	
@@ -66,23 +63,21 @@ class GuildParticipationsController < ApplicationController
 		return #erros message can't quit during war
 	end
 
-	@guild_participation.status = "quit"
-
-	# in user set to nil guild participation
-	
+	puts "-------guild_participation_id", user.guild_participation_id
 	user.guild_participation_id = nil
 	user.save
-	
+	puts "-------guild_participation_id", user.guild_participation_id
 
-	#If you are the last one in the guild delete guild
+	
+	@guild_participation.destroy
+
 	if (guild.users.size == 1)
 		guild.destroy
-		return #fin
+		return
 	end
 
-	#select other player with the biggest point to be owner
 	if (@guild_participation.is_admin)
-		new_owner = guild.users.order(points: desc).first
+		new_owner = guild.users.order(points: :desc).first
 		guild.owner_id = new_owner.id
 		new_owner.guild_participation_id.is_owner = true
 	end

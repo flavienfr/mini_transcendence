@@ -44,7 +44,7 @@
 			console.log("here");
 			$.ajax({
 				url: '/messages',
-				data: {user_id: <%== current_user.id %>, receiver_id: <%%= receiver ? receiver.id : 0 %>, scope: '<%%= receiver.scope ? receiver.scope : "private-direct" %>'},
+				data: {user_id: <%== current_user.id %>, receiver_id: <%%= receiver ? receiver.id : 0 %>, scope: '<%%= receiver.scope ? receiver.scope : "direct" %>'},
 				type: 'GET',
 				dataType: 'json',
 				success: function(data)
@@ -141,7 +141,8 @@
 			var data = new FormData();
 			data.append("user_id", <%== current_user.id %>);
 			data.append("receiver_id", channel_or_user_selected.id);
-			data.append("scope", channel_or_user_selected.scope);
+			console.log("scope:" + channel_or_user_selected.scope);
+			data.append("scope", channel_or_user_selected.scope ? channel_or_user_selected.scope : "direct");
 			$.ajax({
 				url: 'channel_participations',
 				data: data,
@@ -214,7 +215,7 @@
 			var form_data = new FormData();
 			form_data.append("user_id", <%== current_user.id %>);
 			form_data.append("text", text);
-			form_data.append("scope", '<%%= receiver.scope ? receiver.scope : "private-direct" %>');
+			form_data.append("scope", '<%%= receiver.scope ? receiver.scope : "direct" %>');
 			form_data.append("receiver_id", receiver_id);//soit direct => second user || soit le channel du groupe
 			$.ajax({
 				url: '/messages',

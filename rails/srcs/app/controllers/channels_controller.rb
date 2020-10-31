@@ -14,7 +14,7 @@ class ChannelsController < ApplicationController
       joignable_groups = joignable_groups.where.not("id IN (?)", channel_participations.pluck(:channel_id));
     end
     puts joignable_groups.to_json;#a utiliser
-    private_channels = Channel.where("scope = ?", "private-direct");#pour enlever les messages directs
+    private_channels = Channel.where("scope = ?", "direct");#pour enlever les messages directs
     puts private_channels.to_json;
     if (private_channels.size > 0)
       channel_participations = channel_participations.where.not("channel_id IN (?)", private_channels.pluck(:id));
@@ -64,6 +64,8 @@ class ChannelsController < ApplicationController
     @new_channelP = {};
     @new_channelP["user_id"] = params[:owner_id];
     @new_channelP["channel_id"] = @new_channel_to_save.id;
+    @new_channelP["is_owner"] = true;
+    @new_channelP["is_admin"] = true;
     @new_channelP_to_save = ChannelParticipation.new(@new_channelP);
     @new_channelP_to_save.save;
     #rajouter admin status owner

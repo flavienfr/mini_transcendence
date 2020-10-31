@@ -29,7 +29,39 @@ class ChannelParticipationsController < ApplicationController
   # POST /channel_participations.json
   def create
     puts params;
-    if (params[:scope] == "public-group" || params[:added])
+    if (params[:scope] == "direct")
+      smaller = params[:user_id] < params[:receiver_id] ? params[:user_id] : params[:receiver_id];
+      bigger = params[:user_id] < params[:receiver_id] ? params[:receiver_id] : params[:user_id];
+      channel_name = "conversation_channel_" + smaller.to_s + "_" + bigger.to_s;
+      if (Channel.where("name = ? AND scope = 'direct'", channel_name).size > 0)
+        puts "exist !";
+      else
+        puts "create channel !" + channel_name;
+        @new_channel = {};
+        @new_channel["name"] = channel_name;
+        @new_channel["scope"] = params[:scope];
+        @channel_to_save = Channel.new(@new_channel);
+        @channel_to_save.save;
+        puts "hey--------";
+      end
+      channel_id = Channel.where("name = ? AND scope = ?", channel_name, params[:scope]).last.id;
+      if (ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], channel_id).size > 0)
+        puts "channelP exist !"
+      else
+        puts "channelP doesnt exist"
+        # channel_id = Channel.find_by(name: channel_name).id;
+        @new_channelP = {};
+        @new_channelP["user_id"] = params[:user_id];
+        @new_channelP["channel_id"] = channel_id;
+        puts @new_channelP;
+        @new_channelP_to_save = ChannelParticipation.new(@new_channelP);
+        @new_channelP_to_save.save;
+        @new_channelP["user_id"] = params[:receiver_id];
+        @new_channelP["channel_id"] = channel_id;
+        @new_channelP_to_save = ChannelParticipation.new(@new_channelP);
+        @new_channelP_to_save.save;
+      end
+    elsif (params[:scope] == "public-group" || params[:added])
       if (ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).size == 0)
         channelP = {};
         channelP["user_id"] = params[:user_id];
@@ -41,7 +73,7 @@ class ChannelParticipationsController < ApplicationController
         channelP_to_save.save;
       end
     else
-      if (Channel.find_by(id: params[:receiver_id]).password == params[:password])
+      if (params[:scope] == "protected-group" && Channel.find_by(id: params[:receiver_id]).password == params[:password])
         puts "ok password correct !"
         channelP = {};
         channelP["user_id"] = params[:user_id];

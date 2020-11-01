@@ -56,7 +56,7 @@ class ChannelsController < ApplicationController
     @new_channel["scope"] = params[:scope];
     @new_channel["owner_id"] = params[:owner_id];
     if (params[:password])
-      @new_channel["password"] = params[:password];
+      @new_channel["password"] = BCrypt::Password.create(params[:password]);
     end
     puts @new_channel;
     @new_channel_to_save = Channel.new(@new_channel);

@@ -73,7 +73,7 @@ class ChannelParticipationsController < ApplicationController
         channelP_to_save.save;
       end
     else
-      if (params[:scope] == "protected-group" && Channel.find_by(id: params[:receiver_id]).password == params[:password])
+      if (params[:scope] == "protected-group" && BCrypt::Password.new(Channel.find_by(id: params[:receiver_id]).password) == params[:password])
         puts "ok password correct !"
         channelP = {};
         channelP["user_id"] = params[:user_id];

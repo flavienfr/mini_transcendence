@@ -10,8 +10,8 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-	@user = User.find(params[:id])
-	render json: @user
+    @user = User.find(params[:id])
+    render json: @user
   end
 
   # GET /users/new
@@ -61,17 +61,6 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
     end
-  end
-
-  def auth
-    # params avec le code
-    puts "ok users/auth"
-    puts auth_params
-    
-    # session = Session.new()
-    # session.user_id = current_user.id
-
-    redirect_to root_path
   end
 
   private

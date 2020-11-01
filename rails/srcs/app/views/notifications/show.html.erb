@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>From user:</strong>
+  <%= @notification.from_user_id %>
+</p>
+
+<p>
+  <strong>To user:</strong>
+  <%= @notification.to_user_id %>
+</p>
+
+<p>
+  <strong>To channel:</strong>
+  <%= @notification.to_channel_id %>
+</p>
+
+<p>
+  <strong>To guild:</strong>
+  <%= @notification.to_guild_id %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @notification.type %>
+</p>
+
+<p>
+  <strong>Message:</strong>
+  <%= @notification.message %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @notification.status %>
+</p>
+
+<%= link_to 'Edit', edit_notification_path(@notification) %> |
+<%= link_to 'Back', notifications_path %>

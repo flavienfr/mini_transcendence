@@ -41,7 +41,7 @@
 
 	background-color: #333333;
 	color: white;
-	border: 2px solid white;
+	border-bottom: 4px solid white;
 }
 .guild .name_score h3{
 	position: absolute;
@@ -66,6 +66,11 @@
 	flex-direction: column;
 	align-items: center;
 }
+
+.name_score:hover{
+	background-color: #666666;
+}
+
 
 @media (max-width: 620px) {
 	.guild  h3{

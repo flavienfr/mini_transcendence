@@ -45,12 +45,6 @@
 //****************************** GLOBAL ***************************
 var current_user_id = <%= current_user.id %>; // anti jaune >
 
-//var User_current = Backbone.Model.extend({
-//	urlRoot: "/users/" + current_user_id ,
-//	user.urlRoot = "/users/" + current_user_id 
-//});
-//var current_user = new User_current();
-
 // ******************************************** MODELS/COLLECTIONS ********************************************
 //_____________________________________ User _____________________________________
 var User = Backbone.Model.extend({
@@ -232,7 +226,8 @@ var GuildView = Backbone.View.extend({
 		"click #all_guild_btn": "render_all_guild",
 		"click #back_to_guild": "render",
 		"click #leave_guild_btn": "delete",
-		"submit #create_guild": "add",
+		"click .name_score": "go_to_guild",
+		"submit #create_guild": "add",		
 	},
 	add: async function(evt) {
 		evt.preventDefault();
@@ -267,11 +262,10 @@ var GuildView = Backbone.View.extend({
 		var self = this;
 		guildparticip.destroy({
 			success: function(model, response) {
-				console.log('success');
 				self.render();
 			},
 			error: function(model, response) {
-				console.log('fail');
+				alert("Fail to guit the guild, be sure you are not in war.");
 			},
 			wait: true
 		});
@@ -281,15 +275,11 @@ var GuildView = Backbone.View.extend({
 		user.urlRoot = "/users/" + current_user_id 
 		await user.fetch();
 		user = user.toJSON();
-		console.log("user.guild_participation_id: ", user.guild_participation_id)
-		if (user.guild_participation_id != null)
-		{
-			this.$el.html(this.template_guild_history({
-				guilds: this.collection.toJSON()
-			}));
+
+		if (user.guild_participation_id != null){
+			this.render_history(user.guild_participation_id);
 		}
-		else
-		{
+		else{
 			await this.collection.fetch();
 			this.$el.html(this.template({
 				guilds: this.collection.toJSON()
@@ -297,11 +287,17 @@ var GuildView = Backbone.View.extend({
 		}
 		return this;
 	},
+	render_history: function(guild_id)
+	{
+		console.log("guild history of guild =", guild_id);
+		
+		this.$el.html(this.template_guild_history({
+			guilds: this.collection.toJSON()
+		}));
+	},
 	render_all_guild : async function() {
 		await this.collection.fetch();
 		await usercollection.fetch(); //# good practice ?
-
-		console.log("current_user.id: ", <%= current_user.id %>); //tmp >
 
 		this.$el.html(this.template_all_guild({
 			guilds: this.collection.toJSON(),
@@ -501,6 +497,7 @@ var Router = Backbone.Router.extend({
 		'live': "ft_live",
 		'play': "ft_play",
 		'guild': "ft_guild",
+		'guild/:id_guild': "ft_guild_param",
 		'option': "ft_option",
 		'profil': "ft_profil",
 		'tournament': "ft_tournament",
@@ -518,6 +515,9 @@ var Router = Backbone.Router.extend({
 	},
 	ft_guild: function() {
 		guildview.render();
+	},
+	ft_guild_param: function(id_guild) {
+		guildview.render_history(id_guild);
 	},
 	ft_option: function() {
 		optionview.render();
@@ -549,7 +549,7 @@ $( "#nav_to_play" ).on( "click", function() {
 });
 $( "#nav_to_guild" ).on( "click", function() {
 	Backbone.history.navigate("/guild", {trigger: true});
-	Backbone.history.loadUrl();
+	//Backbone.history.loadUrl(); //problem: Double call to function render in guild
 });
 $( "#nav_to_option" ).on( "click", function() {
 	Backbone.history.navigate("/option", {trigger: true});

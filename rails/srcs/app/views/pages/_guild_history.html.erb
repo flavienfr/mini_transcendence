@@ -7,22 +7,24 @@
 				<button type="button" id="all_guild_btn" class="btn btn-primary btn-lg btn-block btn-light border border-light">All guilds</button>
 			</div>
 			<div class="name_score">
-				<h3>The guild name</h3>
-				<p>Score: </p>
+				<h3><%%= guild.name %></h3>
+				<p>Score: <%%= guild.points %></p>
 			</div>
 			<div class="owner">
 				<h3>Owner</h3>
-				<img src="" width="80" height="80" alt="" class="profil profil-photo">
-				<p>pseudo</p>
+				<img src="<%%= owner.avatar %>" width="80" height="80" alt="" class="profil profil-photo">
+				<p><%%= owner.name %></p>
 			</div>
 			<div class="officer">
 				<h3>Officer</h3>
-				<img src="" width="80" height="80" alt="" class="profil profil-photo">
+				<img src="<%= image_url('profil-photo.png') %>" width="80" height="80" alt="" class="profil profil-photo">
 				<p>pseudo</p>
 			</div>
-			<div class="leave_guild">
-				<button type="button" id="leave_guild_btn" class="btn btn-primary btn-lg btn-block btn-light border border-light">Leave the guild</button>
-			</div>
+			<%% if (is_current_user_guild){ %>
+				<div class="leave_guild">
+					<button type="button" id="leave_guild_btn" class="btn btn-primary btn-lg btn-block btn-light border border-light">Leave the guild</button>
+				</div>
+			<%% } %>
 		</div>
 
 		<div class="gl_body">

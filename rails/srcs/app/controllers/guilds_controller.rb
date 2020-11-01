@@ -10,6 +10,8 @@ class GuildsController < ApplicationController
   # GET /guilds/1
   # GET /guilds/1.json
   def show
+	@guild = Guild.find(params[:id])
+	render json: @guild
   end
 
   # GET /guilds/new

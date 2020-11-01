@@ -74,8 +74,6 @@ var Users = Backbone.Collection.extend({
 
 var usercollection = new Users();
 
-
-
 //_____________________________________ Guild _____________________________________
 var Guild = Backbone.Model.extend({
 	urlRoot: "/guilds.json",
@@ -272,12 +270,17 @@ var GuildView = Backbone.View.extend({
 	},
 	render : async function() {
 		var user = new User();
-		user.urlRoot = "/users/" + current_user_id 
+		user.urlRoot = "/users/" + current_user_id
 		await user.fetch();
 		user = user.toJSON();
 
 		if (user.guild_participation_id != null){
-			this.render_history(user.guild_participation_id);
+			var guild_p = new GuildParticipation();
+			guild_p.urlRoot = "/guild_participations/" + user.guild_participation_id
+			await guild_p.fetch();
+			guild_p = guild_p.toJSON();
+
+			this.render_history(guild_p.guild_id, true);
 		}
 		else{
 			await this.collection.fetch();
@@ -287,12 +290,21 @@ var GuildView = Backbone.View.extend({
 		}
 		return this;
 	},
-	render_history: function(guild_id)
+	render_history: async function(guild_id, is_current_user_guild)
 	{
-		console.log("guild history of guild =", guild_id);
-		
+		var guild = new Guild();
+		guild.urlRoot = "/guilds/" + guild_id 
+		await guild.fetch();
+		guild = guild.toJSON();
+
+		var owner = new User();
+		owner.urlRoot = "/users/" + guild.owner_id
+		await owner.fetch();
+
 		this.$el.html(this.template_guild_history({
-			guilds: this.collection.toJSON()
+			guild: guild,
+			owner: owner.toJSON(),
+			is_current_user_guild,
 		}));
 	},
 	render_all_guild : async function() {
@@ -517,7 +529,7 @@ var Router = Backbone.Router.extend({
 		guildview.render();
 	},
 	ft_guild_param: function(id_guild) {
-		guildview.render_history(id_guild);
+		guildview.render_history(id_guild, false);
 	},
 	ft_option: function() {
 		optionview.render();

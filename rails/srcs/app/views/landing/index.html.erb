@@ -28,6 +28,7 @@
 		<%= render "pages/guild" %>
 		<%= render "pages/option" %>
 		<%= render "pages/profil" %>
+		<%= render "pages/profil2" %>
 		<%= render "pages/tournament" %>
 		<%= render "pages/war" %>
 		<%= render "pages/all_guild" %>
@@ -104,6 +105,60 @@ var Guilds = Backbone.Collection.extend({
 
 var guildcollection = new Guilds();
 
+//_____________________________________ GuildParticipation _____________________________________
+
+var GuildParticipation = Backbone.Model.extend({
+	urlRoot: "/guild_participations.json",
+
+});
+
+var GuildsParticipations = Backbone.Collection.extend({
+	model: GuildParticipation,
+	url: "/guild_participations.json",
+
+	initialize : function() {
+		console.log("Collection created");
+	}
+});
+
+var guildParticipationcollection = new GuildsParticipations();
+
+
+//_____________________________________ Friendship _____________________________________
+
+var Friendship = Backbone.Model.extend({
+	urlRoot: "/friendships.json",
+
+});
+
+var Friendships = Backbone.Collection.extend({
+	model: Friendship,
+	url: "/friendships.json",
+
+	initialize : function() {
+		console.log("Collection created");
+	}
+});
+
+var friendshipcollection = new Friendships();
+
+//_____________________________________ Match _____________________________________
+
+var Game = Backbone.Model.extend({
+	urlRoot: "/games.json",
+
+});
+
+var Games = Backbone.Collection.extend({
+	model: Game,
+	url: "/games.json",
+
+	initialize : function() {
+	}
+});
+
+var gamecollection = new Games();
+
 //******************************************** VIEWS ********************************************
 
 //_____________________________________ LogView _____________________________________
@@ -116,7 +171,7 @@ var LogView = Backbone.View.extend({
 		console.log("LogView created");
 		this.listenTo(this.collection, 'add remove', this.render, this);
 		this.collection.url = "/users.json";
-	  	this.collection.fetch({wait: true});
+	  	await this.collection.fetch({wait: true});
 		console.log(this.collection.toJSON());
 	},
 
@@ -156,7 +211,6 @@ var LogView = Backbone.View.extend({
 	logout: function() {
 		var form_data = new FormData();
 		var session_id = <%== current_user.sessions.last.id %>;
-		// console.log("session_id: ", session_id);
 		$.ajax({
 			url: "/sessions/" + session_id,
 			data: false,
@@ -312,17 +366,81 @@ var PlayView = Backbone.View.extend({
 var ProfilView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#profil-template').html()),
+	collection: usercollection,
   
 	initialize : function() {
 		console.log("ProfilView created");
 	},
   
-	render : function() {
-	  this.$el.html(this.template);
+	render : async function() {
 		console.log("Render Profil");
+//		var current_id = <%= current_user.id %>;
+		var current_id = 2;
+		await this.collection.fetch();
+		current_user = this.collection.findWhere({id: current_id});
+	
+		guild = new Guild();
+		guild.url = "/guild_participations/" + current_id + ".json"
+		await guild.fetch();
+
+	
+		friendshipcollection.url = "/friendships/" + current_id; 
+		await friendshipcollection.fetch();
+
+		gamecollection.url = "/games" + current_id;
+//		await gamecollection.fetch();
+//		console.log(gamecollection.toJSON())
+	
+		this.$el.html(this.template({user: current_user.toJSON(), guild: guild.toJSON(), friend: friendshipcollection.toJSON()}));
 		return this;
 	}
 });
+
+//_____________________________________ Profil2View _____________________________________
+
+var Profil2View = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($('#profil2-template').html()),
+	collection: usercollection,
+
+	events: {
+		//"click #add_to_friend": "add_friend"
+		"click #return": "return_profil",
+	},
+  
+	initialize : function() {
+		console.log("Profil2View created");
+	},
+  
+	render : async function(id_user) {
+		console.log("Render Profil2");
+		await this.collection.fetch();
+		console.log(this.collection.toJSON());
+		console.log(id_user);
+		user = this.collection.findWhere({id: parseInt(id_user)});
+		console.log(user.toJSON());
+	
+		guild = new Guild();
+		guild.url = "/guild_participations/" + id_user + ".json"
+		await guild.fetch();
+		console.log(guild.toJSON());
+
+	
+		this.$el.html(this.template({user: user.toJSON(), guild: guild.toJSON()}));
+		return this;
+	},
+
+	return_profil : function() {
+		Backbone.history.navigate("/profil", {trigger: true});
+		Backbone.history.loadUrl();	
+	}
+
+//	add_friend : function() {
+//			-----> requete au controlleur notif (create)
+//	}
+
+});
+
 
 //_____________________________________ TournamentView _____________________________________
 var TournamentView = Backbone.View.extend({
@@ -418,6 +536,7 @@ var playview = new PlayView();
 var guildview = new GuildView();
 var optionview = new OptionView();
 var profilview = new ProfilView();
+var profil2view = new Profil2View();
 var tournamentview = new TournamentView();
 var warview = new WarView();
 
@@ -432,6 +551,7 @@ var Router = Backbone.Router.extend({
 		'tournament': "ft_tournament",
 		'war/:id_guild': "ft_war_param",
 		'war': "ft_war",
+		'profil/:id_user': "ft_profil_param"
 	},
 	ft_log: function() {
 		logview.render();
@@ -460,6 +580,9 @@ var Router = Backbone.Router.extend({
 	ft_war_param: function(id_guild) {
 		warview.render_param_guild(id_guild);
 	},
+	ft_profil_param : function(id_user) {
+		profil2view.render(id_user);	
+	}
 });
 
 $( "#logo" ).on( "click", function() {

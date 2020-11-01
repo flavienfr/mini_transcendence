@@ -10,6 +10,8 @@ class GuildParticipationsController < ApplicationController
   # GET /guild_participations/1
   # GET /guild_participations/1.json
   def show
+    @guild = Guild.find(GuildParticipation.find(params[:id]).guild_id)
+    render json: @guild
   end
 
   # GET /guild_participations/new

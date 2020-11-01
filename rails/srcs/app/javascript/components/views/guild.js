@@ -5,6 +5,8 @@ export var GuildView = Backbone.View.extend({
 
 	initialize : function() {
 		console.log("GuildView created");
+		console.log("GuildView created");
+		console.log("GuildView created");
 	},
 
 	events: {
@@ -14,6 +16,7 @@ export var GuildView = Backbone.View.extend({
 
 	render : function() {
 		this.$el.html(this.template);
+		console.log("Render Guild");
 		console.log("Render Guild");
 		return this;
 	},

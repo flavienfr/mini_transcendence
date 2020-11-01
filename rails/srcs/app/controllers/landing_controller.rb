@@ -20,14 +20,7 @@ class LandingController < ApplicationController
         # puts @in_channels.to_json;#a utiliser
         # puts "---------b---------"
       end
-    
-    # puts params.inspect
-
     # auth
-    
-      # puts @current_user
-    # @current_user = @@current_user
-    # @@current_user
     if (params[:code])
       auth(params[:code])
     end

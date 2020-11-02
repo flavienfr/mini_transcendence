@@ -19,6 +19,7 @@
 				console.log("O");
 			console.log($("#dropdownMenuButton").text());
 		});
+		
 	</script>
 
 	<div class="container-fluide body-page" id="inside-page">
@@ -159,8 +160,24 @@ var Games = Backbone.Collection.extend({
 
 var gamecollection = new Games();
 
-//******************************************** VIEWS ********************************************
+//_____________________________________ Notification _____________________________________
 
+var Notification = Backbone.Model.extend({
+	urlRoot: "/notifications.json",
+
+});
+
+var Notifications = Backbone.Collection.extend({
+	model: Notification,
+	url: "/notifications.json",
+
+	initialize : function() {
+	}
+});
+
+var notificationcollection = new Notifications();
+
+//******************************************** VIEWS ********************************************
 //_____________________________________ LogView _____________________________________
 var LogView = Backbone.View.extend({
 	el : '#inside-page',
@@ -172,7 +189,6 @@ var LogView = Backbone.View.extend({
 		this.listenTo(this.collection, 'add remove', this.render, this);
 		this.collection.url = "/users.json";
 	  	await this.collection.fetch({wait: true});
-		console.log(this.collection.toJSON());
 	},
 
 	events: {
@@ -203,13 +219,11 @@ var LogView = Backbone.View.extend({
 			var to_delete = this.collection.get(user.id);
 	  		this.collection.url = "/users"
 			to_delete.destroy();
-	  		console.log(this.collection.toJSON());
 			this.render();
 		}	
 	 },
 	  
-	logout: function() {
-		var form_data = new FormData();
+	logout: function() { 
 		var session_id = <%== current_user.sessions.last.id %>;
 		$.ajax({
 			url: "/sessions/" + session_id,
@@ -222,8 +236,27 @@ var LogView = Backbone.View.extend({
 				window.location.href = "http://localhost:3000";
 			}
 		})
+		
 	},
 
+})
+
+//_____________________________________ NotifView _____________________________________
+var NotifView = Backbone.View.extend({
+	el : '#notif_item',
+	template: _.template($('#notif-template').html()),
+
+	initialize : function() {
+	},
+
+	render : async function() {
+		await notificationcollection.fetch();
+
+		console.log(notificationcollection.toJSON());	
+		this.$el.html(this.template({notification: notificationcollection.toJSON()}));
+		console.log("Render Notif");
+		return this;
+	},
 })
 
 //_____________________________________ ChatView _____________________________________
@@ -387,7 +420,7 @@ var ProfilView = Backbone.View.extend({
 		friendshipcollection.url = "/friendships/" + current_id; 
 		await friendshipcollection.fetch();
 
-		gamecollection.url = "/games" + current_id;
+//		gamecollection.url = "/games" + current_id;
 //		await gamecollection.fetch();
 //		console.log(gamecollection.toJSON())
 	
@@ -402,10 +435,11 @@ var Profil2View = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#profil2-template').html()),
 	collection: usercollection,
+	user_cible: 0,
 
 	events: {
-		//"click #add_to_friend": "add_friend"
 		"click #return": "return_profil",
+		"click #add_to_friend": "add_friend"
 	},
   
 	initialize : function() {
@@ -414,18 +448,14 @@ var Profil2View = Backbone.View.extend({
   
 	render : async function(id_user) {
 		console.log("Render Profil2");
+		user_cible = parseInt(id_user);
 		await this.collection.fetch();
-		console.log(this.collection.toJSON());
-		console.log(id_user);
 		user = this.collection.findWhere({id: parseInt(id_user)});
-		console.log(user.toJSON());
 	
 		guild = new Guild();
 		guild.url = "/guild_participations/" + id_user + ".json"
 		await guild.fetch();
-		console.log(guild.toJSON());
 
-	
 		this.$el.html(this.template({user: user.toJSON(), guild: guild.toJSON()}));
 		return this;
 	},
@@ -433,11 +463,16 @@ var Profil2View = Backbone.View.extend({
 	return_profil : function() {
 		Backbone.history.navigate("/profil", {trigger: true});
 		Backbone.history.loadUrl();	
-	}
+	},
 
-//	add_friend : function() {
-//			-----> requete au controlleur notif (create)
-//	}
+	add_friend : async function() {
+		console.log("Add friend");
+		var current_id = <%= current_user.id %>;
+		notif = new Notification({from_user_id: current_id, to_user_id: user_cible});
+		await notif.save();
+		console.log(notif.toJSON());
+
+	}
 
 });
 
@@ -539,6 +574,11 @@ var profilview = new ProfilView();
 var profil2view = new Profil2View();
 var tournamentview = new TournamentView();
 var warview = new WarView();
+var notifview = new NotifView();
+
+document.addEventListener("notif2", function(event){
+			notifview.render();
+});
 
 var Router = Backbone.Router.extend({
 	routes: {
@@ -618,7 +658,7 @@ $( "#nav_to_war" ).on( "click", function() {
 });
 
 var router = new Router();
-
+notifview.render();
 Backbone.history.start();
 
 </script>

@@ -95,10 +95,10 @@
                         <img src="<%%= friend[i].avatar %>" width="70" height="70" alt="" class="profil profil-photo">
                         <button class="friend_name" onclick="Backbone.history.navigate('/profil/<%%= friend[i].id %>', {trigger: true});" class="friend"><%%= friend[i].name %></button>
                         <%% if (friend[i].current_status == "online") { %>
-                            <span class="badge badge-success" style="background: #02800d;">Online</span>
+                            <span class="badge badge-success badge_profil1" style="background: #02800d;">Online</span>
                         <%% } %>
                         <%% if (friend[i].current_status == "") { %>
-                            <span class="badge badge-success status">Offline</span>
+                            <span class="badge badge-success status badge_profil1">Offline</span>
                         <%% } %>
                     </td>
                 </tr> 

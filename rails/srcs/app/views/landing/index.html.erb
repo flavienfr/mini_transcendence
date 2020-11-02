@@ -473,9 +473,9 @@ var ProfilView = Backbone.View.extend({
 		await this.collection.fetch();
 		current_user = this.collection.findWhere({id: current_id});
 	
-		guild = new Guild();
-		guild.url = "/guild_participations/" + current_id + ".json"
-		await guild.fetch();
+//		guild = new Guild();
+//		guild.url = "/guild_participations/" + current_id + ".json"
+//		await guild.fetch();
 
 	
 		friendshipcollection.url = "/friendships/" + current_id; 
@@ -485,7 +485,8 @@ var ProfilView = Backbone.View.extend({
 //		await gamecollection.fetch();
 //		console.log(gamecollection.toJSON())
 	
-		this.$el.html(this.template({user: current_user.toJSON(), guild: guild.toJSON(), friend: friendshipcollection.toJSON()}));
+//		this.$el.html(this.template({user: current_user.toJSON(), guild: guild.toJSON(), friend: friendshipcollection.toJSON()}));
+		this.$el.html(this.template({user: current_user.toJSON(), friend: friendshipcollection.toJSON()}));
 		return this;
 	}
 });
@@ -515,11 +516,12 @@ var Profil2View = Backbone.View.extend({
 		await this.collection.fetch();
 		user = this.collection.findWhere({id: parseInt(id_user)});
 	
-		guild = new Guild();
-		guild.url = "/guild_participations/" + id_user + ".json"
-		await guild.fetch();
+//		guild = new Guild();
+//		guild.url = "/guild_participations/" + id_user + ".json"
+//		await guild.fetch();
 
-		this.$el.html(this.template({user: user.toJSON(), guild: guild.toJSON()}));
+		this.$el.html(this.template({user: user.toJSON()}));
+//		this.$el.html(this.template({user: user.toJSON(), guild: guild.toJSON()}));
 		return this;
 	},
 

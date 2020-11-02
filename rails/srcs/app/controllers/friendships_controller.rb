@@ -4,12 +4,6 @@ class FriendshipsController < ApplicationController
   # GET /friendships
   # GET /friendships.json
   def index
-    @friendships = Friendship.all
-  end
-
-  # GET /friendships/1
-  # GET /friendships/1.json
-  def show
     @friendships = Friendship.all 
     friendships_ids = Friendship.all
     .where('user1_id = ? or user2_id = ?', params[:id].to_i, params[:id].to_i)
@@ -19,6 +13,12 @@ class FriendshipsController < ApplicationController
     friendships_ids.delete(params[:id].to_i) 
     @users = User.where("id IN (?)", friendships_ids)
     render json: @users
+  end
+
+  # GET /friendships/1
+  # GET /friendships/1.json
+  def show
+    
   end
 
   # GET /friendships/new

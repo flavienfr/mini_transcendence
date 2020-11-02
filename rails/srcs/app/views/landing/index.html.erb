@@ -459,7 +459,7 @@ var ProfilView = Backbone.View.extend({
 //		await guild.fetch();
 
 	
-		friendshipcollection.url = "/friendships/" + current_id; 
+		friendshipcollection.url = "/friendships/?id=" + current_id; 
 		await friendshipcollection.fetch();
 
 //		gamecollection.url = "/games" + current_id;

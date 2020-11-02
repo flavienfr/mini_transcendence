@@ -101,25 +101,6 @@ var GuildParticipation = Backbone.Model.extend({
 
 var guildcollection = new Guilds();
 
-//_____________________________________ GuildParticipation _____________________________________
-
-var GuildParticipation = Backbone.Model.extend({
-	urlRoot: "/guild_participations.json",
-
-});
-
-var GuildsParticipations = Backbone.Collection.extend({
-	model: GuildParticipation,
-	url: "/guild_participations.json",
-
-	initialize : function() {
-		console.log("Collection created");
-	}
-});
-
-var guildParticipationcollection = new GuildsParticipations();
-
-
 //_____________________________________ Friendship _____________________________________
 
 var Friendship = Backbone.Model.extend({
@@ -138,7 +119,7 @@ var Friendships = Backbone.Collection.extend({
 
 var friendshipcollection = new Friendships();
 
-//_____________________________________ War _____________________________________
+//____________________________________ War _____________________________________
 
 var War = Backbone.Model.extend({
 	urlRoot: "/wars.json",

@@ -72,7 +72,6 @@ yamin = User.create(name: "yamin", avatar: "https://cdn.intra.42.fr/users/ylegzo
 flavien = User.create(name: "flavien", avatar: "https://cdn.intra.42.fr/users/froussel.jpg", current_status: "", points: 0, is_admin: false, guild_participation_id: nil)
 luc = User.create(name: "luc", avatar: "https://cdn.intra.42.fr/users/lhuang.jpg", current_status: "", points: 0, is_admin: false, guild_participation_id: nil) 
 maxime = User.create(name: "maxime", avatar: "https://cdn.intra.42.fr/users/mpouzol.jpg", current_status: "", points: 0, is_admin: false, guild_participation_id: nil) 
-
 # sessions
 # can't seed session because access_token expires 2 hours after generation
 # => cliquer se logger
@@ -91,6 +90,7 @@ assemblee = Guild.create(name: "The Assemblee", anagram: "42", points: 5412, is_
 order = Guild.create(name: "The Order", anagram: "42", points: 1235, is_making_war: false, owner_id: yamin.id)
 
 # guild participations
+
 # Assemblee
 ap1 = GuildParticipation.create(user_id: francis.id, guild_id: assemblee.id, is_admin: true, is_officer: false)
 francis.guild_participation_id = ap1.id

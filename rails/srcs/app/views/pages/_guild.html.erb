@@ -12,13 +12,13 @@
 				</div>
 
 				<div class="guild_create_body">
-					<div class="selector">
+					<div class="selector_1">
 						<label for="guildName">Guild name</label>
 						<input type="text" class="form-control" id="inputGuildName" required minlength="3" maxlength="20">
 					</div>
-					<div class="selector">
-						<label for="guildAnagram">Guild name</label>
-						<input type="text" class="form-control" id="inputGuildAnagram" required minlength="2" maxlength="5" >
+					<div class="selector_2">
+						<label for="guildAnagram">Guild anagram</label>
+						<input type="text" style="text-transform: uppercase;" class="form-control" id="inputGuildAnagram" required minlength="2" maxlength="5" >
 					</div>
 				</div>
 				<div class="guild_create_footer">
@@ -34,7 +34,7 @@
 			</div>
 			
 			<div class="guild_join_body">		
-				<div class="selector">
+				<div class="selector_3">
 					<label for="inputStatus">Guild list</label>
 					<select id="all_guild_dropdown" class="form-control form-control-md">
 						<%%	for (let i = 0; i < guilds.length; i++) { %>

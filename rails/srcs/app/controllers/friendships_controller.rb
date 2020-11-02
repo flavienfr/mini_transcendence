@@ -19,7 +19,6 @@ class FriendshipsController < ApplicationController
     friendships_ids.delete(params[:id].to_i) 
     @users = User.where("id IN (?)", friendships_ids)
     render json: @users
-
   end
 
   # GET /friendships/new

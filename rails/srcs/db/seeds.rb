@@ -115,5 +115,5 @@ gm2 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,
 gm3 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "ladder", winner_id: francis.id, war_id: nil, tournament_id: nil, channel_id: nil)
 
 # game participations
-gm1p = GameParticipation.create(user_id: yamin.id, game_id: gm1.id, score: 15, is_winner: false, created_at: DateTime.now, update_at: DateTime.now)
-gm2p = GameParticipation.create(user_id: yamin.id, game_id: gm2.id, score: 11, is_winner: false, created_at: DateTime.now, update_at: DateTime.now)
+gm1p = GameParticipation.create(user_id: yamin.id, game_id: gm1.id, score: 15, is_winner: false, created_at: DateTime.now)
+gm2p = GameParticipation.create(user_id: yamin.id, game_id: gm2.id, score: 11, is_winner: false, created_at: DateTime.now)

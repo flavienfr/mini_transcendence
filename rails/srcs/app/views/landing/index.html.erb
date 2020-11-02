@@ -566,7 +566,8 @@ var WarView = Backbone.View.extend({
 		"change #guild_drop_down": "render_guild_info",
 		"submit #create_war": "add"
 	},
-	add: async function() {
+	add: async function(evt) {
+		evt.preventDefault();
 		console.log("IN add war");
 		
 		var guild_name = $("#guild_drop_down option:selected").text();
@@ -583,7 +584,15 @@ var WarView = Backbone.View.extend({
 		});
 
 		console.log("ask_for_war: ", ask_for_war);
-		await ask_for_war.save({wait: true});
+		await ask_for_war.save({
+			success: function(model, response) {
+				alert("Demande envoyé");
+			},
+			error: function(model, response) {
+				alert("Declaration fail, the guild could be at war");
+			},
+			wait: true
+		});
 		//check return error is_in_war variable uptdate
 	},
 	render_guild_info : async function() {

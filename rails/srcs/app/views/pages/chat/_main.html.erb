@@ -32,7 +32,7 @@
 			</svg>
 		</a>
 		<a id="chat" >
-			<button type="submit" id="post_msg" onclick="f()" class="btn btn-primary btn-dark">Send</button>
+			<button type="submit" id="post_msg" onclick="ft_send()" class="btn btn-primary btn-dark">Send</button>
 		</a>
 	</div>
 	</div>
@@ -90,7 +90,7 @@
 					{
 						console.log(data);
 						console.log("got success");
-						if (data.length == 0)
+						if (!data || data.length == 0)//on met first coté rails mtn
 						{
 							pwd = prompt("a password is needed");
 							console.log("pwd" + pwd);
@@ -144,7 +144,7 @@
 			console.log("scope:" + channel_or_user_selected.scope);
 			data.append("scope", channel_or_user_selected.scope ? channel_or_user_selected.scope : "direct");
 			$.ajax({
-				url: 'channel_participations',
+				url: '/channel_participations',
 				data: data,
 				type: 'POST',
 				processData: false,
@@ -201,7 +201,7 @@
 				}
 			});
 		}
-		function f(){
+		function ft_send(){
 			console.log("here");
 			console.log($('#text_to_send').val());
 			var text = $('#text_to_send').val();

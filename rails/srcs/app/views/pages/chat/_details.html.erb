@@ -42,18 +42,32 @@
             //contentType: false,
             type: 'GET',
             dataType: 'json',
-            success: function(data)
+            success: function(data1)
             {
-                console.log("list" + data);
-                var show_div = $("#list_of_participants");
-                show_div.append("<p>list of participants</p>")
-                var i = 0;
-                while (i < data.length)
-                {
-                    console.log("here");
-                    show_div.append("<div><a href='/#profile/"+ data[i].id +"'>" + data[i].name + "</a></div>");
-                    i++;
-                }
+                $.ajax({
+                    url: '/channel_participations',
+                    data: {user_id: <%== current_user.id %>, receiver_id: <%%= channel.id %>},
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data2)
+                    {
+                        var user = data2;
+                        console.log("list" + data1);
+                        var show_div = $("#list_of_participants");
+                        show_div.append("<p>list of participants</p>")
+                        var i = 0;
+                        while (i < data1.length)
+                        {
+                            console.log("here");
+                            console.log(<%%= channel.owner_id %>);
+                            show_div.append("<div><a href='/#profile/"+ data1[i].id +"'>" + data1[i].name + "</a>" +
+                                            (user.is_admin ? "<button onclick='ft_adminize(" + data1[i].id + ")'>Adminize</button>" : "") +
+                                            (user.is_admin && <%%= channel.owner_id %> != data1[i].id ? "<button onclick='ft_kick(" + data1[i].id + ")'>kick</button>" : "") +
+                                            "</div>");
+                            i++;
+                        }
+                    }
+                })
             }
         });
         function ft_add_participant(id)
@@ -76,6 +90,36 @@
                     chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
                 }
             })
+        }
+        function ft_adminize(user_id)
+        {
+            console.log("adminize");
+            var ChannelParticipation = Backbone.Model.extend({
+                urlRoot: '/channel_participations'
+            });
+            var channel_participation = new ChannelParticipation();
+            channel_participation.fetch({data: {user_id: user_id, receiver_id: <%%= channel.id %>}, success: function(){
+                channel_participation.unset('created_at');
+                channel_participation.unset('updated_at');
+                channel_participation.set({is_admin: true});
+                console.log(channel_participation.toJSON());
+                channel_participation.save();
+                chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+            }});
+        }
+        function ft_kick(user_id)
+        {
+            console.log("kick");
+            var ChannelParticipation = Backbone.Model.extend({
+                urlRoot: '/channel_participations'
+            });
+            var channel_participation = new ChannelParticipation();
+            channel_participation.fetch({data: {user_id: user_id, receiver_id: <%%= channel.id %>}, success: function(){
+                console.log(channel_participation);
+                channel_participation.destroy({success: function(){
+                    chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+                }});
+            }})
         }
     </script>
 </script>

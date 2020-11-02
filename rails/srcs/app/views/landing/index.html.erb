@@ -13,11 +13,21 @@
 		document.addEventListener("notif", function(event){
 			console.log("notif listener");
 			console.log(event.detail.data);
-			if ($("#dropdownMenuButton").text() == event.detail.data.sender.name)
+			if (event.detail.data.sender)
+			{
+			if ($("#dropdownMenuButton").text() == event.detail.data.sender.name)//utiliser id plutot ?
 				chatview.setElement("#chat_area").render_chat_main(event.detail.data.sender);
 			else
 				console.log("O");
 			console.log($("#dropdownMenuButton").text());
+			}
+			if (event.detail.data.kicked_from)
+			{
+				console.log("here");
+				alert("you got kicked from " + event.detail.data.kicked_from.name);
+				if ($("#dropdownMenuButton").text() == event.detail.data.kicked_from.name && event.detail.data.kicked_from.scope != "direct")
+					chatview.setElement("#chat_area").render_chat_main();//marche pas quand on est dans show par exemple
+			}
 		});
 	</script>
 

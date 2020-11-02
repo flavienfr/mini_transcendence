@@ -4,7 +4,7 @@ class ChannelParticipationsController < ApplicationController
   # GET /channel_participations
   # GET /channel_participations.json
   def index
-    @channel_participations = ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id])
+    @channel_participations = ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).first
     respond_to do |format|
       format.html
       format.json {render json: @channel_participations}
@@ -122,7 +122,10 @@ class ChannelParticipationsController < ApplicationController
   # DELETE /channel_participations/1
   # DELETE /channel_participations/1.json
   def destroy
+    channelP_info = ChannelParticipation.find_by(id: params[:id]);
+    channel = channelP_info.channel;
     @channel_participation.destroy
+    ActionCable.server.broadcast("notification_channel_" + channelP_info[:user_id].to_s, {kicked_from: channel});
     respond_to do |format|
       format.html { redirect_to channel_participations_url, notice: 'Channel participation was successfully destroyed.' }
       format.json { head :no_content }
@@ -137,6 +140,6 @@ class ChannelParticipationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def channel_participation_params
-      params.require(:channel_participation).permit(:user_id, :channel_id, :is_owner, :is_admin, :status)
+      params.require(:channel_participation).permit(:id, :user_id, :channel_id, :is_owner, :is_admin, :status)
     end
 end

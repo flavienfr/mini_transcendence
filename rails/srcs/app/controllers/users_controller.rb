@@ -4,7 +4,25 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
+    puts params;
     @users = User.all
+    if (params[:users_to_get] == "participants")
+      @users_in = User.where("id IN (?)", Channel.find_by(id: params[:channel_id]).channel_participations.pluck(:user_id));
+      respond_to do |format|
+        format.html
+        format.json { render json: @users_in}
+      end
+    elsif (params[:users_to_get] == "not_participants")
+      participants = Channel.find_by(id: params[:channel_id]).channel_participations;
+      @users_not_in = @users;
+      if (participants.size > 0)
+        @users_not_in = @users.where.not("id IN (?)", participants.pluck(:user_id));
+      end
+      respond_to do |format|
+        format.html
+        format.json { render json: @users_not_in}
+      end
+    end
   end
 
   # GET /users/1

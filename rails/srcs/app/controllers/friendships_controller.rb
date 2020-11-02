@@ -10,6 +10,15 @@ class FriendshipsController < ApplicationController
   # GET /friendships/1
   # GET /friendships/1.json
   def show
+    @friendships = Friendship.all 
+    friendships_ids = Friendship.all
+    .where('user1_id = ? or user2_id = ?', params[:id].to_i, params[:id].to_i)
+    .pluck(:user1_id, :user2_id)
+    .uniq().flatten()
+
+    friendships_ids.delete(params[:id].to_i) 
+    @users = User.where("id IN (?)", friendships_ids)
+    render json: @users
   end
 
   # GET /friendships/new

@@ -4,17 +4,22 @@ class NotificationsController < ApplicationController
   # GET /notifications
   # GET /notifications.json
   def index
-    @notifications = Notification.all
+    # @notifications = Notification.all
+    @notification = Notification.where('to_user_id = ?', current_user.id)
+    render json: @notification
   end
 
   # GET /notifications/1
   # GET /notifications/1.json
   def show
+     puts "__________________________________"
+     puts @notification
+     puts "__________________________________"
   end
 
   # GET /notifications/new
   def new
-    @notification = Notification.new
+   
   end
 
   # GET /notifications/1/edit
@@ -26,6 +31,11 @@ class NotificationsController < ApplicationController
   def create
     @notification = Notification.new(notification_params)
 
+    # ------->  A changer (mettre la ligne commenter a la place de l'autre)
+    # notif_channel = "notification_channel_" + @notification.from_user_id.to_s;
+    notif_channel = "notification_channel_" + @notification.to_user_id.to_s;
+
+    ActionCable.server.broadcast(notif_channel, {notification: "On"})
     respond_to do |format|
       if @notification.save
         format.html { redirect_to @notification, notice: 'Notification was successfully created.' }
@@ -34,7 +44,7 @@ class NotificationsController < ApplicationController
         format.html { render :new }
         format.json { render json: @notification.errors, status: :unprocessable_entity }
       end
-    end
+      end
   end
 
   # PATCH/PUT /notifications/1

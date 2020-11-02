@@ -11,6 +11,7 @@
 <div class="container-fluide body-page" id="inside-page">
 	<div class="container">
 		<button type="button" id="sign_in" class="btn btn-primary btn-lg btn-block btn-dark">Sign in</button>
+		<button type="button" id="fake_sign_in" class="btn btn-primary btn-lg btn-block btn-dark">Fake sign</button>
 	</div>
 </div>
 
@@ -32,6 +33,23 @@ $( "#sign_in" ).on( "click", function() {
 	let full 			= http + client + redirect + response_type + scope + state;
 	console.log("full:" + full);
 	window.location.href = full;
+});
+
+$( "#fake_sign_in" ).on( "click", function() {
+	console.log("FAKE SIGN IN");
+	var formData = new FormData();
+	formData.append('id', 1);
+	formData.append('type', 'fake');
+	$.ajax({
+			url: "/?id=1&type=fake",
+			data: false,
+			processData: false,
+			contentType: false,
+			type: 'GET',
+			success: function(){
+				window.location.href = "http://localhost:3000";
+			}
+		})
 });
 
 

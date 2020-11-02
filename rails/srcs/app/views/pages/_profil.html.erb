@@ -5,12 +5,11 @@
     <div class="space1"></div>
     <div class="row1">
         <div class="elem">
-            <img src="<%= image_url('profil-photo.png') %>" width="100" height="100" alt="" class="profil profil-photo">
+            <img src="<%%= user.avatar %>" width="100" height="100" alt="" class="profil profil-photo">
             <div class="info">
-                <div class="profil pseudo">Yamyam</div>
-                <div class="profil name">ylegzouli</div>
-                <div class="profil ladder">Ladder Rank: 1</div>
-                <div class="profil guilde">Guilde: The Assembly</div>
+                <div class="profil name"><%%= user.name %></div>
+                <div class="profil ladder">Score: <%%= user.points %></div>
+                <div class="profil guilde">Guild: A faire</div>
             </div>
         </div>
     </div>
@@ -90,48 +89,20 @@
     <div class="container-tableau1">
         <table class="table">
             <tbody>
+                <%%	for (let i = 0; i < friend.length; i++) { %>
                 <tr>
                     <td>
-                        <img src="<%= image_url('profil-photo.png') %>" width="45" height="45" alt="">
-                        <a href="" class="friend">Test</a>
-                        <span class="badge badge-success" style="background: #02800d;">Online</span>
+                        <img src="<%%= friend[i].avatar %>" width="70" height="70" alt="" class="profil profil-photo">
+                        <button class="friend_name" onclick="Backbone.history.navigate('/profil/<%%= friend[i].id %>', {trigger: true});" class="friend"><%%= friend[i].name %></button>
+                        <%% if (friend[i].current_status == "online") { %>
+                            <span class="badge badge-success badge_profil1" style="background: #02800d;">Online</span>
+                        <%% } %>
+                        <%% if (friend[i].current_status == "") { %>
+                            <span class="badge badge-success status badge_profil1">Offline</span>
+                        <%% } %>
                     </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="<%= image_url('profil-photo.png') %>" width="45" height="45" alt="">
-                        <a href="" class="friend">Mark</a>
-                        <span class="badge  badge-success" style="background: #b90000;">Offline</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="<%= image_url('profil-photo.png') %>" width="45" height="45" alt="">
-                        <a href="" class="friend">Aaslefknf</a>
-                        <span class="badge badge-success" style="background: #f18a03;">In game</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="<%= image_url('profil-photo.png') %>" width="45" height="45" alt="">
-                        <a href="" class="friend">luigi test</a>
-                        <span class="badge badge-success" style="background: #02800d;">Online</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="<%= image_url('profil-photo.png') %>" width="45" height="45" alt="">
-                        <a href="" class="friend">Test</a>
-                        <span class="badge badge-success" style="background: #02800d;">Online</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="<%= image_url('profil-photo.png') %>" width="45" height="45" alt="">
-                        <a href="" class="friend">Test</a>
-                        <span class="badge badge-success" style="background: #b90000;">Offline</span>
-                    </td>
-                </tr>
+                </tr> 
+                <%% } %>
             </tbody>
         </table>
     </div>

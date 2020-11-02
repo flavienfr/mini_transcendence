@@ -81,6 +81,10 @@ f1 = Friendship.create(user1_id: francis.id, user2_id: yamin.id, status: "active
 f2 = Friendship.create(user1_id: francis.id, user2_id: flavien.id, status: "active")
 f3 = Friendship.create(user1_id: francis.id, user2_id: luc.id, status: "active")
 f4 = Friendship.create(user1_id: francis.id, user2_id: maxime.id, status: "active")
+f5 = Friendship.create(user1_id: yamin.id, user2_id: flavien.id, status: "active")
+f6 = Friendship.create(user1_id: yamin.id, user2_id: luc.id, status: "active")
+f7 = Friendship.create(user1_id: yamin.id, user2_id: maxime.id, status: "active")
+
 # guilds
 assemblee = Guild.create(name: "The Assemblee", anagram: "42", points: 5412, is_making_war: false ,owner_id: francis.id)
 order = Guild.create(name: "The Order", anagram: "42", points: 1235, is_making_war: false, owner_id: yamin.id)
@@ -104,3 +108,12 @@ luc.save
 op3 = GuildParticipation.create(user_id: maxime.id, guild_id: order.id, is_admin: false, is_officer: true)
 maxime.guild_participation_id = op3.id
 maxime.save
+
+# games
+gm1 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "war", winner_id: luc.id, war_id: nil, tournament_id: nil, channel_id: nil)
+gm2 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "tournament", winner_id: flavien.id, war_id: nil, tournament_id: nil, channel_id: nil)
+gm3 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "ladder", winner_id: francis.id, war_id: nil, tournament_id: nil, channel_id: nil)
+
+# game participations
+gm1p = GameParticipation.create(user_id: yamin.id, game_id: gm1.id, score: 15, is_winner: false, created_at: DateTime.now, update_at: DateTime.now)
+gm2p = GameParticipation.create(user_id: yamin.id, game_id: gm2.id, score: 11, is_winner: false, created_at: DateTime.now, update_at: DateTime.now)

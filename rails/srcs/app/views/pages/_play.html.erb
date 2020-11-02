@@ -5,10 +5,120 @@
 	<div class="row">
     	<div id ="pong-area"  class="col text-center">
       		<h1>Le play pong</h1>
-			  <button class="bt bt_add" id="play-game">PLAY</button>
-    	</div>
-		<div class="col chat" id="chat_area">
-    	</div>
-  	</div>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                select your contender !
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <% users = User.all%>
+                <% users.each do |user| %>
+                <%if (user.id != current_user.id)%>
+                    <a class="dropdown-item" id=<%= user.id%> onclick="set_content(<%=user.id%>, <%= current_user.id%>)"> <%=user.name %></a>
+                <%end %>
+                <% end %>
+            </div>
+        </div>
+	<button class="bt bt_add" id="play-game">PLAY</button>
+    </div>
+	<div class="col chat" id="chat_area">
+    </div>
 </div>
+<script>
+var guest_id = 0; // set a change in set_content
+var host_id = 0; //set at 0 changer in set_content
+
+function set_content(id, current_user)
+{
+    guest_id = id;
+    host_id = current_user;
+    console.log(guest_id);
+    get_contender();
+}
+
+function get_contender()
+{
+    var is_playing  = false;
+    socket = new WebSocket("ws://localhost:3000/cable");
+    socket.onopen=  function()
+    {
+        socket.send(JSON.stringify({
+            command: "subscribe",
+            identifier: JSON.stringify({
+			channel: "PongnotChannel",
+			pong_id: 0
+    })
+	}));
+	ft_send();
+    } 
+
+    function ft_send()
+    {
+        socket.send(JSON.stringify({
+            command: "message",
+            identifier: JSON.stringify({
+                channel: "PongnotChannel",
+                pong_id: 0
+                }),
+                data: JSON.stringify({
+                    data: {id_host: host_id, id_guest: guest_id} // mettre en place systeme pour envoyer le host et le gest avec id
+                })
+        }));
+    }
+
+
+socket.onmessage = function(event) {            
+const response = event.data;
+const msg = JSON.parse(response);
+	// selecte only y pos of user2
+	if (msg.type == "ping")
+        return ;
+    if (msg.message.data.id_guest == host_id && is_playing == false && msg.message.data.game)
+    {
+        console.log("je suis rentré ici");
+        pongview.setElement("#pong-area").render(); // aulieu du playgame faire un systeme qui appelle la _pongHost
+    }
+    else if (msg.message.data.id_guest == host_id && is_playing == false)
+    {
+			var val = window.confirm("hey un nouveau gars veut jouer avec toi !") ;
+			is_playing = val; // ameliorer la boite de dialogue ici renvoi true car permet a ce que le joueur quand il joue ne soit pas importuner
+			if (is_playing == true)
+			{	
+                console.log("game true");
+                socket.send(JSON.stringify({
+                command: "message",
+                identifier: JSON.stringify({
+                channel: "PongnotChannel",
+                pong_id: 0
+            }),
+            data: JSON.stringify({
+                data: {game: "true", id_host: host_id, id_guest: guest_id} // mettre en place systeme pour envoyer le host et le gest avec id
+            })
+              }));
+            console.log("game is sending");
+            pongguest.setElement("#pong-area").render(); // aulieu du playgame faire un systeme qui appelle la _pongHost
+
+           }
+            else
+			{
+			socket.send(JSON.stringify({
+            command: "message",
+            identifier: JSON.stringify({
+                channel: "PongnotChannel",
+                pong_id: 0
+
+            }),
+            data: JSON.stringify({
+                data: {agree: "false"} // mettre en place systeme pour envoyer le host et le gest avec id
+            })
+        }));
+	}
+	}    
+};
+
+
+}
+
+
+
+</script>
 </script>

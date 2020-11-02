@@ -35,6 +35,7 @@
 		<%= render "pages/chat/create" %>
 		<%= render "pages/chat/main" %>		
 		<%= render "pages/pongHost" %>
+		<%= render "pages/pongGuest"%>
 
 	</div>
 
@@ -153,7 +154,10 @@ var LogView = Backbone.View.extend({
 		}	
 	 },
 	  
+	
 	logout: function() {
+
+		<%if false%>
 		var form_data = new FormData();
 		var session_id = <%== current_user.sessions.last.id %>;
 		// console.log("session_id: ", session_id);
@@ -168,6 +172,7 @@ var LogView = Backbone.View.extend({
 				window.location.href = "http://localhost:3000";
 			}
 		})
+	<%end%>
 	},
 
 })
@@ -270,6 +275,20 @@ var PongView = Backbone.View.extend({
 
 var pongview = new PongView();
 
+//_____________________________________ PongGuest _____________________________________
+
+
+var PongGuest = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($("#pongGuest-template").html()),
+	render : function() {
+		this.$el.html(this.template);
+		return this;
+	}
+});
+
+var pongguest = new PongGuest();
+
 //_____________________________________ LiveView _____________________________________
 var LiveView = Backbone.View.extend({
 	el : '#inside-page',
@@ -315,7 +334,8 @@ var PlayView = Backbone.View.extend({
 
 	events: {
 		"click #play-game": "new_game"
-	  	},
+		  },	
+	
 
 	render : function() {
 		this.$el.html(this.template);
@@ -325,7 +345,7 @@ var PlayView = Backbone.View.extend({
 	},
 	new_game : function(){
 		pongview.setElement("#pong-area").render();
-
+		console.log("pong area");
 	}
 
 })

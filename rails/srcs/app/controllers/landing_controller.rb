@@ -5,6 +5,12 @@ class LandingController < ApplicationController
   def index
       if (current_user)
         @users = User.all
+        
+          # @notifications = Notification.all
+          # @notifications.each do |notification|
+            # notification.destroy
+          # end
+        
         # puts "------------a-----------"
         # @joignable_groups = Channel.where("scope = ? OR scope = ?", "public-group", "protected-group");
         # puts @joignable_groups.to_json;

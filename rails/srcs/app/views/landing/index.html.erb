@@ -19,6 +19,7 @@
 				console.log("O");
 			console.log($("#dropdownMenuButton").text());
 		});
+		
 	</script>
 
 	<div class="container-fluide body-page" id="inside-page">
@@ -28,6 +29,7 @@
 		<%= render "pages/guild" %>
 		<%= render "pages/option" %>
 		<%= render "pages/profil" %>
+		<%= render "pages/profil2" %>
 		<%= render "pages/tournament" %>
 		<%= render "pages/war" %>
 		<%= render "pages/all_guild" %>
@@ -99,7 +101,25 @@ var GuildParticipation = Backbone.Model.extend({
 
 var guildcollection = new Guilds();
 
-//_____________________________________ War _____________________________________
+//_____________________________________ Friendship _____________________________________
+
+var Friendship = Backbone.Model.extend({
+	urlRoot: "/friendships.json",
+
+});
+
+var Friendships = Backbone.Collection.extend({
+	model: Friendship,
+	url: "/friendships.json",
+
+	initialize : function() {
+		console.log("Collection created");
+	}
+});
+
+var friendshipcollection = new Friendships();
+
+//____________________________________ War _____________________________________
 
 var War = Backbone.Model.extend({
 	urlRoot: "/wars.json",
@@ -112,6 +132,39 @@ var Ask_for_war = Backbone.Model.extend({
 
 //******************************************** VIEWS ********************************************
 
+var Game = Backbone.Model.extend({
+	urlRoot: "/games.json",
+
+});
+
+var Games = Backbone.Collection.extend({
+	model: Game,
+	url: "/games.json",
+
+	initialize : function() {
+	}
+});
+
+var gamecollection = new Games();
+
+//_____________________________________ Notification _____________________________________
+
+var Notification = Backbone.Model.extend({
+	urlRoot: "/notifications.json",
+
+});
+
+var Notifications = Backbone.Collection.extend({
+	model: Notification,
+	url: "/notifications.json",
+
+	initialize : function() {
+	}
+});
+
+var notificationcollection = new Notifications();
+
+//******************************************** VIEWS ********************************************
 //_____________________________________ LogView _____________________________________
 var LogView = Backbone.View.extend({
 	el : '#inside-page',
@@ -122,8 +175,7 @@ var LogView = Backbone.View.extend({
 		console.log("LogView created");
 		this.listenTo(this.collection, 'add remove', this.render, this);
 		this.collection.url = "/users.json";
-	  	this.collection.fetch({wait: true});
-		console.log(this.collection.toJSON());
+	  	await this.collection.fetch({wait: true});
 	},
 
 	events: {
@@ -154,15 +206,12 @@ var LogView = Backbone.View.extend({
 			var to_delete = this.collection.get(user.id);
 	  		this.collection.url = "/users"
 			to_delete.destroy();
-	  		console.log(this.collection.toJSON());
 			this.render();
 		}	
 	 },
 	  
-	logout: function() {
-		var form_data = new FormData();
-		var session_id = <%== current_user.sessions.last.id %>; //#TMP >
-		// console.log("session_id: ", session_id);
+	logout: function() { 
+		var session_id = <%== current_user.sessions.last.id %>; // anti jaune >
 		$.ajax({
 			url: "/sessions/" + session_id,
 			data: false,
@@ -174,8 +223,27 @@ var LogView = Backbone.View.extend({
 				window.location.href = "http://localhost:3000";
 			}
 		})
+		
 	},
 
+})
+
+//_____________________________________ NotifView _____________________________________
+var NotifView = Backbone.View.extend({
+	el : '#notif_item',
+	template: _.template($('#notif-template').html()),
+
+	initialize : function() {
+	},
+
+	render : async function() {
+		await notificationcollection.fetch();
+
+		console.log(notificationcollection.toJSON());	
+		this.$el.html(this.template({notification: notificationcollection.toJSON()}));
+		console.log("Render Notif");
+		return this;
+	},
 })
 
 //_____________________________________ ChatView _____________________________________
@@ -373,17 +441,101 @@ var PlayView = Backbone.View.extend({
 var ProfilView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#profil-template').html()),
+	collection: usercollection,
   
 	initialize : function() {
 		console.log("ProfilView created");
 	},
   
-	render : function() {
-	  this.$el.html(this.template);
+	render : async function() {
 		console.log("Render Profil");
+//		var current_id = current_user_id;
+		var current_id = 2;
+		await this.collection.fetch();
+		current_user = this.collection.findWhere({id: current_id});
+	
+//		guild = new Guild();
+//		guild.url = "/guild_participations/" + current_id + ".json"
+//		await guild.fetch();
+
+	
+		friendshipcollection.url = "/friendships/?id=" + current_id; 
+		await friendshipcollection.fetch();
+
+//		gamecollection.url = "/games" + current_id;
+//		await gamecollection.fetch();
+//		console.log(gamecollection.toJSON())
+	
+//		this.$el.html(this.template({user: current_user.toJSON(), guild: guild.toJSON(), friend: friendshipcollection.toJSON()}));
+		this.$el.html(this.template({user: current_user.toJSON(), friend: friendshipcollection.toJSON()}));
 		return this;
 	}
 });
+
+//_____________________________________ Profil2View _____________________________________
+
+var Profil2View = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($('#profil2-template').html()),
+	collection: usercollection,
+	user_cible: 0,
+
+	events: {
+		"click #return": "return_profil",
+		"click #add_to_friend": "add_friend",
+		"click #ask_a_duel": "ask_duel"
+
+	},
+  
+	initialize : function() {
+		console.log("Profil2View created");
+	},
+  
+	render : async function(id_user) {
+		console.log("Render Profil2");
+		user_cible = parseInt(id_user);
+		await this.collection.fetch();
+		user = this.collection.findWhere({id: parseInt(id_user)});
+	
+//		guild = new Guild();
+//		guild.url = "/guild_participations/" + id_user + ".json"
+//		await guild.fetch();
+
+		this.$el.html(this.template({user: user.toJSON()}));
+//		this.$el.html(this.template({user: user.toJSON(), guild: guild.toJSON()}));
+		return this;
+	},
+
+	return_profil : function() {
+		Backbone.history.navigate("/profil", {trigger: true});
+		Backbone.history.loadUrl();	
+	},
+
+	add_friend : async function() {
+		console.log("Add friend");
+		var current_id = current_user_id;
+		user = this.collection.findWhere({id: parseInt(current_id)});
+		user = user.toJSON();
+		message = user.name + " send you a friend request";
+
+		notif = new Notification({from_user_id: current_id, to_user_id: user_cible, type: "", message: message});
+		await notif.save();
+
+	},
+
+	ask_duel : async function() {
+		console.log("Add friend");
+		var current_id = current_user_id;
+		user = this.collection.findWhere({id: parseInt(current_id)});
+		user = user.toJSON();
+		message = user.name + " challenge you";
+
+		notif = new Notification({from_user_id: current_id, to_user_id: user_cible, type: "", message: message});
+		await notif.save();
+
+	},
+});
+
 
 //_____________________________________ TournamentView _____________________________________
 var TournamentView = Backbone.View.extend({
@@ -509,8 +661,14 @@ var playview = new PlayView();
 var guildview = new GuildView();
 var optionview = new OptionView();
 var profilview = new ProfilView();
+var profil2view = new Profil2View();
 var tournamentview = new TournamentView();
 var warview = new WarView();
+var notifview = new NotifView();
+
+document.addEventListener("notif2", function(event){
+			notifview.render();
+});
 
 var Router = Backbone.Router.extend({
 	routes: {
@@ -524,6 +682,7 @@ var Router = Backbone.Router.extend({
 		'tournament': "ft_tournament",
 		'war/:id_guild': "ft_war_param",
 		'war': "ft_war",
+		'profil/:id_user': "ft_profil_param"
 	},
 	ft_log: function() {
 		logview.render();
@@ -555,6 +714,9 @@ var Router = Backbone.Router.extend({
 	ft_war_param: function(id_guild) {
 		warview.render_param_guild(id_guild);
 	},
+	ft_profil_param : function(id_user) {
+		profil2view.render(id_user);	
+	}
 });
 
 $( "#logo" ).on( "click", function() {
@@ -590,7 +752,7 @@ $( "#nav_to_war" ).on( "click", function() {
 });
 
 var router = new Router();
-
+notifview.render();
 Backbone.history.start();
 
 </script>

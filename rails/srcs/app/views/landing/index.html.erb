@@ -471,7 +471,7 @@ var ProfilView = Backbone.View.extend({
 	render : async function() {
 		console.log("Render Profil");
 //		var current_id = current_user_id;
-		var current_id = 2;
+		var current_id = 4;
 		await this.collection.fetch();
 		current_user = this.collection.findWhere({id: current_id});
 	
@@ -604,16 +604,33 @@ var WarView = Backbone.View.extend({
 			max_unanswered_call: $('#MaxUnansweredMatch').val(),
 		});
 
-		console.log("ask_for_war: ", ask_for_war);
-		await ask_for_war.save({
-			success: function(model, response) {
-				alert("Demande envoyé");
-			},
-			error: function(model, response) {
-				alert("Declaration fail, the guild could be at war");
-			},
-			wait: true
-		});
+		//await ask_for_war.save({
+		//	success: function(model, response) {
+		//		alert("Demande envoyé");
+		//	},
+		//	error: function(model, response) {
+		//		alert("Declaration fail, the guild could be in war");
+		//	},
+		//	wait: true
+		//});
+
+		await ask_for_war.save();
+
+		//Backbone.ajax({
+		//	url: '/ask_for_wars/1',
+		//	data: {},
+		//	type: 'PUT',
+		//	dataType: 'json',
+		//	success: function(response) {
+		//		console.log("Inside success");
+		//		console.log(response);
+		//	},
+		//	error: function()
+		//	{
+		//		alert("error");
+		//	}
+		//});
+
 		//check return error is_in_war variable uptdate
 	},
 	render_guild_info : async function() {

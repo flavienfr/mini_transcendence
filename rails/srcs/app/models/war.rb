@@ -1,4 +1,5 @@
 class War < ApplicationRecord
-    has_many :war_participation
-    belongs_to :game, optional: true
+    has_many :war_participations, dependent: :nullify
+    has_many :guilds, :through => :war_participations
+    has_many :games, dependent: :nullify
 end

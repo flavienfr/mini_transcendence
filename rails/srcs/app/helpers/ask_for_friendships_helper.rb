@@ -1,0 +1,2 @@
+module AskForFriendshipsHelper
+end

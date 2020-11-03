@@ -1,0 +1,571 @@
+<%= stylesheet_link_tag "style-header.css" %>
+
+<% if !current_user %> <!-- user not connected-->
+	<%= render "pages/signin" %>
+
+<% else %> 
+	<%= render "pages/navbar" %>
+
+	<script>
+		document.dispatchEvent(new CustomEvent("logged", {
+			detail: {id: <%= current_user.id %>}
+		}));
+		document.addEventListener("notif", function(event){
+			console.log("notif listener");
+			console.log(event.detail.data);
+			if ($("#dropdownMenuButton").text() == event.detail.data.sender.name)
+				chatview.setElement("#chat_area").render_chat_main(event.detail.data.sender);
+			else
+				console.log("O");
+			console.log($("#dropdownMenuButton").text());
+		});
+	</script>
+
+	<div class="container-fluide body-page" id="inside-page">
+		<%= render "pages/log" %>
+		<%= render "pages/live" %>
+		<%= render "pages/play" %>
+		<%= render "pages/guild" %>
+		<%= render "pages/option" %>
+		<%= render "pages/profil" %>
+		<%= render "pages/tournament" %>
+		<%= render "pages/war" %>
+		<%= render "pages/all_guild" %>
+		<%= render "pages/guild_history" %>
+
+
+		<%= render "pages/chat/param" %>
+		<%= render "pages/chat/create" %>
+		<%= render "pages/chat/main" %>
+	</div>
+
+
+<script>
+
+//****************************** GLOBAL ***************************
+var current_user_id = <%= current_user.id %>; // anti jaune >
+
+//var User_current = Backbone.Model.extend({
+//	urlRoot: "/users/" + current_user_id ,
+//	user.urlRoot = "/users/" + current_user_id 
+//});
+//var current_user = new User_current();
+
+// ******************************************** MODELS/COLLECTIONS ********************************************
+//_____________________________________ User _____________________________________
+var User = Backbone.Model.extend({
+	urlRoot: "/users.json",
+
+	defaults: {
+		name: '',
+		avatar: '',
+		current_status: 'Online',
+		points: 42,
+		is_admin: true
+	},
+
+	initialize : function() {
+		console.log("UserModel created");
+	  },
+});
+
+var Users = Backbone.Collection.extend({
+	modele: User,
+	url: "/users.json",
+
+	initialize : function() {
+		console.log("UserCollection created");
+	}
+});
+
+var usercollection = new Users();
+
+
+
+//_____________________________________ Guild _____________________________________
+var Guild = Backbone.Model.extend({
+	urlRoot: "/guilds.json",
+
+	defaults:{
+		name: "No guild",
+		points:"0",
+	}
+});
+
+var Guilds = Backbone.Collection.extend({
+	model: Guild,
+	url: "/guilds.json",
+
+	initialize : function() {
+		console.log("UserCollection created");
+	}
+});
+
+var GuildParticipation = Backbone.Model.extend({
+	urlRoot: "/guild_participations",
+});
+
+var guildcollection = new Guilds();
+
+//_____________________________________ War _____________________________________
+
+var War = Backbone.Model.extend({
+	urlRoot: "/wars.json",
+});
+
+var Ask_for_war = Backbone.Model.extend({
+	urlRoot: "/ask_for_wars.json",
+});
+
+
+//******************************************** VIEWS ********************************************
+
+//_____________________________________ LogView _____________________________________
+var LogView = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($('#log-template').html()),
+	collection: usercollection,
+
+	initialize : async function() {
+		console.log("LogView created");
+		this.listenTo(this.collection, 'add remove', this.render, this);
+		this.collection.url = "/users.json";
+	  	this.collection.fetch({wait: true});
+		console.log(this.collection.toJSON());
+	},
+
+	events: {
+    	"click #add-user": "add",
+    	"click #delete-user": "delete",
+    	"click #logout ": "logout",
+  	},
+
+	render : function() {
+	  	console.log("Render Log");
+		this.$el.html(this.template({usr: this.collection.toJSON()}));
+	  	return this;
+
+	},
+
+	add: function() {
+		console.log("Add user");
+		var user = new User({name : 'hemil', autre:'tete'});
+		this.collection.create(user);
+		this.render();
+	 },
+	 
+  	delete: function() {
+		console.log("Delete user");
+		var users = this.collection.toJSON();
+		var user = users[users.length - 1];
+		if (user){
+			var to_delete = this.collection.get(user.id);
+	  		this.collection.url = "/users"
+			to_delete.destroy();
+	  		console.log(this.collection.toJSON());
+			this.render();
+		}	
+	 },
+	  
+	logout: function() {
+		var form_data = new FormData();
+		var session_id = <%== current_user.sessions.last.id %>; //#TMP >
+		// console.log("session_id: ", session_id);
+		$.ajax({
+			url: "/sessions/" + session_id,
+			data: false,
+			processData: false,
+			contentType: false,
+			type: 'DELETE',
+			success: function(){
+				console.log("DELETE sent !");
+				window.location.href = "http://localhost:3000";
+			}
+		})
+	},
+
+})
+
+//_____________________________________ ChatView _____________________________________
+var ChatView = Backbone.View.extend({
+	template_chat_main: _.template($('#chat_main-template').html()),
+	template_chat_param: _.template($('#chat_param-template').html()),
+	template_chat_create: _.template($('#chat_create-template').html()),
+	
+	events: {
+		"click #main_chat_to_param": "render_chat_param",
+		"click #main_chat_to_create": "render_chat_create",
+		"click #back_to_main_chat": "render_chat_main"
+	},
+
+	render_chat_param : function() {
+		this.$el.html(this.template_chat_param);
+	},
+	render_chat_create : function() {
+		this.$el.html(this.template_chat_create);
+	},
+	render_chat_main : function(user_selected) {
+		console.log(user_selected)
+		if (user_selected && user_selected.name)
+			console.log("render_chat_main" + user_selected.name);
+		else
+			user_selected = {id : 0}
+		this.$el.html(this.template_chat_main({receiver: user_selected}));
+		return this;
+	}
+});
+
+var chatview = new ChatView();
+
+//_____________________________________ GuildView _____________________________________
+var GuildView = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($('#guild-template').html()),
+	template_all_guild: _.template($('#all_guild-template').html()),
+	//template_guild_history: _.template($('#guild_history_template').html()),
+	collection: guildcollection,
+
+	initialize : function() {
+		console.log("GuildView created");
+	},
+	events: {
+		"click #all_guild_btn": "render_all_guild",
+		"click #back_to_guild": "render",
+		//"click #leave_guild_btn": "delete",
+		"submit #create_guild": "add",
+	},
+	add: async function() {
+		var current_id = <%= current_user.id %>; //# TMP >
+		//console.log("currentUser.id: ", current_id);
+//
+		//var guild = new Guild({
+		//	name : $('#inputGuildName').val(),
+		//	anagram: $('#inputGuildAnagram').val(),
+		//	owner_id : current_id,
+		//	user_id: current_id,
+		//});
+		//console.log("guild: ", guild);
+		//this.collection.create(guild, {wait: true});
+		//check return error ans print message
+		//this.render();
+	},
+	delete: async function() {
+		//console.log("Delete user in guild");
+//
+		//var user = new User();
+		//user.urlRoot = "/users/" + current_user_id 
+		//await user.fetch();
+		//user = user.toJSON();
+//
+		//guildparticip = new GuildParticipation({
+		//	id: user.guild_participation_id,
+		//});
+		//guildparticip.destroy();
+
+		//if (user){
+		//	var to_delete = this.collection.get(user.id);
+	  	//	this.collection.url = "/users"
+		//	to_delete.destroy();
+	  	//	console.log(this.collection.toJSON());
+		//	this.render();
+		//}	
+	},
+	render : async function() {
+		var user = new User();
+		user.urlRoot = "/users/" + current_user_id 
+		await user.fetch();
+		user = user.toJSON();
+
+		if (user.guild_participation_id != null)
+		{
+			this.$el.html(this.template_guild_history({
+				guilds: this.collection.toJSON()
+			}));
+		}
+		else
+		{
+			await this.collection.fetch();
+			this.$el.html(this.template({
+				guilds: this.collection.toJSON()
+			}));
+		}
+		return this;
+	},
+	render_all_guild : async function() {
+		await this.collection.fetch();
+		await usercollection.fetch(); //# good practice ?
+
+		console.log("current_user.id: ", <%= current_user.id %>); //tmp >
+
+		this.$el.html(this.template_all_guild({
+			guilds: this.collection.toJSON(),
+			usr: usercollection
+		}));
+		return this;
+	}
+})
+
+//_____________________________________ LiveView _____________________________________
+var LiveView = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($('#live-template').html()),
+
+	initialize : function() {
+		console.log("LiveView created");
+	},
+
+	render : function() {
+		this.$el.html(this.template);
+		chatview.setElement("#chat_area").render_chat_main(); // https://solvemprobler.com/blog/2013/04/07/backbone-tips-rendering-views-and-their-childviews/
+		console.log("Render Live");
+		return this;
+	},
+})
+
+//_____________________________________ OptionView _____________________________________
+var OptionView = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($('#option-template').html()),
+  
+	initialize : function() {
+		console.log("OptionView created");
+	},
+  
+	render : function() {
+	  this.$el.html(this.template);
+		console.log("Render Option");
+		return this;
+	}
+});
+
+//_____________________________________ PlayView _____________________________________
+var PlayView = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($('#play-template').html()),
+	
+	initialize : function() {
+		console.log("PlayView created");
+	},
+
+	render : function() {
+		this.$el.html(this.template);
+		chatview.setElement("#chat_area").render_chat_main(); // https://solvemprobler.com/blog/2013/04/07/backbone-tips-rendering-views-and-their-childviews/
+		console.log("Render Play");
+		return this;
+	}
+})
+
+//_____________________________________ ProfilView _____________________________________
+var ProfilView = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($('#profil-template').html()),
+  
+	initialize : function() {
+		console.log("ProfilView created");
+	},
+  
+	render : function() {
+	  this.$el.html(this.template);
+		console.log("Render Profil");
+		return this;
+	}
+});
+
+//_____________________________________ TournamentView _____________________________________
+var TournamentView = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($('#tournament-template').html()),
+  
+	initialize : function() {
+		console.log("TournamentView created");
+	},
+  
+	render : function() {
+	  this.$el.html(this.template);
+		console.log("Render Tournament");
+		return this;
+	}
+});
+
+//_____________________________________ WarView _____________________________________
+var WarView = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($('#war-template').html()),
+	template_guilds: _.template($('#war-guild-template').html()),
+	collection: guildcollection,
+
+	initialize : function() {
+	},
+	events: {
+		"change #guild_drop_down": "render_guild_info",
+		"submit #create_war": "add"
+	},
+	add: async function() {
+		console.log("IN add war");
+		
+		var guild_name = $("#guild_drop_down option:selected").text();
+		var the_guild = this.collection.findWhere({name: guild_name});
+		the_guild = the_guild.toJSON();
+	
+		var ask_for_war = new Ask_for_war({
+			current_user_id: current_user_id,
+			to_guild_id: the_guild.id,
+			start_date : $('#StartTime').val(),
+			end_date: $('#FinishTime').val(),
+			prize_in_points : $('#PrizePool').val(),
+			max_unanswered_call: $('#MaxUnansweredMatch').val(),
+		});
+
+		console.log("ask_for_war: ", ask_for_war);
+		await ask_for_war.save({wait: true});
+		//check return error is_in_war variable uptdate
+	},
+	render_guild_info : async function() {
+		var guild_name = $("#guild_drop_down option:selected").text();
+		var the_guild = this.collection.findWhere({name: guild_name});
+		the_guild = the_guild.toJSON();
+		
+		var user = new User();
+		user.urlRoot = "/users/" + the_guild.owner_id 
+		await user.fetch();
+
+		this.$('.war_pannel_header').html(this.template_guilds({
+			user: user.toJSON(),
+			guild: the_guild
+		}));
+	},
+	render_param_guild : async function(id_guild) {
+		await this.collection.fetch();
+		this.$el.html(this.template({
+				guilds: this.collection.toJSON()
+		}));
+
+		var the_guild = this.collection.findWhere({id: parseInt(id_guild, 10)});
+		the_guild = the_guild.toJSON();
+		$("#guild_drop_down").val(the_guild.name);
+
+		var user = new User();
+		user.urlRoot = "/users/" + the_guild.owner_id 
+		await user.fetch();
+
+		this.$('.war_pannel_header').html(this.template_guilds({
+			user: user.toJSON(),
+			guild: the_guild
+		}));
+	},
+	render : async function() {
+		await this.collection.fetch();
+
+		//# To do: mieux gérer 0 guilds
+		if (this.collection.length == 0){
+			var user = new User();
+			var the_guild = new Guild();
+
+			this.$el.html(this.template({
+				guilds: this.collection.toJSON()
+			}));
+			this.$('.war_pannel_header').html(this.template_guilds({
+				user: user.toJSON(),
+				guild: the_guild.toJSON()
+			}));
+		}
+		else {
+			this.$el.html(this.template({
+				guilds: this.collection.toJSON()
+			}));
+			this.render_guild_info();
+		}
+		return this;
+	}
+});
+
+//******************************************** ROUTER ********************************************
+var logview = new LogView();
+var liveview = new LiveView();
+var playview = new PlayView();
+var guildview = new GuildView();
+var optionview = new OptionView();
+var profilview = new ProfilView();
+var tournamentview = new TournamentView();
+var warview = new WarView();
+
+var Router = Backbone.Router.extend({
+	routes: {
+		'': "ft_log",
+		'live': "ft_live",
+		'play': "ft_play",
+		'guild': "ft_guild",
+		'option': "ft_option",
+		'profil': "ft_profil",
+		'tournament': "ft_tournament",
+		'war/:id_guild': "ft_war_param",
+		'war': "ft_war",
+	},
+	ft_log: function() {
+		logview.render();
+	},
+	ft_live: function() {
+		liveview.render();
+	},
+	ft_play: function() {
+		playview.render();
+	},
+	ft_guild: function() {
+		guildview.render();
+	},
+	ft_option: function() {
+		optionview.render();
+	},
+	ft_profil: function() {
+		profilview.render();
+	},
+	ft_tournament: function() {
+		tournamentview.render();
+	},
+	ft_war: function() {
+		warview.render();
+	},
+	ft_war_param: function(id_guild) {
+		warview.render_param_guild(id_guild);
+	},
+});
+
+$( "#logo" ).on( "click", function() {
+	Backbone.history.navigate("/", {trigger: true});
+});
+$( "#nav_to_live" ).on( "click", function() {
+	Backbone.history.navigate("/live", {trigger: true});
+	Backbone.history.loadUrl();
+});
+$( "#nav_to_play" ).on( "click", function() {
+	Backbone.history.navigate("/play", {trigger: true});
+	Backbone.history.loadUrl();
+});
+$( "#nav_to_guild" ).on( "click", function() {
+	Backbone.history.navigate("/guild", {trigger: true});
+	Backbone.history.loadUrl();
+});
+$( "#nav_to_option" ).on( "click", function() {
+	Backbone.history.navigate("/option", {trigger: true});
+	Backbone.history.loadUrl();
+});
+$( "#nav_to_profil" ).on( "click", function() {
+	Backbone.history.navigate("/profil", {trigger: true});
+	Backbone.history.loadUrl();
+});
+$( "#nav_to_tournament" ).on( "click", function() {
+	Backbone.history.navigate("/tournament", {trigger: true});
+	Backbone.history.loadUrl();
+});
+$( "#nav_to_war" ).on( "click", function() {
+	Backbone.history.navigate("/war", {trigger: true});
+	Backbone.history.loadUrl();
+});
+
+var router = new Router();
+
+Backbone.history.start();
+
+</script>
+
+<% end %>

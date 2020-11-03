@@ -5,6 +5,12 @@
 				<path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
 			</svg>
 		</a>
+	<%% if (receiver.scope) {%>
+	<div>
+		<a id="show_chat_details" data-channel=<%%= JSON.stringify(receiver) %>>show
+		</a>
+	</div>
+	<%% } %>
 	<div class="dropdown">
 		<button class="btn btn-secondary dropdown-toggle" onclick="ft_show_channels()" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%%= receiver.name ? receiver.name : "Channels" %></button>
 		<div class="dropdown-menu dropdown-menu-right" style="overflow-y:auto; height:auto; max-height: 200px;" aria-labelledby="dropdownMenuButton">
@@ -26,7 +32,7 @@
 			</svg>
 		</a>
 		<a id="chat" >
-			<button type="submit" id="post_msg" onclick="f()" class="btn btn-primary btn-dark">Send</button>
+			<button type="submit" id="post_msg" onclick="ft_send()" class="btn btn-primary btn-dark">Send</button>
 		</a>
 	</div>
 	</div>
@@ -38,7 +44,7 @@
 			console.log("here");
 			$.ajax({
 				url: '/messages',
-				data: {user_id: <%== current_user.id %>, receiver_id: <%%= receiver ? receiver.id : 0 %>, scope: '<%%= receiver.scope ? receiver.scope : "private-direct" %>'},
+				data: {user_id: <%== current_user.id %>, receiver_id: <%%= receiver ? receiver.id : 0 %>, scope: '<%%= receiver.scope ? receiver.scope : "direct" %>'},
 				type: 'GET',
 				dataType: 'json',
 				success: function(data)
@@ -69,11 +75,85 @@
 			});
 		//}
 		<%% } %>
-		function ft_show_conversation(user_selected)
+		function ft_show_conversation(channel_or_user_selected)
 		{
+			//var pwd;
+			if (channel_or_user_selected.scope == "protected-group")//protected
+			{
+				var pwd;
+				$.ajax({
+					url: '/channel_participations',
+					data: {user_id: <%== current_user.id %>, receiver_id: channel_or_user_selected.id},
+					type: 'GET',
+					dataType: 'json',
+					success: function(data)
+					{
+						console.log(data);
+						console.log("got success");
+						if (!data || data.length == 0)//on met first coté rails mtn
+						{
+							pwd = prompt("a password is needed");
+							console.log("pwd" + pwd);
+							var data = new FormData();
+							data.append("user_id", <%== current_user.id %>);
+							data.append("receiver_id", channel_or_user_selected.id);
+							data.append("scope", channel_or_user_selected.scope);
+							data.append("password", pwd);
+							$.ajax({
+								url: '/channel_participations',
+								data: data,
+								type: 'POST',
+								processData: false,
+								contentType: false,
+								dataType: 'json',
+								success: function(data)
+								{
+									console.log(data);
+									console.log("success !!!");
+									if (data.res)
+										chatview.setElement("#chat_area").render_chat_main(channel_or_user_selected);
+								},
+								error: function(err)
+								{
+									console.log(err);
+									console.log("error !!!");
+								}
+							})
+						}
+						else
+							chatview.setElement("#chat_area").render_chat_main(channel_or_user_selected);
+					},
+					error: function(err)
+					{
+						console.log(err);
+						console.log("got error");
+					}
+				})
+				//pwd = prompt("password is needed");
+				console.log("pwd" + pwd);
+				return;
+			}
+			//public
+			//console.log("pwd:" + pwd);
 			console.log("clicked");
-			console.log(user_selected);
-			chatview.setElement("#chat_area").render_chat_main(user_selected);
+			console.log(channel_or_user_selected);
+			chatview.setElement("#chat_area").render_chat_main(channel_or_user_selected);//public donc on peut afficher directe
+			var data = new FormData();
+			data.append("user_id", <%== current_user.id %>);
+			data.append("receiver_id", channel_or_user_selected.id);
+			console.log("scope:" + channel_or_user_selected.scope);
+			data.append("scope", channel_or_user_selected.scope ? channel_or_user_selected.scope : "direct");
+			$.ajax({
+				url: '/channel_participations',
+				data: data,
+				type: 'POST',
+				processData: false,
+				contentType: false,
+				success: function()
+				{
+					console.log("success");
+				}
+			})
 		}
 		function ft_show_channels()
 		{
@@ -121,7 +201,7 @@
 				}
 			});
 		}
-		function f(){
+		function ft_send(){
 			console.log("here");
 			console.log($('#text_to_send').val());
 			var text = $('#text_to_send').val();
@@ -135,7 +215,7 @@
 			var form_data = new FormData();
 			form_data.append("user_id", <%== current_user.id %>);
 			form_data.append("text", text);
-			form_data.append("scope", '<%%= receiver.scope ? receiver.scope : "private-direct" %>');
+			form_data.append("scope", '<%%= receiver.scope ? receiver.scope : "direct" %>');
 			form_data.append("receiver_id", receiver_id);//soit direct => second user || soit le channel du groupe
 			$.ajax({
 				url: '/messages',

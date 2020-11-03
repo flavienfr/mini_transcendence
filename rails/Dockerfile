@@ -9,7 +9,7 @@ COPY ./srcs/Gemfile.lock /ft_transcendence/Gemfile.lock
 RUN bundle install
 COPY ./srcs/ /ft_transcendence
 
-#bad to install with old yarn
+# bad to install with old yarn
 RUN yarn add jquery && yarn add underscore && yarn add backbone
 
 # Add a script to be executed every time the container starts.

@@ -10,6 +10,8 @@ class GamesController < ApplicationController
   # GET /games/1
   # GET /games/1.json
   def show
+    
+
   end
 
   # GET /games/new

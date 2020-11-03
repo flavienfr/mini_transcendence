@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Ask For Friendships</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>From user</th>
+      <th>To user</th>
+      <th>Friendship</th>
+      <th>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ask_for_friendships.each do |ask_for_friendship| %>
+      <tr>
+        <td><%= ask_for_friendship.from_user_id %></td>
+        <td><%= ask_for_friendship.to_user_id %></td>
+        <td><%= ask_for_friendship.friendship_id %></td>
+        <td><%= ask_for_friendship.status %></td>
+        <td><%= link_to 'Show', ask_for_friendship %></td>
+        <td><%= link_to 'Edit', edit_ask_for_friendship_path(ask_for_friendship) %></td>
+        <td><%= link_to 'Destroy', ask_for_friendship, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ask For Friendship', new_ask_for_friendship_path %>

@@ -24,17 +24,47 @@ class AskForWarsController < ApplicationController
   # POST /ask_for_wars
   # POST /ask_for_wars.json
   def create
-    @ask_for_war = AskForWar.new(ask_for_war_params)
+	puts "----- ask_for_wars ----"
+	puts ask_for_war_params
+	puts "---------"
 
-    respond_to do |format|
-      if @ask_for_war.save
-        format.html { redirect_to @ask_for_war, notice: 'Ask for war was successfully created.' }
-        format.json { render :show, status: :created, location: @ask_for_war }
-      else
-        format.html { render :new }
-        format.json { render json: @ask_for_war.errors, status: :unprocessable_entity }
-      end
-    end
+	@war = War.new(
+		start_date: params[:start_date],
+		end_date: params[:end_date],
+		prize_in_points: params[:prize_in_points],
+		max_unanswered_call: params[:max_unanswered_call],
+		status: "pending"
+	)
+	@war.save
+	puts "----- War ----"
+	puts @war.to_json
+	puts "---------"
+
+	from_guild_id = User.find(params[:current_user_id]).guild_participations.first.guild.id
+	@ask_for_war = AskForWar.new(
+		from_guild_id: from_guild_id,
+		to_guild_id: params[:to_guild_id],
+		includes_ladder: nil, # Ajouter champ dans le fornt
+		war_id: @war.id,
+		status: "pending"
+	)
+	puts "----- ask_for_wars ----"
+	puts @ask_for_war.to_json
+	puts "---------"
+	
+	
+
+    #@ask_for_war = AskForWar.new(ask_for_war_params)
+#
+    #respond_to do |format|
+    #  if @ask_for_war.save
+    #    format.html { redirect_to @ask_for_war, notice: 'Ask for war was successfully created.' }
+    #    format.json { render :show, status: :created, location: @ask_for_war }
+    #  else
+    #    format.html { render :new }
+    #    format.json { render json: @ask_for_war.errors, status: :unprocessable_entity }
+    #  end
+    #end
   end
 
   # PATCH/PUT /ask_for_wars/1

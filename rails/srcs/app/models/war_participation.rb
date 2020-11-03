@@ -1,4 +1,4 @@
 class WarParticipation < ApplicationRecord
-  belongs_to :guild, optional: false
-  belongs_to :war, optional: false
+  belongs_to :guild, optional: true
+  belongs_to :war, optional: true
 end

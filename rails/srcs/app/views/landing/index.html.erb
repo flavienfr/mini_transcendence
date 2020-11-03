@@ -314,7 +314,36 @@ var GuildView = Backbone.View.extend({
 		"click #back_to_guild": "render",
 		"click #leave_guild_btn": "delete",
 		"click .name_score": "go_to_guild",
-		"submit #create_guild": "add",		
+		"submit #create_guild": "add",
+		"submit #join_a_guild": "join",
+	},
+	join: function(evt) {
+		evt.preventDefault();
+		console.log("Join guild");
+
+		var guild_name = $("#all_guild_dropdown option:selected").text();
+		console.log("guild_name", guild_name)
+
+		var the_guild = this.collection.findWhere({name: guild_name});
+		the_guild = the_guild.toJSON();
+
+		guildparticip = new GuildParticipation({
+			user_id: current_user_id,
+			guild_id: the_guild.id,
+		});
+		console.log("guildparticip", guildparticip.toJSON());
+
+		var self = this;
+		this.collection.create(guildparticip, {
+			success: function(model, response) {
+				console.log('success');
+				self.render();
+			},
+			error: function(model, response) {
+				alert('Fail to join the guild');
+			},
+			wait: true
+		});
 	},
 	add: async function(evt) {
 		evt.preventDefault();
@@ -358,6 +387,8 @@ var GuildView = Backbone.View.extend({
 		});
 	},
 	render : async function() {
+		await this.collection.fetch();// obligatoire ?
+
 		var user = new User();
 		user.urlRoot = "/users/" + current_user_id
 		await user.fetch();

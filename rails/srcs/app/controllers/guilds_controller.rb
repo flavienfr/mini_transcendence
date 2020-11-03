@@ -41,7 +41,6 @@ class GuildsController < ApplicationController
 	user.guild_participation_id = @guild_participation.id;
 	user.save
 
-    #le format html à son importance ... 
 	respond_to do |format|
 		  format.html { redirect_to @guild, notice: 'Guild was successfully updated.' }
 		  format.json { render :show, status: :ok, location: @guild }

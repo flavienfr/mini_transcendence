@@ -61,6 +61,10 @@ puts "----- Session.destroy_all"
 Session.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('sessions') # to reset id back to 1
 
+puts "----- Notification.destroy_all"
+Notification.destroy_all
+ActiveRecord::Base.connection.reset_pk_sequence!('notifications') # to reset id back to 1
+
 puts "----- User.destroy_all"
 User.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('users') # to reset id back to 1
@@ -115,5 +119,5 @@ gm2 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,
 gm3 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "ladder", winner_id: francis.id, war_id: nil, tournament_id: nil, channel_id: nil)
 
 # game participations
-gm1p = GameParticipation.create(user_id: yamin.id, game_id: gm1.id, score: 15, is_winner: false, created_at: DateTime.now)
-gm2p = GameParticipation.create(user_id: yamin.id, game_id: gm2.id, score: 11, is_winner: false, created_at: DateTime.now)
+gm1p = GameParticipation.create(user_id: yamin.id, game_id: gm1.id, score: 15, is_winner: false)
+gm2p = GameParticipation.create(user_id: yamin.id, game_id: gm2.id, score: 11, is_winner: false)

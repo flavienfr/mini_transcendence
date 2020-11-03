@@ -79,9 +79,9 @@ class AskForWarsController < ApplicationController
 	puts "-----------------------"
 
 	#Envoi de la notifiction à l'owner de la guild
-	#@notification.save
-    #notif_channel = "notification_channel_" + to_user_id.to_s;
-	#ActionCable.server.broadcast(notif_channel, {notification: "On"})
+	@notification.save
+    notif_channel = "notification_channel_" + to_user_id.to_s;
+	ActionCable.server.broadcast(notif_channel, {notification: "On"})
 
     #respond_to do |format|
 	#  if @ask_for_war.save

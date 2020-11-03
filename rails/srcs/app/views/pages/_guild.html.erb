@@ -28,7 +28,7 @@
 				</div>
 			</div>
 		</form>
-		<div class="guild_join">
+		<form class="guild_join"  id="join_a_guild">
 			<div class="guild_join_header">
 				<h2>Join a guild</h2>
 			</div>
@@ -36,9 +36,9 @@
 			<div class="guild_join_body">		
 				<div class="selector_3">
 					<label for="inputStatus">Guild list</label>
-					<select id="all_guild_dropdown" class="form-control form-control-md">
+					<select id="all_guild_dropdown" class="form-control form-control-md" required>
 						<%%	for (let i = 0; i < guilds.length; i++) { %>
-							<option> <%%= guilds[i].name %> </option>
+							<option><%%= guilds[i].name %></option>
 						<%% } %>
 					</select>
 				</div>
@@ -46,10 +46,10 @@
 	
 			<div class="guild_join_footer">
 				<div class="form-group">
-					<button type="button" class="btn btn-primary btn-md btn-block btn-dark">Send a request</button>
+					<button type="submit" class="btn btn-primary btn-md btn-block btn-dark">Send a request</button>
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 
 	<script>

@@ -5,7 +5,7 @@ class NotificationsController < ApplicationController
   # GET /notifications.json
   def index
     # @notifications = Notification.all
-    @notification = Notification.where('to_user_id = ?', current_user.id)
+    @notification = Notification.where('user_id = ?', current_user.id)
     render json: @notification
   end
 
@@ -33,7 +33,7 @@ class NotificationsController < ApplicationController
 
     # ------->  A changer (mettre la ligne commenter a la place de l'autre)
     # notif_channel = "notification_channel_" + @notification.from_user_id.to_s;
-    notif_channel = "notification_channel_" + @notification.to_user_id.to_s;
+    notif_channel = "notification_channel_" + @notification.user_id.to_s;
 
     ActionCable.server.broadcast(notif_channel, {notification: "On"})
     respond_to do |format|
@@ -79,6 +79,6 @@ class NotificationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def notification_params
-      params.require(:notification).permit(:from_user_id, :to_user_id, :to_channel_id, :to_guild_id, :type, :message, :status)
+      params.require(:notification).permit(:from_user_id, :user_id, :to_channel_id, :to_guild_id, :type, :message, :status)
     end
 end

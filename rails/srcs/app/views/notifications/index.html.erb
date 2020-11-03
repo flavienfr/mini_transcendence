@@ -20,7 +20,7 @@
     <% @notifications.each do |notification| %>
       <tr>
         <td><%= notification.from_user_id %></td>
-        <td><%= notification.to_user_id %></td>
+        <td><%= notification.user_id %></td>
         <td><%= notification.to_channel_id %></td>
         <td><%= notification.to_guild_id %></td>
         <td><%= notification.type %></td>

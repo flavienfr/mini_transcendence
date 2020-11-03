@@ -314,7 +314,36 @@ var GuildView = Backbone.View.extend({
 		"click #back_to_guild": "render",
 		"click #leave_guild_btn": "delete",
 		"click .name_score": "go_to_guild",
-		"submit #create_guild": "add",		
+		"submit #create_guild": "add",
+		"submit #join_a_guild": "join",
+	},
+	join: function(evt) {
+		evt.preventDefault();
+		console.log("Join guild");
+
+		var guild_name = $("#all_guild_dropdown option:selected").text();
+		console.log("guild_name", guild_name)
+
+		var the_guild = this.collection.findWhere({name: guild_name});
+		the_guild = the_guild.toJSON();
+
+		guildparticip = new GuildParticipation({
+			user_id: current_user_id,
+			guild_id: the_guild.id,
+		});
+		console.log("guildparticip", guildparticip.toJSON());
+
+		var self = this;
+		this.collection.create(guildparticip, {
+			success: function(model, response) {
+				console.log('success');
+				self.render();
+			},
+			error: function(model, response) {
+				alert('Fail to join the guild');
+			},
+			wait: true
+		});
 	},
 	add: async function(evt) {
 		evt.preventDefault();
@@ -358,6 +387,8 @@ var GuildView = Backbone.View.extend({
 		});
 	},
 	render : async function() {
+		await this.collection.fetch();// obligatoire ?
+
 		var user = new User();
 		user.urlRoot = "/users/" + current_user_id
 		await user.fetch();
@@ -471,7 +502,7 @@ var ProfilView = Backbone.View.extend({
 	render : async function() {
 		console.log("Render Profil");
 //		var current_id = current_user_id;
-		var current_id = 2;
+		var current_id = 4;
 		await this.collection.fetch();
 		current_user = this.collection.findWhere({id: current_id});
 	
@@ -539,7 +570,7 @@ var Profil2View = Backbone.View.extend({
 		user = user.toJSON();
 		message = user.name + " send you a friend request";
 
-		notif = new Notification({from_user_id: current_id, to_user_id: user_cible, type: "", message: message});
+		notif = new Notification({from_user_id: current_id, user_id: user_cible, type: "", message: message});
 		await notif.save();
 
 	},
@@ -551,7 +582,7 @@ var Profil2View = Backbone.View.extend({
 		user = user.toJSON();
 		message = user.name + " challenge you";
 
-		notif = new Notification({from_user_id: current_id, to_user_id: user_cible, type: "", message: message});
+		notif = new Notification({from_user_id: current_id, user_id: user_cible, type: "", message: message});
 		await notif.save();
 
 	},
@@ -604,16 +635,33 @@ var WarView = Backbone.View.extend({
 			max_unanswered_call: $('#MaxUnansweredMatch').val(),
 		});
 
-		console.log("ask_for_war: ", ask_for_war);
-		await ask_for_war.save({
-			success: function(model, response) {
-				alert("Demande envoyé");
-			},
-			error: function(model, response) {
-				alert("Declaration fail, the guild could be at war");
-			},
-			wait: true
-		});
+		//await ask_for_war.save({
+		//	success: function(model, response) {
+		//		alert("Demande envoyé");
+		//	},
+		//	error: function(model, response) {
+		//		alert("Declaration fail, the guild could be in war");
+		//	},
+		//	wait: true
+		//});
+
+		await ask_for_war.save();
+
+		//Backbone.ajax({
+		//	url: '/ask_for_wars/1',
+		//	data: {},
+		//	type: 'PUT',
+		//	dataType: 'json',
+		//	success: function(response) {
+		//		console.log("Inside success");
+		//		console.log(response);
+		//	},
+		//	error: function()
+		//	{
+		//		alert("error");
+		//	}
+		//});
+
 		//check return error is_in_war variable uptdate
 	},
 	render_guild_info : async function() {

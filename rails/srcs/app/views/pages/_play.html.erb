@@ -69,10 +69,8 @@ const response = event.data;
 const msg = JSON.parse(response);
 	if (msg.type == "ping" || !msg.message)// don't check the ping message
         return ;
-    console.log(current);
     if (msg.message.data.id_guest == current && is_playing == false && msg.message.data.play) // read the second for understand this
     {
-        console.log("playgame ");
         pongview.setElement("#pong-area").render(); // has the invitation is validate(value play is on true), the host is redirect to the hostview
     }
     else if (msg.message.data.agree == "false" && msg.message.data.id_guest == current)
@@ -95,6 +93,7 @@ const msg = JSON.parse(response);
                         data: {play: "true", id_host: current, id_guest: msg.message.data.id_host}
                     })
                 }));
+                save_asking_battle()
                 pongguest.setElement("#pong-area").render(); // has the guest is agree it generate the guestview
            }
             else// possibility to send a message at the host player to said the invitation is refused by the guest player
@@ -116,13 +115,13 @@ const msg = JSON.parse(response);
 
 
 
-function save_battle()
+function save_asking_battle()
 {
     var AskForGame = Backbone.Model.extend({
         urlRoot: '/ask_for_games'
     })
     var ask_for_game = new AskForGame();
-    ask_for_game.save({ask_for_game:{from_user_id: guest_id, to_user_id: current, status: 'playing'}});
+    ask_for_game.save({ask_for_game:{from_user_id: current, to_user_id: guest_id, status: 'playing'}});
 }
 
 

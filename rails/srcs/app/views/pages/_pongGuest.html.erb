@@ -5,8 +5,17 @@
 <canvas id="pongid" width="800px" height="600px" > </canvas>
 
 <script>
+ current_user_id = <%== current_user.id%>
+ AskForGame = Backbone.Model.get({
+        urlRoot: '/ask_for_games'
+        to_user_id: current_user
+    })
+    ask_for_game = new AskForGame();
+    host_id  = ask_for_game.get(to_user_id = current_user_id);
 function startGame()
 {
+    console.log("host_id = " );
+    console.log(host_id.from_user_id);
 const canvas = document.getElementById("pongid");
 const context = canvas.getContext("2d");
 const element = document.getElementById("pong-id");
@@ -131,8 +140,11 @@ function ft_recieve()
 socket.onmessage = function(event) {            
 const response = event.data;
 const msg = JSON.parse(response);  
-    if (msg.type == "ping" || !msg.message)// don't check the ping message
+const id = JSON.parse(msg.identifier); 
+    if (msg.type == "ping" || !msg.message || id.pong_id == current_id )// check if the pong_id is send to the correct personne
         return ;
+    console.log(id.pong_id);
+
         if (msg.message.data.usery)
             user1.y = msg.message.data.usery;
         if (msg.message.data.bally)
@@ -178,7 +190,7 @@ socket.onopen = function()
         }));
     console.log("subscribe ok");
 }
-setInterval(playing, 1000/50);
+//setInterval(playing, 1000/50);
 }
 
 

@@ -21,6 +21,13 @@
 	height: 100%;
 }
 
+#pong{
+
+	border: 2px solid black;
+	margin-top: 5%;
+	margin-bottom: 15%;
+	border-radius: 8px;
+}
 .active_game{
 	height: 100%;	
 	border-right: 4px solid #333333;

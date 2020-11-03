@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>PONG GAME</title>
-    </head>
-    <body>
-        <div id = "pong-id" data-pong-id= "1"> </div>
-        <canvas id="pong" width="600" height="400"> error canvas isn't work </canvas>
-<script> 
+<script type = "text/template" id = "pongGuest-template">
+<%= stylesheet_link_tag "style-live-play.css" %>
 
-const canvas = document.getElementById("pong");
+<div id = "pong-id" data-pong-id= <%=current_user.id%>> </div>
+<canvas id="pongid" width="800px" height="600px" > </canvas>
+
+<script>
+function startGame()
+{
+const canvas = document.getElementById("pongid");
 const context = canvas.getContext("2d");
 const element = document.getElementById("pong-id");
 pong_id = element.getAttribute("data-pong-id");
@@ -132,7 +130,9 @@ function ft_recieve()
 {
 socket.onmessage = function(event) {            
 const response = event.data;
-const msg = JSON.parse(response);    
+const msg = JSON.parse(response);  
+    if (msg.type == "ping" || !msg.message)// don't check the ping message
+        return ;
         if (msg.message.data.usery)
             user1.y = msg.message.data.usery;
         if (msg.message.data.bally)
@@ -150,24 +150,23 @@ const msg = JSON.parse(response);
 function ft_send()
 {
     socket.send(JSON.stringify({
-            command: "message",
-            identifier: JSON.stringify({
-            channel: "PongChannel",
-            pong_id: pong_id
-
-            }),
-            data: JSON.stringify({
-                data: {user2y: user2.y}
-            })
-        }));
+        command: "message",
+        identifier: JSON.stringify({
+        channel: "PongChannel",
+        pong_id: pong_id
+        }),
+        data: JSON.stringify({
+            data: {user2y: user2.y}
+        })
+    }));
 }
 
 
 
 //main
-socket = new WebSocket("ws://localhost:3000/cable");
+var socket = new WebSocket("ws://localhost:3000/cable");
 
-socket.onopen=  function()
+socket.onopen = function()
 {
     socket.send(JSON.stringify({
             command: "subscribe",
@@ -178,14 +177,11 @@ socket.onopen=  function()
             })
         }));
     console.log("subscribe ok");
-} 
-
-
-
+}
 setInterval(playing, 1000/50);
+}
 
 
+startGame();
 </script>
-
-    </body>
-</html>
+</script> 

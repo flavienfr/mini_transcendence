@@ -1,22 +1,23 @@
-<!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>PONG GAME</title>
-    </head>
-    <body>
-    <div id = "pong-id" data-pong-id= "2"> </div>
-        <canvas id="pong" width="600" height="400"></canvas>
+<script type = "text/template" id = "pongHost-template">
+<%= stylesheet_link_tag "style-live-play.css" %>
+
+    <div id = "pong-id" data-pong-id= <%=current_user.id%>> </div>
+    <canvas id="pong" width="800px" height="600px" > </canvas>
 
 <script> 
 
+pong_id = <%== current_user.id%>
+
+function playgame(){
+
+
 
 //reveive element from body
+const element = document.getElementById("pong-id");
 const canvas = document.getElementById("pong");
 const context = canvas.getContext("2d");
-const element = document.getElementById("pong-id");
-pong_id = element.getAttribute("data-pong-id");
-console.log("pong id = " + pong_id);
+const height = canvas.height;
+const width = canvas.width;
 canvas.addEventListener("mousemove", movePaddle);
 
 
@@ -25,15 +26,15 @@ canvas.addEventListener("mousemove", movePaddle);
 // draw score
 function drawScore(x, y,score ,color){
     context.fillStyle = color;
-    context.font = "35px fantasy"; // pas responsive
-    context.beginPath();
+    context.font = '48px serif';
+     context.beginPath();
     context.fillText(score, x, y);
     context.closePath();
 }
 
 //draw the line at the middle
 function drawMiddleLine(line){
-    for(let i =  0; i <= canvas.height; i += 13){  // pas responsive
+    for(let i =  0; i <= canvas.height; i += height/20){  // pas responsive
         drawRect(line.x, line.y + i, line.width, line.height, line.color);
     }
 }
@@ -62,8 +63,8 @@ const user1 = {
     x : 0, 
     y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive
     //form 
-    width : 10, // pas responsive
-    height : 100, // pas responsive
+    width : 5, // pas responsive
+    height : height/5, // pas responsive
     color : "GREY",
     score : 0
 }
@@ -73,8 +74,8 @@ const user2 = {
     x : canvas.width - 10, // pas responsive il s'agit de largeur (10px)
     y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive correspond au paddle
     //form
-    width : 10, // pas responsive
-    height : 100, // pas responsive
+    width : 5, // pas responsive
+    height : height/5, // pas responsive
     color : "GREY",
     score : 0
 }
@@ -87,9 +88,9 @@ const ball =  {
     radius : 10, // pas responsive
     color : "RED",
     //deplacement
-    velocityX : 5,
-    velocityY : 5,
-    speed : 5 // a voir si pas assez rapide ou trop
+    velocityX : 2,
+    velocityY : 2,
+    speed : 1 // a voir si pas assez rapide ou trop
 
 }
 //part 4 show 
@@ -142,10 +143,9 @@ function restartBall(i, y)
 {   
     ball.y =  canvas.height/2, // for be at the center
     ball.x = canvas.width/2,
-    ball.radius =  10, // pas responsive
-    ball.speed = 5, // check if it's to or less speed
-    ball.velocityX = i * 5,
-    ball.velocityY = y *5,
+    ball.speed = 1, // check if it's to or less speed
+    ball.velocityX = i * 2,
+    ball.velocityY = y *2,
     ball.color = "RED"
 }
 
@@ -205,6 +205,7 @@ function send_first_form_user1(){
     //messaging(user1.y);
 }
 
+
 function movePaddle(event){ // function to permite to change the direction of the users paddle with the mouse
     user1.y = event.clientY - canvas.getBoundingClientRect().top - user1.height/2;
     //user2.y = event.clientY - canvas.getBoundingClientRect().top - user2.height/2; // pour tester a brancher avec backbone et actioncable     
@@ -217,22 +218,12 @@ function playing()
     sync();
     ft_send();
     show();
+    //console.log("pong x = " + ball.x); // regarder quand le joueur est sur une autre view
+    
+
 }
 
 
-//main
-socket = new WebSocket("ws://localhost:3000/cable");
-socket.onopen=  function()
-{
-    socket.send(JSON.stringify({
-            command: "subscribe",
-            identifier: JSON.stringify({
-                channel: "PongChannel",
-                pong_id: pong_id
-            })
-        }));
-      console.log("subscribe ok");
-    } 
 
 function ft_send()
 {
@@ -268,12 +259,32 @@ function ft_send_score()
 socket.onmessage = function(event) {            
 const response = event.data;
 const msg = JSON.parse(response);
+if (msg.type == "ping" || !msg.message)// don't check the ping message
+        return ;
     // selecte only y pos of user2
     if (msg.message.data.user2y)
         user2.y = msg.message.data.user2y;      
-    };
+};
 
 //launch game think about press key to start or something like this of the two user
-setInterval(playing, 1000/50);
+
+var stop = setInterval(playing, 1000/50); 
+
+}
+
+var socket = new WebSocket("ws://localhost:3000/cable");
+socket.onopen = function()
+{    
+    socket.send(JSON.stringify({
+            command: "subscribe",
+            identifier: JSON.stringify({
+                channel: "PongChannel",
+                pong_id:  pong_id
+            })
+        }));
+      console.log("subscribe ok");
+    playgame();
+}
+
 </script>
-</html>
+</script>

@@ -29,7 +29,19 @@
 					chatview.setElement("#chat_area").render_chat_main();//marche pas quand on est dans show par exemple
 			}
 		});
-		
+		// set the socket for having notification 
+		socket_notif = new WebSocket("ws://localhost:3000/cable"); 
+		socket_notif.onopen=  function()
+		{
+			console.log("openn");
+			socket_notif.send(JSON.stringify({
+				command: "subscribe",
+				identifier: JSON.stringify({
+					channel: "PongnotChannel",
+					pong_id: 0
+				})
+			}));
+		}
 	</script>
 
 	<div class="container-fluide body-page" id="inside-page">
@@ -43,12 +55,12 @@
 		<%= render "pages/tournament" %>
 		<%= render "pages/war" %>
 		<%= render "pages/all_guild" %>
-		<%= render "pages/guild_history" %>
-
-
 		<%= render "pages/chat/param" %>
 		<%= render "pages/chat/create" %>
-		<%= render "pages/chat/main" %>
+		<%= render "pages/chat/main" %>		
+		<%= render "pages/pongHost" %>
+		<%= render "pages/pongGuest"%>
+		<%= render "pages/guild_history" %>
 		<%= render "pages/chat/details" %>
 	</div>
 
@@ -439,6 +451,32 @@ var GuildView = Backbone.View.extend({
 	}
 })
 
+//_____________________________________ PongView _____________________________________
+var PongView = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($("#pongHost-template").html()),
+	render : function() {
+		this.$el.html(this.template);
+		return this;
+	}
+});
+
+var pongview = new PongView();
+
+//_____________________________________ PongGuest _____________________________________
+
+
+var PongGuest = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($("#pongGuest-template").html()),
+	render : function() {
+		this.$el.html(this.template);
+		return this;
+	}
+});
+
+var pongguest = new PongGuest();
+
 //_____________________________________ LiveView _____________________________________
 var LiveView = Backbone.View.extend({
 	el : '#inside-page',
@@ -486,7 +524,12 @@ var PlayView = Backbone.View.extend({
 		chatview.setElement("#chat_area").render_chat_main(); // https://solvemprobler.com/blog/2013/04/07/backbone-tips-rendering-views-and-their-childviews/
 		console.log("Render Play");
 		return this;
+	},
+	new_game : function(){
+		pongview.setElement("#pong-area").render();
+		console.log("pong area");
 	}
+
 })
 
 //_____________________________________ ProfilView _____________________________________

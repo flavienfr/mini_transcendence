@@ -30,5 +30,6 @@ Rails.application.routes.draw do
 
 	root 'landing#index'
 	resources :landing
+	mount ActionCable.server => '/cable'
 
 end

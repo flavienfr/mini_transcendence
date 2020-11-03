@@ -41,15 +41,6 @@ class GuildParticipationsController < ApplicationController
 	user.save
 
 	puts "@guild_participation", @guild_participation.to_json
-    #respond_to do |format|
-	#  if @guild_participation.save
-    #    format.html { redirect_to @guild_participation, notice: 'Guild participation was successfully created.' }
-    #    format.json { render :show, status: :created, location: @guild_participation }
-	#  else
-    #    format.html { render :new }
-    #    format.json { render json: @guild_participation.errors, status: :unprocessable_entity }
-    #  end
-    #end
   end
 
   # PATCH/PUT /guild_participations/1

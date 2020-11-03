@@ -130,7 +130,9 @@ function ft_recieve()
 {
 socket.onmessage = function(event) {            
 const response = event.data;
-const msg = JSON.parse(response);    
+const msg = JSON.parse(response);  
+    if (msg.type == "ping" || !msg.message)// don't check the ping message
+        return ;
         if (msg.message.data.usery)
             user1.y = msg.message.data.usery;
         if (msg.message.data.bally)

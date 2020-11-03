@@ -4,7 +4,8 @@ class PongnotChannel < ApplicationCable::Channel
   end
 
   def receive(data)
-    ActionCable.server.broadcast("pongnot_channel_#{params[:pong_id]}", data);
+  puts (data);    
+  ActionCable.server.broadcast("pongnot_channel_#{params[:pong_id]}", data);
   end
 
   def unsubscribed

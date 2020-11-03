@@ -25,7 +25,6 @@ class AskForGamesController < ApplicationController
   # POST /ask_for_games.json
   def create
     @ask_for_game = AskForGame.new(ask_for_game_params)
-
     respond_to do |format|
       if @ask_for_game.save
         format.html { redirect_to @ask_for_game, notice: 'Ask for game was successfully created.' }

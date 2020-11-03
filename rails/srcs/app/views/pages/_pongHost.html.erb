@@ -267,6 +267,8 @@ function ft_send_score()
 socket.onmessage = function(event) {            
 const response = event.data;
 const msg = JSON.parse(response);
+if (msg.type == "ping" || !msg.message)// don't check the ping message
+        return ;
     // selecte only y pos of user2
     if (msg.message.data.user2y)
         user2.y = msg.message.data.user2y;      

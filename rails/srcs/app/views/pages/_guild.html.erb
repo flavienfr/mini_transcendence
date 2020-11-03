@@ -12,13 +12,13 @@
 				</div>
 
 				<div class="guild_create_body">
-					<div class="selector">
+					<div class="selector_1">
 						<label for="guildName">Guild name</label>
 						<input type="text" class="form-control" id="inputGuildName" required minlength="3" maxlength="20">
 					</div>
-					<div class="selector">
-						<label for="guildAnagram">Guild name</label>
-						<input type="text" class="form-control" id="inputGuildAnagram" required minlength="2" maxlength="5" >
+					<div class="selector_2">
+						<label for="guildAnagram">Guild anagram</label>
+						<input type="text" style="text-transform: uppercase;" class="form-control" id="inputGuildAnagram" required minlength="2" maxlength="5" >
 					</div>
 				</div>
 				<div class="guild_create_footer">
@@ -28,17 +28,17 @@
 				</div>
 			</div>
 		</form>
-		<div class="guild_join">
+		<form class="guild_join"  id="join_a_guild">
 			<div class="guild_join_header">
 				<h2>Join a guild</h2>
 			</div>
 			
 			<div class="guild_join_body">		
-				<div class="selector">
+				<div class="selector_3">
 					<label for="inputStatus">Guild list</label>
-					<select id="all_guild_dropdown" class="form-control form-control-md">
+					<select id="all_guild_dropdown" class="form-control form-control-md" required>
 						<%%	for (let i = 0; i < guilds.length; i++) { %>
-							<option> <%%= guilds[i].name %> </option>
+							<option><%%= guilds[i].name %></option>
 						<%% } %>
 					</select>
 				</div>
@@ -46,9 +46,27 @@
 	
 			<div class="guild_join_footer">
 				<div class="form-group">
-					<button type="button" class="btn btn-primary btn-md btn-block btn-dark">Send a request</button>
+					<button type="submit" class="btn btn-primary btn-md btn-block btn-dark">Send a request</button>
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
+
+	<script>
+		$.fn.regexMask = function(mask) {
+		    $(this).keypress(function (event) {
+		        if (!event.charCode) return true;
+		        var part1 = this.value.substring(0, this.selectionStart);
+		        var part2 = this.value.substring(this.selectionEnd, this.value.length);
+		        if (!mask.test(part1 + String.fromCharCode(event.charCode) + part2))
+		            return false;
+		    });
+		};
+				
+		$(document).ready(function() {
+		    var mask = new RegExp('^[A-Za-z0-9 ]*$')
+		    $("input").regexMask(mask) 
+		});
+	</script>
+
 </script>

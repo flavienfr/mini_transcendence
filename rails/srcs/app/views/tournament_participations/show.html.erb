@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @tournament_participation.user_id %>
+</p>
+
+<p>
+  <strong>Tournament:</strong>
+  <%= @tournament_participation.tournament_id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @tournament_participation.status %>
+</p>
+
+<p>
+  <strong>Score:</strong>
+  <%= @tournament_participation.score %>
+</p>
+
+<p>
+  <strong>Nb won game:</strong>
+  <%= @tournament_participation.nb_won_game %>
+</p>
+
+<p>
+  <strong>Nb lose game:</strong>
+  <%= @tournament_participation.nb_lose_game %>
+</p>
+
+<%= link_to 'Edit', edit_tournament_participation_path(@tournament_participation) %> |
+<%= link_to 'Back', tournament_participations_path %>

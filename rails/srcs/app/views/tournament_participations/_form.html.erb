@@ -1,0 +1,47 @@
+<%= form_with(model: tournament_participation, local: true) do |form| %>
+  <% if tournament_participation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(tournament_participation.errors.count, "error") %> prohibited this tournament_participation from being saved:</h2>
+
+      <ul>
+        <% tournament_participation.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= form.text_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tournament_id %>
+    <%= form.text_field :tournament_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.text_field :status %>
+  </div>
+
+  <div class="field">
+    <%= form.label :score %>
+    <%= form.number_field :score %>
+  </div>
+
+  <div class="field">
+    <%= form.label :nb_won_game %>
+    <%= form.number_field :nb_won_game %>
+  </div>
+
+  <div class="field">
+    <%= form.label :nb_lose_game %>
+    <%= form.number_field :nb_lose_game %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

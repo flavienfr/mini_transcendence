@@ -15,10 +15,10 @@
 			<%%	for (let i = 0; i < guilds.length; i++) { %>
 				<%% var user = usr.findWhere({id: guilds[i].owner_id}).toJSON() %>
 				<div class="guild">
-					<div class="name_score">
+					<a class="name_score" onclick="Backbone.history.navigate('/guild/<%%= guilds[i].id %>', {trigger: true}); Backbone.history.loadUrl();">
 						<h3><%%= guilds[i].name %></h3>
 						<p>Score: <%%= guilds[i].points %></p>
-					</div>
+					</a>
 					<div class="owner_officer_btn">
 						<div class="owner">
 							<h3>Owner</h3>

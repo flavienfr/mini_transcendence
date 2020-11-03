@@ -5,11 +5,11 @@ class MessagesController < ApplicationController
   # GET /messages.json
   def index
     puts params;
-    if params[:scope] == "private-direct"
+    if params[:scope] == "direct"
       smaller = params[:user_id] < params[:receiver_id] ? params[:user_id] : params[:receiver_id];
       bigger = params[:user_id] < params[:receiver_id] ? params[:receiver_id] : params[:user_id];
       channel_name = "conversation_channel_" + smaller.to_s + "_" + bigger.to_s;
-      @channel = Channel.where("name = ?", channel_name);
+      @channel = Channel.where("name = ? AND scope = ?", channel_name, params[:scope]);
       puts "channel ! " + channel_name;
       if (@channel.size == 0 || params[:receiver_id] == "0")
         puts "aaaaaaa";
@@ -80,39 +80,12 @@ class MessagesController < ApplicationController
   # POST /messages.json
   def create
     puts params
-    if params[:scope] == "private-direct"
+    if params[:scope] == "direct"
       puts "private direct"
       smaller = params[:user_id] < params[:receiver_id] ? params[:user_id] : params[:receiver_id];
       bigger = params[:user_id] < params[:receiver_id] ? params[:receiver_id] : params[:user_id];
       channel_name = "conversation_channel_" + smaller.to_s + "_" + bigger.to_s;
-      if (Channel.where("name = ? AND scope = 'private-direct'", channel_name).size > 0)
-        puts "exist !";
-      else
-        puts "create channel !" + channel_name;
-        @new_channel = {};
-        @new_channel["name"] = channel_name;
-        @new_channel["scope"] = params[:scope];
-        @channel_to_save = Channel.new(@new_channel);
-        @channel_to_save.save;
-        puts "hey--------";
-      end
-      channel_id = Channel.find_by(name: channel_name).id;
-      if (ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], channel_id).size > 0)
-        puts "channelP exist !"
-      else
-        puts "channelP doesnt exist"
-        # channel_id = Channel.find_by(name: channel_name).id;
-        @new_channelP = {};
-        @new_channelP["user_id"] = params[:user_id];
-        @new_channelP["channel_id"] = channel_id;
-        puts @new_channelP;
-        @new_channelP_to_save = ChannelParticipation.new(@new_channelP);
-        @new_channelP_to_save.save;
-        @new_channelP["user_id"] = params[:receiver_id];
-        @new_channelP["channel_id"] = channel_id;
-        @new_channelP_to_save = ChannelParticipation.new(@new_channelP);
-        @new_channelP_to_save.save;
-      end
+      channel_id = Channel.where("name = ? AND scope = ?", channel_name, params[:scope]).last.id;
       @new_msg = {};
       @new_msg["user_id"] = params[:user_id];
       @new_msg["channel_id"] = channel_id;
@@ -135,13 +108,6 @@ class MessagesController < ApplicationController
       puts @new_msg
       @new_msg_to_save = Message.new(@new_msg);
       @new_msg_to_save.save;
-      if (ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).size == 0)
-        @new_channelP = {};
-        @new_channelP["user_id"] = params[:user_id];
-        @new_channelP["channel_id"] = params[:receiver_id];
-        @new_channelP_to_save = ChannelParticipation.new(@new_channelP);
-        @new_channelP_to_save.save;
-      end
       channelP = Channel.find_by(id: params[:receiver_id]).channel_participations;
       channelP.each do |participant|
         ActionCable.server.broadcast("notification_channel_" + participant.user_id.to_s, {sender: Channel.find_by(id: params[:receiver_id])});

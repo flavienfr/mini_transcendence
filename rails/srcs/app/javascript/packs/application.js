@@ -24,16 +24,6 @@ var bootstrap = require('bootstrap');		// Useless ?
 import flatpickr from "flatpickr"
 require("flatpickr/dist/flatpickr.css")
 
-// TMP FLATPCKR
-//document.addEventListener("turbolinks:load", () => {
-//	flatpickr("[data-behavior='flatpickr']", {
-//		altInput: true,
-//		altFormat: "F j, Y",
-//		dataFormat: "d-m-Y",
-//	})
-//})
-
-
 // For js in components
 //$(document).ready(function() {
 //	require("components")

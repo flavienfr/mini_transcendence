@@ -4,7 +4,6 @@ document.addEventListener("logged", function(event){
 
 consumer.subscriptions.create({channel: "NotificationChannel", room_id: event.detail.id}, {
   connected() {
-    console.log("notification_channel_" + event.detail.id);
     // Called when the subscription is ready for use on the server
   },
 
@@ -13,11 +12,16 @@ consumer.subscriptions.create({channel: "NotificationChannel", room_id: event.de
   },
 
   received(data) {
+  if (data.sender) {
     console.log("notif");
     console.log(data);
     document.dispatchEvent(new CustomEvent("notif", {
       detail: {data: data}
     }));
+  }
+  if (data.notification) {
+    document.dispatchEvent(new CustomEvent("notif2", {}));
+  }
     // Called when there's incoming data on the websocket for this channel
   }
 });

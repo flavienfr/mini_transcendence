@@ -1,7 +1,8 @@
 class Game < ApplicationRecord
-    has_many :game_participations
-    has_many :channels, dependent: :nullify
-    has_many :wars, dependent: :nullify
-    has_many :war_times, dependent: :nullify
-    has_many :tournaments, dependent: :nullify
+    has_many :game_participations, dependent: :nullify
+    has_many :users, :through => :game_participations
+    belongs_to :channel, optional: true
+    belongs_to :war, optional: true
+    belongs_to :war_time, optional: true
+    belongs_to :tournament, optional: true
 end

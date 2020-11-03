@@ -10,6 +10,8 @@ class GuildParticipationsController < ApplicationController
   # GET /guild_participations/1
   # GET /guild_participations/1.json
   def show
+	@guildparticip = GuildParticipation.find(params[:id])
+	render json: @guildparticip
   end
 
   # GET /guild_participations/new
@@ -24,17 +26,21 @@ class GuildParticipationsController < ApplicationController
   # POST /guild_participations
   # POST /guild_participations.json
   def create
-    @guild_participation = GuildParticipation.new(guild_participation_params)
+	#To Do : send notification to the owner of the guild before joining the guild
 
-    respond_to do |format|
-      if @guild_participation.save
-        format.html { redirect_to @guild_participation, notice: 'Guild participation was successfully created.' }
-        format.json { render :show, status: :created, location: @guild_participation }
-      else
-        format.html { render :new }
-        format.json { render json: @guild_participation.errors, status: :unprocessable_entity }
-      end
-    end
+    @guild_participation = GuildParticipation.new(
+		user_id: params[:user_id],
+		guild_id: params[:guild_id],
+		is_admin: false,
+		is_officer: false 
+	)
+	@guild_participation.save
+
+	user = User.find(params[:user_id])
+	user.guild_participation_id = @guild_participation.id
+	user.save
+
+	puts "@guild_participation", @guild_participation.to_json
   end
 
   # PATCH/PUT /guild_participations/1
@@ -54,11 +60,32 @@ class GuildParticipationsController < ApplicationController
   # DELETE /guild_participations/1
   # DELETE /guild_participations/1.json
   def destroy
-    @guild_participation.destroy
-    respond_to do |format|
-      format.html { redirect_to guild_participations_url, notice: 'Guild participation was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+	puts "-------- guild_participations --------"
+	guild = @guild_participation.guild
+	user = @guild_participation.user
+	guild_size = guild.users.size 
+
+	#if in war can't quit
+	if (guild.is_making_war) #war_participation_id ?
+		return #erros message can't quit during war
+	end
+
+	user.guild_participation_id = nil
+	user.save
+
+	if (guild_size === 1)
+		@guild_participation.destroy
+		guild.destroy
+		return
+	end
+
+	if (@guild_participation.is_admin)
+		new_owner = guild.users.order(points: :desc).first
+		guild.owner_id = new_owner.id
+		new_owner.guild_participation_id.is_owner = true
+	end
+
+	@guild_participation.destroy
   end
 
   private

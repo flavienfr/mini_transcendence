@@ -10,6 +10,8 @@ class GuildsController < ApplicationController
   # GET /guilds/1
   # GET /guilds/1.json
   def show
+	@guild = Guild.find(params[:id])
+	render json: @guild
   end
 
   # GET /guilds/new
@@ -24,17 +26,26 @@ class GuildsController < ApplicationController
   # POST /guilds
   # POST /guilds.json
   def create
-    @guild = Guild.new(guild_params)
+	@guild = Guild.new(guild_params)
+	@guild.save
+	#tout remplir
+	@guild_participation = GuildParticipation.new(
+		user_id: params[:user_id],
+		guild_id: @guild.id,
+		is_admin: true,
+		is_officer: false
+		#add is in war
+	)
+	@guild_participation.save 
 
-    respond_to do |format|
-      if @guild.save
-        format.html { redirect_to @guild, notice: 'Guild was successfully created.' }
-        format.json { render :show, status: :created, location: @guild }
-      else
-        format.html { render :new }
-        format.json { render json: @guild.errors, status: :unprocessable_entity }
-      end
-    end
+	user = User.find(params[:user_id])
+	user.guild_participation_id = @guild_participation.id;
+	user.save
+
+	respond_to do |format|
+		  format.html { redirect_to @guild, notice: 'Guild was successfully updated.' }
+		  format.json { render :show, status: :ok, location: @guild }
+	end
   end
 
   # PATCH/PUT /guilds/1

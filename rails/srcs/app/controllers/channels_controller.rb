@@ -10,11 +10,15 @@ class ChannelsController < ApplicationController
     puts joignable_groups.to_json;
     channel_participations = User.find_by(id: current_user.id).channel_participations;
     puts channel_participations.to_json;
-    joignable_groups = joignable_groups.where.not("id IN (?)", channel_participations.pluck(:channel_id));
+    if (channel_participations.size > 0)
+      joignable_groups = joignable_groups.where.not("id IN (?)", channel_participations.pluck(:channel_id));
+    end
     puts joignable_groups.to_json;#a utiliser
-    private_channels = Channel.where("scope = ?", "private-direct");
+    private_channels = Channel.where("scope = ?", "direct");#pour enlever les messages directs
     puts private_channels.to_json;
-    channel_participations = channel_participations.where.not("channel_id IN (?)", private_channels.pluck(:id));
+    if (private_channels.size > 0)
+      channel_participations = channel_participations.where.not("channel_id IN (?)", private_channels.pluck(:id));
+    end
     puts channel_participations.to_json;
     in_channels = Channel.where("id IN (?)", channel_participations.pluck(:channel_id));
     puts in_channels.to_json;#a utiliser
@@ -52,7 +56,7 @@ class ChannelsController < ApplicationController
     @new_channel["scope"] = params[:scope];
     @new_channel["owner_id"] = params[:owner_id];
     if (params[:password])
-      @new_channel["password"] = params[:password];
+      @new_channel["password"] = BCrypt::Password.create(params[:password]);
     end
     puts @new_channel;
     @new_channel_to_save = Channel.new(@new_channel);
@@ -60,6 +64,8 @@ class ChannelsController < ApplicationController
     @new_channelP = {};
     @new_channelP["user_id"] = params[:owner_id];
     @new_channelP["channel_id"] = @new_channel_to_save.id;
+    @new_channelP["is_owner"] = true;
+    @new_channelP["is_admin"] = true;
     @new_channelP_to_save = ChannelParticipation.new(@new_channelP);
     @new_channelP_to_save.save;
     #rajouter admin status owner

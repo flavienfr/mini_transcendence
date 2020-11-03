@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_29_012359) do
+ActiveRecord::Schema.define(version: 2020_11_03_160402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,16 @@ ActiveRecord::Schema.define(version: 2020_10_29_012359) do
     t.integer "points"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "ask_for_friendships", force: :cascade do |t|
+    t.integer "from_user_id"
+    t.integer "to_user_id"
+    t.bigint "friendship_id", null: false
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["friendship_id"], name: "index_ask_for_friendships_on_friendship_id"
   end
 
   create_table "ask_for_games", force: :cascade do |t|
@@ -134,6 +144,19 @@ ActiveRecord::Schema.define(version: 2020_10_29_012359) do
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer "from_user_id"
+    t.integer "to_channel_id"
+    t.integer "to_guild_id"
+    t.string "message"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
+    t.integer "table_id"
+    t.string "table_type"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.datetime "timeout"
     t.bigint "user_id", null: false
@@ -147,6 +170,19 @@ ActiveRecord::Schema.define(version: 2020_10_29_012359) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "tournament_participations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "tournament_id", null: false
+    t.string "status"
+    t.integer "score"
+    t.integer "nb_won_game"
+    t.integer "nb_lose_game"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tournament_id"], name: "index_tournament_participations_on_tournament_id"
+    t.index ["user_id"], name: "index_tournament_participations_on_user_id"
+  end
+
   create_table "tournaments", force: :cascade do |t|
     t.string "rules"
     t.string "incentives"
@@ -155,6 +191,7 @@ ActiveRecord::Schema.define(version: 2020_10_29_012359) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "type"
+    t.integer "max_nb_player"
   end
 
   create_table "user_achievements", force: :cascade do |t|
@@ -219,6 +256,7 @@ ActiveRecord::Schema.define(version: 2020_10_29_012359) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "ask_for_friendships", "friendships"
   add_foreign_key "ask_for_wars", "wars"
   add_foreign_key "channel_participations", "channels"
   add_foreign_key "channel_participations", "users"
@@ -234,6 +272,8 @@ ActiveRecord::Schema.define(version: 2020_10_29_012359) do
   add_foreign_key "messages", "channels"
   add_foreign_key "messages", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "tournament_participations", "tournaments"
+  add_foreign_key "tournament_participations", "users"
   add_foreign_key "user_achievements", "achievements"
   add_foreign_key "user_achievements", "users"
   add_foreign_key "users", "guild_participations"

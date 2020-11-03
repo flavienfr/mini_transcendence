@@ -153,7 +153,7 @@ ActiveRecord::Schema.define(version: 2020_11_03_160402) do
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "user_id" # remplace to_user_id et permet de créer une relation entre les 2 tables
+    t.integer "user_id"
     t.integer "table_id"
   end
 

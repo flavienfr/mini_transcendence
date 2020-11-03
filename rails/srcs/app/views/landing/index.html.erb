@@ -570,7 +570,7 @@ var Profil2View = Backbone.View.extend({
 		user = user.toJSON();
 		message = user.name + " send you a friend request";
 
-		notif = new Notification({from_user_id: current_id, to_user_id: user_cible, type: "", message: message});
+		notif = new Notification({from_user_id: current_id, user_id: user_cible, type: "", message: message});
 		await notif.save();
 
 	},
@@ -582,7 +582,7 @@ var Profil2View = Backbone.View.extend({
 		user = user.toJSON();
 		message = user.name + " challenge you";
 
-		notif = new Notification({from_user_id: current_id, to_user_id: user_cible, type: "", message: message});
+		notif = new Notification({from_user_id: current_id, user_id: user_cible, type: "", message: message});
 		await notif.save();
 
 	},

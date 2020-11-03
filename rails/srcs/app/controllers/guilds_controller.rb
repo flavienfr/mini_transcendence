@@ -34,6 +34,7 @@ class GuildsController < ApplicationController
 		guild_id: @guild.id,
 		is_admin: true,
 		is_officer: false
+		#add is in war
 	)
 	@guild_participation.save 
 

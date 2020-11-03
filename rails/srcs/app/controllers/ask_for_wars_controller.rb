@@ -68,7 +68,7 @@ class AskForWarsController < ApplicationController
 	msg = "The Alliance declares war"
 	@notification = Notification.new(
 		from_user_id: from_user_id,
-		to_user_id: to_user_id,
+		user_id: to_user_id,
 		#table_type: "ask_for_war",
 		#table_id: @ask_for_war.id,
 		message: msg,

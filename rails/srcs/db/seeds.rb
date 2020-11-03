@@ -61,6 +61,10 @@ puts "----- Session.destroy_all"
 Session.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('sessions') # to reset id back to 1
 
+puts "----- Notification.destroy_all"
+Notification.destroy_all
+ActiveRecord::Base.connection.reset_pk_sequence!('notifications') # to reset id back to 1
+
 puts "----- User.destroy_all"
 User.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('users') # to reset id back to 1

@@ -26,19 +26,18 @@
 <script>
 var guest_id = 0; // set a change in set_content
 var host_id = 0; //set at 0 changer in set_content
+var is_playing  = false;
 
-function set_content(id, current_user)
+function set_content(id, current_user) // set the host et guest id after the user host click on a user adversory
 {
     guest_id = id;
     host_id = current_user;
-    console.log(guest_id);
     get_contender();
 }
 
 function get_contender()
 {
-    var is_playing  = false;
-    socket = new WebSocket("ws://localhost:3000/cable");
+    socket = new WebSocket("ws://localhost:3000/cable"); 
     socket.onopen=  function()
     {
         socket.send(JSON.stringify({
@@ -60,30 +59,32 @@ function get_contender()
                 pong_id: 0
                 }),
                 data: JSON.stringify({
-                    data: {id_host: host_id, id_guest: guest_id} // mettre en place systeme pour envoyer le host et le gest avec id
+                    data: {id_host: host_id, id_guest: guest_id}  // send a message to the guest for play with host, it's send his id et the id of the guest
                 })
         }));
     }
 
 
-socket.onmessage = function(event) {            
+socket.onmessage = function(event) {// this function check every message, for know if the message is for her, it check the guest params, if the guest params correspond to the host id the guest it for her  
 const response = event.data;
 const msg = JSON.parse(response);
-	// selecte only y pos of user2
-	if (msg.type == "ping")
+	if (msg.type == "ping")// don't check the ping message
         return ;
-    if (msg.message.data.id_guest == host_id && is_playing == false && msg.message.data.game)
+
+    if (msg.message.data.id_guest == host_id && is_playing == false && msg.message.data.play) // read the second for understand this
     {
-        console.log("je suis rentré ici");
-        pongview.setElement("#pong-area").render(); // aulieu du playgame faire un systeme qui appelle la _pongHost
+        pongview.setElement("#pong-area").render(); // has the invitation is validate(value play is on true), the host is redirect to the hostview
     }
-    else if (msg.message.data.id_guest == host_id && is_playing == false)
+    else if (msg.message.data.agree == "false" && msg.message.data.id_guest == host_id)
     {
-			var val = window.confirm("hey un nouveau gars veut jouer avec toi !") ;
+        alert("the guest refused to play with you... sorry bro !");
+    }
+    else if (msg.message.data.id_guest == host_id && is_playing == false)// reveive the invitation, if the guest gamer is agree he send a message where play(value) is on true
+    {
+			var val = window.confirm("hey a new gamer want play with you !") ;
 			is_playing = val; // ameliorer la boite de dialogue ici renvoi true car permet a ce que le joueur quand il joue ne soit pas importuner
 			if (is_playing == true)
 			{	
-                console.log("game true");
                 socket.send(JSON.stringify({
                 command: "message",
                 identifier: JSON.stringify({
@@ -91,14 +92,13 @@ const msg = JSON.parse(response);
                 pong_id: 0
             }),
             data: JSON.stringify({
-                data: {game: "true", id_host: host_id, id_guest: guest_id} // mettre en place systeme pour envoyer le host et le gest avec id
+                data: {play: "true", id_host: host_id, id_guest: guest_id}
             })
               }));
-            console.log("game is sending");
-            pongguest.setElement("#pong-area").render(); // aulieu du playgame faire un systeme qui appelle la _pongHost
+            pongguest.setElement("#pong-area").render(); // has the guest is agree it generate the guestview
 
            }
-            else
+            else// possibility to send a message at the host player to said the invitation is refused by the guest player
 			{
 			socket.send(JSON.stringify({
             command: "message",
@@ -108,7 +108,7 @@ const msg = JSON.parse(response);
 
             }),
             data: JSON.stringify({
-                data: {agree: "false"} // mettre en place systeme pour envoyer le host et le gest avec id
+                data: {id_guest: guest_id ,agree: "false"}
             })
         }));
 	}
@@ -117,8 +117,6 @@ const msg = JSON.parse(response);
 
 
 }
-
-
 
 </script>
 </script>

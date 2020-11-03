@@ -19,6 +19,19 @@
 				console.log("O");
 			console.log($("#dropdownMenuButton").text());
 		});
+		// set the socket for having notification 
+		socket_notif = new WebSocket("ws://localhost:3000/cable"); 
+		socket_notif.onopen=  function()
+		{
+			console.log("openn");
+			socket_notif.send(JSON.stringify({
+				command: "subscribe",
+				identifier: JSON.stringify({
+					channel: "PongnotChannel",
+					pong_id: 0
+				})
+			}));
+		}
 	</script>
 
 	<div class="container-fluide body-page" id="inside-page">
@@ -330,12 +343,6 @@ var PlayView = Backbone.View.extend({
 	initialize : function() {
 		console.log("PlayView created");
 	},
-
-
-	events: {
-		"click #play-game": "new_game"
-		  },	
-	
 
 	render : function() {
 		this.$el.html(this.template);

@@ -164,9 +164,9 @@ function ft_send()
 
 
 //main
-socket = new WebSocket("ws://localhost:3000/cable");
+var socket = new WebSocket("ws://localhost:3000/cable");
 
-socket.onopen=  function()
+socket.onopen = function()
 {
     socket.send(JSON.stringify({
             command: "subscribe",

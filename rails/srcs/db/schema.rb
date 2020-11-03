@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_01_133158) do
+ActiveRecord::Schema.define(version: 2020_11_03_160402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,7 +146,6 @@ ActiveRecord::Schema.define(version: 2020_11_01_133158) do
 
   create_table "notifications", force: :cascade do |t|
     t.integer "from_user_id"
-    t.integer "to_user_id"
     t.integer "to_channel_id"
     t.integer "to_guild_id"
     t.string "type"
@@ -154,6 +153,8 @@ ActiveRecord::Schema.define(version: 2020_11_01_133158) do
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
+    t.integer "table_id"
   end
 
   create_table "sessions", force: :cascade do |t|

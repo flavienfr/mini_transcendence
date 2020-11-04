@@ -11,6 +11,7 @@ var pong_id = <%== current_user.id%>
 function playgame(host_id){
 
     //reveive element from body
+    var launch = 5;
     const element = document.getElementById("pong-id");
     const canvas = document.getElementById("pong");
     const context = canvas.getContext("2d");
@@ -208,12 +209,31 @@ function playgame(host_id){
 
     }
 
-    function playing(host_id)
+
+    function ft_timer()
     {
-        sync(host_id);
-        ft_send(host_id);
-        show();
-        //console.log("pong x = " + ball.x); // regarder quand le joueur est sur une autre view
+        drawRect(0,0, canvas.width, canvas.height,"BLACK"); // the game place
+        context.fillStyle = "WHITE";
+        context.font = '48px serif';
+        context.beginPath();
+        context.fillText(5, canvas.width / 2 , canvas.height / 2);
+        context.closePath();
+    }
+
+    function playing(host_id, launch)
+    {
+        if (launch == 0)
+        {
+            sync(host_id);
+            ft_send(host_id);
+            show();
+        }
+        else
+        {
+            // setTimeout(() => { launch--; }, 1000);
+            ft_timer();
+        }
+            //console.log("pong x = " + ball.x); // regarder quand le joueur est sur une autre view
         
 
     }
@@ -262,8 +282,9 @@ function playgame(host_id){
     //launch game think about press key to start or something like this of the two user
 
     
-    var stop = setInterval(playing, 1000/50, host_id); 
+    var stop = setInterval(playing, 1000/50, host_id, launch); 
 }
+
 
 var socket = new WebSocket("ws://localhost:3000/cable");
 socket.onopen = function()
@@ -279,14 +300,10 @@ socket.onopen = function()
           var AskForGame = Backbone.Model.extend({
         urlRoot: '/ask_for_games'
     })
-    // var ask_for_game = new AskForGame();
-    // ask_for_game.fetch({data: {from_user_id: current_user_id}, success: function() {
-    //     console.log(ask_for_game.toJSON());
-    //     var guest_id = ask_for_game.get('to_user_id');
-        // console.log("guest_id = " + guest_id);
     console.log("current_user_id = " + current_user_id);
+
+
     playgame(current_user_id);
-    // }});
 }
 
 </script>

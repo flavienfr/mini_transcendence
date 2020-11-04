@@ -114,7 +114,6 @@ function startGame(host_id)
 
     function playing(host_id)
     {
-        console.log("playing host_id = " + host_id);
         ft_recieve()
         ft_send(host_id);
         show();
@@ -131,9 +130,9 @@ function startGame(host_id)
 
             if (msg.message.data.usery)
                 user1.y = msg.message.data.usery;
-            if (msg.message.data.bally)
+            else if (msg.message.data.bally)
                 ball.y = msg.message.data.bally;
-            if (msg.message.data.ballx)
+            else if (msg.message.data.ballx)
                 ball.x = msg.message.data.ballx;
             if (msg.message.data.score_1)
                 user1.score = msg.message.data.score_1;  
@@ -156,16 +155,15 @@ function startGame(host_id)
             })
         }));
     }
-console.log("hhhhhh  = " + host_id);
-setInterval(playing, 1000/50, host_id);
+
+    setInterval(playing, 1000/50, host_id);
 }
 
 //main
 
 var socket = new WebSocket("ws://localhost:3000/cable");
 socket.onopen = function()
-{
-         
+{         
     var AskForGame = Backbone.Model.extend({
         urlRoot: '/ask_for_games'
     })

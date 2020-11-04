@@ -14,7 +14,7 @@ function startGame(host_id)
     const element = document.getElementById("pong-id");
     pong_id = element.getAttribute("data-pong-id");
     canvas.addEventListener("mousemove", movePaddle);
-
+    var launch = 5;
     // part 1 functions draw
     // draw score
     function drawScore(x, y,score ,color){
@@ -112,34 +112,50 @@ function startGame(host_id)
         user2.y = event.clientY - canvas.getBoundingClientRect().top - user2.height/2; // pour tester a brancher avec backbone et actioncable     
     }
 
+    function ft_timer(val)
+    {
+        drawRect(0,0, canvas.width, canvas.height,"BLACK"); // the game place
+        context.fillStyle = "WHITE";
+        context.font = '48px serif';
+        context.beginPath();
+        context.fillText(val, canvas.width / 2 * 0.95 , canvas.height / 2);
+        context.closePath();
+    }
+
     function playing(host_id)
     {
         ft_recieve()
-        ft_send(host_id);
-        show();
+        if (launch <= 0)
+        {
+            ft_send(host_id);
+            show();
+        }
+        else
+            ft_timer(launch);
     }
 
 
     function ft_recieve()
     {
-    socket.onmessage = function(event) {            
-    const response = event.data;
-    const msg = JSON.parse(response);  
-        if (msg.type == "ping" || !msg.message )// check if the pong_id is send to the correct personne
-            return ;
-
+        socket.onmessage = function(event) {            
+        const response = event.data;
+        const msg = JSON.parse(response);  
+            if (msg.type == "ping" || !msg.message )// check if the pong_id is send to the correct personne
+                return ;        
             if (msg.message.data.usery)
                 user1.y = msg.message.data.usery;
-            else if (msg.message.data.bally)
+            if (msg.message.data.bally)
                 ball.y = msg.message.data.bally;
-            else if (msg.message.data.ballx)
+            if (msg.message.data.ballx)
                 ball.x = msg.message.data.ballx;
             if (msg.message.data.score_1)
                 user1.score = msg.message.data.score_1;  
             if (msg.message.data.score_2)
                 user2.score = msg.message.data.score_2;
+            if (msg.message.data.launch)
+                launch = msg.message.data.launch - 1; 
             }
-        };
+    };
 
 
     function ft_send(host_id)
@@ -169,9 +185,7 @@ socket.onopen = function()
     })
     var ask_for_game = new AskForGame();
     ask_for_game.fetch({data: {to_user_id: current_user_id}, success: function() {
-        console.log(ask_for_game.toJSON());
         var host_id = ask_for_game.get('from_user_id');
-        console.log("host_id = " + host_id);
         socket.send(JSON.stringify({
             command: "subscribe",
             identifier: JSON.stringify({

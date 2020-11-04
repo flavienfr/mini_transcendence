@@ -52,29 +52,12 @@ function get_contender()
     ft_send();
 }
 
-// socket_notif = new WebSocket("ws://localhost:3000/cable"); 
-// socket_notif.onopen=  function()
-//     {
-//         console.log("openn");
-//         socket_notif.send(JSON.stringify({
-//             command: "subscribe",
-//             identifier: JSON.stringify({
-// 			channel: "PongnotChannel",
-// 			pong_id: 0
-//     })
-//     }));
-// }
-
-
 socket_notif.onmessage = function(event) {// this function check every message, for know if the message is for her, it check the guest params, if the guest params correspond to the host id the guest it for her  
 
 const response = event.data;
 const msg = JSON.parse(response);
 	if (msg.type == "ping" || !msg.message)// don't check the ping message
         return ;
-    console.log("je suis ici frere");
-    console.log(msg.message.data);
-        
     if (msg.message.data.id_guest == current && is_playing == false && msg.message.data.play) // read the second for understand this
     {
         save_asking_battle(msg.message.data.id_host)
@@ -101,7 +84,7 @@ const msg = JSON.parse(response);
                     })
                 }));
                 playview.render();
-                setTimeout(() => {pongguest.setElement("#pong-area").render();}, 500);
+                setTimeout(() => {pongguest.setElement("#pong-area").render();}, 800);
            }
             else// possibility to send a message at the host player to said the invitation is refused by the guest player
 			{

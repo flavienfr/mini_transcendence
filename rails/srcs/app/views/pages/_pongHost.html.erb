@@ -11,7 +11,7 @@ var pong_id = <%== current_user.id%>
 function playgame(host_id){
 
     //reveive element from body
-    var launch = 5;
+    var launch = 6;
     const element = document.getElementById("pong-id");
     const canvas = document.getElementById("pong");
     const context = canvas.getContext("2d");
@@ -210,32 +210,40 @@ function playgame(host_id){
     }
 
 
-    function ft_timer()
+    function ft_timer(val)
     {
         drawRect(0,0, canvas.width, canvas.height,"BLACK"); // the game place
         context.fillStyle = "WHITE";
         context.font = '48px serif';
         context.beginPath();
-        context.fillText(5, canvas.width / 2 , canvas.height / 2);
+        context.fillText(val, canvas.width / 2 * 0.90 , canvas.height / 2);
         context.closePath();
     }
 
-    function playing(host_id, launch)
+    function playing(host_id)
     {
-        if (launch == 0)
+        if (launch <= -1)
         {
             sync(host_id);
             ft_send(host_id);
             show();
         }
-        else
-        {
-            // setTimeout(() => { launch--; }, 1000);
-            ft_timer();
-        }
-            //console.log("pong x = " + ball.x); // regarder quand le joueur est sur une autre view
-        
+        //console.log("pong x = " + ball.x); // regarder quand le joueur est sur une autre view
+    }
 
+    function ft_send_launch()
+    {
+        socket.send(JSON.stringify({
+                command: "message",
+                identifier: JSON.stringify({
+                    channel: "PongChannel",
+                    pong_id: host_id
+
+                }),
+                data: JSON.stringify({
+                    data: {launch: launch}
+                })
+            }));
     }
 
     function ft_send(host_id)
@@ -280,9 +288,26 @@ function playgame(host_id){
     };
 
     //launch game think about press key to start or something like this of the two user
-
     
-    var stop = setInterval(playing, 1000/50, host_id, launch); 
+    ret = setInterval(function() {
+        if (launch >= 0)
+        {
+            ft_send_launch();
+            if (launch <= 1)
+                ft_timer("GO !");
+            else
+                ft_timer(launch - 1);
+            launch--;
+        }
+        else
+        {
+            ft_send_launch();
+            launch = -1;
+            clearInterval(ret);
+        }
+    }, 1000);
+    
+    var stop = setInterval(playing, 1000/50, host_id); 
 }
 
 
@@ -300,7 +325,6 @@ socket.onopen = function()
           var AskForGame = Backbone.Model.extend({
         urlRoot: '/ask_for_games'
     })
-    console.log("current_user_id = " + current_user_id);
 
 
     playgame(current_user_id);

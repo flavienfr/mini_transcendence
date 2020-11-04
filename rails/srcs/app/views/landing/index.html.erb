@@ -148,6 +148,11 @@ var War = Backbone.Model.extend({
 	urlRoot: "/wars.json",
 });
 
+var Wars = Backbone.Collection.extend({
+	model: War,
+	url: "/wars.json",
+});
+
 var Ask_for_war = Backbone.Model.extend({
 	urlRoot: "/ask_for_wars.json",
 });
@@ -435,13 +440,15 @@ var GuildView = Backbone.View.extend({
 		await owner.fetch();
 
 		//#history
-		//#prendre toute les wars avec winner id de la guild
+		var wars = new Wars();
+		wars.url = "/wars.json/?guild_id=" + guild.id;
+		await wars.fetch();
 
+		//console.log("leng war", wars);
 
-		this.$el.html(this.template_guild_history({
+		this.$el.html(this.template_guild_history({  
+			wars: wars.toJSON(),
 			guilds: this.collection,
-			war_p: ,
-			wars: ,
 			guild: guild,
 			owner: owner.toJSON(),
 			is_current_user_guild,
@@ -617,7 +624,7 @@ var Profil2View = Backbone.View.extend({
 	add_friend : async function() {
 		console.log("Add friend");
 		var current_id = current_user_id;
-		user = this.collection.ere({id: parseInt(current_id)});
+		user = this.collection.findWhere({id: parseInt(current_id)});
 		user = user.toJSON();
 		message = user.name + " send you a friend request";
 

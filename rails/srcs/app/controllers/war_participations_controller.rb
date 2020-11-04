@@ -4,7 +4,7 @@ class WarParticipationsController < ApplicationController
   # GET /war_participations
   # GET /war_participations.json
   def index
-    @war_participations = WarParticipation.all
+	@war_participations = WarParticipation.all
   end
 
   # GET /war_participations/1

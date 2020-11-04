@@ -41,15 +41,20 @@
 						</tr>
 					</thead>
 					<tbody>
-						<%%	for (let i = 0; i < war_p.length; i++) { %>
-							<%% current_war = wars.findWhere({id: war_p[i].war_id}) %>
-							<%% wind_guild = guilds.findWhere({id: current_war.winner_id})%>
-							<tr style="background: green;">
+						<%%	for (let i = 0; i < wars.length; i++) { %>
+							<%% if (wars[i].winner_id == guild.id) {%>
+								<tr style="background: green;">
+							<%% }else { %>
+								<tr style="background: red;">
+							<%% } %>
+								<%% var start_date = new Date(wars[i].start_date) %>
+								<%% var end_date = new Date(wars[i].end_date) %>
+								<%% const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' } %>
 								<th scope="row"><%%= i + 1 %></th>
-								<td><%% wind_guild.name %></td>
-								<td><%% current_war.prize_in_points %></td>
-								<td><%% current_war.start_date %></td>
-								<td><%% current_war.end_date %></td>
+								<td><%%= guilds.findWhere({id: wars[i].winner_id}).toJSON().name %></td>
+								<td><%%= wars[i].prize_in_points %></td>
+								<td><%%= start_date.toLocaleDateString('fr-FR', options) %></td>
+								<td><%%= end_date.toLocaleDateString('fr-FR', options) %></td>
 							</tr>
 						<%% } %>
 					</tbody>

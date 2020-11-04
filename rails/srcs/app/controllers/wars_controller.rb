@@ -4,7 +4,11 @@ class WarsController < ApplicationController
   # GET /wars
   # GET /wars.json
   def index
-	@wars = War.all
+	@wars = Guild.find(params[:guild_id].to_i).wars.order(start_date: 'desc')
+	@wars = @wars.where('wars.status = ?', "finish")
+	#@wars = War.all
+	puts "------------------------------------------"
+	puts "@wars= ", @wars.to_json
   end
 
   # GET /wars/1

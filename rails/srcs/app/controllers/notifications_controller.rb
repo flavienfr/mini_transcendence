@@ -35,16 +35,17 @@ class NotificationsController < ApplicationController
     # notif_channel = "notification_channel_" + @notification.from_user_id.to_s;
     notif_channel = "notification_channel_" + @notification.user_id.to_s;
 
-    ActionCable.server.broadcast(notif_channel, {notification: "On"})
-    respond_to do |format|
-      if @notification.save
-        format.html { redirect_to @notification, notice: 'Notification was successfully created.' }
-        format.json { render :show, status: :created, location: @notification }
-      else
-        format.html { render :new }
-        format.json { render json: @notification.errors, status: :unprocessable_entity }
-      end
-      end
+	ActionCable.server.broadcast(notif_channel, {notification: "On"})
+	@notification.save
+    #respond_to do |format|
+    #  if @notification.save
+    #    format.html { redirect_to @notification, notice: 'Notification was successfully created.' }
+    #    format.json { render :show, status: :created, location: @notification }
+    #  else
+    #    format.html { render :new }
+    #    format.json { render json: @notification.errors, status: :unprocessable_entity }
+    #  end
+    #end
   end
 
   # PATCH/PUT /notifications/1

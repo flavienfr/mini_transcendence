@@ -29,7 +29,8 @@ class AskForWarsController < ApplicationController
 	puts "--------------------------"
 	
 	#Global variable
-	from_guild_id = User.find(params[:current_user_id]).guild_participations.first.guild.id
+	from_guild = User.find(params[:current_user_id]).guild_participations.first.guild
+	from_guild_id = from_guild.id
 	to_guild_id = params[:to_guild_id]
 
 	#check if to_guild_id is in war
@@ -63,14 +64,19 @@ class AskForWarsController < ApplicationController
 	puts "-----------------------"
 
 	#Création de la table notification
+	msg_guild = "War decalration by " + from_guild.name
+	msg_date =  "from " + params[:start_date] + " to " + params[:end_date]
+	msg_unanswered = "Max unanswered match: " + params[:max_unanswered_call]
+	msg_prize = "Prize pool: " + params[:prize_in_points]
+	msg = msg_guild + "<br>" + msg_date + "<br>" + msg_unanswered + "<br>" + msg_prize
+
 	from_user_id = Guild.find(from_guild_id).owner_id
 	to_user_id = Guild.find(to_guild_id).owner_id
-	msg = "The Alliance declares war"
 	@notification = Notification.new(
 		from_user_id: from_user_id,
 		user_id: to_user_id,
-		#table_type: "ask_for_war",
-		#table_id: @ask_for_war.id,
+		table_type: "ask_for_war",
+		table_id: @ask_for_war.id,
 		message: msg,
 		status: "pending"
 	)

@@ -424,6 +424,7 @@ var GuildView = Backbone.View.extend({
 	},
 	render_history: async function(guild_id, is_current_user_guild)
 	{
+		//#Header
 		var guild = new Guild();
 		guild.urlRoot = "/guilds/" + guild_id 
 		await guild.fetch();
@@ -433,7 +434,14 @@ var GuildView = Backbone.View.extend({
 		owner.urlRoot = "/users/" + guild.owner_id
 		await owner.fetch();
 
+		//#history
+		//#prendre toute les wars avec winner id de la guild
+
+
 		this.$el.html(this.template_guild_history({
+			guilds: this.collection,
+			war_p: ,
+			wars: ,
 			guild: guild,
 			owner: owner.toJSON(),
 			is_current_user_guild,
@@ -609,7 +617,7 @@ var Profil2View = Backbone.View.extend({
 	add_friend : async function() {
 		console.log("Add friend");
 		var current_id = current_user_id;
-		user = this.collection.findWhere({id: parseInt(current_id)});
+		user = this.collection.ere({id: parseInt(current_id)});
 		user = user.toJSON();
 		message = user.name + " send you a friend request";
 

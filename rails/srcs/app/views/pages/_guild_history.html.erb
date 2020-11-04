@@ -34,30 +34,24 @@
 					<thead class="thead-dark">
 						<tr>
 							<th scope="col">#</th>
-							<th scope="col">First</th>
-							<th scope="col">Last</th>
-							<th scope="col">Handle</th>
+							<th scope="col">Winner</th>
+							<th scope="col">Prize pool</th>
+							<th scope="col">Start</th>
+							<th scope="col">End</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-					  	</tr>
-					  	<tr>
-							<th scope="row">2</th>
-							<td>Jacob</td>
-							<td>Thornton</td>
-							<td>@fat</td>
-					  	</tr>
-					  	<tr>
-							<th scope="row">3</th>
-							<td>Larry</td>
-							<td>the Bird</td>
-							<td>@twitter</td>
-						</tr>
+						<%%	for (let i = 0; i < war_p.length; i++) { %>
+							<%% current_war = wars.findWhere({id: war_p[i].war_id}) %>
+							<%% wind_guild = guilds.findWhere({id: current_war.winner_id})%>
+							<tr style="background: green;">
+								<th scope="row"><%%= i + 1 %></th>
+								<td><%% wind_guild.name %></td>
+								<td><%% current_war.prize_in_points %></td>
+								<td><%% current_war.start_date %></td>
+								<td><%% current_war.end_date %></td>
+							</tr>
+						<%% } %>
 					</tbody>
 				</table>
 			</div>

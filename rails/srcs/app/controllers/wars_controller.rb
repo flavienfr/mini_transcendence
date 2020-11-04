@@ -4,7 +4,7 @@ class WarsController < ApplicationController
   # GET /wars
   # GET /wars.json
   def index
-    @wars = War.all
+	@wars = War.all
   end
 
   # GET /wars/1

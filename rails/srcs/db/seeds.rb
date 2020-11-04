@@ -121,3 +121,16 @@ gm3 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,
 # game participations
 gm1p = GameParticipation.create(user_id: yamin.id, game_id: gm1.id, score: 15, is_winner: false)
 gm2p = GameParticipation.create(user_id: yamin.id, game_id: gm2.id, score: 11, is_winner: false)
+
+
+#War
+war1 = War.create(start_date: DateTime.now,end_date: DateTime.new(2021,2,3,4,5,6,'+03:00'), prize_in_points: 500, max_unanswered_call: 10, winner_id: assemblee.id, status: nil)
+war2 = War.create(start_date: DateTime.now,end_date: DateTime.new(2021,4,6,9,3,4,'+10:45'), prize_in_points: 250, max_unanswered_call: 0, winner_id: order.id, status: nil)
+
+
+warp1 = WarParticipation.create(guild_id: assemblee.id, war_id: war1.id, war_points: 230, has_declared_war: true, nb_unanswered_call: nil, is_winner: true, status: "finish")
+warp2 = WarParticipation.create(guild_id: order.id, war_id: war1.id, war_points: 120, has_declared_war: false, nb_unanswered_call: nil, is_winner: false, status: "finish")
+
+
+warp3 = WarParticipation.create(guild_id: assemblee.id, war_id: war2.id, war_points: 30, has_declared_war: true, nb_unanswered_call: nil, is_winner: false, status: "finish")
+warp4 = WarParticipation.create(guild_id: order.id, war_id: war2.id, war_points: 423, has_declared_war: false, nb_unanswered_call: nil, is_winner: true, status: "finish")

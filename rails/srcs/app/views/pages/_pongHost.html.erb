@@ -228,6 +228,16 @@ function playgame(host_id){
             ft_send(host_id);
             show();
         }
+        if (user1.score == 11 || user2.score == 11)
+        {
+            if (user1.score == 11)
+                alert("Congratulation you win !!!");
+            else
+                alert("You loose this games but not the ware !!!");
+
+            clearInterval(stop);
+        }
+
         //console.log("pong x = " + ball.x); // regarder quand le joueur est sur une autre view
     }
 

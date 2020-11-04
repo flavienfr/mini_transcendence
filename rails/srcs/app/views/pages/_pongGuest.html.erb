@@ -7,7 +7,7 @@
 <script>
  var current_user_id = <%== current_user.id%>
 
-function startGame(host_id)
+function playing(host_id)
 {
     const canvas = document.getElementById("pongid");
     const context = canvas.getContext("2d");
@@ -132,6 +132,16 @@ function startGame(host_id)
         }
         else
             ft_timer(timer);
+        if (user1.score == 11 || user2.score == 11)
+        {
+            if (user2.score == 11)
+                alert("Congratulation you win !!!");
+            else
+                alert("You loose this games but not the ware !!!");
+
+            clearInterval(stop);
+        }
+        
     }
 
 
@@ -172,7 +182,7 @@ function startGame(host_id)
         }));
     }
 
-    setInterval(playing, 1000/50, host_id);
+   var stop = setInterval(playing, 1000/50, host_id);
 }
 
 //main
@@ -193,7 +203,7 @@ socket.onopen = function()
                 pong_id: host_id
             })
         }));
-       startGame(host_id);
+       playing(host_id);
     }});
 }
 

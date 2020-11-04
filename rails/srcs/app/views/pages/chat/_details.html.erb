@@ -60,7 +60,7 @@
                         {
                             console.log("here");
                             console.log(<%%= channel.owner_id %>);
-                            show_div.append("<div><a href='/#profile/"+ data1[i].id +"'>" + data1[i].name + "</a>" +
+                            show_div.append("<div><a href='/#profil/"+ data1[i].id +"'>" + data1[i].name + "</a>" +
                                             (user.is_admin ? "<button onclick='ft_adminize(" + data1[i].id + ")'>Adminize</button>" : "") +
                                             (user.is_admin && <%%= channel.owner_id %> != data1[i].id ? "<button onclick='ft_kick(" + data1[i].id + ")'>kick</button>" : "") +
                                             "</div>");

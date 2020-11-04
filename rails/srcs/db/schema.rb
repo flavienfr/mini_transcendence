@@ -148,13 +148,13 @@ ActiveRecord::Schema.define(version: 2020_11_03_160402) do
     t.integer "from_user_id"
     t.integer "to_channel_id"
     t.integer "to_guild_id"
+    t.string "type"
     t.string "message"
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id"
     t.integer "table_id"
-    t.string "table_type"
   end
 
   create_table "sessions", force: :cascade do |t|

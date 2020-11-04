@@ -158,12 +158,12 @@ var Ask_for_war = Backbone.Model.extend({
 });
 
 
-//******************************************** VIEWS ********************************************
-
 var Game = Backbone.Model.extend({
 	urlRoot: "/games.json",
 
 });
+
+//____________________________________ Game _____________________________________
 
 var Games = Backbone.Collection.extend({
 	model: Game,
@@ -267,7 +267,6 @@ var NotifView = Backbone.View.extend({
 	render : async function() {
 		await notificationcollection.fetch();
 
-		console.log(notificationcollection.toJSON());	
 		this.$el.html(this.template({notification: notificationcollection.toJSON()}));
 		console.log("Render Notif");
 		return this;
@@ -479,8 +478,6 @@ var PongView = Backbone.View.extend({
 var pongview = new PongView();
 
 //_____________________________________ PongGuest _____________________________________
-
-
 var PongGuest = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($("#pongGuest-template").html()),
@@ -559,8 +556,8 @@ var ProfilView = Backbone.View.extend({
   
 	render : async function() {
 		console.log("Render Profil");
-//		var current_id = current_user_id;
-		var current_id = 4;
+		var current_id = current_user_id;
+//		var current_id = 4;
 		await this.collection.fetch();
 		current_user = this.collection.findWhere({id: current_id});
 	
@@ -606,7 +603,6 @@ var Profil2View = Backbone.View.extend({
 		user_cible = parseInt(id_user);
 		await this.collection.fetch();
 		user = this.collection.findWhere({id: parseInt(id_user)});
-	
 //		guild = new Guild();
 //		guild.url = "/guild_participations/" + id_user + ".json"
 //		await guild.fetch();
@@ -622,25 +618,33 @@ var Profil2View = Backbone.View.extend({
 	},
 
 	add_friend : async function() {
-		console.log("Add friend");
-		var current_id = current_user_id;
-		user = this.collection.findWhere({id: parseInt(current_id)});
-		user = user.toJSON();
-		message = user.name + " send you a friend request";
-
-		notif = new Notification({from_user_id: current_id, user_id: user_cible, type: "", message: message});
-		await notif.save();
-
+		friendshipcollection.url = "/friendships/?id=" + current_user_id; 
+		await friendshipcollection.fetch();
+		if (friendshipcollection.findWhere({id: user_cible}))
+		{
+			alert("You are already friend !");
+		}
+		else
+		{
+			console.log("Add friend");
+			var current_id = current_user_id;
+			user = this.collection.findWhere({id: parseInt(current_id)});
+			user = user.toJSON();
+			message = user.name + " send you a friend request";
+			type = "add_friend";
+			notif = new Notification({from_user_id: current_id, user_id: user_cible, table_type: type, message: message});
+			await notif.save();
+		}
 	},
 
 	ask_duel : async function() {
-		console.log("Add friend");
+		console.log("Ask a duel");
 		var current_id = current_user_id;
 		user = this.collection.findWhere({id: parseInt(current_id)});
 		user = user.toJSON();
 		message = user.name + " challenge you";
 
-		notif = new Notification({from_user_id: current_id, user_id: user_cible, type: "", message: message});
+		notif = new Notification({from_user_id: current_id, user_id: user_cible, message: message});
 		await notif.save();
 
 	},
@@ -845,6 +849,30 @@ var Router = Backbone.Router.extend({
 		profil2view.render(id_user);	
 	}
 });
+
+async function ft_delete_notif(e) {
+	console.log("Delete notif")
+	await notificationcollection.fetch();
+	notif = notificationcollection.findWhere({id: e.id});
+	notif.urlRoot = "/notifications/";	
+	await notif.destroy();
+	notifview.render();	
+};
+
+function ft_handle_notif(notif) {
+	console.log("Handle notif");
+	if (notif.table_type == "add_friend")
+	{			
+		console.log("add friend");
+		friend = new Friendship({user1_id: notif.from_user_id, user2_id: notif.user_id});
+		friend.save();
+	}
+	if (notif.table_type == "ask_for_war")
+	{
+		console.log("ask_for_war");
+	}
+	ft_delete_notif(notif);
+};
 
 $( "#logo" ).on( "click", function() {
 	Backbone.history.navigate("/", {trigger: true});

@@ -76,6 +76,8 @@ yamin = User.create(name: "yamin", avatar: "https://cdn.intra.42.fr/users/ylegzo
 flavien = User.create(name: "flavien", avatar: "https://cdn.intra.42.fr/users/froussel.jpg", current_status: "", points: 0, is_admin: false, guild_participation_id: nil)
 luc = User.create(name: "luc", avatar: "https://cdn.intra.42.fr/users/lhuang.jpg", current_status: "", points: 0, is_admin: false, guild_participation_id: nil) 
 maxime = User.create(name: "maxime", avatar: "https://cdn.intra.42.fr/users/mpouzol.jpg", current_status: "", points: 0, is_admin: false, guild_participation_id: nil) 
+puts "----- Users created"
+
 # sessions
 # can't seed session because access_token expires 2 hours after generation
 # => cliquer se logger
@@ -88,13 +90,14 @@ f4 = Friendship.create(user1_id: francis.id, user2_id: maxime.id, status: "activ
 f5 = Friendship.create(user1_id: yamin.id, user2_id: flavien.id, status: "active")
 f6 = Friendship.create(user1_id: yamin.id, user2_id: luc.id, status: "active")
 f7 = Friendship.create(user1_id: yamin.id, user2_id: maxime.id, status: "active")
+puts "----- Friendship created"
 
 # guilds
 assemblee = Guild.create(name: "The Assemblee", anagram: "42", points: 5412, is_making_war: false ,owner_id: francis.id)
 order = Guild.create(name: "The Order", anagram: "42", points: 1235, is_making_war: false, owner_id: yamin.id)
+puts "----- Guilds created"
 
 # guild participations
-
 # Assemblee
 ap1 = GuildParticipation.create(user_id: francis.id, guild_id: assemblee.id, is_admin: true, is_officer: false)
 francis.guild_participation_id = ap1.id
@@ -112,6 +115,7 @@ luc.save
 op3 = GuildParticipation.create(user_id: maxime.id, guild_id: order.id, is_admin: false, is_officer: true)
 maxime.guild_participation_id = op3.id
 maxime.save
+puts "----- Guild Participations created"
 
 # games
 gm1 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "war", winner_id: luc.id, war_id: nil, tournament_id: nil, channel_id: nil)
@@ -146,3 +150,4 @@ warp8 = WarParticipation.create(guild_id: order.id, war_id: war4.id, war_points:
 
 warp9 = WarParticipation.create(guild_id: nil, war_id: war5.id, war_points: 350, has_declared_war: true, nb_unanswered_call: nil, is_winner: true, status: "finish")
 warp10 = WarParticipation.create(guild_id: nil, war_id: war5.id, war_points: 4253, has_declared_war: false, nb_unanswered_call: nil, is_winner: false, status: "finish")
+puts "----- War Participations created"

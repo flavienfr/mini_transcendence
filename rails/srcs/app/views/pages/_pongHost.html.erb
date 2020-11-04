@@ -234,7 +234,7 @@ function playgame(host_id){
                 alert("Congratulation you win !!!");
             else
                 alert("You loose this games but not the ware !!!");
-
+            archive_askForGame_table()
             clearInterval(stop);
         }
 
@@ -332,12 +332,21 @@ socket.onopen = function()
                 pong_id:  pong_id
             })
         }));
-          var AskForGame = Backbone.Model.extend({
+    playgame(current_user_id);
+}
+
+
+function archive_askForGame_table()
+{
+    var AskForGame = Backbone.Model.extend({
         urlRoot: '/ask_for_games'
     })
-
-
-    playgame(current_user_id);
+    var ask_for_game = new AskForGame();
+    ask_for_game.fetch({data: {to_user_id: current_user_id, status: "playing"}, success: function() {
+        ask_for_game.set({status: "ending"});
+        ask_for_game.save();
+        }
+    });
 }
 
 </script>

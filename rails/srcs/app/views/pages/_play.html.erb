@@ -94,7 +94,9 @@ const msg = JSON.parse(response);
                         data: {play: "true", id_host: current, id_guest: msg.message.data.id_host}
                     })
                 }));
-                pongguest.setElement("#pong-area").render(); // has the guest is agree it generate the guestview
+                setTimeout(() => { 
+                    pongguest.setElement("#pong-area").render();
+                }, 1000);
            }
             else// possibility to send a message at the host player to said the invitation is refused by the guest player
 			{

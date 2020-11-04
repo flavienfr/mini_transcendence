@@ -114,6 +114,7 @@ function startGame(host_id)
 
     function playing(host_id)
     {
+        console.log("playing host_id = " + host_id);
         ft_recieve()
         ft_send(host_id);
         show();
@@ -148,27 +149,23 @@ function startGame(host_id)
             command: "message",
             identifier: JSON.stringify({
             channel: "PongChannel",
-            pong_id: 2
+            pong_id: host_id // ici il marche pas 
             }),
             data: JSON.stringify({
                 data: {user2y: user2.y}
             })
         }));
     }
-    setInterval(playing, 1000/50);
+console.log("hhhhhh  = " + host_id);
+setInterval(playing, 1000/50, host_id);
 }
 
 //main
+
 var socket = new WebSocket("ws://localhost:3000/cable");
 socket.onopen = function()
 {
-         socket.send(JSON.stringify({
-            command: "subscribe",
-            identifier: JSON.stringify({
-                channel: "PongChannel",
-                pong_id: 2
-            })
-        }));
+         
     var AskForGame = Backbone.Model.extend({
         urlRoot: '/ask_for_games'
     })
@@ -177,8 +174,14 @@ socket.onopen = function()
         console.log(ask_for_game.toJSON());
         var host_id = ask_for_game.get('from_user_id');
         console.log("host_id = " + host_id);
-
-        startGame(host_id);
+        socket.send(JSON.stringify({
+            command: "subscribe",
+            identifier: JSON.stringify({
+                channel: "PongChannel",
+                pong_id: host_id
+            })
+        }));
+       startGame(host_id);
     }});
 }
 

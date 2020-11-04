@@ -14,7 +14,7 @@ function startGame(host_id)
     const element = document.getElementById("pong-id");
     pong_id = element.getAttribute("data-pong-id");
     canvas.addEventListener("mousemove", movePaddle);
-    var launch = 5;
+    var timer = 5;
     // part 1 functions draw
     // draw score
     function drawScore(x, y,score ,color){
@@ -125,13 +125,13 @@ function startGame(host_id)
     function playing(host_id)
     {
         ft_recieve()
-        if (launch <= 0)
+        if (timer <= 0)
         {
             ft_send(host_id);
             show();
         }
         else
-            ft_timer(launch);
+            ft_timer(timer);
     }
 
 
@@ -152,8 +152,8 @@ function startGame(host_id)
                 user1.score = msg.message.data.score_1;  
             if (msg.message.data.score_2)
                 user2.score = msg.message.data.score_2;
-            if (msg.message.data.launch)
-                launch = msg.message.data.launch - 1; 
+            if (msg.message.data.timer)
+                timer = msg.message.data.timer - 1; 
             }
     };
 

@@ -148,6 +148,11 @@ var War = Backbone.Model.extend({
 	urlRoot: "/wars.json",
 });
 
+var Wars = Backbone.Collection.extend({
+	model: War,
+	url: "/wars.json",
+});
+
 var Ask_for_war = Backbone.Model.extend({
 	urlRoot: "/ask_for_wars.json",
 });
@@ -423,6 +428,7 @@ var GuildView = Backbone.View.extend({
 	},
 	render_history: async function(guild_id, is_current_user_guild)
 	{
+		//#Header
 		var guild = new Guild();
 		guild.urlRoot = "/guilds/" + guild_id 
 		await guild.fetch();
@@ -432,7 +438,16 @@ var GuildView = Backbone.View.extend({
 		owner.urlRoot = "/users/" + guild.owner_id
 		await owner.fetch();
 
-		this.$el.html(this.template_guild_history({
+		//#history
+		var wars = new Wars();
+		wars.url = "/wars.json/?guild_id=" + guild.id;
+		await wars.fetch();
+
+		//console.log("leng war", wars);
+
+		this.$el.html(this.template_guild_history({  
+			wars: wars.toJSON(),
+			guilds: this.collection,
 			guild: guild,
 			owner: owner.toJSON(),
 			is_current_user_guild,

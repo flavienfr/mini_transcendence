@@ -17,9 +17,17 @@ puts "----- Tournament.destroy_all"
 Tournament.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('tournaments') # to reset id back to 1
 
+puts "----- AskForWar.destroy_all"
+AskForWar.destroy_all
+ActiveRecord::Base.connection.reset_pk_sequence!('AskForWar') # to reset id back to 1
+
 puts "----- WarParticipation.destroy_all"
 WarParticipation.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('war_participations') # to reset id back to 1
+
+puts "----- WarTime.destroy_all"
+WarTime.destroy_all
+ActiveRecord::Base.connection.reset_pk_sequence!('WarTime') # to reset id back to 1
 
 puts "----- War.destroy_all"
 War.destroy_all
@@ -76,6 +84,8 @@ yamin = User.create(name: "yamin", avatar: "https://cdn.intra.42.fr/users/ylegzo
 flavien = User.create(name: "flavien", avatar: "https://cdn.intra.42.fr/users/froussel.jpg", current_status: "", points: 0, is_admin: false, guild_participation_id: nil)
 luc = User.create(name: "luc", avatar: "https://cdn.intra.42.fr/users/lhuang.jpg", current_status: "", points: 0, is_admin: false, guild_participation_id: nil) 
 maxime = User.create(name: "maxime", avatar: "https://cdn.intra.42.fr/users/mpouzol.jpg", current_status: "", points: 0, is_admin: false, guild_participation_id: nil) 
+puts "----- Users created"
+
 # sessions
 # can't seed session because access_token expires 2 hours after generation
 # => cliquer se logger
@@ -88,13 +98,14 @@ f4 = Friendship.create(user1_id: francis.id, user2_id: maxime.id, status: "activ
 f5 = Friendship.create(user1_id: yamin.id, user2_id: flavien.id, status: "active")
 f6 = Friendship.create(user1_id: yamin.id, user2_id: luc.id, status: "active")
 f7 = Friendship.create(user1_id: yamin.id, user2_id: maxime.id, status: "active")
+puts "----- Friendship created"
 
 # guilds
 assemblee = Guild.create(name: "The Assemblee", anagram: "42", points: 5412, is_making_war: false ,owner_id: francis.id)
 order = Guild.create(name: "The Order", anagram: "42", points: 1235, is_making_war: false, owner_id: yamin.id)
+puts "----- Guilds created"
 
 # guild participations
-
 # Assemblee
 ap1 = GuildParticipation.create(user_id: francis.id, guild_id: assemblee.id, is_admin: true, is_officer: false)
 francis.guild_participation_id = ap1.id
@@ -112,6 +123,7 @@ luc.save
 op3 = GuildParticipation.create(user_id: maxime.id, guild_id: order.id, is_admin: false, is_officer: true)
 maxime.guild_participation_id = op3.id
 maxime.save
+puts "----- Guild Participations created"
 
 # games
 gm1 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "war", winner_id: luc.id, war_id: nil, tournament_id: nil, channel_id: nil)
@@ -121,3 +133,27 @@ gm3 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,
 # game participations
 gm1p = GameParticipation.create(user_id: yamin.id, game_id: gm1.id, score: 15, is_winner: false)
 gm2p = GameParticipation.create(user_id: yamin.id, game_id: gm2.id, score: 11, is_winner: false)
+
+
+# War
+#war1 = War.create(start_date: DateTime.new(2010,2,3,4,5,6,'+03:00') ,end_date: DateTime.new(2010,2,3,4,5,6,'+03:00'), prize_in_points: 500, max_unanswered_call: 10, winner_id: assemblee.id, status: "finish")
+#war2 = War.create(start_date: DateTime.new(2009,4,6,9,3,4,'+10:45') ,end_date: DateTime.new(2009,4,6,9,3,4,'+10:45'), prize_in_points: 250, max_unanswered_call: 0, winner_id: order.id, status: "finish")
+#war3 = War.create(start_date: DateTime.new(2011,6,3,5,9,7,'+22:45') ,end_date: DateTime.new(2011,6,3,5,9,7,'+22:45'), prize_in_points: 102, max_unanswered_call: 0, winner_id: order.id, status: "inprogress")
+#war4 = War.create(start_date: DateTime.now ,end_date: DateTime.new(2015,1,2,3,4,5,'+23:29'), prize_in_points: 102, max_unanswered_call: 0, winner_id: order.id, status: "finish")
+#war5 = War.create(start_date: DateTime.new(2014,1,2,3,4,5,'+23:29') ,end_date: DateTime.new(2014,1,2,3,4,5,'+23:29'), prize_in_points: 666, max_unanswered_call: 0, winner_id: order.id, status: "finish")
+#
+## War participations
+#warp1 = WarParticipation.create(guild_id: assemblee.id, war_id: war1.id, war_points: 230, has_declared_war: true, nb_unanswered_call: nil, is_winner: true, status: "finish")
+#warp2 = WarParticipation.create(guild_id: order.id, war_id: war1.id, war_points: 120, has_declared_war: false, nb_unanswered_call: nil, is_winner: false, status: "finish")
+#
+#warp3 = WarParticipation.create(guild_id: assemblee.id, war_id: war2.id, war_points: 30, has_declared_war: true, nb_unanswered_call: nil, is_winner: false, status: "finish")
+#warp4 = WarParticipation.create(guild_id: order.id, war_id: war2.id, war_points: 423, has_declared_war: false, nb_unanswered_call: nil, is_winner: true, status: "finish")
+#
+#warp5 = WarParticipation.create(guild_id: nil, war_id: war3.id, war_points: 677, has_declared_war: true, nb_unanswered_call: nil, is_winner: false, status: "inprogress")
+#warp6 = WarParticipation.create(guild_id: order.id, war_id: war3.id, war_points: 5455, has_declared_war: false, nb_unanswered_call: nil, is_winner: true, status: "inprogress")
+#
+#warp7 = WarParticipation.create(guild_id: assemblee.id, war_id: war4.id, war_points: 350, has_declared_war: true, nb_unanswered_call: nil, is_winner: false, status: "finish")
+#warp8 = WarParticipation.create(guild_id: order.id, war_id: war4.id, war_points: 4253, has_declared_war: false, nb_unanswered_call: nil, is_winner: true, status: "finish")
+#
+#warp9 = WarParticipation.create(guild_id: nil, war_id: war5.id, war_points: 350, has_declared_war: true, nb_unanswered_call: nil, is_winner: true, status: "finish")
+#warp10 = WarParticipation.create(guild_id: nil, war_id: war5.id, war_points: 4253, has_declared_war: false, nb_unanswered_call: nil, is_winner: false, status: "finish")

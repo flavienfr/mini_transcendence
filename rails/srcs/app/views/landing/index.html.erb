@@ -8,7 +8,7 @@
 
 	<script>
 		document.dispatchEvent(new CustomEvent("logged", {
-			detail: {id: <%= current_user.id %>}
+			detail: {id: <%= current_user.id %>} //>#color patch
 		}));
 		document.addEventListener("notif", function(event){
 			console.log("notif listener");
@@ -149,17 +149,22 @@ var War = Backbone.Model.extend({
 	urlRoot: "/wars.json",
 });
 
+var Wars = Backbone.Collection.extend({
+	model: War,
+	url: "/wars.json",
+});
+
 var Ask_for_war = Backbone.Model.extend({
 	urlRoot: "/ask_for_wars.json",
 });
 
 
-//******************************************** VIEWS ********************************************
-
 var Game = Backbone.Model.extend({
 	urlRoot: "/games.json",
 
 });
+
+//____________________________________ Game _____________________________________
 
 var Games = Backbone.Collection.extend({
 	model: Game,
@@ -256,15 +261,15 @@ var LogView = Backbone.View.extend({
 var NotifView = Backbone.View.extend({
 	el : '#notif_item',
 	template: _.template($('#notif-template').html()),
+	collection: notificationcollection,
 
 	initialize : function() {
 	},
 
 	render : async function() {
-		await notificationcollection.fetch();
+		await this.collection.fetch();
 
-		console.log(notificationcollection.toJSON());	
-		this.$el.html(this.template({notification: notificationcollection.toJSON()}));
+		this.$el.html(this.template({notification: this.collection.toJSON()}));
 		console.log("Render Notif");
 		return this;
 	},
@@ -425,6 +430,7 @@ var GuildView = Backbone.View.extend({
 	},
 	render_history: async function(guild_id, is_current_user_guild)
 	{
+		//#Header
 		var guild = new Guild();
 		guild.urlRoot = "/guilds/" + guild_id 
 		await guild.fetch();
@@ -434,7 +440,16 @@ var GuildView = Backbone.View.extend({
 		owner.urlRoot = "/users/" + guild.owner_id
 		await owner.fetch();
 
-		this.$el.html(this.template_guild_history({
+		//#history
+		var wars = new Wars();
+		wars.url = "/wars.json/?guild_id=" + guild.id;
+		await wars.fetch();
+
+		//console.log("leng war", wars);
+
+		this.$el.html(this.template_guild_history({  
+			wars: wars.toJSON(),
+			guilds: this.collection,
 			guild: guild,
 			owner: owner.toJSON(),
 			is_current_user_guild,
@@ -465,8 +480,6 @@ var PongView = Backbone.View.extend({
 var pongview = new PongView();
 
 //_____________________________________ PongGuest _____________________________________
-
-
 var PongGuest = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($("#pongGuest-template").html()),
@@ -545,31 +558,30 @@ var ProfilView = Backbone.View.extend({
   
 	render : async function() {
 		console.log("Render Profil");
-//		var current_id = current_user_id;
-		var current_id = 4;
+		var current_id = current_user_id;
+		//var current_id = 4;
 		await this.collection.fetch();
 		current_user = this.collection.findWhere({id: current_id});
 	
-//		guild = new Guild();
-//		guild.url = "/guild_participations/" + current_id + ".json"
-//		await guild.fetch();
+		//guild = new Guild();
+		//guild.url = "/guild_participations/" + current_id + ".json"
+		//await guild.fetch();
 
 	
 		friendshipcollection.url = "/friendships/?id=" + current_id; 
 		await friendshipcollection.fetch();
 
-//		gamecollection.url = "/games" + current_id;
-//		await gamecollection.fetch();
-//		console.log(gamecollection.toJSON())
+		//gamecollection.url = "/games" + current_id;
+		//await gamecollection.fetch();
+		//console.log(gamecollection.toJSON())
 	
-//		this.$el.html(this.template({user: current_user.toJSON(), guild: guild.toJSON(), friend: friendshipcollection.toJSON()}));
+		//this.$el.html(this.template({user: current_user.toJSON(), guild: guild.toJSON(), friend: friendshipcollection.toJSON()}));
 		this.$el.html(this.template({user: current_user.toJSON(), friend: friendshipcollection.toJSON()}));
 		return this;
 	}
 });
 
 //_____________________________________ Profil2View _____________________________________
-
 var Profil2View = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#profil2-template').html()),
@@ -592,13 +604,12 @@ var Profil2View = Backbone.View.extend({
 		user_cible = parseInt(id_user);
 		await this.collection.fetch();
 		user = this.collection.findWhere({id: parseInt(id_user)});
-	
-//		guild = new Guild();
-//		guild.url = "/guild_participations/" + id_user + ".json"
-//		await guild.fetch();
+		//guild = new Guild();
+		//guild.url = "/guild_participations/" + id_user + ".json"
+		//await guild.fetch();
 
 		this.$el.html(this.template({user: user.toJSON()}));
-//		this.$el.html(this.template({user: user.toJSON(), guild: guild.toJSON()}));
+		//this.$el.html(this.template({user: user.toJSON(), guild: guild.toJSON()}));
 		return this;
 	},
 
@@ -608,25 +619,33 @@ var Profil2View = Backbone.View.extend({
 	},
 
 	add_friend : async function() {
-		console.log("Add friend");
-		var current_id = current_user_id;
-		user = this.collection.findWhere({id: parseInt(current_id)});
-		user = user.toJSON();
-		message = user.name + " send you a friend request";
-
-		notif = new Notification({from_user_id: current_id, user_id: user_cible, type: "", message: message});
-		await notif.save();
-
+		friendshipcollection.url = "/friendships/?id=" + current_user_id; 
+		await friendshipcollection.fetch();
+		if (friendshipcollection.findWhere({id: user_cible}))
+		{
+			alert("You are already friend !");
+		}
+		else
+		{
+			console.log("Add friend");
+			var current_id = current_user_id;
+			user = this.collection.findWhere({id: parseInt(current_id)});
+			user = user.toJSON();
+			message = user.name + " send you a friend request";
+			type = "add_friend";
+			notif = new Notification({from_user_id: current_id, user_id: user_cible, table_type: type, message: message});
+			await notif.save();
+		}
 	},
 
 	ask_duel : async function() {
-		console.log("Add friend");
+		console.log("Ask a duel");
 		var current_id = current_user_id;
 		user = this.collection.findWhere({id: parseInt(current_id)});
 		user = user.toJSON();
 		message = user.name + " challenge you";
 
-		notif = new Notification({from_user_id: current_id, user_id: user_cible, type: "", message: message});
+		notif = new Notification({from_user_id: current_id, user_id: user_cible, message: message});
 		await notif.save();
 
 	},
@@ -679,34 +698,17 @@ var WarView = Backbone.View.extend({
 			max_unanswered_call: $('#MaxUnansweredMatch').val(),
 		});
 
-		//await ask_for_war.save({
-		//	success: function(model, response) {
-		//		alert("Demande envoyé");
-		//	},
-		//	error: function(model, response) {
-		//		alert("Declaration fail, the guild could be in war");
-		//	},
-		//	wait: true
-		//});
-
-		await ask_for_war.save();
-
-		//Backbone.ajax({
-		//	url: '/ask_for_wars/1',
-		//	data: {},
-		//	type: 'PUT',
-		//	dataType: 'json',
-		//	success: function(response) {
-		//		console.log("Inside success");
-		//		console.log(response);
-		//	},
-		//	error: function()
-		//	{
-		//		alert("error");
-		//	}
-		//});
-
-		//check return error is_in_war variable uptdate
+		ask_for_war.save(ask_for_war, {
+			success: function(response) {
+				if (response.toJSON().is_msg){
+					alert(response.toJSON().msg);
+				}
+			},
+			error: function(model, response) {
+				alert("Declaration fail, the guild could be in war");
+			},
+			wait: true
+		});
 	},
 	render_guild_info : async function() {
 		var guild_name = $("#guild_drop_down option:selected").text();
@@ -766,6 +768,63 @@ var WarView = Backbone.View.extend({
 		return this;
 	}
 });
+
+//*************************************** Notification handler ***************************************
+
+async function delete_notif(notif) {
+	console.log("Delete notif")
+	the_notif = notificationcollection.findWhere({id: notif.id});
+	the_notif.urlRoot = "/notifications/";	
+	await the_notif.destroy();
+	notifview.render();	
+};
+
+async function ft_refuse_notif(notif) {
+	if (notif.table_type == "ask_for_war"){
+		Backbone.ajax({
+			url: '/ask_for_wars/' + notif.table_id,
+			data: {},
+			type: 'DELETE',
+			dataType: 'json',
+			success: function(response) {
+				console.log("Inside success");
+				delete_notif(notif);
+			},
+			error: function(){
+				alert("error");
+			}
+		});
+	}
+	else{
+		delete_notif(notif);
+	}
+};
+
+function ft_accept_notif(notif) {
+	console.log("Acceptnotif");
+	if (notif.table_type == "add_friend"){			
+		console.log("add friend");
+		friend = new Friendship({user1_id: notif.from_user_id, user2_id: notif.user_id});
+		friend.save();
+		delete_notif(notif);
+	}
+	else if (notif.table_type == "ask_for_war") {
+		console.log("ask_for_war");
+		console.log(notif);
+		Backbone.ajax({
+			url: '/ask_for_wars/' + notif.table_id,
+			data: {},
+			type: 'PUT',
+			dataType: 'json',
+			success: function(response){
+				delete_notif(notif);
+			},
+			error: function(){
+				alert("error");
+			}
+		});
+	}
+};
 
 //******************************************** ROUTER ********************************************
 var logview = new LogView();
@@ -831,6 +890,7 @@ var Router = Backbone.Router.extend({
 		profil2view.render(id_user);	
 	}
 });
+
 
 $( "#logo" ).on( "click", function() {
 	Backbone.history.navigate("/", {trigger: true});

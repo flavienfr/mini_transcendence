@@ -34,30 +34,29 @@
 					<thead class="thead-dark">
 						<tr>
 							<th scope="col">#</th>
-							<th scope="col">First</th>
-							<th scope="col">Last</th>
-							<th scope="col">Handle</th>
+							<th scope="col">Winner</th>
+							<th scope="col">Prize pool</th>
+							<th scope="col">Start</th>
+							<th scope="col">End</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-					  	</tr>
-					  	<tr>
-							<th scope="row">2</th>
-							<td>Jacob</td>
-							<td>Thornton</td>
-							<td>@fat</td>
-					  	</tr>
-					  	<tr>
-							<th scope="row">3</th>
-							<td>Larry</td>
-							<td>the Bird</td>
-							<td>@twitter</td>
-						</tr>
+						<%%	for (let i = 0; i < wars.length; i++) { %>
+							<%% if (wars[i].winner_id == guild.id) {%>
+								<tr style="background: green;">
+							<%% }else { %>
+								<tr style="background: red;">
+							<%% } %>
+								<%% var start_date = new Date(wars[i].start_date) %>
+								<%% var end_date = new Date(wars[i].end_date) %>
+								<%% const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' } %>
+								<th scope="row"><%%= i + 1 %></th>
+								<td><%%= guilds.findWhere({id: wars[i].winner_id}).toJSON().name %></td>
+								<td><%%= wars[i].prize_in_points %></td>
+								<td><%%= start_date.toLocaleDateString('fr-FR', options) %></td>
+								<td><%%= end_date.toLocaleDateString('fr-FR', options) %></td>
+							</tr>
+						<%% } %>
 					</tbody>
 				</table>
 			</div>

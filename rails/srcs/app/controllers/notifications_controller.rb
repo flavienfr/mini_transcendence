@@ -12,9 +12,6 @@ class NotificationsController < ApplicationController
   # GET /notifications/1
   # GET /notifications/1.json
   def show
-     puts "__________________________________"
-     puts @notification
-     puts "__________________________________"
   end
 
   # GET /notifications/new
@@ -29,22 +26,27 @@ class NotificationsController < ApplicationController
   # POST /notifications
   # POST /notifications.json
   def create
+    puts "________________________________"
     @notification = Notification.new(notification_params)
+    puts "________________________________"
 
     # ------->  A changer (mettre la ligne commenter a la place de l'autre)
     # notif_channel = "notification_channel_" + @notification.from_user_id.to_s;
     notif_channel = "notification_channel_" + @notification.user_id.to_s;
 
     ActionCable.server.broadcast(notif_channel, {notification: "On"})
-    respond_to do |format|
-      if @notification.save
-        format.html { redirect_to @notification, notice: 'Notification was successfully created.' }
-        format.json { render :show, status: :created, location: @notification }
-      else
-        format.html { render :new }
-        format.json { render json: @notification.errors, status: :unprocessable_entity }
-      end
-      end
+    puts @notification.message
+    puts @notification.table_type
+    # respond_to do |format|
+    @notification.save
+      # if @notification.save
+        # format.html { redirect_to @notification, notice: 'Notification was successfully created.' }
+        # format.json { render :show, status: :created, location: @notification }
+      # else
+        # format.html { render :new }
+        # format.json { render json: @notification.errors, status: :unprocessable_entity }
+      # end
+      # end
   end
 
   # PATCH/PUT /notifications/1
@@ -79,6 +81,6 @@ class NotificationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def notification_params
-      params.require(:notification).permit(:from_user_id, :user_id, :to_channel_id, :to_guild_id, :type, :message, :status)
+      params.require(:notification).permit(:from_user_id, :user_id, :to_channel_id, :to_guild_id, :table_type, :message, :status)
     end
 end

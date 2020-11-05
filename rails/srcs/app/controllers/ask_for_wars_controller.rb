@@ -29,10 +29,22 @@ class AskForWarsController < ApplicationController
 	puts "--------------------------"
 	
 	#Global variable
-	from_guild_id = User.find(params[:current_user_id]).guild_participations.first.guild.id
+	from_guild = User.find(params[:current_user_id]).guild_participations.first.guild
+	from_guild_id = from_guild.id
 	to_guild_id = params[:to_guild_id]
 
 	#check if to_guild_id is in war
+
+	if (AskForWar.where('from_guild_id=?', 3).size > 0)
+		json_render = {}
+		json_render["msg"] = "request already in progress"
+		json_render["is_msg"] = 1
+		respond_to do |format|
+			format.html
+			format.json {render json: json_render}
+    	end
+		return
+	end
 
 	#Création de la table war
 	@war = War.new(
@@ -63,14 +75,19 @@ class AskForWarsController < ApplicationController
 	puts "-----------------------"
 
 	#Création de la table notification
+	msg_guild = "War decalration by " + from_guild.name
+	msg_date =  "from " + params[:start_date] + " to " + params[:end_date]
+	msg_unanswered = "Max unanswered match: " + params[:max_unanswered_call]
+	msg_prize = "Prize pool: " + params[:prize_in_points]
+	msg = msg_guild + "<br>" + msg_date + "<br>" + msg_unanswered + "<br>" + msg_prize
+
 	from_user_id = Guild.find(from_guild_id).owner_id
 	to_user_id = Guild.find(to_guild_id).owner_id
-	msg = "The Alliance declares war"
 	@notification = Notification.new(
 		from_user_id: from_user_id,
 		user_id: to_user_id,
-		#table_type: "ask_for_war",
-		#table_id: @ask_for_war.id,
+		table_type: "ask_for_war",
+		table_id: @ask_for_war.id,
 		message: msg,
 		status: "pending"
 	)
@@ -112,8 +129,12 @@ class AskForWarsController < ApplicationController
 			is_winner: nil,
 			status: nil
 		)
+		@wpp_from_guild.save
 		from_guild = Guild.find(@ask_for_war.from_guild_id)
-		from_guild.war_participation_id = @ask_for_war.war_id
+		from_guild.war_participation_id = @wpp_from_guild.id
+		puts "----- wpp_from_guild ----"
+		puts @wpp_from_guild.to_json
+		puts "-----------------------"
 
 		@wpp_to_guild = WarParticipation.new(
 			guild_id: @ask_for_war.to_guild_id,
@@ -124,16 +145,13 @@ class AskForWarsController < ApplicationController
 			is_winner: nil,
 			status: nil
 		)
+		@wpp_to_guild.save
 		to_guild = Guild.find(@ask_for_war.from_guild_id)
-		to_guild.war_participation_id = @ask_for_war.war_id
-
-
-    	#@wpp_from_guild.save
-
+		to_guild.war_participation_id = @wpp_to_guild.id
+		puts "----- wpp_to_guild ----"
+		puts @wpp_to_guild.to_json
+		puts "-----------------------"
 	end
-	#puts "----- war_participation ----"
-	#puts @wpp_from_guild.to_json
-	#puts "-----------------------"
 
 	respond_to do |format|
         format.json { render :show, status: :ok, location: @ask_for_war }
@@ -153,7 +171,13 @@ class AskForWarsController < ApplicationController
   # DELETE /ask_for_wars/1
   # DELETE /ask_for_wars/1.json
   def destroy
-    @ask_for_war.destroy
+	puts "----- destroy ask_for_wars ----"
+	war = War.find(AskForWar.find(@ask_for_war.id).war_id)
+	@ask_for_war.destroy
+	war.destroy
+
+	# Todo bonus: Renvoyer une notif(depuis controler destroy) pour annoncer le refus
+
     respond_to do |format|
       format.html { redirect_to ask_for_wars_url, notice: 'Ask for war was successfully destroyed.' }
       format.json { head :no_content }

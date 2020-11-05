@@ -15,15 +15,25 @@
 			console.log(event.detail.data);
 			if (event.detail.data.sender)
 			{
-				if ($("#dropdownChannelMenuButton").text() == event.detail.data.sender.name)//utiliser id plutot ?
+				console.log("hey" + $("#main_chat_in").val());
+				console.log(event.detail.data);
+				console.log("channel_name" + event.detail.data.sender.id);
+				if ($("#main_chat_in").val() == event.detail.data.sender.id)//utiliser id plutot ?
 					chatview.setElement("#chat_area").render_chat_main(event.detail.data.sender);
 			}
 			if (event.detail.data.kicked_from)
 			{
-				alert("you got kicked from " + event.detail.data.kicked_from.name);
-				if ($("#dropdownChannelMenuButton").text() == event.detail.data.kicked_from.name && event.detail.data.kicked_from.scope != "direct")
+				console.log(event.detail.data);
+				console.log($("#detail_chat_in").val());
+				alert("you got kicked from " + event.detail.data.kicked_from.id);
+				if (($("#detail_chat_in").val() == event.detail.data.kicked_from.id || $("#main_chat_in").val() == event.detail.data.kicked_from.id) && event.detail.data.kicked_from.scope != "direct")
+				{
+					console.log("in");
 					chatview.setElement("#chat_area").render_chat_main();//marche pas quand on est dans show par exemple
+				}
 			}
+			var hidden_input_val = $("#main_chat_in").val();
+			console.log("hidden" + hidden_input_val);
 		});
 		// set the socket for having notification 
 		socket_notif = new WebSocket("ws://localhost:3000/cable"); 
@@ -314,6 +324,7 @@ var ChatView = Backbone.View.extend({
 						i++;
 					}
 					console.log("name" + target);
+					console.log(user_selected);
 					el.html(temp({receiver: user_selected, target: target}));
 				}})
 			}

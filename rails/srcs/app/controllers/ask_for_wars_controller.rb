@@ -35,6 +35,17 @@ class AskForWarsController < ApplicationController
 
 	#check if to_guild_id is in war
 
+	if (AskForWar.where('from_guild_id=?', 3).size > 0)
+		json_render = {}
+		json_render["msg"] = "request already in progress"
+		json_render["is_msg"] = 1
+		respond_to do |format|
+			format.html
+			format.json {render json: json_render}
+    	end
+		return
+	end
+
 	#Création de la table war
 	@war = War.new(
 		start_date: params[:start_date],
@@ -118,8 +129,12 @@ class AskForWarsController < ApplicationController
 			is_winner: nil,
 			status: nil
 		)
+		@wpp_from_guild.save
 		from_guild = Guild.find(@ask_for_war.from_guild_id)
-		from_guild.war_participation_id = @ask_for_war.war_id
+		from_guild.war_participation_id = @wpp_from_guild.id
+		puts "----- wpp_from_guild ----"
+		puts @wpp_from_guild.to_json
+		puts "-----------------------"
 
 		@wpp_to_guild = WarParticipation.new(
 			guild_id: @ask_for_war.to_guild_id,
@@ -130,16 +145,13 @@ class AskForWarsController < ApplicationController
 			is_winner: nil,
 			status: nil
 		)
+		@wpp_to_guild.save
 		to_guild = Guild.find(@ask_for_war.from_guild_id)
-		to_guild.war_participation_id = @ask_for_war.war_id
-
-
-    	#@wpp_from_guild.save
-
+		to_guild.war_participation_id = @wpp_to_guild.id
+		puts "----- wpp_to_guild ----"
+		puts @wpp_to_guild.to_json
+		puts "-----------------------"
 	end
-	#puts "----- war_participation ----"
-	#puts @wpp_from_guild.to_json
-	#puts "-----------------------"
 
 	respond_to do |format|
         format.json { render :show, status: :ok, location: @ask_for_war }
@@ -159,7 +171,13 @@ class AskForWarsController < ApplicationController
   # DELETE /ask_for_wars/1
   # DELETE /ask_for_wars/1.json
   def destroy
-    @ask_for_war.destroy
+	puts "----- destroy ask_for_wars ----"
+	war = War.find(AskForWar.find(@ask_for_war.id).war_id)
+	@ask_for_war.destroy
+	war.destroy
+
+	# Todo bonus: Renvoyer une notif(depuis controler destroy) pour annoncer le refus
+
     respond_to do |format|
       format.html { redirect_to ask_for_wars_url, notice: 'Ask for war was successfully destroyed.' }
       format.json { head :no_content }

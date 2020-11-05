@@ -9,12 +9,13 @@
     var pong_id = <%== current_user.id%>
 
     function playgame(host_id){
-        var frame = 30;
-        var time_pause = 14
+        var frame = 25;
+        var time_pause = 10;
         var limit_guest = 0;
         var limit_host = 0;
-        var timer = 2; // second before launch the game
+        var timer = 6; // second before launch the game
         var pause = 0;
+        var speed_ball = 12;
         var pause_host = false;
         var pause_guest = false;
         const element = document.getElementById("pong-id");
@@ -92,9 +93,9 @@
         radius : 10, // pas responsive
         color : "RED",
         //deplacement
-        velocityX : 5,
-        velocityY : 5,
-        speed : 3 // a voir si pas assez rapide ou trop
+        velocityX : speed_ball,
+        velocityY : speed_ball,
+        speed : 7 // a voir si pas assez rapide ou trop
 
     }
     //line
@@ -300,8 +301,8 @@
         ball.y =  canvas.height/2, // for be at the center
         ball.x = canvas.width/2,
         ball.speed = 1, // check if it's to or less speed
-        ball.velocityX = i * 5,
-        ball.velocityY = y *5,
+        ball.velocityX = i * speed_ball,
+        ball.velocityY = y * speed_ball,
         ball.color = "RED"
     }
     function isFinish(host_id) // GOAl

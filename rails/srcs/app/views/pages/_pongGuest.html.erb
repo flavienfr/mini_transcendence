@@ -6,12 +6,14 @@
 
 <script>
     var current_user_id = <%== current_user.id%>
-    var frame = 30;
-    var time_pause = 14
+    var frame = 25;
+    var time_pause = 10
     
     function play(host_id)
     {
         const canvas = document.getElementById("pongid");
+        const height = canvas.height;
+        const width = canvas.width;
         const context = canvas.getContext("2d");
         const element = document.getElementById("pong-id");
         var pong_id = element.getAttribute("data-pong-id");
@@ -26,7 +28,7 @@
         // draw score
         function drawScore(x, y,score ,color){
             context.fillStyle = color;
-            context.font = "35px fantasy"; // pas responsive
+            context.font = '48px serif';
             context.beginPath();
             context.fillText(score, x, y);
             context.closePath();
@@ -34,11 +36,10 @@
 
         //draw the line at the middle
         function drawMiddleLine(line){
-            for(let i =  0; i <= canvas.height; i += 13){  // pas responsive
+            for(let i =  0; i <= canvas.height; i += height/20){  // pas responsive
                 drawRect(line.x, line.y + i, line.width, line.height, line.color);
             }
         }
-
         // draw rect
         function drawRect(x,y,w,h,color){
             context.fillStyle = color;
@@ -62,23 +63,23 @@
             x : 0, 
             y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive
             //form 
-            width : 10, // pas responsive
-            height : 100, // pas responsive
+            width : 5, // pas responsive
+            height : height/5, // pas responsive
             color : "GREY",
             score : 0
-        }
+            }
         //guest
         const guest = {
             //position
             x : canvas.width - 10, // pas responsive il s'agit de largeur (10px)
             y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive correspond au paddle
             //form
-            width : 10, // pas responsive
-            height : 100, // pas responsive
+            width : 5, // pas responsive
+            height : height/5, // pas responsive
             color : "GREY",
             score : 0
         }
-        //the ball
+        //ball
         const ball =  {
             //position
             x : canvas.width/2,
@@ -87,7 +88,6 @@
             radius : 10, // pas responsive
             color : "RED",
             //deplacement
-
         }
         //line
         const line = {

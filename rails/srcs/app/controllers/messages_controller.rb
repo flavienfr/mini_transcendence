@@ -85,19 +85,20 @@ class MessagesController < ApplicationController
       smaller = params[:user_id] < params[:receiver_id] ? params[:user_id] : params[:receiver_id];
       bigger = params[:user_id] < params[:receiver_id] ? params[:receiver_id] : params[:user_id];
       channel_name = "conversation_channel_" + smaller.to_s + "_" + bigger.to_s;
-      channel_id = Channel.where("name = ? AND scope = ?", channel_name, params[:scope]).last.id;
+      puts channel_name;
+      channel = Channel.where("name = ? AND scope = ?", channel_name, params[:scope]).last;
       @new_msg = {};
       @new_msg["user_id"] = params[:user_id];
-      @new_msg["channel_id"] = channel_id;
+      @new_msg["channel_id"] = channel.id;
       @new_msg["text"] = params[:text];
       @new_msg_to_save = Message.new(@new_msg);
       @new_msg_to_save.save;
-      notif_channel = "notification_channel_" + params[:receiver_id];
+      notif_channel = "notification_channel_" + params[:receiver_id].to_s;
       puts "NOTIF"
       puts notif_channel;
-      ActionCable.server.broadcast(notif_channel, {sender: current_user})
-      notif_channel = "notification_channel_" + params[:user_id]#pour update la page du sender aussi
-      ActionCable.server.broadcast(notif_channel, {sender: User.find_by(id: params[:receiver_id])});
+      ActionCable.server.broadcast(notif_channel, {sender: channel})
+      notif_channel = "notification_channel_" + params[:user_id].to_s;#pour update la page du sender aussi
+      ActionCable.server.broadcast(notif_channel, {sender: channel});
     else
       puts "other !"
       # faire ici des check channelP ?

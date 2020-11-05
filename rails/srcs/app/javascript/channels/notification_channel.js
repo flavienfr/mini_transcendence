@@ -12,7 +12,7 @@ consumer.subscriptions.create({channel: "NotificationChannel", room_id: event.de
   },
 
   received(data) {
-  if (data.sender) {
+  if (data.sender || data.kicked_from) {
     console.log("notif");
     console.log(data);
     document.dispatchEvent(new CustomEvent("notif", {

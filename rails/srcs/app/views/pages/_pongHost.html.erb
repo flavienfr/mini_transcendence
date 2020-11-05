@@ -11,7 +11,10 @@ var pong_id = <%== current_user.id%>
 function playgame(host_id){
 
     //reveive element from body
+    var limit_guest = 0;
+    var limit_host = 0;
     var timer = 6; // second before launch the game
+    var pause = 0;
     var pause_host = false;
     var pause_guest = false;
     const element = document.getElementById("pong-id");
@@ -20,7 +23,7 @@ function playgame(host_id){
     const height = canvas.height;
     const width = canvas.width;
     canvas.addEventListener("mousemove", movePaddle);
-    canvas.addEventListener("mouseleave", pauseGame);
+    canvas.addEventListener("mouseleave", triggerPause);
 
     // part 1 functions draw
     // draw score
@@ -197,16 +200,13 @@ function playgame(host_id){
         isFinish(host_id);
     }
 
-    function send_first_form_host(){
-        document.getElementById("message_content").value = host.y; // permet d'envoyer les données au formulaire
-            //document.getElementById("new_message").submit(); // regarder le formulaire
-
-        //messaging(host.y);
-    }
-
     function movePaddle(event){ // function to permite to change the direction of the users paddle with the mouse
         if (pause_host != false)
+        {
+            limit_host = 0;
+            pause  = 0;
             pause_host = false;
+        }
         host.y = event.clientY - canvas.getBoundingClientRect().top - host.height/2;
 
     }
@@ -222,31 +222,55 @@ function playgame(host_id){
         context.closePath();
     }
 
-    function pauseGame(event) {
-        setTimeout(() => {pause_host = true}, 3000);
+    function triggerPause(event) {
+        pause = 1;
     }
 
+    function ft_pause(){
+        if (pause != 0)
+            pause++;
+        if (pause == 100)
+            pause_host = true;
+    }
     function limitPause(host_id)
     {
         if (pause_host == true)
-            setTimeout(() => {
-                if (pause_host == true) 
-                {
-                    guest.score = 11;
-                    ft_send_score(host_id);
-                }}, 10000);
+        {
+            limit_host++;
+            console.log("limit_host = " + limit_host);
+            if (limit_host == 700)
+            {
+                guest.score = 11;
+                ft_send_score(host_id);
+            }
+        }
         if (pause_guest == true)
-            setTimeout(() => {
-                if (pause_guest == true) 
-                {
-                    host.score = 11;
-                    ft_send_score(host_id);
-            }}, 10000);
+        {
+            limit_guest++;
+            console.log("limit_guest = " + limit_guest);
+            if (limit_guest == 700)
+            {
+                host.score = 11;
+                ft_send_score(host_id);
+            }
+        }
+        
+
+    }
+
+    function endText(txt)
+    {
+        context.fillStyle = "GREY";
+        context.font = '48px serif';
+        context.beginPath();
+        context.fillText(txt, canvas.width/2 * 0.7, canvas.height / 2);
+        context.closePath();
     }
 
     function playing(host_id)
     {
-        limitPause(host_id);
+        ft_pause();
+        limitPause(host_id)
         if (timer <= -1 && pause_host == false && pause_guest == false )
         {
             sync(host_id);
@@ -256,9 +280,9 @@ function playgame(host_id){
         if (host.score == 11 || guest.score == 11)
         {
             if (host.score == 11)
-                alert("Congratulation you win !!!");
+                endText("You win !!!");
             else
-                alert("You loose this games but not the ware !!!");
+                endText("You loose ...");
             archive_askForGame_table()
             clearInterval(stop);
         }
@@ -321,7 +345,11 @@ function playgame(host_id){
         if (msg.message.data.guesty)
             guest.y = msg.message.data.guesty;
         if (msg.message.data.pause_guest == false || msg.message.data.pause_guest == true)
+        {
+            if (pause_guest = true && msg.message.data.pause_guest == false)
+                limit_guest = 0;
             pause_guest = msg.message.data.pause_guest;
+        }
       
     };
 

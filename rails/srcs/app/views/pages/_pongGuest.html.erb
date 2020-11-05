@@ -14,9 +14,10 @@ function playing(host_id)
     const element = document.getElementById("pong-id");
     pong_id = element.getAttribute("data-pong-id");
     canvas.addEventListener("mousemove", movePaddle);
-    canvas.addEventListener("mouseleave", pauseGame);
+    canvas.addEventListener("mouseleave", triggerPause);
     var pause_guest = false;
     var timer = 5;
+    var pause  = 0;
     // part 1 functions draw
     // draw score
     function drawScore(x, y,score ,color){
@@ -109,12 +110,23 @@ function playing(host_id)
         drawBall(ball.x, ball.y, ball.radius, ball.color);
     }
 
-    function pauseGame(event) {
-        setTimeout(() => {pause_guest = true}, 3000);
+    function triggerPause(event) {
+        pause = 1;
     }
+
+    function ft_pause() {
+        if (pause != 0)
+            pause++;
+        if (pause == 100)
+            pause_guest = true;       
+    }
+
     function movePaddle(event){ // function to permite to change the direction of the users paddle with the mouse
         if (pause_guest != false)
+        {
+            pause  = 0;
             pause_guest = false;
+        }
         guest.y = event.clientY - canvas.getBoundingClientRect().top - guest.height/2; // pour tester a brancher avec backbone et actioncable     
     }
 
@@ -128,8 +140,18 @@ function playing(host_id)
         context.closePath();
     }
 
+    function endText(txt)
+    {
+        context.fillStyle = "GREY";
+        context.font = '48px serif';
+        context.beginPath();
+        context.fillText(txt, canvas.width/2 * 0.7, canvas.height / 2);
+        context.closePath();
+    }
+
     function playing(host_id)
     {
+        ft_pause();
         ft_recieve()
         if (timer <= 0)
         {
@@ -141,9 +163,9 @@ function playing(host_id)
         if (host.score == 11 || guest.score == 11)
         {
             if (guest.score == 11)
-                alert("Congratulation you win !!!");
+                endText("You win !!!");
             else
-                alert("You loose this games but not the ware !!!");
+                endText("You loose ... ");
             clearInterval(stop);
         }
         

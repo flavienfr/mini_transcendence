@@ -14,6 +14,8 @@ function playing(host_id)
     const element = document.getElementById("pong-id");
     pong_id = element.getAttribute("data-pong-id");
     canvas.addEventListener("mousemove", movePaddle);
+    canvas.addEventListener("mouseleave", pauseGame);
+    var pause_guest = false;
     var timer = 5;
     // part 1 functions draw
     // draw score
@@ -50,8 +52,8 @@ function playing(host_id)
     }
 
     //part 2 users padlle
-    //User1
-    const user1 = { 
+    //host
+    const host = { 
         //position
         x : 0, 
         y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive
@@ -61,8 +63,8 @@ function playing(host_id)
         color : "GREY",
         score : 0
     }
-    //User2
-    const user2 = {
+    //guest
+    const guest = {
         //position
         x : canvas.width - 10, // pas responsive il s'agit de largeur (10px)
         y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive correspond au paddle
@@ -99,17 +101,21 @@ function playing(host_id)
     // const part
         drawRect(0,0, canvas.width, canvas.height,"BLACK"); // the game place
         drawMiddleLine(line);
-        drawScore(canvas.width/4, canvas.height/5, user1.score, "WHITE");
-        drawScore(3 * canvas.width/4, canvas.height/5, user2.score, "WHITE");
+        drawScore(canvas.width/4, canvas.height/5, host.score, "WHITE");
+        drawScore(3 * canvas.width/4, canvas.height/5, guest.score, "WHITE");
         // move part
-        drawRect(user1.x, user1.y, user1.width, user1.height, user1.color);
-        drawRect(user2.x, user2.y, user2.width, user2.height, user2.color);
+        drawRect(host.x, host.y, host.width, host.height, host.color);
+        drawRect(guest.x, guest.y, guest.width, guest.height, guest.color);
         drawBall(ball.x, ball.y, ball.radius, ball.color);
     }
 
+    function pauseGame(event) {
+        setTimeout(() => {pause_guest = true}, 3000);
+    }
     function movePaddle(event){ // function to permite to change the direction of the users paddle with the mouse
-        //user1.y = event.clientY - canvas.getBoundingClientRect().top - user1.height/2;
-        user2.y = event.clientY - canvas.getBoundingClientRect().top - user2.height/2; // pour tester a brancher avec backbone et actioncable     
+        if (pause_guest != false)
+            pause_guest = false;
+        guest.y = event.clientY - canvas.getBoundingClientRect().top - guest.height/2; // pour tester a brancher avec backbone et actioncable     
     }
 
     function ft_timer(val)
@@ -132,18 +138,16 @@ function playing(host_id)
         }
         else
             ft_timer(timer);
-        if (user1.score == 11 || user2.score == 11)
+        if (host.score == 11 || guest.score == 11)
         {
-            if (user2.score == 11)
+            if (guest.score == 11)
                 alert("Congratulation you win !!!");
             else
                 alert("You loose this games but not the ware !!!");
-
             clearInterval(stop);
         }
         
     }
-
 
     function ft_recieve()
     {
@@ -152,21 +156,20 @@ function playing(host_id)
         const msg = JSON.parse(response);  
             if (msg.type == "ping" || !msg.message )// check if the pong_id is send to the correct personne
                 return ;        
-            if (msg.message.data.usery)
-                user1.y = msg.message.data.usery;
+            if (msg.message.data.hosty)
+                host.y = msg.message.data.hosty;
             if (msg.message.data.bally)
                 ball.y = msg.message.data.bally;
             if (msg.message.data.ballx)
                 ball.x = msg.message.data.ballx;
-            if (msg.message.data.score_1)
-                user1.score = msg.message.data.score_1;  
-            if (msg.message.data.score_2)
-                user2.score = msg.message.data.score_2;
+            if (msg.message.data.score_host)
+                host.score = msg.message.data.score_host;  
+            if (msg.message.data.score_guest)
+                guest.score = msg.message.data.score_guest;
             if (msg.message.data.timer)
                 timer = msg.message.data.timer - 1; 
             }
     };
-
 
     function ft_send(host_id)
     {
@@ -177,7 +180,7 @@ function playing(host_id)
             pong_id: host_id // ici il marche pas 
             }),
             data: JSON.stringify({
-                data: {user2y: user2.y}
+                data: {guesty: guest.y, pause_guest: pause_guest}
             })
         }));
     }

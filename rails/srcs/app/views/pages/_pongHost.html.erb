@@ -11,13 +11,16 @@ var pong_id = <%== current_user.id%>
 function playgame(host_id){
 
     //reveive element from body
-    var timer = 6; // second before lauchn the game
+    var timer = 6; // second before launch the game
+    var pause_host = false;
+    var pause_guest = false;
     const element = document.getElementById("pong-id");
     const canvas = document.getElementById("pong");
     const context = canvas.getContext("2d");
     const height = canvas.height;
     const width = canvas.width;
     canvas.addEventListener("mousemove", movePaddle);
+    canvas.addEventListener("mouseleave", pauseGame);
 
     // part 1 functions draw
     // draw score
@@ -54,8 +57,8 @@ function playgame(host_id){
     }
 
     //part 2 users padlle
-    //User1
-    const user1 = { 
+    //host
+    const host = { 
         //position
         x : 0, 
         y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive
@@ -66,7 +69,7 @@ function playgame(host_id){
         score : 0
         }
     //User2
-    const user2 = {
+    const guest = {
         //position
         x : canvas.width - 10, // pas responsive il s'agit de largeur (10px)
         y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive correspond au paddle
@@ -106,11 +109,11 @@ function playgame(host_id){
     // const part
     drawRect(0,0, canvas.width, canvas.height,"BLACK"); // the game place
     drawMiddleLine(line);
-    drawScore(canvas.width/4, canvas.height/5, user1.score, "WHITE");
-    drawScore(3 * canvas.width/4, canvas.height/5, user2.score, "WHITE");
+    drawScore(canvas.width/4, canvas.height/5, host.score, "WHITE");
+    drawScore(3 * canvas.width/4, canvas.height/5, guest.score, "WHITE");
     // move part
-    drawRect(user1.x, user1.y, user1.width, user1.height, user1.color);
-    drawRect(user2.x, user2.y, user2.width, user2.height, user2.color);
+    drawRect(host.x, host.y, host.width, host.height, host.color);
+    drawRect(guest.x, guest.y, guest.width, guest.height, guest.color);
     drawBall(ball.x, ball.y, ball.radius, ball.color);
     }
 
@@ -154,13 +157,13 @@ function playgame(host_id){
     {
         if (ball.x - ball.radius < 0) // if the ball is to the left
         {
-            user2.score++;
+            guest.score++;
             let i  = 1; // permite to timer the ball at the winner 
             let y = (getRandomInt(3)%2) ? 1 : -1; // permite to change the y direction of the ball
             restartBall(i, y);
         }
         if (ball.x + ball.radius > canvas.width) // if the ball is to the right
-        {    user1.score++;
+        {    host.score++;
             let i = -1;
             let y = (getRandomInt(3)%2) ? -1 : 1; 
             restartBall(i, y);
@@ -176,10 +179,10 @@ function playgame(host_id){
         if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height){ // collision to the top and the bottom
             ball.velocityY =  -ball.velocityY;  
         }
-        let player = (ball.x < canvas.width/2) ? user1 : user2; // determine if the ball is on the right or the left
+        let player = (ball.x < canvas.width/2) ? host : guest; // determine if the ball is on the right or the left
         if (get_collision(ball, player) == true)
         {
-            let direction = (player == user1) ? 1 : -1; // set if the ball should go to the right or left
+            let direction = (player == host) ? 1 : -1; // set if the ball should go to the right or left
 
             let col = ball.y - (player.y + player.height/2); // set the colision point
             col = col/(player.height/2); // normalize the colision point 
@@ -194,18 +197,17 @@ function playgame(host_id){
         isFinish(host_id);
     }
 
-    function send_first_form_user1(){
-        document.getElementById("message_content").value = user1.y; // permet d'envoyer les données au formulaire
+    function send_first_form_host(){
+        document.getElementById("message_content").value = host.y; // permet d'envoyer les données au formulaire
             //document.getElementById("new_message").submit(); // regarder le formulaire
 
-        //messaging(user1.y);
+        //messaging(host.y);
     }
 
-
     function movePaddle(event){ // function to permite to change the direction of the users paddle with the mouse
-        user1.y = event.clientY - canvas.getBoundingClientRect().top - user1.height/2;
-        //user2.y = event.clientY - canvas.getBoundingClientRect().top - user2.height/2; // pour tester a brancher avec backbone et actioncable     
-        // send_first_form_user1()
+        if (pause_host != false)
+            pause_host = false;
+        host.y = event.clientY - canvas.getBoundingClientRect().top - host.height/2;
 
     }
 
@@ -220,17 +222,40 @@ function playgame(host_id){
         context.closePath();
     }
 
+    function pauseGame(event) {
+        setTimeout(() => {pause_host = true}, 3000);
+    }
+
+    function limitPause(host_id)
+    {
+        if (pause_host == true)
+            setTimeout(() => {
+                if (pause_host == true) 
+                {
+                    guest.score = 11;
+                    ft_send_score(host_id);
+                }}, 10000);
+        if (pause_guest == true)
+            setTimeout(() => {
+                if (pause_guest == true) 
+                {
+                    host.score = 11;
+                    ft_send_score(host_id);
+            }}, 10000);
+    }
+
     function playing(host_id)
     {
-        if (timer <= -1)
+        limitPause(host_id);
+        if (timer <= -1 && pause_host == false && pause_guest == false )
         {
             sync(host_id);
             ft_send(host_id);
             show();
         }
-        if (user1.score == 11 || user2.score == 11)
+        if (host.score == 11 || guest.score == 11)
         {
-            if (user1.score == 11)
+            if (host.score == 11)
                 alert("Congratulation you win !!!");
             else
                 alert("You loose this games but not the ware !!!");
@@ -266,7 +291,7 @@ function playgame(host_id){
 
                 }),
                 data: JSON.stringify({
-                    data: {usery: user1.y, bally: ball.y, ballx: ball.x}
+                    data: {hosty: host.y, bally: ball.y, ballx: ball.x}
                 })
             }));
     }
@@ -280,43 +305,51 @@ function playgame(host_id){
                     pong_id: host_id
                 }),
                 data: JSON.stringify({
-                    data: {score_1: user1.score, score_2: user2.score}
+                    data: {score_host: host.score, score_guest: guest.score}
                 })
             }));
     }
 
 
-    // receive  user2 
+    // receive  guest 
     socket.onmessage = function(event) {            
     const response = event.data;
     const msg = JSON.parse(response);
     if (msg.type == "ping" || !msg.message)// don't check the ping message
             return ;
-        // selecte only y pos of user2
-        if (msg.message.data.user2y)
-            user2.y = msg.message.data.user2y;      
+        // selecte only y pos of guest
+        if (msg.message.data.guesty)
+            guest.y = msg.message.data.guesty;
+        if (msg.message.data.pause_guest == false || msg.message.data.pause_guest == true)
+            pause_guest = msg.message.data.pause_guest;
+      
     };
 
     //timer game think about press key to start or something like this of the two user
     
-    ret = setInterval(function() {
-        if (timer >= 0)
-        {
-            ft_send_timer();
-            if (timer <= 1)
-                ft_timer("GO !");
+    function countdown()
+    {
+        ret = setInterval(function() {
+            if (timer >= 0)
+            {
+                ft_send_timer();
+                if (timer <= 1)
+                    ft_timer("GO !");
+                else
+                    ft_timer(timer - 1);
+                timer--;
+            }
             else
-                ft_timer(timer - 1);
-            timer--;
-        }
-        else
-        {
-            ft_send_timer();
-            timer = -1;
-            clearInterval(ret);
-        }
-    }, 1000);
+            {
+                ft_send_timer();
+                timer = -1;
+                clearInterval(ret);
+            }
+        }, 1200);
+    }
     
+    // part where start the game
+    countdown();
     var stop = setInterval(playing, 1000/50, host_id); 
 }
 

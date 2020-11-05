@@ -28,31 +28,36 @@ var guest_id = 0; // set a change in set_content
 var current = <%== current_user.id%>; //set at 0 changer in set_content
 var is_playing  = false;
 
-function set_content(id) // set the host et guest id after the user host click on a user adversory
+
+function save_asking_battle(gid)
+{
+    var AskForGame = Backbone.Model.extend({
+        urlRoot: '/ask_for_games'
+    })
+    var ask_for_game = new AskForGame();
+    ask_for_game.save({ask_for_game:{from_user_id: current, to_user_id: gid, status: 'playing'}});
+}
+
+function set_content(id)
 {
     guest_id = id;
-    get_contender();
+    socket_notif.send(JSON.stringify({
+        command: "message",
+        identifier: JSON.stringify({
+            channel: "PongnotChannel",
+            pong_id: 0
+            }),
+            data: JSON.stringify({
+                data: {id_host: current, id_guest: guest_id}  // send a message to the guest for play with host, it's send his id et the id of the guest
+            })
+    }));
 }
 
-function get_contender()
-{
-    function ft_send()
-    {
-        socket_notif.send(JSON.stringify({
-            command: "message",
-            identifier: JSON.stringify({
-                channel: "PongnotChannel",
-                pong_id: 0
-                }),
-                data: JSON.stringify({
-                    data: {id_host: current, id_guest: guest_id}  // send a message to the guest for play with host, it's send his id et the id of the guest
-                })
-        }));
-    }
-    ft_send();
-}
 
-socket_notif.onmessage = function(event) {// this function check every message, for know if the message is for her, it check the guest params, if the guest params correspond to the host id the guest it for her  
+//-------------------------------MAIN--------------------------------------//
+
+
+socket_notif.onmessage = function(event) {// this function check every message, for know if the message is for her, it check the guest params, if the guest params correspond to the curent id the guest it for her  
 const response = event.data;
 const msg = JSON.parse(response);
 	if (msg.type == "ping" || !msg.message)// don't check the ping message
@@ -69,7 +74,7 @@ const msg = JSON.parse(response);
     else if (msg.message.data.id_guest == current && is_playing == false)// reveive the invitation, if the guest gamer is agree he send a message where play(value) is on true
     {
 			var val = window.confirm("hey a new gamer want play with you !") ;
-			is_playing = val; // ameliorer la boite de dialogue ici renvoi true car permet a ce que le joueur quand il joue ne soit pas importuner
+			is_playing = val;
 			if (is_playing == true)
 			{	
                 socket_notif.send(JSON.stringify({
@@ -82,11 +87,10 @@ const msg = JSON.parse(response);
                         data: {play: "true", id_host: current, id_guest: msg.message.data.id_host}
                     })
                 }));
-                console.log("render ici de playview");
                 playview.render();
                 setTimeout(() => {pongguest.setElement("#pong-area").render();}, 800);
            }
-            else// possibility to send a message at the host player to said the invitation is refused by the guest player
+            else// send a message at the host player to said the invitation is refused by the guest player
 			{
                 console.log("refused");
 			    socket_notif.send(JSON.stringify({
@@ -104,14 +108,7 @@ const msg = JSON.parse(response);
 };
 
 
-function save_asking_battle(gid)
-{
-    var AskForGame = Backbone.Model.extend({
-        urlRoot: '/ask_for_games'
-    })
-    var ask_for_game = new AskForGame();
-    ask_for_game.save({ask_for_game:{from_user_id: current, to_user_id: gid, status: 'playing'}});
-}
+
 
 </script>
 </script>

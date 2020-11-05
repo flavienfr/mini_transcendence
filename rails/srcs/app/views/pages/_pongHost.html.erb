@@ -9,7 +9,7 @@
     var pong_id = <%== current_user.id%>
 
     function playgame(host_id){
-        var frame = 25;
+        var frame = 30;
         var time_pause = 10;
         var limit_guest = 0;
         var limit_host = 0;
@@ -95,7 +95,7 @@
         //deplacement
         velocityX : speed_ball,
         velocityY : speed_ball,
-        speed : 7 // a voir si pas assez rapide ou trop
+        speed : 5 // a voir si pas assez rapide ou trop
 
     }
     //line
@@ -256,13 +256,15 @@
         paddle_top = paddle.y; // this is for know the limit of each point of the paddle
         paddle_bottom = paddle.height + paddle.y;
         paddle_left = paddle.x;
-        paddle_right = paddle.x + paddle.width;
+        paddle_right = paddle.x + paddle.width + 10;
+      
+        
         
         ball_top = ba.y - ba.radius; // this is for know the limite of each point of the ball
         ball_bottom = ba.y + ba.radius;
         ball_left = ba.x - ba.radius;
         ball_right = ba.x + ba.radius;
-        
+            
         // if are true there is get_collision else if one is false no get_collision
         return ball_right > paddle_left && ball_bottom > paddle_top && ball_left < paddle_right && ball_top < paddle_bottom;
     }
@@ -276,6 +278,7 @@
             ball.velocityY =  -ball.velocityY;  
         }
         let player = (ball.x < canvas.width/2) ? host : guest; // determine if the ball is on the right or the left
+
         if (get_collision(ball, player) == true)
         {
             let direction = (player == host) ? 1 : -1; // set if the ball should go to the right or left
@@ -378,6 +381,7 @@
         ft_receive();
         ft_pause();
         limitPause(host_id)
+
         if (timer <= -1 && pause_host == false && pause_guest == false )
         {
             sync(host_id);

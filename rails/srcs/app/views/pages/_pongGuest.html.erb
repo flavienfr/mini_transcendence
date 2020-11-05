@@ -2,16 +2,16 @@
 <%= stylesheet_link_tag "style-live-play.css" %>
 
 <div id = "pong-id" data-pong-id= <%=current_user.id%>> </div>
-<canvas id="pongid" width="800px" height="600px" > </canvas>
+<canvas id="pong" width="800px" height="600px" > </canvas>
 
 <script>
     var current_user_id = <%== current_user.id%>
-    var frame = 25;
+    var frame = 30;
     var time_pause = 10
     
     function play(host_id)
     {
-        const canvas = document.getElementById("pongid");
+        const canvas = document.getElementById("pong");
         const height = canvas.height;
         const width = canvas.width;
         const context = canvas.getContext("2d");
@@ -200,7 +200,7 @@
 
         function playing(host_id)
         {
-            ft_pause();
+            //ft_pause();
             ft_recieve()
             if (timer <= 0)
             {

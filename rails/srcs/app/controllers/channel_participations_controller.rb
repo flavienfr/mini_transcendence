@@ -4,10 +4,20 @@ class ChannelParticipationsController < ApplicationController
   # GET /channel_participations
   # GET /channel_participations.json
   def index
-    @channel_participations = ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).first
-    respond_to do |format|
-      format.html
-      format.json {render json: @channel_participations}
+    puts params;
+    if (params[:type] == "direct")
+      @channel = Channel.find_by(name: params[:name]);
+      puts @channel.to_json;
+      respond_to do |format|
+        format.html
+        format.json {render json: @channel.users}
+      end
+    else
+      @channel_participations = ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).first;
+      respond_to do |format|
+        format.html
+        format.json {render json: @channel_participations}
+      end
     end
   end
 
@@ -44,22 +54,26 @@ class ChannelParticipationsController < ApplicationController
         @channel_to_save.save;
         puts "hey--------";
       end
-      channel_id = Channel.where("name = ? AND scope = ?", channel_name, params[:scope]).last.id;
-      if (ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], channel_id).size > 0)
+      channel = Channel.where("name = ? AND scope = ?", channel_name, params[:scope]).last;
+      if (ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], channel.id).size > 0)
         puts "channelP exist !"
       else
         puts "channelP doesnt exist"
         # channel_id = Channel.find_by(name: channel_name).id;
         @new_channelP = {};
         @new_channelP["user_id"] = params[:user_id];
-        @new_channelP["channel_id"] = channel_id;
+        @new_channelP["channel_id"] = channel.id;
         puts @new_channelP;
         @new_channelP_to_save = ChannelParticipation.new(@new_channelP);
         @new_channelP_to_save.save;
         @new_channelP["user_id"] = params[:receiver_id];
-        @new_channelP["channel_id"] = channel_id;
+        @new_channelP["channel_id"] = channel.id;
         @new_channelP_to_save = ChannelParticipation.new(@new_channelP);
         @new_channelP_to_save.save;
+      end
+      respond_to do |format|
+        format.html
+        format.json {render json: channel}
       end
     elsif (params[:scope] == "public-group" || params[:added])
       if (ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).size == 0)
@@ -71,6 +85,15 @@ class ChannelParticipationsController < ApplicationController
         puts "b";
         channelP_to_save = ChannelParticipation.new(channelP);
         channelP_to_save.save;
+      end
+      respond_to do |format|
+        format.html
+        format.json {render json: ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).first.channel}
+      end
+    elsif (params[:scope] == "private-group")
+      respond_to do |format|
+        format.html
+        format.json {render json: ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).first.channel}
       end
     else
       if (params[:scope] == "protected-group" && BCrypt::Password.new(Channel.find_by(id: params[:receiver_id]).password) == params[:password])

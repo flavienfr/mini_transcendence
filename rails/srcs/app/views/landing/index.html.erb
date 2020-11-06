@@ -11,29 +11,16 @@
 			detail: {id: <%= current_user.id %>} //>#color patch
 		}));
 		document.addEventListener("notif", function(event){
-			console.log("notif listener");
-			console.log(event.detail.data);
 			if (event.detail.data.sender)
 			{
-				console.log("hey" + $("#main_chat_in").val());
-				console.log(event.detail.data);
-				console.log("channel_name" + event.detail.data.sender.id);
-				if ($("#main_chat_in").val() == event.detail.data.sender.id)//utiliser id plutot ?
+				if ($("#main_chat_in").val() == event.detail.data.sender.id)
 					chatview.setElement("#chat_area").render_chat_main(event.detail.data.sender);
 			}
 			if (event.detail.data.kicked_from)
 			{
-				console.log(event.detail.data);
-				console.log($("#detail_chat_in").val());
-				alert("you got kicked from " + event.detail.data.kicked_from.id);
 				if (($("#detail_chat_in").val() == event.detail.data.kicked_from.id || $("#main_chat_in").val() == event.detail.data.kicked_from.id) && event.detail.data.kicked_from.scope != "direct")
-				{
-					console.log("in");
-					chatview.setElement("#chat_area").render_chat_main();//marche pas quand on est dans show par exemple
-				}
+					chatview.setElement("#chat_area").render_chat_main();
 			}
-			var hidden_input_val = $("#main_chat_in").val();
-			console.log("hidden" + hidden_input_val);
 		});
 		// set the socket for having notification 
 		socket_notif = new WebSocket("ws://localhost:3000/cable"); 

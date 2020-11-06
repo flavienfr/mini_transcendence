@@ -1,9 +1,5 @@
 <script type="text/template" id="chat_main-template">
 	<input type="hidden" id="main_chat_in" value="<%%= receiver.id %>">
-	<%% console.log("-------") %>
-	<%% console.log(receiver) %>
-	<%% console.log(receiver.id) %>
-	<%% console.log("||||||||") %>
 	<div class="main_chat_header">
 		<a id="main_chat_to_create" >
 			<svg width="2.25em" height="2.25em" viewBox="0 0 16 16" class="bi bi-plus-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -47,7 +43,6 @@
 	</div>
 	<script type="text/javascript">
 		<%% if (receiver && receiver.name) {%>
-			console.log("here rec" + <%%= receiver.id %>);
 			var Message = Backbone.Model.extend({
 				urlRoot: '/messages'
 			});
@@ -57,18 +52,12 @@
 				success: function(data)
 				{
 					data = data.toJSON();
-					console.log("got");
-					console.log(data);
-					console.log("finish got");
 					if (data && data.messages && data.messages.length > 0)
 					{
-						console.log("here !");
 						var i = 0;
 						$("#conversation_window").html("");
 						while (i < data.messages.length)
 						{
-							console.log("a");
-							//$("#conversation_window").append("<div>" + (data.messages[i].user_id == data.receiver.id ? data.receiver.name : data.user.name) + ": " + data.messages[i].text + "</div>");
 							$("#conversation_window").append("<div>" + data.users[data.messages[i].user_id] + ":" + data.messages[i].text + "</div>");
 							i++;
 						}
@@ -80,8 +69,6 @@
 		<%% } %>
 		function ft_show_conversation(channel_or_user_selected)
 		{
-			console.log("---------------------------------------");
-			console.log(channel_or_user_selected);
 			if (channel_or_user_selected.scope == "protected-group")//protected
 			{
 				var ChannelParticipation = Backbone.Model.extend({
@@ -93,8 +80,6 @@
 					success: function(data)
 					{
 						data = data.toJSON();
-						console.log(data);
-						console.log("got success");
 						if ($.isEmptyObject(data) || data.length == 0)//on met first coté rails mtn
 						{
 							var pwd = prompt("a password is needed");
@@ -103,6 +88,7 @@
 							{
 								user_id: <%== current_user.id %>,
 								receiver_id: channel_or_user_selected.id,
+								name: channel_or_user_selected.name,
 								scope: channel_or_user_selected.scope,
 								password: pwd
 							},
@@ -110,8 +96,6 @@
 								success: function(data)
 								{
 									data = data.toJSON();
-									console.log(data);
-									console.log("success !!!");
 									if (data.res)
 										chatview.setElement("#chat_area").render_chat_main(channel_or_user_selected);
 								}
@@ -132,14 +116,12 @@
 			{
 				user_id: <%== current_user.id %>,
 				receiver_id: channel_or_user_selected.id,
+				name: channel_or_user_selected.name,
 				scope: (channel_or_user_selected.scope ? channel_or_user_selected.scope : "direct")
 			},
 			{
 				success: function(data)
 				{
-					console.log("clicked");
-					console.log(data.toJSON());
-					console.log(channel_or_user_selected);
 					chatview.setElement("#chat_area").render_chat_main(data.toJSON());//public donc on peut afficher directe
 				}
 			});
@@ -155,8 +137,6 @@
 				success: function(data)
 				{
 					data = data.toJSON();
-					console.log("success");
-					console.log(data);
 					show_div = $("#direct_msg_users");
 					show_div.empty();
 					if (data.channels_in && data.channels_in.length > 0)
@@ -194,8 +174,6 @@
 			});
 		}
 		function ft_send(){
-			console.log("here");
-			console.log($('#text_to_send').val());
 			var text = $('#text_to_send').val();
 			var receiver_id = <%%= receiver.scope == "direct" ? target.id : receiver.id %>;//cote rails target.id dans le cas direct permet de trouver la channel
 			if (text.length == 0 || receiver_id == 0)

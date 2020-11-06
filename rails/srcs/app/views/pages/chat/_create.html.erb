@@ -45,36 +45,44 @@
 		function ft_create_group()
 		{
 			var channel_name = $("#inputChannelName").val();
-			console.log("channel_name = " + channel_name);
 			var channel_scope = $("#selectScope").val();
-			console.log(channel_scope);
 			var pwd = $("#inputCreatePassword").val();
-			console.log(pwd);
 			if (channel_scope == "protected" && pwd.length == 0)
 			{
 				alert("A password is needed for protected scope")
 				return;
 			}
-			var form_data = new FormData();
-			form_data.append("name", channel_name);
-			form_data.append("scope", channel_scope + "-group");
+			var Channel = Backbone.Model.extend({
+				urlRoot: "/channels"
+			});
+			var channel = new Channel();
+			var data = {};
+			data["name"] = channel_name;
+			data["scope"] = channel_scope + "-group";
 			if (channel_scope == "protected")
-				form_data.append("password", pwd);
-			form_data.append("owner_id", <%== current_user.id %>);
-			$.ajax({
-				url: "/channels",
-				data: form_data,
-				processData: false,
-				contentType: false,
-				type: 'POST',
+				data["password"] = pwd;
+			data["owner_id"] = <%== current_user.id %>;
+			channel.save(data,
+			{
 				success: function(){
-					console.log("sent !");
-					alert("group created !");
+					var notification = new Notification({
+						from_user_id: <%== current_user.id %>,
+						user_id: <%== current_user.id %>,
+						table_type: "information",
+						message: "group " + channel_name + " created !"
+					});
+					notification.save();
+					var notification = new Notification({
+						from_user_id: <%== current_user.id %>,
+						user_id: <%== current_user.id %>,
+						table_type: "information",
+						message: "you got added to group: " + channel_name
+					});
+					notification.save();
 					$("#inputChannelName").val('');
 					$("#inputCreatePassword").val('');
 				}
-			})
-			console.log("create group !");
+			});
 		}
 	</script>
 </script>

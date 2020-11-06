@@ -85,6 +85,7 @@ class ChannelParticipationsController < ApplicationController
         puts "b";
         channelP_to_save = ChannelParticipation.new(channelP);
         channelP_to_save.save;
+        ft_add_notif;
       end
       respond_to do |format|
         format.html
@@ -103,6 +104,7 @@ class ChannelParticipationsController < ApplicationController
         channelP["channel_id"] = params[:receiver_id];
         channelP_to_save = ChannelParticipation.new(channelP);
         channelP_to_save.save;
+        ft_add_notif;
         respond_to do |format|
           format.html
           format.json { render json: {res: true}};
@@ -164,5 +166,16 @@ class ChannelParticipationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def channel_participation_params
       params.require(:channel_participation).permit(:id, :user_id, :channel_id, :is_owner, :is_admin, :status)
+    end
+
+    def ft_add_notif
+      notification = {};
+      notification["from_user_id"] = params[:user_id];
+      notification["user_id"] = params[:user_id];
+      notification["table_type"] = "information";
+      notification["message"] = "you got added to group: " + params[:name];
+      notification_to_save = Notification.new(notification);
+      notification_to_save.save();
+      ActionCable.server.broadcast("notification_channel_" + params[:user_id].to_s, {notification: "on"});
     end
 end

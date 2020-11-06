@@ -2,186 +2,251 @@
 <%= stylesheet_link_tag "style-live-play.css" %>
 
 <div id = "pong-id" data-pong-id= <%=current_user.id%>> </div>
-<canvas id="pongid" width="800px" height="600px" > </canvas>
+<canvas id="pong" width="800px" height="600px" > </canvas>
 
 <script>
-function startGame()
-{
-const canvas = document.getElementById("pongid");
-const context = canvas.getContext("2d");
-const element = document.getElementById("pong-id");
-pong_id = element.getAttribute("data-pong-id");
-canvas.addEventListener("mousemove", movePaddle);
-
-// part 1 functions draw
-// draw score
-function drawScore(x, y,score ,color){
-    context.fillStyle = color;
-    context.font = "35px fantasy"; // pas responsive
-    context.beginPath();
-    context.fillText(score, x, y);
-    context.closePath();
-}
-
-//draw the line at the middle
-function drawMiddleLine(line){
-    for(let i =  0; i <= canvas.height; i += 13){  // pas responsive
-        drawRect(line.x, line.y + i, line.width, line.height, line.color);
-    }
-}
-
-// draw rect
-function drawRect(x,y,w,h,color){
-    context.fillStyle = color;
-    context.beginPath();
-    context.fillRect(x,y,w,h);
-    context.closePath();
-}
-
-// draw ball
-function drawBall(x,y,r,color){
-    context.fillStyle = color;
-    context.beginPath(); //each call permite to clean the last arc
-    context.arc(x,y,r,0, Math.PI*2, false);
-    context.closePath();
-    context.fill();
-}
-
-//part 2 users padlle
-//User1
-const user1 = { 
-    //position
-    x : 0, 
-    y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive
-    //form 
-    width : 10, // pas responsive
-    height : 100, // pas responsive
-    color : "GREY",
-    score : 0
-}
-//User2
-const user2 = {
-    //position
-    x : canvas.width - 10, // pas responsive il s'agit de largeur (10px)
-    y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive correspond au paddle
-    //form
-    width : 10, // pas responsive
-    height : 100, // pas responsive
-    color : "GREY",
-    score : 0
-}
-// Part 3 the ball
-const ball =  {
-    //position
-    x : canvas.width/2,
-    y : canvas.height/2, // for be at the center
-    //form
-    radius : 10, // pas responsive
-    color : "RED",
-    //deplacement
-    velocityX : 5,
-    velocityY : 5,
-    speed : 5 // a voir si pas assez rapide ou trop
-
-}
-//part 4 show 
-
-const line = {
-    //pos
-    x : canvas.width / 2 - 1, 
-    y : 0,
-    //form
-    width : 2, 
-    height : 10,
-    color : "WHITE"
-}
-
-function show(){ // create a new map the order is important
-// const part
-drawRect(0,0, canvas.width, canvas.height,"BLACK"); // the game place
-drawMiddleLine(line);
-drawScore(canvas.width/4, canvas.height/5, user1.score, "WHITE");
-drawScore(3 * canvas.width/4, canvas.height/5, user2.score, "WHITE");
-// move part
-drawRect(user1.x, user1.y, user1.width, user1.height, user1.color);
-drawRect(user2.x, user2.y, user2.width, user2.height, user2.color);
-drawBall(ball.x, ball.y, ball.radius, ball.color);
-}
+    var current_user_id = <%== current_user.id%>
+    var frame = 30;
+    var time_pause = 10
+    
+    function play(host_id)
+    {
+        const canvas = document.getElementById("pong");
+        const height = canvas.height;
+        const width = canvas.width;
+        const context = canvas.getContext("2d");
+        const element = document.getElementById("pong-id");
+        var pong_id = element.getAttribute("data-pong-id");
+        canvas.addEventListener("mousemove", movePaddle);
+        canvas.addEventListener("mouseleave", triggerMouseOut);
+        var pause_guest = false;
+        var timer = 5;
+        var pause  = 0;
 
 
-
-
-function movePaddle(event){ // function to permite to change the direction of the users paddle with the mouse
-    //user1.y = event.clientY - canvas.getBoundingClientRect().top - user1.height/2;
-    user2.y = event.clientY - canvas.getBoundingClientRect().top - user2.height/2; // pour tester a brancher avec backbone et actioncable     
-
-
-}
-
-function playing()
-{
-    ft_recieve()
-    ft_send();
-    show();
-}
-
-
-function ft_recieve()
-{
-socket.onmessage = function(event) {            
-const response = event.data;
-const msg = JSON.parse(response);  
-    if (msg.type == "ping" || !msg.message)// don't check the ping message
-        return ;
-        if (msg.message.data.usery)
-            user1.y = msg.message.data.usery;
-        if (msg.message.data.bally)
-            ball.y = msg.message.data.bally;
-        if (msg.message.data.ballx)
-            ball.x = msg.message.data.ballx;
-        if (msg.message.data.score_1)
-            user1.score = msg.message.data.score_1;  
-        if (msg.message.data.score_2)
-            user2.score = msg.message.data.score_2;
+//-------------------------------part 1 functions draw--------------------------------------//
+        // draw score
+        function drawScore(x, y,score ,color){
+            context.fillStyle = color;
+            context.font = '48px serif';
+            context.beginPath();
+            context.fillText(score, x, y);
+            context.closePath();
         }
-    };
+
+        //draw the line at the middle
+        function drawMiddleLine(line){
+            for(let i =  0; i <= canvas.height; i += height/20){  // pas responsive
+                drawRect(line.x, line.y + i, line.width, line.height, line.color);
+            }
+        }
+        // draw rect
+        function drawRect(x,y,w,h,color){
+            context.fillStyle = color;
+            context.beginPath();
+            context.fillRect(x,y,w,h);
+            context.closePath();
+        }
+
+        // draw ball
+        function drawBall(x,y,r,color){
+            context.fillStyle = color;
+            context.beginPath(); //each call permite to clean the last arc
+            context.arc(x,y,r,0, Math.PI*2, false);
+            context.closePath();
+            context.fill();
+        }
+//-------------------------------part 2 object guest host padlle and ball--------------------------------------//
+        //host
+        const host = { 
+            //position
+            x : 0, 
+            y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive
+            //form 
+            width : 5, // pas responsive
+            height : height/5, // pas responsive
+            color : "GREY",
+            score : 0
+            }
+        //guest
+        const guest = {
+            //position
+            x : canvas.width - 10, // pas responsive il s'agit de largeur (10px)
+            y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive correspond au paddle
+            //form
+            width : 5, // pas responsive
+            height : height/5, // pas responsive
+            color : "GREY",
+            score : 0
+        }
+        //ball
+        const ball =  {
+            //position
+            x : canvas.width/2,
+            y : canvas.height/2, // for be at the center
+            //form
+            radius : 10, // pas responsive
+            color : "RED",
+            //deplacement
+        }
+        //line
+        const line = {
+            //pos
+            x : canvas.width / 2 - 1, 
+            y : 0,
+            //form
+            width : 2, 
+            height : 10,
+            color : "WHITE"
+        }
+
+//-------------------------------part 3 draw in canvas--------------------------------------//
+
+        function show(){ // create a new map the order is important
+        // const part
+            drawRect(0,0, canvas.width, canvas.height,"BLACK"); // the game place
+            drawMiddleLine(line);
+            drawScore(canvas.width/4, canvas.height/5, host.score, "WHITE");
+            drawScore(3 * canvas.width/4, canvas.height/5, guest.score, "WHITE");
+            // move part
+            drawRect(host.x, host.y, host.width, host.height, host.color);
+            drawRect(guest.x, guest.y, guest.width, guest.height, guest.color);
+            drawBall(ball.x, ball.y, ball.radius, ball.color);
+        }
+        
+        function ft_timer(val) // make a countdown
+        {
+            drawRect(0,0, canvas.width, canvas.height,"BLACK"); // the game place
+            context.fillStyle = "WHITE";
+            context.font = '48px serif';
+            context.beginPath();
+            context.fillText(val, canvas.width / 2 * 0.95 , canvas.height / 2);
+            context.closePath();
+        }
+
+        function endText(txt) // said who win and loose
+        {
+            context.fillStyle = "GREY";
+            context.font = '48px serif';
+            context.beginPath();
+            context.fillText(txt, canvas.width/2 * 0.7, canvas.height / 2);
+            context.closePath();
+        }
+
+//-------------------------------part 4 pause function --------------------------------------//
+        
+        function triggerMouseOut(event) {
+            pause = 1;
+        }
+        
+        function ft_pause() {
+            if (pause != 0)
+                pause++;
+            if (pause == frame * 2)
+                pause_guest = true;       
+        }
+
+//-------------------------------part 5 function paddle --------------------------------------//
+
+    function movePaddle(event){ // function to permite to change the direction of the users paddle with the mouse
+            if (pause_guest != false) // if the paddle move it mean the guest is on the game
+            {
+                pause  = 0;
+                pause_guest = false;
+            }
+            guest.y = event.clientY - canvas.getBoundingClientRect().top - guest.height/2; // pour tester a brancher avec backbone et actioncable     
+        }
 
 
-function ft_send()
-{
-    socket.send(JSON.stringify({
-        command: "message",
-        identifier: JSON.stringify({
-        channel: "PongChannel",
-        pong_id: pong_id
-        }),
-        data: JSON.stringify({
-            data: {user2y: user2.y}
-        })
-    }));
-}
+//-------------------------------part 6  socket receive and send --------------------------------------//
+
+    function ft_recieve()
+        {
+            socket.onmessage = function(event) {            
+            const response = event.data;
+            const msg = JSON.parse(response);  
+                if (msg.type == "ping" || !msg.message )// check if the pong_id is send to the correct personne
+                    return ;        
+                if (msg.message.data.hosty)
+                    host.y = msg.message.data.hosty;
+                if (msg.message.data.bally)
+                    ball.y = msg.message.data.bally;
+                if (msg.message.data.ballx)
+                    ball.x = msg.message.data.ballx;
+                if (msg.message.data.score_host)
+                    host.score = msg.message.data.score_host;  
+                if (msg.message.data.score_guest)
+                    guest.score = msg.message.data.score_guest;
+                if (msg.message.data.timer)
+                    timer = msg.message.data.timer - 1; 
+                }
+        };
+
+        function ft_send(host_id)
+        {
+            socket.send(JSON.stringify({
+                command: "message",
+                identifier: JSON.stringify({
+                channel: "PongChannel",
+                pong_id: host_id // ici il marche pas 
+                }),
+                data: JSON.stringify({
+                    data: {guesty: guest.y, pause_guest: pause_guest}
+                })
+            }));
+        }
+
+//-------------------------------part 7 play on guest view --------------------------------------//
+
+        function playing(host_id)
+        {
+            //ft_pause(); // uncomment to put the pause rules
+            ft_recieve()
+            if (timer <= 0)
+            {
+                ft_send(host_id);
+                show();
+            }
+            else
+                ft_timer(timer);
+            if (host.score == 11 || guest.score == 11)
+            {
+                if (guest.score == 11)
+                    endText("You win !!!");
+                else
+                    endText("You loose ... ");
+                clearInterval(stop);
+                setTimeout(() => {playview.render();}, 2000);
+                socket.close();
+            }
+            
+        }
+    var stop = setInterval(playing, 1000/frame, host_id);
+    }
+
+//-------------------------------MAIN --------------------------------------//
 
 
-
-//main
 var socket = new WebSocket("ws://localhost:3000/cable");
-
 socket.onopen = function()
-{
-    socket.send(JSON.stringify({
+{         
+    var AskForGame = Backbone.Model.extend({
+        urlRoot: '/ask_for_games'
+    })
+    var ask_for_game = new AskForGame();
+    ask_for_game.fetch({data: {to_user_id: current_user_id, status: "playing"}, success: function() {
+        var host_id = ask_for_game.get('from_user_id');
+        socket.send(JSON.stringify({
             command: "subscribe",
             identifier: JSON.stringify({
-            channel: "PongChannel",
-            pong_id: pong_id
-
+                channel: "PongChannel",
+                pong_id: host_id
             })
         }));
-    console.log("subscribe ok");
-}
-setInterval(playing, 1000/50);
+       play(host_id);
+    }});
 }
 
 
-startGame();
 </script>
 </script> 

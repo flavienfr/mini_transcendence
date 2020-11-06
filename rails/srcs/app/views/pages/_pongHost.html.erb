@@ -6,275 +6,412 @@
 
 <script> 
 
-pong_id = <%== current_user.id%>
+    var pong_id = <%== current_user.id%>
 
-function playgame(){
+    function playgame(host_id){
+        var frame = 30;
+        var time_pause = 10;
+        var limit_guest = 0;
+        var limit_host = 0;
+        var timer = 6; // second before launch the game
+        var pause = 0;
+        var speed_ball = 12;
+        var pause_host = false;
+        var pause_guest = false;
+        const element = document.getElementById("pong-id");
+        const canvas = document.getElementById("pong");
+        const context = canvas.getContext("2d");
+        const height = canvas.height;
+        const width = canvas.width;
+        canvas.addEventListener("mousemove", movePaddle);
+        canvas.addEventListener("mouseleave", triggerMouseOut);
 
-
-
-//reveive element from body
-const element = document.getElementById("pong-id");
-const canvas = document.getElementById("pong");
-const context = canvas.getContext("2d");
-const height = canvas.height;
-const width = canvas.width;
-canvas.addEventListener("mousemove", movePaddle);
-
-
-
-// part 1 functions draw
-// draw score
-function drawScore(x, y,score ,color){
-    context.fillStyle = color;
-    context.font = '48px serif';
-     context.beginPath();
-    context.fillText(score, x, y);
-    context.closePath();
-}
-
-//draw the line at the middle
-function drawMiddleLine(line){
-    for(let i =  0; i <= canvas.height; i += height/20){  // pas responsive
-        drawRect(line.x, line.y + i, line.width, line.height, line.color);
+//-------------------------------part 1 functions draw--------------------------------------//
+    // part 1 functions draw
+    // draw score
+    function drawScore(x, y,score ,color){
+        context.fillStyle = color;
+        context.font = '48px serif';
+        context.beginPath();
+        context.fillText(score, x, y);
+        context.closePath();
     }
-}
 
-// draw rect
-function drawRect(x,y,w,h,color){
-    context.fillStyle = color;
-    context.beginPath();
-    context.fillRect(x,y,w,h);
-    context.closePath();
-}
+    //draw the line at the middle
+    function drawMiddleLine(line){
+        for(let i =  0; i <= canvas.height; i += height/20){  // pas responsive
+            drawRect(line.x, line.y + i, line.width, line.height, line.color);
+        }
+    }
 
-// draw ball
-function drawBall(x,y,r,color){
-    context.fillStyle = color;
-    context.beginPath(); //each call permite to clean the last arc
-    context.arc(x,y,r,0, Math.PI*2, false);
-    context.closePath();
-    context.fill();
-}
+    // draw rect
+    function drawRect(x,y,w,h,color){
+        context.fillStyle = color;
+        context.beginPath();
+        context.fillRect(x,y,w,h);
+        context.closePath();
+    }
 
-//part 2 users padlle
-//User1
-const user1 = { 
-    //position
-    x : 0, 
-    y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive
-    //form 
-    width : 5, // pas responsive
-    height : height/5, // pas responsive
-    color : "GREY",
-    score : 0
-}
-//User2
-const user2 = {
-    //position
-    x : canvas.width - 10, // pas responsive il s'agit de largeur (10px)
-    y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive correspond au paddle
-    //form
-    width : 5, // pas responsive
-    height : height/5, // pas responsive
-    color : "GREY",
-    score : 0
-}
-// Part 3 the ball
-const ball =  {
-    //position
-    x : canvas.width/2,
-    y : canvas.height/2, // for be at the center
-    //form
-    radius : 10, // pas responsive
-    color : "RED",
-    //deplacement
-    velocityX : 2,
-    velocityY : 2,
-    speed : 1 // a voir si pas assez rapide ou trop
+    // draw ball
+    function drawBall(x,y,r,color){
+        context.fillStyle = color;
+        context.beginPath(); //each call permite to clean the last arc
+        context.arc(x,y,r,0, Math.PI*2, false);
+        context.closePath();
+        context.fill();
+    }
 
-}
-//part 4 show 
+//-------------------------------part 2 object guest host padlle and ball--------------------------------------//
+    //host
+    const host = { 
+        //position
+        x : 0, 
+        y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive
+        //form 
+        width : 5, // pas responsive
+        height : height/5, // pas responsive
+        color : "GREY",
+        score : 0
+        }
+    //guest
+    const guest = {
+        //position
+        x : canvas.width - 10, // pas responsive il s'agit de largeur (10px)
+        y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive correspond au paddle
+        //form
+        width : 5, // pas responsive
+        height : height/5, // pas responsive
+        color : "GREY",
+        score : 0
+    }
+    //ball
+    const ball =  {
+        //position
+        x : canvas.width/2,
+        y : canvas.height/2, // for be at the center
+        //form
+        radius : 10, // pas responsive
+        color : "RED",
+        //deplacement
+        velocityX : speed_ball,
+        velocityY : speed_ball,
+        speed : 5 // a voir si pas assez rapide ou trop
 
-const line = {
-    //pos
-    x : canvas.width / 2 - 1, 
-    y : 0,
-    //form
-    width : 2, 
-    height : 10,
-    color : "WHITE"
-}
+    }
+    //line
+    const line = {
+        //pos
+        x : canvas.width / 2 - 1, 
+        y : 0,
+        //form
+        width : 2, 
+        height : 10,
+        color : "WHITE"
+    }
+//-------------------------------part 3 draw in canvas--------------------------------------//
 
-function show(){ // create a new map the order is important
-// const part
-drawRect(0,0, canvas.width, canvas.height,"BLACK"); // the game place
-drawMiddleLine(line);
-drawScore(canvas.width/4, canvas.height/5, user1.score, "WHITE");
-drawScore(3 * canvas.width/4, canvas.height/5, user2.score, "WHITE");
-// move part
-drawRect(user1.x, user1.y, user1.width, user1.height, user1.color);
-drawRect(user2.x, user2.y, user2.width, user2.height, user2.color);
-drawBall(ball.x, ball.y, ball.radius, ball.color);
-}
+    function show(){ // create a new map the order is important
+    // const part
+    drawRect(0,0, canvas.width, canvas.height,"BLACK"); // the game place
+    drawMiddleLine(line);
+    drawScore(canvas.width/4, canvas.height/5, host.score, "WHITE");
+    drawScore(3 * canvas.width/4, canvas.height/5, guest.score, "WHITE");
+    // move part
+    drawRect(host.x, host.y, host.width, host.height, host.color);
+    drawRect(guest.x, guest.y, guest.width, guest.height, guest.color);
+    drawBall(ball.x, ball.y, ball.radius, ball.color);
+    }
 
-// part 5 collision and rules
-//collision
-function get_collision(ba, paddle) // paddle of the player
-{
-
-    paddle_top = paddle.y; // this is for know the limit of each point of the paddle
-    paddle_bottom = paddle.height + paddle.y;
-    paddle_left = paddle.x;
-    paddle_right = paddle.x + paddle.width;
-    
-    ball_top = ba.y - ba.radius; // this is for know the limite of each point of the ball
-    ball_bottom = ba.y + ba.radius;
-    ball_left = ba.x - ba.radius;
-    ball_right = ba.x + ba.radius;
-    
-    // if are true there is get_collision else if one is false no get_collision
-    return ball_right > paddle_left && ball_bottom > paddle_top && ball_left < paddle_right && ball_top < paddle_bottom;
-}
-
-//restart when it's finished
-// penser a faire une fonction qui demander d'entrer pour demander si les joueurs sont pret et ensuite launch the game
-
-function restartBall(i, y)
-{   
-    ball.y =  canvas.height/2, // for be at the center
-    ball.x = canvas.width/2,
-    ball.speed = 1, // check if it's to or less speed
-    ball.velocityX = i * 2,
-    ball.velocityY = y *2,
-    ball.color = "RED"
-}
-
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-  }
-
-function isFinish()
-{
-    if (ball.x - ball.radius < 0) // if the ball is to the left
+    function ft_timer(val) // make countdown
     {
-        user2.score++;
-        let i  = 1; // permite to launch the ball at the winner 
-        let y = (getRandomInt(3)%2) ? 1 : -1; // permite to change the y direction of the ball
-        restartBall(i, y);
+        drawRect(0,0, canvas.width, canvas.height,"BLACK"); // the game place
+        context.fillStyle = "WHITE";
+        context.font = '48px serif';
+        context.beginPath();
+        context.fillText(val, canvas.width / 2 * 0.90 , canvas.height / 2);
+        context.closePath();
     }
-    if (ball.x + ball.radius > canvas.width) // if the ball is to the right
-    {    user1.score++;
-        let i = -1;
-        let y = (getRandomInt(3)%2) ? -1 : 1; 
-        restartBall(i, y);
-    }
-    ft_send_score();
-}
 
-function sync() // sync the ball deplacement
-{
-    ball.x += ball.velocityX;
-    ball.y += ball.velocityY;
-
-    if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height){ // collision to the top and the bottom
-        ball.velocityY =  -ball.velocityY;  
-    }
-    let player = (ball.x < canvas.width/2) ? user1 : user2; // determine if the ball is on the right or the left
-    if (get_collision(ball, player) == true)
+    function endText(txt)
     {
-        let direction = (player == user1) ? 1 : -1; // set if the ball should go to the right or left
+        context.fillStyle = "GREY";
+        context.font = '48px serif';
+        context.beginPath();
+        context.fillText(txt, canvas.width/2 * 0.7, canvas.height / 2);
+        context.closePath();
+    }
+//-------------------------------part 4 pause function --------------------------------------//
+    function triggerMouseOut(event) {
+        pause = 1;
+    }
 
-        let col = ball.y - (player.y + player.height/2); // set the colision point
-        col = col/(player.height/2); // normalize the colision point 
+    function ft_pause(){
+        if (pause != 0)
+            pause++;
+        if (pause == frame * 2)
+            pause_host = true;
+    }
+    function limitPause(host_id)
+    {
+        if (pause_host == true)
+        {
+            limit_host++;
+            if (limit_host == frame * time_pause)
+            {
+                guest.score = 11;
+                ft_send_score(host_id);
+            }
+        }
+        if (pause_guest == true)
+        {
+            limit_guest++;
+            if (limit_guest == frame * time_pause)
+            {
+                host.score = 11;
+                ft_send_score(host_id);
+            }
+        }
+    }
+
+
+//-------------------------------part 5 function paddle --------------------------------------//
+
+    function movePaddle(event){ // function to permite to change the direction of the users paddle with the mouse
+        if (pause_host != false)
+        {
+            limit_host = 0;
+            pause  = 0;
+            pause_host = false;
+        }
+        host.y = event.clientY - canvas.getBoundingClientRect().top - host.height/2;
+
+    }
+//-------------------------------part 6  socket send and reveive --------------------------------------//
+    function ft_send_timer()
+    {
+        socket.send(JSON.stringify({
+                command: "message",
+                identifier: JSON.stringify({
+                    channel: "PongChannel",
+                    pong_id: host_id
+
+                }),
+                data: JSON.stringify({
+                    data: {timer: timer}
+                })
+            }));
+    }
+
+    function ft_send(host_id)
+    {
+        socket.send(JSON.stringify({
+                command: "message",
+                identifier: JSON.stringify({
+                    channel: "PongChannel",
+                    pong_id: host_id
+
+                }),
+                data: JSON.stringify({
+                    data: {hosty: host.y, bally: ball.y, ballx: ball.x}
+                })
+            }));
+    }
+
+    function ft_send_score(host_id)
+    {
+        socket.send(JSON.stringify({
+                command: "message",
+                identifier: JSON.stringify({
+                    channel: "PongChannel",
+                    pong_id: host_id
+                }),
+                data: JSON.stringify({
+                    data: {score_host: host.score, score_guest: guest.score}
+                })
+            }));
+    }
+
+    function ft_receive()
+    {
+        socket.onmessage = function(event) {            
+        const response = event.data;
+        const msg = JSON.parse(response);
+        if (msg.type == "ping" || !msg.message)// don't check the ping message
+                return ;
+            // selecte only y pos of guest
+            if (msg.message.data.guesty)
+                guest.y = msg.message.data.guesty;
+            if (msg.message.data.pause_guest == false || msg.message.data.pause_guest == true)
+            {
+                if (pause_guest = true && msg.message.data.pause_guest == false)
+                    limit_guest = 0;
+                pause_guest = msg.message.data.pause_guest;
+            }
+        };
+    }
+//-------------------------------part 7 physic on ball --------------------------------------//
+    function get_collision(ba, paddle)
+    {
+
+        paddle_top = paddle.y; // this is for know the limit of each point of the paddle
+        paddle_bottom = paddle.height + paddle.y;
+        paddle_left = paddle.x;
+        paddle_right = paddle.x + paddle.width + 10;
+      
         
-        let angleRad = col * Math.PI/4; // determine the angle to return 
-
-        ball.velocityY = direction * ball.speed * Math.sin(angleRad); // calculate the y deplacement + speed 
-        ball.velocityX = direction * ball.speed * Math.cos(angleRad); // calculate the x deplacement + speed
-
-        ball.speed += 0.2; // increase the speed at each contact with the paddle
+        
+        ball_top = ba.y - ba.radius; // this is for know the limite of each point of the ball
+        ball_bottom = ba.y + ba.radius;
+        ball_left = ba.x - ba.radius;
+        ball_right = ba.x + ba.radius;
+            
+        // if are true there is get_collision else if one is false no get_collision
+        return ball_right > paddle_left && ball_bottom > paddle_top && ball_left < paddle_right && ball_top < paddle_bottom;
     }
-       
-    isFinish();
-}
 
-function send_first_form_user1(){
-     document.getElementById("message_content").value = user1.y; // permet d'envoyer les données au formulaire
-        //document.getElementById("new_message").submit(); // regarder le formulaire
+    function sync(host_id) // sync the ball deplacement
+    {
+        ball.x += ball.velocityX;
+        ball.y += ball.velocityY;
 
-    //messaging(user1.y);
-}
+        if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height){ // collision to the top and the bottom
+            ball.velocityY =  -ball.velocityY;  
+        }
+        let player = (ball.x < canvas.width/2) ? host : guest; // determine if the ball is on the right or the left
 
+        if (get_collision(ball, player) == true)
+        {
+            let direction = (player == host) ? 1 : -1; // set if the ball should go to the right or left
 
-function movePaddle(event){ // function to permite to change the direction of the users paddle with the mouse
-    user1.y = event.clientY - canvas.getBoundingClientRect().top - user1.height/2;
-    //user2.y = event.clientY - canvas.getBoundingClientRect().top - user2.height/2; // pour tester a brancher avec backbone et actioncable     
-    // send_first_form_user1()
+            let col = ball.y - (player.y + player.height/2); // set the colision point
+            col = col/(player.height/2); // normalize the colision point 
+            
+            let angleRad = col * Math.PI/4; // determine the angle to return 
 
-}
+            ball.velocityY = direction * ball.speed * Math.sin(angleRad); // calculate the y deplacement + speed 
+            ball.velocityX = direction * ball.speed * Math.cos(angleRad); // calculate the x deplacement + speed
 
-function playing()
-{
-    sync();
-    ft_send();
-    show();
-    //console.log("pong x = " + ball.x); // regarder quand le joueur est sur une autre view
-    
+            ball.speed += 1; // increase the speed at each contact with the paddle
+        }
+        isFinish(host_id);
+    }
+//-------------------------------part 8 goal and restart  --------------------------------------//
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+    } 
+    function restartBall(i, y)
+    {   
+        ball.y =  canvas.height/2, // for be at the center
+        ball.x = canvas.width/2,
+        ball.speed = 1, // check if it's to or less speed
+        ball.velocityX = i * speed_ball,
+        ball.velocityY = y * speed_ball,
+        ball.color = "RED"
+    }
+    function isFinish(host_id) // GOAl
+    {
+        if (ball.x - ball.radius < 0) // if the ball is to the left
+        {
+            guest.score++;
+            let i  = 1; // permite to timer the ball at the winner 
+            let y = (getRandomInt(3)%2) ? 1 : -1; // permite to change the y direction of the ball
+            restartBall(i, y);
+        }
+        if (ball.x + ball.radius > canvas.width) // if the ball is to the right
+        {    host.score++;
+            let i = -1;
+            let y = (getRandomInt(3)%2) ? -1 : 1; 
+            restartBall(i, y);
+        }
+        ft_send_score(host_id);
+    }
+  
 
-}
+//-------------------------------part 9 Countdowno before launch  --------------------------------------//
 
+    function countdown()
+    {
+        ret = setInterval(function() {
+            if (timer >= 0)
+            {
+                ft_send_timer();
+                if (timer <= 1)
+                    ft_timer("GO !");
+                else
+                    ft_timer(timer - 1);
+                timer--;
+            }
+            else
+            {
+                ft_send_timer();
+                timer = -1;
+                clearInterval(ret);
+            }
+        }, 1200);
+    }
+//-------------------------------part 10 save state in database--------------------------------------//
 
-
-function ft_send()
-{
-    socket.send(JSON.stringify({
-            command: "message",
-            identifier: JSON.stringify({
-                channel: "PongChannel",
-                pong_id: pong_id
-
-            }),
-            data: JSON.stringify({
-                data: {usery: user1.y, bally: ball.y, ballx: ball.x}
+        function archive_askForGame_table()
+        {
+            var AskForGame = Backbone.Model.extend({
+                urlRoot: '/ask_for_games'
             })
-        }));
-}
+            var ask_for_game = new AskForGame();
+            ask_for_game.fetch({data: {to_user_id: current_user_id, status: "playing"}, success: function() {
+                ask_for_game.set({status: "ending"});
+                ask_for_game.save();
+                }
+            });
+        }
 
-function ft_send_score()
-{
-    socket.send(JSON.stringify({
-            command: "message",
-            identifier: JSON.stringify({
-                channel: "PongChannel",
-                pong_id: pong_id
-            }),
-            data: JSON.stringify({
-                data: {score_1: user1.score, score_2: user2.score}
+        function saveScrore() // saving in games 
+        {
+            var Game = Backbone.Model.extend({
+                urlRoot: '/games'
             })
-        }));
+            var game = new AskForGame();
+            game.save({game:{from_user_id: current, to_user_id: gid, status: 'playing'}});
+        }
+
+
+//-------------------------------part 11 playing game center--------------------------------------//
+
+    function playing(host_id)
+    {
+        ft_receive();
+        // ft_pause();
+        // limitPause(host_id)
+
+        if (timer <= -1 && pause_host == false && pause_guest == false )
+        {
+            sync(host_id);
+            ft_send(host_id);
+            show();
+        }
+        if (host.score == 11 || guest.score == 11)
+        {
+            if (host.score == 11)
+                endText("You win !!!");
+            else
+                endText("You loose ...");
+            archive_askForGame_table()
+            clearInterval(stop);
+            setTimeout(() => {playview.render();}, 2000);
+            socket.close();
+        }
+    }
+    countdown();
+    var stop = setInterval(playing, 1000/frame, host_id); 
 }
 
 
-// receive  user2 
-socket.onmessage = function(event) {            
-const response = event.data;
-const msg = JSON.parse(response);
-if (msg.type == "ping" || !msg.message)// don't check the ping message
-        return ;
-    // selecte only y pos of user2
-    if (msg.message.data.user2y)
-        user2.y = msg.message.data.user2y;      
-};
 
-//launch game think about press key to start or something like this of the two user
-
-var stop = setInterval(playing, 1000/50); 
-
-}
+//-------------------------------MAIN--------------------------------------//
 
 var socket = new WebSocket("ws://localhost:3000/cable");
 socket.onopen = function()
 {    
+    console.log("subscribed = " + pong_id);
     socket.send(JSON.stringify({
             command: "subscribe",
             identifier: JSON.stringify({
@@ -282,8 +419,7 @@ socket.onopen = function()
                 pong_id:  pong_id
             })
         }));
-      console.log("subscribe ok");
-    playgame();
+    playgame(current_user_id);
 }
 
 </script>

@@ -15,7 +15,7 @@
         var limit_host = 0;
         var timer = 6; // second before launch the game
         var pause = 0;
-        var speed_ball = 12;
+        var speed_ball = 4;
         var pause_host = false;
         var pause_guest = false;
         const element = document.getElementById("pong-id");
@@ -68,7 +68,7 @@
         x : 0, 
         y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive
         //form 
-        width : 5, // pas responsive
+        width : 10, // pas responsive
         height : height/5, // pas responsive
         color : "GREY",
         score : 0
@@ -79,7 +79,7 @@
         x : canvas.width - 10, // pas responsive il s'agit de largeur (10px)
         y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive correspond au paddle
         //form
-        width : 5, // pas responsive
+        width : 10, // pas responsive
         height : height/5, // pas responsive
         color : "GREY",
         score : 0
@@ -110,16 +110,17 @@
     }
 //-------------------------------part 3 draw in canvas--------------------------------------//
 
-    function show(){ // create a new map the order is important
-    // const part
-    drawRect(0,0, canvas.width, canvas.height,"BLACK"); // the game place
-    drawMiddleLine(line);
-    drawScore(canvas.width/4, canvas.height/5, host.score, "WHITE");
-    drawScore(3 * canvas.width/4, canvas.height/5, guest.score, "WHITE");
-    // move part
-    drawRect(host.x, host.y, host.width, host.height, host.color);
-    drawRect(guest.x, guest.y, guest.width, guest.height, guest.color);
-    drawBall(ball.x, ball.y, ball.radius, ball.color);
+    function show()
+    { // create a new map the order is important
+        // const part
+        drawRect(0,0, canvas.width, canvas.height,"BLACK"); // the game place
+        drawMiddleLine(line);
+        drawScore(canvas.width/4, canvas.height/5, host.score, "WHITE");
+        drawScore(3 * canvas.width/4, canvas.height/5, guest.score, "WHITE");
+        // move part
+        drawRect(host.x, host.y, host.width, host.height, host.color);
+        drawRect(guest.x, guest.y, guest.width, guest.height, guest.color);
+        drawBall(ball.x, ball.y, ball.radius, ball.color);
     }
 
     function ft_timer(val) // make countdown
@@ -252,18 +253,16 @@
 //-------------------------------part 7 physic on ball --------------------------------------//
     function get_collision(ba, paddle)
     {
-
-        paddle_top = paddle.y; // this is for know the limit of each point of the paddle
-        paddle_bottom = paddle.height + paddle.y;
-        paddle_left = paddle.x;
-        paddle_right = paddle.x + paddle.width + 10;
-      
+        var paddle_top = paddle.y; // this is for know the limit of each point of the paddle
+        var paddle_bottom = paddle.height + paddle.y;
+        var paddle_left = paddle.x - ball.speed;
+        var paddle_right = paddle.x + paddle.width + ball.speed;
         
         
-        ball_top = ba.y - ba.radius; // this is for know the limite of each point of the ball
-        ball_bottom = ba.y + ba.radius;
-        ball_left = ba.x - ba.radius;
-        ball_right = ba.x + ba.radius;
+        var ball_top = ba.y - ba.radius; // this is for know the limite of each point of the ball
+        var ball_bottom = ba.y + ba.radius;
+        var ball_left = ba.x - ba.radius;
+        var ball_right = ba.x + ba.radius;
             
         // if are true there is get_collision else if one is false no get_collision
         return ball_right > paddle_left && ball_bottom > paddle_top && ball_left < paddle_right && ball_top < paddle_bottom;
@@ -271,8 +270,11 @@
 
     function sync(host_id) // sync the ball deplacement
     {
-        ball.x += ball.velocityX;
-        ball.y += ball.velocityY;
+        if (ball.x + ball.velocityX <= guest.x + guest.width + ball.speed || ball.x + ball.velocityX >= host.x - host.width - ball.speed)
+            ball.x += ball.velocityX;
+        else
+            ball.x = (ball.x < canvas.width/2) ? host.x : guest.x;
+        //ball.y += ball.velocityY;
 
         if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height){ // collision to the top and the bottom
             ball.velocityY =  -ball.velocityY;  
@@ -291,11 +293,14 @@
             ball.velocityY = direction * ball.speed * Math.sin(angleRad); // calculate the y deplacement + speed 
             ball.velocityX = direction * ball.speed * Math.cos(angleRad); // calculate the x deplacement + speed
 
-            ball.speed += 1; // increase the speed at each contact with the paddle
+            if (ball.speed < 100)
+                ball.speed += 1; // increase the speed at each contact with the paddle
+            console.log("speed = " + ball.speed);
         }
         isFinish(host_id);
     }
 //-------------------------------part 8 goal and restart  --------------------------------------//
+    
     function getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max));
     } 
@@ -380,7 +385,7 @@
     {
         ft_receive();
         // ft_pause();
-        // limitPause(host_id)
+        // limitPause(host_id) // a remettre plus tard quand le site sera fini
 
         if (timer <= -1 && pause_host == false && pause_guest == false )
         {

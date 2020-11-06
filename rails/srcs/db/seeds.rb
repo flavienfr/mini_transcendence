@@ -19,7 +19,7 @@ ActiveRecord::Base.connection.reset_pk_sequence!('tournaments') # to reset id ba
 
 puts "----- AskForWar.destroy_all"
 AskForWar.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('AskForWar') # to reset id back to 1
+ActiveRecord::Base.connection.reset_pk_sequence!('ask_for_wars') # to reset id back to 1
 
 puts "----- WarParticipation.destroy_all"
 WarParticipation.destroy_all
@@ -27,7 +27,7 @@ ActiveRecord::Base.connection.reset_pk_sequence!('war_participations') # to rese
 
 puts "----- WarTime.destroy_all"
 WarTime.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('WarTime') # to reset id back to 1
+ActiveRecord::Base.connection.reset_pk_sequence!('war_times') # to reset id back to 1
 
 puts "----- War.destroy_all"
 War.destroy_all

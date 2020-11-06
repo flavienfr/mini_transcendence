@@ -6,7 +6,7 @@
 
 <script>
     var current_user_id = <%== current_user.id%>
-    var frame = 30;
+    var frame = 50;
     var time_pause = 10
     
     function play(host_id)
@@ -63,7 +63,7 @@
             x : 0, 
             y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive
             //form 
-            width : 5, // pas responsive
+            width : 10, // pas responsive
             height : height/5, // pas responsive
             color : "GREY",
             score : 0
@@ -74,7 +74,7 @@
             x : canvas.width - 10, // pas responsive il s'agit de largeur (10px)
             y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive correspond au paddle
             //form
-            width : 5, // pas responsive
+            width : 10, // pas responsive
             height : height/5, // pas responsive
             color : "GREY",
             score : 0
@@ -160,8 +160,7 @@
 
 //-------------------------------part 6  socket receive and send --------------------------------------//
 
-    function ft_recieve()
-        {
+  
             socket.onmessage = function(event) {            
             const response = event.data;
             const msg = JSON.parse(response);  
@@ -180,7 +179,6 @@
                 if (msg.message.data.timer)
                     timer = msg.message.data.timer - 1; 
                 }
-        };
 
         function ft_send(host_id)
         {
@@ -201,7 +199,7 @@
         function playing(host_id)
         {
             //ft_pause(); // uncomment to put the pause rules
-            ft_recieve()
+            //ft_recieve()
             if (timer <= 0)
             {
                 ft_send(host_id);

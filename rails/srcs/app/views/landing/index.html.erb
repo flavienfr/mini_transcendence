@@ -828,7 +828,15 @@ function ft_accept_notif(notif) {
 			type: 'PUT',
 			dataType: 'json',
 			success: function(response){
-				delete_notif(notif);
+				if (response.is_msg){
+					alert(response.msg)
+					if (response.status != "keep_alive"){
+						delete_notif(notif);
+					}
+				}
+				else{
+					delete_notif(notif);
+				}
 			},
 			error: function(){
 				alert("error");

@@ -27,17 +27,67 @@ class AskForWarsController < ApplicationController
 	puts "CREATE POST /ask_for_wars"
 	puts params.to_json
 	puts "--------------------------"
+	json_render = {}
+
+	#Check is in guild
+	if (User.find(params[:current_user_id]).guild_participations.size == 0)
+		json_render["msg"] = "You need to be in a guild to declare war."
+		json_render["is_msg"] = 1
+		respond_to do |format|
+			format.html
+			format.json {render json: json_render}
+    	end
+		return
+	end
 	
 	#UTILS VARIABLE
 	from_guild = User.find(params[:current_user_id]).guild_participations.first.guild
 	from_guild_id = from_guild.id
 	to_guild = Guild.find(params[:to_guild_id])
 	to_guild_id = params[:to_guild_id]
-	json_render = {}
 
-	#CHECK PARAMS TO DO: *if to_guild_id is in war
+	#CHECK PARAMS
+	puts  "-------------------" + params[:start_date].to_s + " < " + DateTime.now.to_s
+	if (params[:start_date] < DateTime.now)
+		json_render["msg"] = "Your war declaration need to start later."
+		json_render["is_msg"] = 1
+		json_render['status'] = "delete"
+		respond_to do |format|
+			format.html
+			format.json {render json: json_render}
+		end
+		return
+	end
+	if (from_guild_id == to_guild_id)
+		json_render["msg"] = "You can't declare war to your own guild. (Dumb ass !)"
+		json_render["is_msg"] = 1
+		json_render['status'] = "delete"
+		respond_to do |format|
+			format.html
+			format.json {render json: json_render}
+		end
+		return
+	end
+	if (User.find(params[:current_user_id]).id != from_guild.owner_id)
+		json_render["msg"] = "Only owner can declare war"
+		json_render["is_msg"] = 1
+		respond_to do |format|
+			format.html
+			format.json {render json: json_render}
+    	end
+		return
+	end
 	if (to_guild.is_making_war == true)
 		json_render["msg"] = to_guild.name + " is aleready in war"
+		json_render["is_msg"] = 1
+		respond_to do |format|
+			format.html
+			format.json {render json: json_render}
+    	end
+		return
+	end
+	if (from_guild.is_making_war == true)
+		json_render["msg"] = "Your guild is aleready in war"
 		json_render["is_msg"] = 1
 		respond_to do |format|
 			format.html
@@ -142,8 +192,72 @@ class AskForWarsController < ApplicationController
 	puts "----- ask_for_war ----"
 	puts @ask_for_war.to_json
 	puts "-----------------------"
+	from_guild = Guild.find(@ask_for_war.from_guild_id)
+	to_guild = Guild.find(@ask_for_war.from_guild_id)
+	puts "-------------------- -1"
+	
+	the_war = War.find(@ask_for_war.war_id)
+	puts "-------------------- -0.5"
+	json_render = {}
+	puts "--------------------0"
 
-	#check if not in war both guilds
+	if (from_guild.war_participation_id != nil)
+		json_render["msg"] = from_guild.name + " is in war.\nYou cannot accept several wars at the time."
+		json_render["is_msg"] = 1
+		json_render["status"] = "keep_alive"
+		respond_to do |format|
+			format.html
+			format.json {render json: json_render}
+		end
+		return
+	end
+	puts "--------------------1"
+	if (from_guild.war_participation_id != nil)
+		json_render["msg"] = "Your guild has already accepted a war.\nYou cannot accept several wars at the time."
+		json_render["is_msg"] = 1
+		json_render['status'] = "keep_alive"
+		respond_to do |format|
+			format.html
+			format.json {render json: json_render}
+		end
+		return
+	end
+	puts "--------------------2"
+	if (the_war.prize_in_points > from_guild.points)
+		json_render["msg"] =  from_guild.name + " has no enough points, only " + from_guild.points.to_s + " points for a prize pool of " + the_war.prize_in_points + "."
+		json_render["is_msg"] = 1
+		json_render['status'] = "delete"
+		respond_to do |format|
+			format.html
+			format.json {render json: json_render}
+    	end
+		return
+	end
+	puts "--------------------3"
+	if (the_war.prize_in_points > to_guild.points)
+		json_render["msg"] = to_guild.name + " has no enough points, only " + to_guild.points.to_s + " points for a prize pool of " + the_war.prize_in_points + "."
+		json_render["is_msg"] = 1
+		json_render['status'] = "delete"
+		respond_to do |format|
+			format.html
+			format.json {render json: json_render}
+    	end
+		return
+	end
+	puts "--------------------4"
+	if (the_war.start_date < DateTime.now)
+		json_render["msg"] = "The declaration of war has expired."
+		json_render["is_msg"] = 1
+		json_render['status'] = "delete"
+		respond_to do |format|
+			format.html
+			format.json {render json: json_render}
+		end
+		return
+	end
+	puts "--------------------5"
+
+
 	#check points both guilds
 
 	if (@ask_for_war.status == "pending")
@@ -159,7 +273,6 @@ class AskForWarsController < ApplicationController
 			status: nil
 		)
 		@wpp_from_guild.save
-		from_guild = Guild.find(@ask_for_war.from_guild_id)
 		from_guild.war_participation_id = @wpp_from_guild.id
 		from_guild.is_making_war = true
 		from_guild.save
@@ -177,7 +290,6 @@ class AskForWarsController < ApplicationController
 			status: nil
 		)
 		@wpp_to_guild.save
-		to_guild = Guild.find(@ask_for_war.from_guild_id)
 		to_guild.war_participation_id = @wpp_to_guild.id
 		to_guild.is_making_war = true
 		to_guild.save

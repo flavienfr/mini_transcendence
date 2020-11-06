@@ -64,7 +64,7 @@ const msg = JSON.parse(response);
         return ;
     if (msg.message.data.id_guest == current && is_playing == false && msg.message.data.play) // read the second for understand this
     {
-        save_asking_battle(msg.message.data.id_host)
+        save_asking_battle(msg.message.data.id_host);
         pongview.setElement("#pong-area").render(); // has the invitation is validate(value play is on true), the host is redirect to the hostview
     }
     else if (msg.message.data.agree == "false" && msg.message.data.id_guest == current)
@@ -73,7 +73,7 @@ const msg = JSON.parse(response);
     }
     else if (msg.message.data.id_guest == current && is_playing == false)// reveive the invitation, if the guest gamer is agree he send a message where play(value) is on true
     {
-			var val = window.confirm("hey a new gamer want play with you !") ;
+			var val = confirm("hey a new gamer want play with you !") ;
 			is_playing = val;
 			if (is_playing == true)
 			{	

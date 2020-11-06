@@ -2,12 +2,10 @@ import consumer from "./consumer"
 
 consumer.subscriptions.create("PongnotChannel", {
   connected() {
-    console.log("confirm co");
     // Called when the subscription is ready for use on the server
   },
 
   disconnected() {
-    console.log("is disconnected......");
     // Called when the subscription has been terminated by the server
   },
 

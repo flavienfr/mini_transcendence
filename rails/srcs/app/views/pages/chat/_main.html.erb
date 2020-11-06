@@ -1,19 +1,28 @@
 <script type="text/template" id="chat_main-template">
+	<input type="hidden" id="main_chat_in" value="<%%= receiver.id %>">
+	<%% console.log("-------") %>
+	<%% console.log(receiver) %>
+	<%% console.log(receiver.id) %>
+	<%% console.log("||||||||") %>
 	<div class="main_chat_header">
 		<a id="main_chat_to_create" >
 			<svg width="2.25em" height="2.25em" viewBox="0 0 16 16" class="bi bi-plus-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 				<path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
 			</svg>
 		</a>
-	<%% if (receiver.scope) {%>
+	<%% if (receiver.scope && receiver.scope != "direct") {%>
 	<div>
-		<a id="show_chat_details" data-channel=<%%= JSON.stringify(receiver) %>>show
-		</a>
+		<a id="show_chat_details" data-channel=<%%= JSON.stringify(receiver) %>>show</a>
+	</div>
+	<%% } %>
+	<%% if (receiver.scope && receiver.scope == "direct") {%>
+	<div>
+		<a href="/#profil/<%%= target.id %>"><%%= target.name %></a>
 	</div>
 	<%% } %>
 	<div class="dropdown">
-		<button class="btn btn-secondary dropdown-toggle" onclick="ft_show_channels()" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%%= receiver.name ? receiver.name : "Channels" %></button>
-		<div class="dropdown-menu dropdown-menu-right" style="overflow-y:auto; height:auto; max-height: 200px;" aria-labelledby="dropdownMenuButton">
+		<button class="btn btn-secondary dropdown-toggle" onclick="ft_show_channels()" type="button" id="dropdownChannelMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%%= receiver.scope == "direct" ? target.name : receiver.name %></button>
+		<div class="dropdown-menu dropdown-menu-right" style="overflow-y:auto; height:auto; max-height: 200px;" aria-labelledby="dropdownChannelMenuButton">
 			<div id="direct_msg_users" style="overflow-y:auto">
 			</div>
 		</div>
@@ -37,18 +46,17 @@
 	</div>
 	</div>
 	<script type="text/javascript">
-		//console.log("hey" + $("#dropdownMenuButton").val());
 		<%% if (receiver && receiver.name) {%>
-		//if ($("#dropdownMenuButton").val().length > 0 && $("#dropdownMenuButton").val() != "Channels")
-		//{
-			console.log("here");
-			$.ajax({
-				url: '/messages',
-				data: {user_id: <%== current_user.id %>, receiver_id: <%%= receiver ? receiver.id : 0 %>, scope: '<%%= receiver.scope ? receiver.scope : "direct" %>'},
-				type: 'GET',
-				dataType: 'json',
+			console.log("here rec" + <%%= receiver.id %>);
+			var Message = Backbone.Model.extend({
+				urlRoot: '/messages'
+			});
+			var message = new Message();
+			message.fetch({
+				data: {user_id: <%== current_user.id %>, receiver_id: <%%= receiver.scope == "direct" ? target.id : receiver.id %>, scope: '<%%= receiver.scope ? receiver.scope : "direct" %>'},
 				success: function(data)
 				{
+					data = data.toJSON();
 					console.log("got");
 					console.log(data);
 					console.log("finish got");
@@ -67,102 +75,86 @@
 					}
 					else
 						$("#conversation_window").html("");
-				},
-				error: function()
-				{
-					console.log("error");
 				}
 			});
-		//}
 		<%% } %>
 		function ft_show_conversation(channel_or_user_selected)
 		{
-			//var pwd;
+			console.log("---------------------------------------");
+			console.log(channel_or_user_selected);
 			if (channel_or_user_selected.scope == "protected-group")//protected
 			{
-				var pwd;
-				$.ajax({
-					url: '/channel_participations',
+				var ChannelParticipation = Backbone.Model.extend({
+					urlRoot: '/channel_participations'
+				});
+				var channel_participation = new ChannelParticipation();
+				channel_participation.fetch({
 					data: {user_id: <%== current_user.id %>, receiver_id: channel_or_user_selected.id},
-					type: 'GET',
-					dataType: 'json',
 					success: function(data)
 					{
+						data = data.toJSON();
 						console.log(data);
 						console.log("got success");
-						if (!data || data.length == 0)//on met first coté rails mtn
+						if ($.isEmptyObject(data) || data.length == 0)//on met first coté rails mtn
 						{
-							pwd = prompt("a password is needed");
-							console.log("pwd" + pwd);
-							var data = new FormData();
-							data.append("user_id", <%== current_user.id %>);
-							data.append("receiver_id", channel_or_user_selected.id);
-							data.append("scope", channel_or_user_selected.scope);
-							data.append("password", pwd);
-							$.ajax({
-								url: '/channel_participations',
-								data: data,
-								type: 'POST',
-								processData: false,
-								contentType: false,
-								dataType: 'json',
+							var pwd = prompt("a password is needed");
+							channel_participation = new ChannelParticipation();
+							channel_participation.save(
+							{
+								user_id: <%== current_user.id %>,
+								receiver_id: channel_or_user_selected.id,
+								scope: channel_or_user_selected.scope,
+								password: pwd
+							},
+							{
 								success: function(data)
 								{
+									data = data.toJSON();
 									console.log(data);
 									console.log("success !!!");
 									if (data.res)
 										chatview.setElement("#chat_area").render_chat_main(channel_or_user_selected);
-								},
-								error: function(err)
-								{
-									console.log(err);
-									console.log("error !!!");
 								}
 							})
 						}
 						else
 							chatview.setElement("#chat_area").render_chat_main(channel_or_user_selected);
-					},
-					error: function(err)
-					{
-						console.log(err);
-						console.log("got error");
 					}
-				})
-				//pwd = prompt("password is needed");
-				console.log("pwd" + pwd);
+				});
 				return;
 			}
 			//public
-			//console.log("pwd:" + pwd);
-			console.log("clicked");
-			console.log(channel_or_user_selected);
-			chatview.setElement("#chat_area").render_chat_main(channel_or_user_selected);//public donc on peut afficher directe
-			var data = new FormData();
-			data.append("user_id", <%== current_user.id %>);
-			data.append("receiver_id", channel_or_user_selected.id);
-			console.log("scope:" + channel_or_user_selected.scope);
-			data.append("scope", channel_or_user_selected.scope ? channel_or_user_selected.scope : "direct");
-			$.ajax({
-				url: '/channel_participations',
-				data: data,
-				type: 'POST',
-				processData: false,
-				contentType: false,
-				success: function()
+			var ChannelParticipation = Backbone.Model.extend({
+				urlRoot: '/channel_participations'
+			});
+			var channel_participation = new ChannelParticipation();
+			channel_participation.save(
+			{
+				user_id: <%== current_user.id %>,
+				receiver_id: channel_or_user_selected.id,
+				scope: (channel_or_user_selected.scope ? channel_or_user_selected.scope : "direct")
+			},
+			{
+				success: function(data)
 				{
-					console.log("success");
+					console.log("clicked");
+					console.log(data.toJSON());
+					console.log(channel_or_user_selected);
+					chatview.setElement("#chat_area").render_chat_main(data.toJSON());//public donc on peut afficher directe
 				}
-			})
+			});
 		}
 		function ft_show_channels()
 		{
-			$.ajax({
+			var Channel = Backbone.Model.extend({
+				urlRoot: '/channels'
+			});
+			var channel = new Channel();
+			channel.fetch({
 				url: '/channels',
-				type: 'GET',
-				dataType: 'json',
 				success: function(data)
 				{
+					data = data.toJSON();
 					console.log("success");
 					console.log(data);
 					show_div = $("#direct_msg_users");
@@ -205,25 +197,28 @@
 			console.log("here");
 			console.log($('#text_to_send').val());
 			var text = $('#text_to_send').val();
-			var receiver_id = <%%= receiver ? receiver.id : 0 %>;
+			var receiver_id = <%%= receiver.scope == "direct" ? target.id : receiver.id %>;//cote rails target.id dans le cas direct permet de trouver la channel
 			if (text.length == 0 || receiver_id == 0)
 			{
 				console.log("empty !");
 				return;
 			}
 			$('#text_to_send').val('');
-			var form_data = new FormData();
-			form_data.append("user_id", <%== current_user.id %>);
-			form_data.append("text", text);
-			form_data.append("scope", '<%%= receiver.scope ? receiver.scope : "direct" %>');
-			form_data.append("receiver_id", receiver_id);//soit direct => second user || soit le channel du groupe
-			$.ajax({
-				url: '/messages',
-				data: form_data,
-				processData: false,
-				contentType: false,
-				type: 'POST',
-				success: function(){
+			var Message = Backbone.Model.extend({
+				urlRoot: '/messages'
+			});
+			var message = new Message();
+			//var form_data = new FormData();
+			message.save(
+			{
+				user_id: <%== current_user.id %>,
+				text: text,
+				scope: '<%%= receiver.scope ? receiver.scope : "direct" %>',
+				receiver_id: receiver_id
+			},
+			{
+				success: function()
+				{
 					console.log('OK!');
 				}
 			});

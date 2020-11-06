@@ -15,19 +15,25 @@
 			console.log(event.detail.data);
 			if (event.detail.data.sender)
 			{
-			if ($("#dropdownMenuButton").text() == event.detail.data.sender.name)//utiliser id plutot ?
-				chatview.setElement("#chat_area").render_chat_main(event.detail.data.sender);
-			else
-				console.log("O");
-			console.log($("#dropdownMenuButton").text());
+				console.log("hey" + $("#main_chat_in").val());
+				console.log(event.detail.data);
+				console.log("channel_name" + event.detail.data.sender.id);
+				if ($("#main_chat_in").val() == event.detail.data.sender.id)//utiliser id plutot ?
+					chatview.setElement("#chat_area").render_chat_main(event.detail.data.sender);
 			}
 			if (event.detail.data.kicked_from)
 			{
-				console.log("here");
-				alert("you got kicked from " + event.detail.data.kicked_from.name);
-				if ($("#dropdownMenuButton").text() == event.detail.data.kicked_from.name && event.detail.data.kicked_from.scope != "direct")
+				console.log(event.detail.data);
+				console.log($("#detail_chat_in").val());
+				alert("you got kicked from " + event.detail.data.kicked_from.id);
+				if (($("#detail_chat_in").val() == event.detail.data.kicked_from.id || $("#main_chat_in").val() == event.detail.data.kicked_from.id) && event.detail.data.kicked_from.scope != "direct")
+				{
+					console.log("in");
 					chatview.setElement("#chat_area").render_chat_main();//marche pas quand on est dans show par exemple
+				}
 			}
+			var hidden_input_val = $("#main_chat_in").val();
+			console.log("hidden" + hidden_input_val);
 		});
 		// set the socket for having notification 
 		socket_notif = new WebSocket("ws://localhost:3000/cable"); 
@@ -42,6 +48,7 @@
 				})
 			}));
 		}
+
 	</script>
 
 	<div class="container-fluide body-page" id="inside-page">
@@ -295,12 +302,48 @@ var ChatView = Backbone.View.extend({
 		this.$el.html(this.template_chat_create);
 	},
 	render_chat_main : function(user_selected) {
+		console.log("user selected !!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 		console.log(user_selected)
 		if (user_selected && user_selected.name)
+		{
 			console.log("render_chat_main" + user_selected.name);
+			if (user_selected.scope == "direct")
+			{
+				var el = this.$el;
+				var temp = this.template_chat_main;
+				var ChannelParticipation = Backbone.Model.extend({
+					urlRoot: '/channel_participations'
+				});
+				var channel_participation = new ChannelParticipation();
+				channel_participation.fetch({data: {type: "direct", name: user_selected.name}, success: function(data){
+					var i = 0;
+					var target;
+					data = data.toJSON();
+					var size = Object.keys(data).length;
+					while (i < size)
+					{
+						if (data[i].id != <%== current_user.id %>)
+						{
+							target = data[i];
+							break;
+						}
+						i++;
+					}
+					console.log("name" + target);
+					console.log(user_selected);
+					el.html(temp({receiver: user_selected, target: target}));
+				}})
+			}
+			else
+			{
+				this.$el.html(this.template_chat_main({receiver: user_selected}));
+			}
+		}
 		else
+		{
 			user_selected = {id : 0}
-		this.$el.html(this.template_chat_main({receiver: user_selected}));
+			this.$el.html(this.template_chat_main({receiver: user_selected}));
+		}
 		return this;
 	},
 	render_chat_details : function(e) {
@@ -944,6 +987,7 @@ $( "#nav_to_war" ).on( "click", function() {
 });
 
 var router = new Router();
+playview.render();
 notifview.render();
 Backbone.history.start();
 

@@ -4,7 +4,16 @@ class AskForGamesController < ApplicationController
   # GET /ask_for_games
   # GET /ask_for_games.json
   def index
-    @ask_for_games = AskForGame.all
+    if (params[:to_user_id])
+      @game = AskForGame.where("to_user_id = ? AND status='playing'", params[:to_user_id]).last
+    else
+      @game = AskForGame.where("from_user_id = ? AND status='playing'", params[:from_user_id]).last
+    end 
+    respond_to do |format|
+      format.html
+      format.json {render json: @game}
+    end
+    #@ask_for_games = AskForGame.all
   end
 
   # GET /ask_for_games/1

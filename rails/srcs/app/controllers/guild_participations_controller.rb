@@ -64,6 +64,7 @@ class GuildParticipationsController < ApplicationController
 	guild = @guild_participation.guild
 	user = @guild_participation.user
 	guild_size = guild.users.size 
+	is_admin = @guild_participation.is_admin
 
 	#if in war can't quit
 	if (guild.is_making_war) #war_participation_id ?
@@ -72,20 +73,25 @@ class GuildParticipationsController < ApplicationController
 
 	user.guild_participation_id = nil
 	user.save
+	@guild_participation.destroy
 
-	if (guild_size === 1)
-		@guild_participation.destroy
+	if (guild_size == 1)
 		guild.destroy
 		return
 	end
 
-	if (@guild_participation.is_admin)
+	if (is_admin)
+		puts "--------------is adm"
 		new_owner = guild.users.order(points: :desc).first
 		guild.owner_id = new_owner.id
-		new_owner.guild_participation_id.is_owner = true
+		new_guild_p = new_owner.guild_participations.first
+		new_guild_p.is_admin = true
+		guild.owner_id = new_owner.id
+		new_owner.save
+		new_guild_p.save
+		guild.save
 	end
-
-	@guild_participation.destroy
+	
   end
 
   private

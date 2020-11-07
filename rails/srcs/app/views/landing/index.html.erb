@@ -69,6 +69,8 @@
 		<%= render "pages/pongGuest"%>
 		<%= render "pages/guild_history" %>
 		<%= render "pages/chat/details" %>
+		<%= render "pages/war_info" %>
+		<%= render "pages/ladder" %>
 	</div>
 
 
@@ -164,6 +166,9 @@ var Ask_for_war = Backbone.Model.extend({
 	urlRoot: "/ask_for_wars.json",
 });
 
+var WarParticipation = Backbone.Model.extend({
+	urlRoot: "/war_participations.json",
+});
 
 var Game = Backbone.Model.extend({
 	urlRoot: "/games.json",
@@ -322,7 +327,7 @@ var ChatView = Backbone.View.extend({
 					var size = Object.keys(data).length;
 					while (i < size)
 					{
-						if (data[i].id != <%== current_user.id %>)
+						if (data[i].id != current_user_id)
 						{
 							target = data[i];
 							break;
@@ -417,11 +422,15 @@ var GuildView = Backbone.View.extend({
 		var self = this;
 		this.collection.create(guild, {
 			success: function(model, response) {
-				console.log('success');
-				self.render();
+				if (response.is_msg){
+					alert(response.msg)
+				}
+				else{
+					self.render();
+				}
 			},
 			error: function(model, response) {
-				console.log('fail');
+				alert("Guild creation failed")
 			},
 			wait: true
 		});
@@ -486,8 +495,6 @@ var GuildView = Backbone.View.extend({
 		var wars = new Wars();
 		wars.url = "/wars.json/?guild_id=" + guild.id;
 		await wars.fetch();
-
-		//console.log("leng war", wars);
 
 		this.$el.html(this.template_guild_history({  
 			wars: wars.toJSON(),
@@ -715,6 +722,7 @@ var WarView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#war-template').html()),
 	template_guilds: _.template($('#war-guild-template').html()),
+	template_war_info: _.template($('#war_info_template').html()),
 	collection: guildcollection,
 
 	initialize : function() {
@@ -730,12 +738,21 @@ var WarView = Backbone.View.extend({
 		var guild_name = $("#guild_drop_down option:selected").text();
 		var the_guild = this.collection.findWhere({name: guild_name});
 		the_guild = the_guild.toJSON();
+
+		//#do this check back for better security
+		range_time = $('#RangeTime').val();
+		range_time = range_time.split(" to ");
+		console.log("RangeTime", range_time[0], range_time[1]);
+		if (isEmpty(range_time[0]) || isEmpty(range_time[1])){
+			alert("Need range date to declare war")
+			return
+		}
 	
 		var ask_for_war = new Ask_for_war({
 			current_user_id: current_user_id,
 			to_guild_id: the_guild.id,
-			start_date : $('#StartTime').val(),
-			end_date: $('#FinishTime').val(),
+			start_date : range_time[0],
+			end_date: range_time[1],
 			prize_in_points : $('#PrizePool').val(),
 			max_unanswered_call: $('#MaxUnansweredMatch').val(),
 		});
@@ -747,7 +764,7 @@ var WarView = Backbone.View.extend({
 				}
 			},
 			error: function(model, response) {
-				alert("Declaration fail, the guild could be in war");
+				alert("War declaration fail.");
 			},
 			wait: true
 		});
@@ -790,23 +807,35 @@ var WarView = Backbone.View.extend({
 
 		//# To do: mieux gérer 0 guilds
 		if (this.collection.length == 0){
-			var user = new User();
+			var usr = new User();
 			var the_guild = new Guild();
 
 			this.$el.html(this.template({
 				guilds: this.collection.toJSON()
 			}));
 			this.$('.war_pannel_header').html(this.template_guilds({
-				user: user.toJSON(),
+				user: usr.toJSON(),
 				guild: the_guild.toJSON()
 			}));
 		}
-		else {
+		else {	
 			this.$el.html(this.template({
 				guilds: this.collection.toJSON()
 			}));
 			this.render_guild_info();
+			//#page war info when guild is in war
+			//this.$el.html(this.template_war_info());
 		}
+		return this;
+	}
+});
+
+var LadderView = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($('#ladder_template').html()),
+  
+	render: function() {
+		this.$el.html(this.template);
 		return this;
 	}
 });
@@ -852,14 +881,21 @@ function ft_accept_notif(notif) {
 	}
 	else if (notif.table_type == "ask_for_war") {
 		console.log("ask_for_war");
-		console.log(notif);
 		Backbone.ajax({
 			url: '/ask_for_wars/' + notif.table_id,
 			data: {},
 			type: 'PUT',
 			dataType: 'json',
 			success: function(response){
-				delete_notif(notif);
+				if (response.is_msg){
+					alert(response.msg)
+					if (response.status != "keep_alive"){
+						delete_notif(notif);
+					}
+				}
+				else{
+					delete_notif(notif);
+				}
 			},
 			error: function(){
 				alert("error");
@@ -878,6 +914,7 @@ var profilview = new ProfilView();
 var profil2view = new Profil2View();
 var tournamentview = new TournamentView();
 var warview = new WarView();
+var ladderview = new LadderView();
 var notifview = new NotifView();
 
 document.addEventListener("notif2", function(event){
@@ -896,7 +933,8 @@ var Router = Backbone.Router.extend({
 		'tournament': "ft_tournament",
 		'war/:id_guild': "ft_war_param",
 		'war': "ft_war",
-		'profil/:id_user': "ft_profil_param"
+		'profil/:id_user': "ft_profil_param",
+		'ladder': "ft_ladder"
 	},
 	ft_log: function() {
 		logview.render();
@@ -906,6 +944,9 @@ var Router = Backbone.Router.extend({
 	},
 	ft_play: function() {
 		playview.render();
+	},
+	ft_ladder: function(){
+		ladderview.render();
 	},
 	ft_guild: function() {
 		guildview.render();
@@ -928,7 +969,7 @@ var Router = Backbone.Router.extend({
 	ft_war_param: function(id_guild) {
 		warview.render_param_guild(id_guild);
 	},
-	ft_profil_param : function(id_user) {
+	ft_profil_param: function(id_user) {
 		profil2view.render(id_user);	
 	}
 });
@@ -943,6 +984,10 @@ $( "#nav_to_live" ).on( "click", function() {
 });
 $( "#nav_to_play" ).on( "click", function() {
 	Backbone.history.navigate("/play", {trigger: true});
+	Backbone.history.loadUrl();
+});
+$( "#nav_to_ladder" ).on( "click", function() {
+	Backbone.history.navigate("/ladder", {trigger: true});
 	Backbone.history.loadUrl();
 });
 $( "#nav_to_guild" ).on( "click", function() {
@@ -970,6 +1015,11 @@ var router = new Router();
 playview.render();
 notifview.render();
 Backbone.history.start();
+
+//******************************************** Utils ********************************************
+function isEmpty(str) {
+    return (!str || 0 === str.length);
+}
 
 </script>
 

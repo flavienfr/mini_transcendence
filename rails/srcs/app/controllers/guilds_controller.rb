@@ -4,7 +4,7 @@ class GuildsController < ApplicationController
   # GET /guilds
   # GET /guilds.json
   def index
-	@guilds = Guild.all
+	@guilds = Guild.all.order(points: :desc)
   end
 
   # GET /guilds/1
@@ -26,15 +26,41 @@ class GuildsController < ApplicationController
   # POST /guilds
   # POST /guilds.json
   def create
-	@guild = Guild.new(guild_params)
+	json_render = {}
+	if (Guild.where("name=?", params[:name]).size != 0)
+		json_render["msg"] = "This guild name is already token"
+		json_render["is_msg"] = 1
+		respond_to do |format|
+			format.html
+			format.json {render json: json_render}
+		end
+		return
+	end
+	if (Guild.where("anagram=?", params[:anagram]).size != 0)
+		json_render["msg"] = "This guild anagram is already token"
+		json_render["is_msg"] = 1
+		respond_to do |format|
+			format.html
+			format.json {render json: json_render}
+		end
+		return
+	end
+
+	@guild = Guild.new(
+		name: params[:name],
+		anagram: params[:anagram],
+		points: 0,
+		is_making_war: false,
+		owner_id: params[:owner_id],
+		war_participation_id: nil
+	)
 	@guild.save
-	#tout remplir
+
 	@guild_participation = GuildParticipation.new(
 		user_id: params[:user_id],
 		guild_id: @guild.id,
 		is_admin: true,
 		is_officer: false
-		#add is in war
 	)
 	@guild_participation.save 
 

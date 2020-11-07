@@ -69,6 +69,8 @@
 		<%= render "pages/pongGuest"%>
 		<%= render "pages/guild_history" %>
 		<%= render "pages/chat/details" %>
+		<%= render "pages/war_info" %>
+		<%= render "pages/ladder" %>
 	</div>
 
 
@@ -164,6 +166,9 @@ var Ask_for_war = Backbone.Model.extend({
 	urlRoot: "/ask_for_wars.json",
 });
 
+var WarParticipation = Backbone.Model.extend({
+	urlRoot: "/war_participations.json",
+});
 
 var Game = Backbone.Model.extend({
 	urlRoot: "/games.json",
@@ -322,7 +327,7 @@ var ChatView = Backbone.View.extend({
 					var size = Object.keys(data).length;
 					while (i < size)
 					{
-						if (data[i].id != <%== current_user.id %>)
+						if (data[i].id != current_user_id)
 						{
 							target = data[i];
 							break;
@@ -712,13 +717,12 @@ var TournamentView = Backbone.View.extend({
 	}
 });
 
-
-
 //_____________________________________ WarView _____________________________________
 var WarView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#war-template').html()),
 	template_guilds: _.template($('#war-guild-template').html()),
+	template_war_info: _.template($('#war_info_template').html()),
 	collection: guildcollection,
 
 	initialize : function() {
@@ -803,23 +807,35 @@ var WarView = Backbone.View.extend({
 
 		//# To do: mieux gérer 0 guilds
 		if (this.collection.length == 0){
-			var user = new User();
+			var usr = new User();
 			var the_guild = new Guild();
 
 			this.$el.html(this.template({
 				guilds: this.collection.toJSON()
 			}));
 			this.$('.war_pannel_header').html(this.template_guilds({
-				user: user.toJSON(),
+				user: usr.toJSON(),
 				guild: the_guild.toJSON()
 			}));
 		}
-		else {
+		else {	
 			this.$el.html(this.template({
 				guilds: this.collection.toJSON()
 			}));
 			this.render_guild_info();
+			//#page war info when guild is in war
+			//this.$el.html(this.template_war_info());
 		}
+		return this;
+	}
+});
+
+var LadderView = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($('#ladder_template').html()),
+  
+	render: function() {
+		this.$el.html(this.template);
 		return this;
 	}
 });
@@ -898,6 +914,7 @@ var profilview = new ProfilView();
 var profil2view = new Profil2View();
 var tournamentview = new TournamentView();
 var warview = new WarView();
+var ladderview = new LadderView();
 var notifview = new NotifView();
 
 document.addEventListener("notif2", function(event){
@@ -916,7 +933,8 @@ var Router = Backbone.Router.extend({
 		'tournament': "ft_tournament",
 		'war/:id_guild': "ft_war_param",
 		'war': "ft_war",
-		'profil/:id_user': "ft_profil_param"
+		'profil/:id_user': "ft_profil_param",
+		'ladder': "ft_ladder"
 	},
 	ft_log: function() {
 		logview.render();
@@ -926,6 +944,9 @@ var Router = Backbone.Router.extend({
 	},
 	ft_play: function() {
 		playview.render();
+	},
+	ft_ladder: function(){
+		ladderview.render();
 	},
 	ft_guild: function() {
 		guildview.render();
@@ -948,7 +969,7 @@ var Router = Backbone.Router.extend({
 	ft_war_param: function(id_guild) {
 		warview.render_param_guild(id_guild);
 	},
-	ft_profil_param : function(id_user) {
+	ft_profil_param: function(id_user) {
 		profil2view.render(id_user);	
 	}
 });
@@ -963,6 +984,10 @@ $( "#nav_to_live" ).on( "click", function() {
 });
 $( "#nav_to_play" ).on( "click", function() {
 	Backbone.history.navigate("/play", {trigger: true});
+	Backbone.history.loadUrl();
+});
+$( "#nav_to_ladder" ).on( "click", function() {
+	Backbone.history.navigate("/ladder", {trigger: true});
 	Backbone.history.loadUrl();
 });
 $( "#nav_to_guild" ).on( "click", function() {

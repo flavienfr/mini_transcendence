@@ -47,7 +47,6 @@ class LandingController < ApplicationController
     end
 
     def auth(code)
-
       #puts "code:", code
 
       # see https://profile.intra.42.fr/oauth/applications
@@ -123,14 +122,12 @@ class LandingController < ApplicationController
         # session[:user_id] = user.id
         session.save
       end
-      # @@current_user = session.user_id
 
-    if (params[:code])
-      
-      #puts user.to_yaml
-
-      # ocker-compose run web rails console -> to see if it worked
-      redirect_to root_path # à enlever pcq ça reload la page
+      if 
+        @qr = RQRCode::QRCode.new(user.provisioning_uri("http://localhost:3000/"), :size => 7, :level => :h)
+        redirect_to two_factor_auth_path
+      else
+        redirect_to root_path # à enlever pcq ça reload la page
+      end      
     end
-  end
 end

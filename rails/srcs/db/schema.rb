@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_03_160402) do
+ActiveRecord::Schema.define(version: 2020_11_07_211314) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2020_11_03_160402) do
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "count_all_matchs_for_war", default: false
     t.index ["war_id"], name: "index_ask_for_wars_on_war_id"
   end
 
@@ -213,6 +214,8 @@ ActiveRecord::Schema.define(version: 2020_11_03_160402) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "guild_participation_id"
+    t.string "otp_secret_key"
+    t.boolean "enabled_two_factor_auth", default: false
     t.index ["guild_participation_id"], name: "index_users_on_guild_participation_id"
   end
 

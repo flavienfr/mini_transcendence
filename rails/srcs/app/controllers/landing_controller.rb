@@ -105,10 +105,7 @@ class LandingController < ApplicationController
       #puts parsed_res_api
 
       if User.where(name: parsed_res_api["displayname"]).exists?
-        session.user_id = User.find_by(name: parsed_res_api["displayname"]).id
-        # session[:user_id] = User.find_by(name: parsed_res_api["displayname"]).id
-        cookies.permanent.signed[:id] = session.user_id
-        session.save
+        user = User.find_by(name: parsed_res_api["displayname"])
       else
         user = User.create(
           name: parsed_res_api["displayname"],
@@ -117,17 +114,16 @@ class LandingController < ApplicationController
           points: 0,
           is_admin: false
         )
-        session.user_id = user.id
-        cookies.permanent.signed[:id] = session.user_id
-        # session[:user_id] = user.id
-        session.save
       end
+      session.user_id = user.id
+      # session[:user_id] = user.id
+      cookies.permanent.signed[:id] = session.user_id
+      session.save
 
-      if 
+      if user.enabled_two_factor_auth
         @qr = RQRCode::QRCode.new(user.provisioning_uri("http://localhost:3000/"), :size => 7, :level => :h)
-        redirect_to two_factor_auth_path
-      else
-        redirect_to root_path # à enlever pcq ça reload la page
+        # do something then
       end      
+      redirect_to root_path
     end
 end

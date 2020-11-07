@@ -28,3 +28,5 @@ rails g scaffold game_participation user:references game:references score:intege
 rails g scaffold ask_for_game from_user_id:integer to_user_id:integer game:references status:string
 
 rails g scaffold notification from_user_id:integer user:references to_channel_id:integer to_guild_id:integer table_type:string message:string status:string table_id:integer
+
+# rails generate migration add_fieldname_to_tablename fieldname:string

@@ -160,12 +160,16 @@
 
 //-------------------------------part 6  socket receive and send --------------------------------------//
 
-  
-            socket.onmessage = function(event) {            
+        function ft_recieve() 
+        {   
+            socket.onmessage = function(event) 
+            {            
             const response = event.data;
             const msg = JSON.parse(response);  
                 if (msg.type == "ping" || !msg.message )// check if the pong_id is send to the correct personne
-                    return ;        
+                    return ;
+                if (msg.message.data.timer == 0 || msg.message.data.timer)
+                    timer = msg.message.data.timer;
                 if (msg.message.data.hosty)
                     host.y = msg.message.data.hosty;
                 if (msg.message.data.bally)
@@ -176,9 +180,8 @@
                     host.score = msg.message.data.score_host;  
                 if (msg.message.data.score_guest)
                     guest.score = msg.message.data.score_guest;
-                if (msg.message.data.timer)
-                    timer = msg.message.data.timer - 1; 
-                }
+            }
+        }
 
         function ft_send(host_id)
         {
@@ -200,13 +203,13 @@
         {
             //ft_pause(); // uncomment to put the pause rules
             //ft_recieve()
-            if (timer <= 0)
+            if (timer < 0)
             {
                 ft_send(host_id);
                 show();
             }
             else
-                ft_timer(timer);
+                ft_timer((timer == 0) ? "GO !" : timer);
             if (host.score == 11 || guest.score == 11)
             {
                 if (guest.score == 11)
@@ -219,6 +222,7 @@
             }
             
         }
+    ft_recieve();
     var stop = setInterval(playing, 1000/frame, host_id);
     }
 

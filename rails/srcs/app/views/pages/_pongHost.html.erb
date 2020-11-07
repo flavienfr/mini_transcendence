@@ -9,7 +9,7 @@
     var pong_id = <%== current_user.id%>
 
     function playgame(host_id){
-        var frame = 30;
+        var frame = 50;
         var time_pause = 10;
         var limit_guest = 0;
         var limit_host = 0;
@@ -190,6 +190,8 @@
 //-------------------------------part 6  socket send and reveive --------------------------------------//
     function ft_send_timer()
     {
+
+        console.log("timer send = " + timer);
         socket.send(JSON.stringify({
                 command: "message",
                 identifier: JSON.stringify({
@@ -274,7 +276,7 @@
             ball.x += ball.velocityX;
         else
             ball.x = (ball.x < canvas.width/2) ? host.x : guest.x;
-        //ball.y += ball.velocityY;
+        ball.y += ball.velocityY;
 
         if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height){ // collision to the top and the bottom
             ball.velocityY =  -ball.velocityY;  
@@ -336,23 +338,22 @@
 
     function countdown()
     {
-        ret = setInterval(function() {
+        ret = setInterval(function() 
+        {   
             if (timer >= 0)
             {
-                ft_send_timer();
                 if (timer <= 1)
                     ft_timer("GO !");
                 else
                     ft_timer(timer - 1);
                 timer--;
+                ft_send_timer();    
             }
             else
             {
-                ft_send_timer();
-                timer = -1;
-                clearInterval(ret);
+               setTimeout(clearInterval(ret),200);
             }
-        }, 1200);
+        }, 1000);
     }
 //-------------------------------part 10 save state in database--------------------------------------//
 

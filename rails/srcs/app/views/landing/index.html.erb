@@ -1,8 +1,9 @@
 <%= stylesheet_link_tag "style-header.css" %>
 
-<% if !current_user %> <!-- user not connected-->
+<% if !current_user %>
 	<%= render "pages/signin" %>
-
+<% elsif current_user.sessions.last.need_two_factor_auth_validation == true %>
+	<%= render "pages/two_factor_auth" %>
 <% else %> 
 	<%= render "pages/navbar" %>
 
@@ -72,7 +73,6 @@
 		<%= render "pages/war_info" %>
 		<%= render "pages/ladder" %>
 	</div>
-
 
 <script>
 
@@ -263,13 +263,9 @@ var LogView = Backbone.View.extend({
 				window.location.href = "http://localhost:3000";
 			}
 		})
-		
 	},
 
 })
-
-//_____________________________________ qrcode View ___________________________________
-
 
 //_____________________________________ NotifView _____________________________________
 var NotifView = Backbone.View.extend({
@@ -927,6 +923,7 @@ document.addEventListener("notif2", function(event){
 var Router = Backbone.Router.extend({
 	routes: {
 		'': "ft_log",
+		'validation': "ft_validation",
 		'live': "ft_live",
 		'play': "ft_play",
 		'guild': "ft_guild",

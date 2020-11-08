@@ -39,11 +39,9 @@
 	</form>
 </div>
 
-
-
 <!-- Google Modal -->
 <div class="modal fade" id="modalGoogle" tabindex="-1" role="dialog" aria-labelledby="modalGoogle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLabel">Google authentification</h5>
@@ -52,7 +50,25 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				Google mon cul
+
+				<%= stylesheet_link_tag "style-qrcode.css" %>
+				<% require "rqrcode" %>
+				<% @qr = RQRCode::QRCode.new(current_user.provisioning_uri("Transcendence"), :size => 13, :level => :h ) %>
+				
+				<table class="qr">
+					<% @qr.modules.each_index do |x| %>
+						<tr>
+							<% @qr.modules.each_index do |y| %>
+								<% if @qr.qrcode.checked?(x,y) %>
+									<td class="black"/>
+								<% else %>
+									<td class="white"/>
+								<% end %>
+							<% end %>
+						</tr>
+					<% end %>
+				</table>
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -80,4 +96,5 @@
 		</div>
 	</div>
 </div>
+
 </script>

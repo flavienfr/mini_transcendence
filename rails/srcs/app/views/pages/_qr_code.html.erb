@@ -1,7 +1,7 @@
-<script type="text/template" id="log-qrcode">
-<%= stylesheet_link_tag "style-qrcode.css" %>
+<% require "active_model_otp" %>
+<% require "rqrcode" %>
+<% @qr = RQRCode::QRCode.new(current_user.provisioning_uri("Transcendence"), :size => 13, :level => :h ) %>
 
-## This is your QR code
 <table class="qr">
   <% @qr.modules.each_index do |x| %>
       <tr>
@@ -15,3 +15,7 @@
       </tr>
   <% end %>
 </table>
+
+<%= stylesheet_link_tag "style-qrcode.css" %>
+<script type="text/template" id="log-qrcode">
+</script>

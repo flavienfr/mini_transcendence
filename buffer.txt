@@ -1,0 +1,51 @@
+	$.ajax({
+		url: full,
+		contentType: 'json',
+		headers: { 
+			'Content-Type': 'application/json',
+			'Accept': 'application/json',
+			'Origin': 'http://localhost:3000'
+		},
+		type: 'GET',
+		credentials: 'include',
+		success: function(res) {
+			console.log("ok https://api.intra.42.fr/oauth/authorize?");
+			console.log("ok res: ", res);
+			window.location.href = "http://localhost:3000";
+		},
+		error: function (err) {
+	   	console.log("ko err:", err);
+    }
+	})
+
+
+    <% elsif current_user.enabled_two_factor_auth %>
+	    <% render "pages/qr_code" %>
+
+
+<script type="text/template" id="two_factor_auth-template">
+
+    <h1>Authentification à deux facteurs obligatoire</h1>
+    <p>Vous nous avez demandé d’exiger un code de connexion à 6 chiffres quand quelqu’un tente de se connecter à votre compte.</p>
+    <p>Saisissez le code à 6 chiffres de votre Générateur de code Google Authenticator.</p>
+
+    <form id="two_factor_auth_form">
+        
+        <label for="two_factor_auth_input">Code</label>
+        <input
+            type="text"
+            class="form-control"
+            id="two_factor_auth_form_input"
+        >
+        
+        <button
+            type="submit"
+            id="two_factor_auth_form_submit"
+            class="btn btn-primary btn-md btn-block btn-dark"
+        >
+            Continuer
+        </button>
+
+    </form>
+
+</script>

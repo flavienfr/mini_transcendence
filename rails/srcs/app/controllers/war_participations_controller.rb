@@ -1,10 +1,18 @@
 class WarParticipationsController < ApplicationController
   before_action :set_war_participation, only: [:show, :edit, :update, :destroy]
 
+  # GET /war_participations/info
+  # GET /war_participations.json/info
+  def info
+    # do something
+    data = {}
+    render json: { data: data }, status: :unauthorized and return
+  end
+
   # GET /war_participations
   # GET /war_participations.json
   def index
-	@war_participations = WarParticipation.all
+  	@war_participations = WarParticipation.all
   end
 
   # GET /war_participations/1

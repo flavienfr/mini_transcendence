@@ -25,7 +25,7 @@ $( "#sign_in" ).on( "click", function() {
 	console.log("SIGN IN");
 	let http 			= "https://api.intra.42.fr/oauth/authorize?";
 	let client 			= "client_id=235a071025e8e19cdd302e0cff45e29c2b7c2a8b1fd37bc7cdbf4e2edc452729&";
-	let redirect 		= "redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&";
+	let redirect 		= "redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fsessions%2Foauth&";
 	let response_type 	= "response_type=code&";
 	let scope 			= "scope=public&";
 	let state 			= "state=a_very_long_random_string_witchmust_be_unguessable";
@@ -37,9 +37,6 @@ $( "#sign_in" ).on( "click", function() {
 
 $( "#fake_sign_in" ).on( "click", function() {
 	console.log("FAKE SIGN IN");
-	var formData = new FormData();
-	formData.append('id', 1);
-	formData.append('type', 'fake');
 	$.ajax({
 			url: "/?id=1&type=fake",
 			data: false,
@@ -51,8 +48,6 @@ $( "#fake_sign_in" ).on( "click", function() {
 			}
 		})
 });
-
-
 
 
 </script>

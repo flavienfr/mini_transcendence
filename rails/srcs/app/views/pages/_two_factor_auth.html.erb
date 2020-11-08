@@ -1,0 +1,53 @@
+<h1>Authentification à deux facteurs obligatoire</h1>
+<p>Vous nous avez demandé d’exiger un code de connexion à 6 chiffres quand quelqu’un tente de se connecter à votre compte.</p>
+<p>Saisissez le code à 6 chiffres de votre Générateur de code Google Authenticator.</p>
+
+<form id="two_factor_auth_form">
+    
+    <label for="two_factor_auth_input">Code</label>
+    <input
+        type="text"
+        class="form-control"
+        id="two_factor_auth_form_input"
+    >
+    
+    <button
+        type="submit"
+        id="two_factor_auth_form_submit"
+        class="btn btn-primary btn-md btn-block btn-dark"
+    >
+        Continuer
+    </button>
+
+</form>
+
+
+<script>
+
+$( "#two_factor_auth_form_submit" ).on( "click", function(e) {
+    e.preventDefault();
+    console.log("submit two_factor_auth_form");
+    
+    let code = $('#two_factor_auth_form_input').val();
+    var formData = new FormData();
+	formData.append('code', code);
+    
+	var session_id = <%== current_user.sessions.last.id %>; // anti jaune >
+	
+    $.ajax({
+        url: "/sessions/" + session_id + "/validation",
+        data: formData,
+        processData: false,
+        contentType: false,
+        type: 'POST',
+        success: function(res) {
+            console.log("ok res: ", res);
+            window.location.href = "http://localhost:3000";
+        },
+        error: function (err) {
+            console.log("ko err:", err);
+        }
+    })
+});
+
+</script>

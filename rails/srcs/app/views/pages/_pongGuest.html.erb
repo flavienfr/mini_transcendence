@@ -19,9 +19,12 @@
         var pong_id = element.getAttribute("data-pong-id");
         canvas.addEventListener("mousemove", movePaddle);
         canvas.addEventListener("mouseleave", triggerMouseOut);
+        canvas.style.cursor = "none";
         var pause_guest = false;
         var timer = 5;
         var pause  = 0;
+     
+    
 
 
 //-------------------------------part 1 functions draw--------------------------------------//
@@ -154,7 +157,9 @@
                 pause  = 0;
                 pause_guest = false;
             }
-            guest.y = event.clientY - canvas.getBoundingClientRect().top - guest.height/2; // pour tester a brancher avec backbone et actioncable     
+            var rect = canvas.getBoundingClientRect();
+            var result = 600 / (rect.bottom - rect.top) ;
+            guest.y = (event.clientY - rect.top - 20) * result;   
         }
 
 

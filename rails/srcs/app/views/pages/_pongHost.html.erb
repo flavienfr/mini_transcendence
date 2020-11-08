@@ -23,6 +23,7 @@
         const context = canvas.getContext("2d");
         const height = canvas.height;
         const width = canvas.width;
+        canvas.style.cursor = "none";
         canvas.addEventListener("mousemove", movePaddle);
         canvas.addEventListener("mouseleave", triggerMouseOut);
 
@@ -78,6 +79,7 @@
         //position
         x : canvas.width - 10, // pas responsive il s'agit de largeur (10px)
         y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive correspond au paddle
+        
         //form
         width : 10, // pas responsive
         height : height/5, // pas responsive
@@ -177,6 +179,7 @@
 
 //-------------------------------part 5 function paddle --------------------------------------//
 
+
     function movePaddle(event){ // function to permite to change the direction of the users paddle with the mouse
         if (pause_host != false)
         {
@@ -184,7 +187,9 @@
             pause  = 0;
             pause_host = false;
         }
-        host.y = event.clientY - canvas.getBoundingClientRect().top - host.height/2;
+        var rect = canvas.getBoundingClientRect();
+        var result = 600 / (rect.bottom - rect.top) ;
+        host.y = (event.clientY - rect.top -  20) * result;
 
     }
 //-------------------------------part 6  socket send and reveive --------------------------------------//

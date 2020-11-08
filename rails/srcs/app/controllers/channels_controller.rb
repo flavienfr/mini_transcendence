@@ -36,6 +36,10 @@ class ChannelsController < ApplicationController
   # GET /channels/1
   # GET /channels/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.json {render json: Channel.find_by(id: params[:id])}
+    end
   end
 
   # GET /channels/new
@@ -86,6 +90,12 @@ class ChannelsController < ApplicationController
   # PATCH/PUT /channels/1
   # PATCH/PUT /channels/1.json
   def update
+    if (params["channel"][:password])
+      params["channel"][:password] = BCrypt::Password.create(params["channel"][:password]);
+    end
+    if (params["channel"][:scope] != "protected-group")
+      params["channel"][:password] = nil;
+    end
     respond_to do |format|
       if @channel.update(channel_params)
         format.html { redirect_to @channel, notice: 'Channel was successfully updated.' }

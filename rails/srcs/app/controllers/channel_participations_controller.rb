@@ -85,7 +85,7 @@ class ChannelParticipationsController < ApplicationController
         puts "b";
         channelP_to_save = ChannelParticipation.new(channelP);
         channelP_to_save.save;
-        ft_add_notif;
+        ft_add_notif("you got added to group: " + Channel.find_by(id: params[:receiver_id]).name, params[:user_id]);
       end
       respond_to do |format|
         format.html
@@ -104,7 +104,7 @@ class ChannelParticipationsController < ApplicationController
         channelP["channel_id"] = params[:receiver_id];
         channelP_to_save = ChannelParticipation.new(channelP);
         channelP_to_save.save;
-        ft_add_notif;
+        ft_add_notif("you got added to group: " + Channel.find_by(id: params[:receiver_id]).name, params[:user_id]);
         respond_to do |format|
           format.html
           format.json { render json: {res: true}};
@@ -149,6 +149,14 @@ class ChannelParticipationsController < ApplicationController
   def destroy
     channelP_info = ChannelParticipation.find_by(id: params[:id]);
     channel = channelP_info.channel;
+    if (channelP_info.is_owner)
+      next_channelP = channel.channel_participations.second;
+      if (next_channelP)
+        next_channelP.update(is_owner: true, is_admin: true);
+        ft_add_notif("you are now owner of group: " + channel.name, next_channelP.user_id);
+      # else no second => no participants ?
+      end
+    end
     @channel_participation.destroy
     ActionCable.server.broadcast("notification_channel_" + channelP_info[:user_id].to_s, {kicked_from: channel});
     respond_to do |format|
@@ -168,14 +176,14 @@ class ChannelParticipationsController < ApplicationController
       params.require(:channel_participation).permit(:id, :user_id, :channel_id, :is_owner, :is_admin, :status)
     end
 
-    def ft_add_notif
+    def ft_add_notif(msg, id)
       notification = {};
-      notification["from_user_id"] = params[:user_id];
-      notification["user_id"] = params[:user_id];
+      notification["from_user_id"] = id;
+      notification["user_id"] = id;
       notification["table_type"] = "information";
-      notification["message"] = "you got added to group: " + params[:name];
+      notification["message"] = msg;
       notification_to_save = Notification.new(notification);
       notification_to_save.save();
-      ActionCable.server.broadcast("notification_channel_" + params[:user_id].to_s, {notification: "on"});
+      ActionCable.server.broadcast("notification_channel_" + id.to_s, {notification: "on"});
     end
 end

@@ -1,4 +1,5 @@
 <script type="text/template" id="chat_param-template">
+	<%% console.log(channel_participation) %>
 	<div class="param_chat_header">
 		<a id="back_to_main_chat" >
 			<svg width="2.25em" height="2.25em" viewBox="0 0 16 16" class="bi bi-x-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -10,17 +11,18 @@
 	</div>
 
 	<div class="param_chat_body">
-		<form>
 			<div class="form-group">
-				<button type="button" class="btn btn-primary btn-md btn-block btn-dark">Leave the channel</button>
+				<button type="button" onclick="ft_leave()" class="btn btn-primary btn-md btn-block btn-dark">Leave the channel</button>
 			</div>
 
+			<%% if (channel_participation.is_owner) { %>
+		<form>
 			<div class="form-group">
 				<label for="inputStatus">Change channel status</label>
-				<select class="form-control form-control-md">
-					<option>Protected</option>
-					<option>Private</option>
-					<option>Public</option>
+				<select class="form-control form-control-md" id="updateScope">
+					<option>protected</option>
+					<option>private</option>
+					<option>public</option>
 				</select>
 			</div>
 
@@ -33,12 +35,68 @@
 			</div>
 
 			<div class="form-group">
-				<button type="submit" class="btn btn-primary mb-2 btn-dark">Apply</button>
+				<button type="submit" onclick="ft_update()" class="btn btn-primary mb-2 btn-dark">Apply</button>
 			</div>
 
 		</form>
+			<%% } %>
 	</div>
 
 	<div class="param_chat_footer">
 	</div>
+	<script>
+		function ft_leave()
+		{
+			var channel_participation = <%%= JSON.stringify(channel_participation) %>;
+			console.log(channel_participation);
+			console.log("ft_leave");
+			var ChannelParticipation = Backbone.Model.extend({
+				urlRoot: '/channel_participations'
+			});
+			var channel_participation = new ChannelParticipation(channel_participation);
+			console.log(channel_participation.toJSON());
+			channel_participation.destroy({success: function(){
+				console.log("deleted");
+				var Notification = Backbone.Model.extend({
+					urlRoot: '/notifications'
+				});
+				var notification = new Notification({
+					from_user_id: <%== current_user.id %>,
+					user_id: <%== current_user.id %>,
+					table_type: "information",
+					message: "you left group: " + "<%%= channel.name %>"
+				});
+				notification.save();
+				chatview.render_chat_main();
+			}});
+		}
+		function ft_update()
+		{
+			var scope = $("#updateScope").val();
+			var pwd = $("#parameterPassword").val();
+			console.log(scope);
+			console.log(pwd);
+			if (scope == "protected" && pwd.length == 0)
+			{
+				alert("a password is needed !");
+				return;
+			}
+			var Channel = Backbone.Model.extend({
+				urlRoot: '/channels'
+			});
+			var channel = new Channel({id:<%%= channel.id %>});//use show of rails controller
+			channel.fetch({
+				success: function(data){
+					data = data.toJSON();
+					console.log("got !");
+					console.log(data);
+					console.log(channel.toJSON());
+					channel.set("scope", scope + "-group");
+					if (scope == "protected")
+						channel.set("password", pwd);
+					channel.save();
+				}
+			});
+		}
+	</script>
 </script>

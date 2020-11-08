@@ -282,8 +282,24 @@ var ChatView = Backbone.View.extend({
 		"click #show_chat_details": "render_chat_details"
 	},
 
-	render_chat_param : function() {
-		this.$el.html(this.template_chat_param);
+	render_chat_param : function(e) {
+		var channel_info = $(e.currentTarget).data('channel');
+		console.log(<%== current_user.id %>);
+		console.log(channel_info.id);
+		var ChannelParticipation = Backbone.Model.extend({
+			urlRoot: '/channel_participations'
+		});
+		var channel_participation = new ChannelParticipation();
+		var el = this.$el;
+		var t = this.template_chat_param;
+		channel_participation.fetch({
+			data: {user_id: <%== current_user.id %>, receiver_id: channel_info.id},
+			success: function(data)
+			{
+				console.log(data);
+				el.html(t({channel: channel_info, channel_participation: data.toJSON()}));
+			}
+		});
 	},
 	render_chat_create : function() {
 		this.$el.html(this.template_chat_create);

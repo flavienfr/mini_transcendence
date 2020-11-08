@@ -5,7 +5,7 @@
 		<%% if (user.name == ""){ %> 
 			<p> None </p>
 		<%% } else {%>
-			<img src="<%%= user.avatar %>" width="50" height="50" alt="" class="profil profil-photo">
+			<img src="<%%= user.avatar %>" width="80" height="80" alt="" class="profil profil-photo">
 			<p> <%%= user.name  %> </p>
 		<%% } %>
 	</div>
@@ -14,7 +14,7 @@
 		<%% if ("" == ""){ %> <!-- replace "" by officer -->
 			<p> None </p>
 		<%% } else {%>
-			<img src="<%= image_url('profil-photo.png') %>" width="50" height="50" alt="" class="profil profil-photo">
+			<img src="<%= image_url('profil-photo.png') %>" width="80" height="80" alt="" class="profil profil-photo">
 			<p> <%%= officer %> </p>
 		<%% } %>
 	</div>
@@ -41,6 +41,10 @@
 					<div class="time_picker">
 						<label for="RangeTime">Range date</label>
 						<input type="text" class="form-control" id="RangeTime" required>
+					</div>
+					<div class="custom-control custom-switch">
+						<input type="checkbox" class="custom-control-input" id="counted_match">
+						<label class="custom-control-label" for="counted_match">Ladder and tournament matches included</label>
 					</div>
 					<div class="box_prize_match">
 						<div class="unanswered-match">

@@ -95,7 +95,7 @@ class AskForWarsController < ApplicationController
     	end
 		return
 	end
-	if (AskForWar.where('from_guild_id=?', 3).size > 0)
+	if (AskForWar.where('from_guild_id=?', from_guild_id).size > 0)
 		json_render["msg"] = "War declaration already in progress"
 		json_render["is_msg"] = 1
 		respond_to do |format|
@@ -177,7 +177,7 @@ class AskForWarsController < ApplicationController
     notif_channel = "notification_channel_" + to_user_id.to_s;
 	ActionCable.server.broadcast(notif_channel, {notification: "On"})
 
-	json_render["msg"] = "War declaration send to " + to_guild.name
+	json_render["msg"] = "War declaration sent to " + to_guild.name
 	json_render["is_msg"] = 1
 	respond_to do |format|
 		format.html

@@ -734,7 +734,7 @@ var WarView = Backbone.View.extend({
 	add: async function(evt) {
 		evt.preventDefault();
 		console.log("IN add war");
-		
+
 		var guild_name = $("#guild_drop_down option:selected").text();
 		var the_guild = this.collection.findWhere({name: guild_name});
 		the_guild = the_guild.toJSON();
@@ -747,8 +747,9 @@ var WarView = Backbone.View.extend({
 			alert("Need range date to declare war")
 			return
 		}
-	
+
 		var ask_for_war = new Ask_for_war({
+			is_all_matches: $("#counted_match").is(':checked'),
 			current_user_id: current_user_id,
 			to_guild_id: the_guild.id,
 			start_date : range_time[0],

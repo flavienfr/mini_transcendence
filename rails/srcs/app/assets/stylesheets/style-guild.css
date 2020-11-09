@@ -1,25 +1,42 @@
 .guild_container{
-	height: 100%;
 	display: flex;
-	justify-content: space-evenly;
-	align-items: center;
-	align-content: center;
+	flex-direction: column;
+	height: 100%;
 
-	overflow:auto;
-	direction:ltr;
-	scrollbar-color: #333333 white;
+
 }
 .guild_container label{
 	font-size: 20px;
 }
 
+.formGuild{
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	align-content: center;
+
+	height: 100%;
+
+	overflow:auto;
+	direction:ltr;
+	scrollbar-color: #333333 white;
+}
+
 /** BTN all guilds **/
 .allGuild{
-	position: absolute;
-	left:25px;
-	top:25px;
-	width: 200px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	height: 100px;
+	
+	border-bottom: 6px solid #333333;
+	color: white;
+	background-color: #343a40;
 }
+#all_guild_btn{
+	width: 250px;
+}
+
 /*******************/
 
 .guild_create, .guild_join{

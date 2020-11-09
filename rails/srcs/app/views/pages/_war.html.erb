@@ -39,36 +39,26 @@
 
 				<div class="body_1">
 					<div class="time_picker">
-						<div class="selector">
-							<label for="startTime">Start time</label>
-							<input type="text" class="form-control" id="StartTime">
-						</div>
-						<div class="selector">
-							<label for="finishTime">Finish time</label>
-							<input type="text" class="form-control" id="FinishTime">
-						</div>
+						<label for="RangeTime">Range date</label>
+						<input type="text" class="form-control" id="RangeTime" required>
 					</div>
-					<div class="selector">
-						<label for="PrizePool">Prize pool</label>
-						<input type="number" class="form-control" id="PrizePool" required>
+					<div class="box_prize_match">
+						<div class="unanswered-match">
+							<label for="MaxUnansweredMatch">Max unanswered match</label>
+							<input type="number" class="form-control" id="MaxUnansweredMatch" required min="0" max="2147483647" value="0" onFocus="this.value='';">
+						</div>
+						<div class="PrizePool">
+							<label for="PrizePool">Prize pool</label>
+							<input type="number" class="form-control" id="PrizePool" required min="0" max="2147483647">
+						</div>
 					</div>
 				</div>
 
 				<div class="war_time">
 					<h2>War Time</h2>
 					<div class="time_picker">
-						<div class="selector">
-							<label for="guildName">Start time</label>
-							<input type="text" class="form-control" id="WarStartTime">
-						</div>
-						<div class="selector">
-							<label for="guildName">Finish time</label>
-							<input type="text" class="form-control" id="WarFinishTime">
-						</div>
-					</div>
-					<div class="selector">
-						<label for="MaxUnansweredMatch">Max unanswered match</label>
-						<input type="number" class="form-control" id="MaxUnansweredMatch">
+						<label for="RangeTime">Range date</label>
+						<input type="text" class="form-control" id="WarRangeTime">
 					</div>
 				</div>
 			</div>
@@ -84,11 +74,12 @@
 
 	
 	<script>
-		//#modifier pour que war time soit compris dans war 
-		$("#StartTime, #FinishTime, #WarStartTime, #WarFinishTime").flatpickr({
+		$("#RangeTime, #WarRangeTime").flatpickr({
 			enableTime: true,
-			time_24hr: true,
-			dateFormat: "d-m-Y H:i"
+			time_24hr: false,
+			dateFormat: "Y-m-d H:i",
+			minDate: "today",
+			mode: "range"
 		});
 	</script>
 </script>

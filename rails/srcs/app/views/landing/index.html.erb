@@ -12,29 +12,16 @@
 			detail: {id: <%= current_user.id %>} //>#color patch
 		}));
 		document.addEventListener("notif", function(event){
-			console.log("notif listener");
-			console.log(event.detail.data);
 			if (event.detail.data.sender)
 			{
-				console.log("hey" + $("#main_chat_in").val());
-				console.log(event.detail.data);
-				console.log("channel_name" + event.detail.data.sender.id);
-				if ($("#main_chat_in").val() == event.detail.data.sender.id)//utiliser id plutot ?
+				if ($("#main_chat_in").val() == event.detail.data.sender.id)
 					chatview.setElement("#chat_area").render_chat_main(event.detail.data.sender);
 			}
 			if (event.detail.data.kicked_from)
 			{
-				console.log(event.detail.data);
-				console.log($("#detail_chat_in").val());
-				alert("you got kicked from " + event.detail.data.kicked_from.id);
 				if (($("#detail_chat_in").val() == event.detail.data.kicked_from.id || $("#main_chat_in").val() == event.detail.data.kicked_from.id) && event.detail.data.kicked_from.scope != "direct")
-				{
-					console.log("in");
-					chatview.setElement("#chat_area").render_chat_main();//marche pas quand on est dans show par exemple
-				}
+					chatview.setElement("#chat_area").render_chat_main();
 			}
-			var hidden_input_val = $("#main_chat_in").val();
-			console.log("hidden" + hidden_input_val);
 		});
 		// set the socket for having notification 
 		socket_notif = new WebSocket("ws://localhost:3000/cable"); 
@@ -287,6 +274,7 @@ var NotifView = Backbone.View.extend({
 
 //_____________________________________ ChatView _____________________________________
 var ChatView = Backbone.View.extend({
+	el: '#chat_area',
 	template_chat_main: _.template($('#chat_main-template').html()),
 	template_chat_param: _.template($('#chat_param-template').html()),
 	template_chat_create: _.template($('#chat_create-template').html()),
@@ -299,8 +287,34 @@ var ChatView = Backbone.View.extend({
 		"click #show_chat_details": "render_chat_details"
 	},
 
-	render_chat_param : function() {
-		this.$el.html(this.template_chat_param);
+	render_chat_param : function(e) {
+		console.log(e);
+		var channel_info = e;
+		if (!(channel_info.id))
+			channel_info = $(e.currentTarget).data('channel');
+		console.log(channel_info);
+		console.log(<%== current_user.id %>);
+		console.log(channel_info.id);
+		var ChannelParticipation = Backbone.Model.extend({
+			urlRoot: '/channel_participations'
+		});
+		var channel_participation = new ChannelParticipation();
+		var el = this.$el;
+		var t = this.template_chat_param;
+		channel_participation.fetch({
+			data: {user_id: <%== current_user.id %>, receiver_id: channel_info.id},
+			success: function(data)
+			{
+				console.log(data);
+				channel_participation = new ChannelParticipation();
+				channel_participation.fetch({
+					data: {type: "facing_user", user_id: <%== current_user.id %>, receiver_id: channel_info.id},
+					success: function(data2){
+						el.html(t({channel: channel_info, channel_participation: data.toJSON(), other_participation: data2.toJSON()}));
+					}
+				});
+			}
+		});
 	},
 	render_chat_create : function() {
 		this.$el.html(this.template_chat_create);

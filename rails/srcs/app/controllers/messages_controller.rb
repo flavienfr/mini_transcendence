@@ -28,11 +28,18 @@ class MessagesController < ApplicationController
         #json_to_return["users"] = User.all;
         users = User.all;
         users_with_id = {};
+        users_guild_with_id = {};
         users.each do |user|
           users_with_id[user.id] = user.name;
+          if (user.guild_participation_id)
+            users_guild_with_id[user.id] = user.guilds.first.anagram;
+          else
+            users_guild_with_id[user.id] = "";
+          end
         end
         puts users_with_id;
         json_to_return["users"] = users_with_id;
+        json_to_return["guilds"] = users_guild_with_id;
         #json_to_return["user"] = User.find_by(id: params[:user_id]);#envoyer users a la place de 2 pour faire pareil en dessous
         #json_to_return["receiver"] = User.find_by(id: params[:receiver_id]);
         puts(json_to_return);
@@ -49,10 +56,17 @@ class MessagesController < ApplicationController
       json_to_return["messages"] = @messages;
       users = User.all;
       users_with_id = {};
+      users_guild_with_id = {};
       users.each do |user|
         users_with_id[user.id] = user.name;
+        if (user.guild_participation_id)
+          users_guild_with_id[user.id] = user.guilds.first.anagram;
+        else
+          users_guild_with_id[user.id] = "";
+        end
       end
       json_to_return["users"] = users_with_id;
+      json_to_return["guilds"] = users_guild_with_id;
       # json_to_return["users"] = User.all;
       respond_to do |format|
         format.html
@@ -87,6 +101,20 @@ class MessagesController < ApplicationController
       channel_name = "conversation_channel_" + smaller.to_s + "_" + bigger.to_s;
       puts channel_name;
       channel = Channel.where("name = ? AND scope = ?", channel_name, params[:scope]).last;
+      if (channel.channel_participations.find_by(user_id: params[:user_id]).status == "blocked")
+        puts "BLOCKED !!!!!"
+        notif = {};
+        notif["from_user_id"] = params[:user_id];
+        notif["user_id"] = params[:user_id];
+        notif["table_type"] = "information";
+        notif["message"] = "message not send";
+        notif_to_save = Notification.new(notif);
+        notif_to_save.save();
+        ActionCable.server.broadcast("notification_channel_" + params[:user_id].to_s, {notification: "on"});
+        return;
+      else
+        puts "not BLOCKED !!!!!!"
+      end
       @new_msg = {};
       @new_msg["user_id"] = params[:user_id];
       @new_msg["channel_id"] = channel.id;
@@ -102,6 +130,36 @@ class MessagesController < ApplicationController
     else
       puts "other !"
       # faire ici des check channelP ?
+      channelP = Channel.find_by(id: params[:receiver_id]).channel_participations;
+      current_channelP = channelP.find_by(user_id: params[:user_id]);
+      if (current_channelP.status == "muted")
+        datetime_now = Time.now;
+        if (datetime_now < current_channelP.unmute_datetime)
+          time_diff = current_channelP.unmute_datetime - datetime_now;
+          hours = 0;
+          minutes = 0;
+          seconds = time_diff;
+          if (seconds > 60 * 60)
+            hours = (seconds / (60 * 60)).to_i;
+            seconds = seconds - (hours * 60 * 60);
+          end
+          if (seconds > 60)
+            minutes = (seconds / 60).to_i;
+            seconds = seconds - (minutes * 60);
+          end
+          notif = {};
+          notif["from_user_id"] = params[:user_id];
+          notif["user_id"] = params[:user_id];
+          notif["table_type"] = "information";
+          notif["message"] = "you are muted for the next " + (hours > 0 ? (hours).to_s + " hours " : "") + (minutes > 0 ? (minutes).to_s + " minutes " : "") + (seconds > 0 ? (seconds).to_i.to_s + " seconds " : "");
+          notif_to_save = Notification.new(notif);
+          notif_to_save.save;
+          ActionCable.server.broadcast("notification_channel_" + params[:user_id].to_s, {notification: "on"});
+          return;
+        else
+          current_channelP.update(status: nil);
+        end
+      end
       @new_msg = {};
       @new_msg["user_id"] = params[:user_id];
       @new_msg["channel_id"] = params[:receiver_id];#receiver ici c est la channel groupe

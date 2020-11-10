@@ -17,7 +17,7 @@
 				<!-- Pseudo -->
 				<div class="form-group">
 					<label for="pseudo_input">Pseudo</label>
-					<input type="text" class="form-control" id="pseudo_input" placeholder="<%= current_user.name %>">
+					<input type="text" class="form-control" id="pseudo_input" value="<%= current_user.name %>">
 				</div>
 
                 <br>
@@ -63,10 +63,6 @@
 	<% end %>
 
 </div>
-
-
-
-
 
 <!-- Google Modal -->
 <div class="modal fade" id="modalGoogle" tabindex="-1" role="dialog" aria-labelledby="modalGoogle" aria-hidden="true">

@@ -28,7 +28,9 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = User.find(params[:id])
+    puts 'inside update | PUT /users/:id'
+    puts 'params: ', params
+
     render json: @user
   end
 
@@ -66,15 +68,21 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { render :show, status: :ok, location: @user }
-      else
-        format.html { render :edit }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    
+    puts 'inside update | PUT /users/:id'
+    puts 'params: ', params
+    puts 'inside update | PUT /users/:id'
+
+    if @user.update(
+      # name: params[:name],
+      # avatar: params[:avatar],
+      enabled_two_factor_auth: params[:enabled_two_factor_auth]
+    )
+      render json: {}, status: :ok and return
+    else
+      render json: @user.errors, status: :unprocessable_entity and return
     end
+
   end
 
   # DELETE /users/1
@@ -95,10 +103,7 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name, :avatar, :current_status, :points, :is_admin)
+      params.require(:user).permit(:name, :avatar, :current_status, :points, :is_admin, :enabled_two_factor_auth)
     end
 
-    def auth_params
-      params.require(:user).permit(:code, :state)
-    end
   end

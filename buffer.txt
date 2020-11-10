@@ -49,3 +49,21 @@
     </form>
 
 </script>
+
+
+		console.log("edit_profile_form_submit clicked");
+		$.ajax({
+			url: url,
+			data: formData,
+			dataType: "json",
+			// contentType: "application/json",
+			processData: false,
+			type: 'PUT',
+			success: function(res) {
+				console.log("ok res: ", res);
+				// window.location.href = "http://localhost:3000/#option";
+			},
+			error: function (err) {
+				console.log("ko err:", err);
+			}
+		})

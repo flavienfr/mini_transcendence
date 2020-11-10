@@ -3,7 +3,7 @@ require "net/http"
 require "json"
     
 class SessionsController < ApplicationController
-  # before_action :set_session, only: [:show, :edit, :update, :destroy]
+  before_action :set_session, only: [:show, :edit, :update, :destroy]
 
   # GET /sessions
   # GET /sessions.json
@@ -104,9 +104,8 @@ class SessionsController < ApplicationController
       avatar: parsed_res_api["image_url"],
       current_status: "logged in",
       points: 0,
-      is_admin: false,
-      # à enlever quand on aura le formulaire dans /profile
-      enabled_two_factor_auth: true
+      is_admin: false
+      # enabled_two_factor_auth: false
     )
     if ENV["logs_filter_sessions_controller"].to_i >= 2
       puts "user:", user
@@ -179,24 +178,20 @@ class SessionsController < ApplicationController
   # DELETE /sessions/1
   # DELETE /sessions/1.json
   def destroy
-    puts "------------------ DESTROY ------------------"
-    puts params
-    
     # 1. récupérer la session du user et la supprimer
-    Session.find(params[:id]).destroy
-    
+    Session.find(params[:id]).destroy    
     # 2. supprimer le cookie
     hashed_cookies = cookies.to_hash
-    puts "hashed_cookies AVANT supprimer de l'id:", hashed_cookies    
+    if ENV["logs_filter_sessions_controller"].to_i >= 2
+      puts "DELETE /sessions/", params[:id].to_s, " -> hashed_cookies AVANT supprimer de l'id:", hashed_cookies    
+    end
     cookies.delete :id
     hashed_cookies = cookies.to_hash
-    puts "hashed_cookies APRES supprimer de l'id:", hashed_cookies
-
-    # @session.destroy
-    # respond_to do |format|
-    #   format.html { redirect_to sessions_url, notice: 'Session was successfully destroyed.' }
-    #   format.json { head :no_content }
-    # end
+    if ENV["logs_filter_sessions_controller"].to_i >= 2
+      puts "DELETE /sessions/", params[:id].to_s, " -> hashed_cookies APRES supprimer de l'id:", hashed_cookies
+    end
+    # 3. render ok 200
+    render json: {}, status: :ok and return
   end
 
   private

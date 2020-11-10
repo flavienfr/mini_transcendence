@@ -17,10 +17,6 @@
 
 <script>
 
-var Current = Backbone.Model.extend({
-	urlRoot: "/landing/auth",
-});
-
 $( "#sign_in" ).on( "click", function() {
 	console.log("SIGN IN");
 	let http 			= "https://api.intra.42.fr/oauth/authorize?";

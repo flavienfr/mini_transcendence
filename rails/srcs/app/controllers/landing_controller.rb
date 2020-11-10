@@ -36,9 +36,8 @@ class LandingController < ApplicationController
   end
 
   private
-  
-    def auth_params
-      params.require(:landing).permit(:code, :state)
-    end
+
+  def auth
+  end
     
 end

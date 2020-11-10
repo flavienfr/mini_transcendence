@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   resources :tournament_participations
 	resources :ask_for_wars
 	resources :war_times
+
+	get 'war_participations/war_info' => 'war_participations#war_info'
+
 	resources :war_participations
 	resources :wars
 	#get 'guilds/get_guild_owner' => 'guilds#get_guild_owner'

@@ -1,6 +1,25 @@
 class WarParticipationsController < ApplicationController
   before_action :set_war_participation, only: [:show, :edit, :update, :destroy]
 
+  def war_info
+	puts "--------- war_info --------"
+	json_render = {}
+	user = User.find(params[:user_id].to_i)
+
+	puts "user.guild_participations ", user.guild_participations
+	if (user.guild_participation_id == nil)
+		puts "nil gp"
+		json_render["is_war"] = false
+		render json: json_render, status: :ok and return
+	end
+	puts "gp != nil"
+
+	json_render["is_war"] = true
+	json_render["user_test"] = params[:user_id].to_i
+	render json: json_render, status: :ok and return
+
+  end
+
   # GET /war_participations
   # GET /war_participations.json
   def index

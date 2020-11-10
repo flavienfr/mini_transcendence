@@ -123,11 +123,11 @@ class LandingController < ApplicationController
         session.save
       end
 
-      if 
-        @qr = RQRCode::QRCode.new(user.provisioning_uri("http://localhost:3000/"), :size => 7, :level => :h)
-        redirect_to two_factor_auth_path
-      else
-        redirect_to root_path # à enlever pcq ça reload la page
-      end      
+      #if 
+      #  @qr = RQRCode::QRCode.new(user.provisioning_uri("http://localhost:3000/"), :size => 7, :level => :h)
+      #  redirect_to two_factor_auth_path
+      #else
+      #  redirect_to root_path # à enlever pcq ça reload la page
+      #end      
     end
 end

@@ -822,13 +822,30 @@ var WarView = Backbone.View.extend({
 				guild: the_guild.toJSON()
 			}));
 		}
-		else {	
-			this.$el.html(this.template({
-				guilds: this.collection.toJSON()
-			}));
-			this.render_guild_info();
-			//#page war info when guild is in war
-			//this.$el.html(this.template_war_info());
+		else {
+			self = this
+			Backbone.ajax({
+				url: '/war_participations/war_info/?user_id=' + current_user_id,
+				data: {},
+				type: 'get',
+				dataType: 'json',
+				success: function(response) {
+					console.log("Inside success");
+					if (response.is_war){
+						self.$el.html(self.template_war_info());
+						console.log("user_test: ", response.user_test);
+					}
+					else{
+						self.$el.html(self.template({
+							guilds: self.collection.toJSON()
+						}));
+						self.render_guild_info();
+					}					
+				},
+				error: function(){
+					alert("error");
+				}
+			});
 		}
 		return this;
 	}

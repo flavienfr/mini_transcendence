@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
         if cookies.signed[:id]
             puts "existing cookies.signed[:id]"
             # cookies.permanent.signed[:id] = 3#enregistre le id
-            @current_user ||= User.find(cookies.signed[:id])#cookies a delete apres logout out timeout sinon soucis de cookies deja disponible
+            @current_user = User.find(cookies.signed[:id])#cookies a delete apres logout out timeout sinon soucis de cookies deja disponible
             #il faudra rajouter un moyen pour logout quand session plus valide timeout ? meme si c est pas grave
         elsif params[:type]
             puts "OK                        aaaaaaaaaaa"
@@ -23,4 +23,5 @@ class ApplicationController < ActionController::Base
             @current_user = nil
         end
     end
+    
 end

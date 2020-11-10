@@ -1,4 +1,4 @@
-.param_form label, .param_form p{
+/* .param_form label, .param_form p{
 	font-size: 30px;
 }
 
@@ -83,4 +83,21 @@
 	.param_form .validate-btn button{
 		width: 190px;
 	}
+} */
+
+.edit_profile_view-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
+
+.edit_profile_view-container .form-container {
+    width: 35%;
+    min-width: 350px;
+	max-width: 500px;
+	background-color: white;
+	padding: 20px;
+}
+

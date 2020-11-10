@@ -32,6 +32,15 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'active_model_otp'
 gem 'rqrcode'
 
+# https://gist.github.com/stevenyap/7165259
+# gem 'simple_form'
+
+# https://cloudinary.com/documentation/rails_integration
+gem 'cloudinary'
+
+# https://github.com/pry/pry
+gem 'pry'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

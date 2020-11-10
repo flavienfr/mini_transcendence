@@ -1,0 +1,14 @@
+.two_factor_auth_view-container {
+    min-width: 100vh;
+    min-height: 100vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.two_factor_auth_view-container .form-container {
+    width: 35%;
+    min-width: 350px;
+    max-width: 500px;
+}
+

@@ -1,8 +1,9 @@
 <%= stylesheet_link_tag "style-header.css" %>
 
-<% if !current_user %> <!-- user not connected-->
+<% if !current_user %>
 	<%= render "pages/signin" %>
-
+<% elsif current_user.sessions.last.need_two_factor_auth_validation == true %>
+	<%= render "pages/two_factor_auth" %>
 <% else %> 
 	<%= render "pages/navbar" %>
 
@@ -72,7 +73,6 @@
 		<%= render "pages/war_info" %>
 		<%= render "pages/ladder" %>
 	</div>
-
 
 <script>
 
@@ -255,7 +255,7 @@ var LogView = Backbone.View.extend({
 		$.ajax({
 			url: "/sessions/" + session_id,
 			data: false,
-			processData: false,
+processData: false,
 			contentType: false,
 			type: 'DELETE',
 			success: function(){
@@ -263,13 +263,9 @@ var LogView = Backbone.View.extend({
 				window.location.href = "http://localhost:3000";
 			}
 		})
-		
 	},
 
 })
-
-//_____________________________________ qrcode View ___________________________________
-
 
 //_____________________________________ NotifView _____________________________________
 var NotifView = Backbone.View.extend({
@@ -569,8 +565,56 @@ var OptionView = Backbone.View.extend({
 		console.log("OptionView created");
 	},
   
+	events: {
+		"submit #edit_profile_form": "update",
+	},
+
+	update : async function(e){
+		e.preventDefault();
+		console.log("submit two_factor_auth_form");
+
+		let pseudo = $('#pseudo_input').val();
+		let avatar = $('#avatar_input').val();
+		let file = e.target.uploadFile.files[0];
+
+		let enabled_two_factor_auth = $("#google_authenticator_checkbox").is(':checked');
+		var formData = new FormData();
+		formData.append('name', pseudo);
+		// formData.append('avatar', avatar);
+		formData.append('avatar', file);
+		formData.append('enabled_two_factor_auth', enabled_two_factor_auth);
+
+		// Affichage des paires clefs/valeurs
+		console.log("current_user_id:", current_user_id);
+		for(var pair of formData.entries()) {
+		   console.log(pair[0]+ ', '+ pair[1]); 
+		}
+
+		var user = new User({ id: current_user_id });
+		user.urlRoot = "/users";
+		await user.fetch();
+		user.save({
+				name: pseudo,
+				avatar: avatar,
+				enabled_two_factor_auth: enabled_two_factor_auth
+			}
+		);
+	},
+
 	render : function() {
-	  this.$el.html(this.template);
+		this.$el.html(this.template);
+		if ($(".form-check-input").checked) {
+			$( "div.edit-profile-modal-btn" ).show()
+		} else {
+			$( "div.edit-profile-modal-btn" ).hide();
+		}
+		$(".form-check-input").change(function() {
+			if(this.checked) {
+				$( "div.edit-profile-modal-btn" ).show('slow')
+			} else {
+				$( "div.edit-profile-modal-btn" ).hide('slow');
+			}
+		});
 		console.log("Render Option");
 		return this;
 	}
@@ -927,6 +971,7 @@ document.addEventListener("notif2", function(event){
 var Router = Backbone.Router.extend({
 	routes: {
 		'': "ft_log",
+		'validation': "ft_validation",
 		'live': "ft_live",
 		'play': "ft_play",
 		'guild': "ft_guild",
@@ -976,7 +1021,6 @@ var Router = Backbone.Router.extend({
 		profil2view.render(id_user);	
 	}
 });
-
 
 $( "#logo" ).on( "click", function() {
 	Backbone.history.navigate("/", {trigger: true});

@@ -28,8 +28,16 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = User.find(params[:id])
+    puts 'inside update | PUT /users/:id'
+    puts 'params: ', params
+
     render json: @user
+  end
+
+  # GET /users/google_authenticator_qr_code
+  def google_authenticator
+    app_name = "Transcendence"
+    @qr = RQRCode::QRCode.new(current_user.provisioning_uri(app_name), :size => app_name.size, :level => :h )
   end
 
   # GET /users/new
@@ -60,15 +68,47 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { render :show, status: :ok, location: @user }
-      else
-        format.html { render :edit }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    
+    puts 'inside update | PUT /users/:id'
+    puts 'params: ', params
+    puts '---'
+
+    begin
+      puts "trying to read file"
+      file = params[:avatar].tempfile.read.force_encoding("UTF-8")
+      puts "ok read file"
+      data = JSON.parse(file)
+      # render json: data
+    rescue
+        render json: { errors: 'Upload failed' }
     end
+
+    File.write "#{user.student_id.to_s}.jpg", open(params[:avatar]).read.force_encoding("UTF-8")
+    puts "ok file write"
+    require 'cloudinary'
+    cloudinary_res = Cloudinary::Uploader.upload(
+      "#{user.student_id.to_s}.jpg",
+      {
+        cloud_name: ENV["cloudinary_Cloud_name"],
+        api_key: ENV["cloudinary_API_Key"],
+        api_secret: ENV["cloudinary_API_Secret"]
+      }
+    )
+    File.delete(Rails.root.to_s + "/#{user.student_id.to_s}.jpg")
+    puts 'cloudinary_res:', cloudinary_res
+    # puts 'cloudinary_res["url"]:', cloudinary_res["url"]
+    user.avatar = cloudinary_res["url"]
+
+    if @user.update(
+      name: params[:name],
+      # avatar: params[:avatar],
+      enabled_two_factor_auth: params[:enabled_two_factor_auth]
+    )
+      render json: {}, status: :ok and return
+    else
+      render json: @user.errors, status: :unprocessable_entity and return
+    end
+
   end
 
   # DELETE /users/1
@@ -89,10 +129,7 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name, :avatar, :current_status, :points, :is_admin)
+      params.require(:user).permit(:name, :avatar, :current_status, :points, :is_admin, :enabled_two_factor_auth)
     end
 
-    def auth_params
-      params.require(:user).permit(:code, :state)
-    end
   end

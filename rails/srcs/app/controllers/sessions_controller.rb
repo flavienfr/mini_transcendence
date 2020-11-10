@@ -99,7 +99,7 @@ class SessionsController < ApplicationController
     # --- Find user or create it
     # https://stackoverflow.com/questions/5733222/rails-how-to-use-find-or-create
     nb_user = User.where("student_id = ?", parsed_res_api["id"].to_i).size
-    puts "nb_user:", nb_user
+    # puts "nb_user:", nb_user
     if nb_user > 1
       render json: e, status: :unprocessable_entity and return
     elsif nb_user == 1
@@ -116,10 +116,10 @@ class SessionsController < ApplicationController
       # https://github.com/cloudinary/cloudinary_gem
       require 'open-uri'
       begin
-        puts "filename: #{user.student_id.to_s}.jpg"
-        puts "trying to write", parsed_res_api["image_url"], "as", "#{user.student_id.to_s}.jpg"
+        # puts "filename: #{user.student_id.to_s}.jpg"
+        # puts "trying to write", parsed_res_api["image_url"], "as", "#{user.student_id.to_s}.jpg"
         File.write "#{user.student_id.to_s}.jpg", open(parsed_res_api["image_url"]).read.force_encoding("UTF-8")
-        puts "ok file write"
+        # puts "ok file write"
         require 'cloudinary'
         cloudinary_res = Cloudinary::Uploader.upload(
           "#{user.student_id.to_s}.jpg",
@@ -129,8 +129,9 @@ class SessionsController < ApplicationController
             api_secret: ENV["cloudinary_API_Secret"]
           }
         )
+        File.delete(Rails.root.to_s + "/#{user.student_id.to_s}.jpg")
         puts 'cloudinary_res:', cloudinary_res
-        puts 'cloudinary_res["url"]:', cloudinary_res["url"]
+        # puts 'cloudinary_res["url"]:', cloudinary_res["url"]
         user.avatar = cloudinary_res["url"]
       rescue => e
         puts "error in 'Upload user image to cloudinary':", e

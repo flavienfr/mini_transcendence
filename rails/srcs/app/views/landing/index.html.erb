@@ -575,11 +575,13 @@ var OptionView = Backbone.View.extend({
 
 		let pseudo = $('#pseudo_input').val();
 		let avatar = $('#avatar_input').val();
+		let file = e.target.uploadFile.files[0];
+
 		let enabled_two_factor_auth = $("#google_authenticator_checkbox").is(':checked');
-		
 		var formData = new FormData();
 		formData.append('name', pseudo);
-		formData.append('avatar', avatar);
+		// formData.append('avatar', avatar);
+		formData.append('avatar', file);
 		formData.append('enabled_two_factor_auth', enabled_two_factor_auth);
 
 		// Affichage des paires clefs/valeurs
@@ -600,7 +602,19 @@ var OptionView = Backbone.View.extend({
 	},
 
 	render : function() {
-	  this.$el.html(this.template);
+		this.$el.html(this.template);
+		if ($(".form-check-input").checked) {
+			$( "div.edit-profile-modal-btn" ).show()
+		} else {
+			$( "div.edit-profile-modal-btn" ).hide();
+		}
+		$(".form-check-input").change(function() {
+			if(this.checked) {
+				$( "div.edit-profile-modal-btn" ).show('slow')
+			} else {
+				$( "div.edit-profile-modal-btn" ).hide('slow');
+			}
+		});
 		console.log("Render Option");
 		return this;
 	}

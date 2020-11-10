@@ -71,10 +71,36 @@ class UsersController < ApplicationController
     
     puts 'inside update | PUT /users/:id'
     puts 'params: ', params
-    puts 'inside update | PUT /users/:id'
+    puts '---'
+
+    begin
+      puts "trying to read file"
+      file = params[:avatar].tempfile.read.force_encoding("UTF-8")
+      puts "ok read file"
+      data = JSON.parse(file)
+      # render json: data
+    rescue
+        render json: { errors: 'Upload failed' }
+    end
+
+    File.write "#{user.student_id.to_s}.jpg", open(params[:avatar]).read.force_encoding("UTF-8")
+    puts "ok file write"
+    require 'cloudinary'
+    cloudinary_res = Cloudinary::Uploader.upload(
+      "#{user.student_id.to_s}.jpg",
+      {
+        cloud_name: ENV["cloudinary_Cloud_name"],
+        api_key: ENV["cloudinary_API_Key"],
+        api_secret: ENV["cloudinary_API_Secret"]
+      }
+    )
+    File.delete(Rails.root.to_s + "/#{user.student_id.to_s}.jpg")
+    puts 'cloudinary_res:', cloudinary_res
+    # puts 'cloudinary_res["url"]:', cloudinary_res["url"]
+    user.avatar = cloudinary_res["url"]
 
     if @user.update(
-      # name: params[:name],
+      name: params[:name],
       # avatar: params[:avatar],
       enabled_two_factor_auth: params[:enabled_two_factor_auth]
     )

@@ -52,15 +52,17 @@
 	<br>
 	<br>
 
-	<% if current_user.enabled_two_factor_auth == true %>
+	<%# if current_user.enabled_two_factor_auth == true %>
 		<!-- Double Factor Auth Modal -->
-		<p>Generate QR code for Google Authenticator</p>
-		<div class="box-auth">
-			<button type="button" class="btn btn-primary btn-dark" data-toggle="modal" data-target="#modalGoogle">
-				<img src="<%= image_url('google.png') %>" width="60em" height="60em" alt="" class="profil profil-photo">
-			</button>
+		<div class="edit-profile-modal-btn">
+			<p>Generate QR code for Google Authenticator</p>
+			<div class="box-auth">
+				<button type="button" class="btn btn-primary btn-dark" data-toggle="modal" data-target="#modalGoogle">
+					<img src="<%= image_url('google.png') %>" width="60em" height="60em" alt="" class="profil profil-photo">
+				</button>
+			</div>
 		</div>
-	<% end %>
+	<%# end %>
 
 </div>
 

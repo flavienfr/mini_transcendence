@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
             #il faudra rajouter un moyen pour logout quand session plus valide timeout ? meme si c est pas grave
         elsif params[:type]
             puts "OK                        aaaaaaaaaaa"
-            @current_user = User.find(1)
+            @current_user = User.find(2);
             session = Session.new()
             session.user_id = @current_user.id
             cookies.permanent.signed[:id] = session.user_id

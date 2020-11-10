@@ -22,7 +22,8 @@
 }
 
 #pong{
-
+	height: 55%;
+	width: 80%;
 	border: 2px solid black;
 	margin-top: 5%;
 	margin-bottom: 15%;

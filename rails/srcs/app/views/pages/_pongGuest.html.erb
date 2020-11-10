@@ -6,7 +6,7 @@
 
 <script>
     var current_user_id = <%== current_user.id%>
-    var frame = 30;
+    var frame = 50;
     var time_pause = 10
     
     function play(host_id)
@@ -19,9 +19,12 @@
         var pong_id = element.getAttribute("data-pong-id");
         canvas.addEventListener("mousemove", movePaddle);
         canvas.addEventListener("mouseleave", triggerMouseOut);
+        canvas.style.cursor = "none";
         var pause_guest = false;
         var timer = 5;
         var pause  = 0;
+     
+    
 
 
 //-------------------------------part 1 functions draw--------------------------------------//
@@ -63,7 +66,7 @@
             x : 0, 
             y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive
             //form 
-            width : 5, // pas responsive
+            width : 10, // pas responsive
             height : height/5, // pas responsive
             color : "GREY",
             score : 0
@@ -74,7 +77,7 @@
             x : canvas.width - 10, // pas responsive il s'agit de largeur (10px)
             y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive correspond au paddle
             //form
-            width : 5, // pas responsive
+            width : 10, // pas responsive
             height : height/5, // pas responsive
             color : "GREY",
             score : 0
@@ -154,19 +157,24 @@
                 pause  = 0;
                 pause_guest = false;
             }
-            guest.y = event.clientY - canvas.getBoundingClientRect().top - guest.height/2; // pour tester a brancher avec backbone et actioncable     
+            var rect = canvas.getBoundingClientRect();
+            var result = 600 / (rect.bottom - rect.top) ;
+            guest.y = (event.clientY - rect.top - 20) * result;   
         }
 
 
 //-------------------------------part 6  socket receive and send --------------------------------------//
 
-    function ft_recieve()
-        {
-            socket.onmessage = function(event) {            
+        function ft_recieve() 
+        {   
+            socket.onmessage = function(event) 
+            {            
             const response = event.data;
             const msg = JSON.parse(response);  
                 if (msg.type == "ping" || !msg.message )// check if the pong_id is send to the correct personne
-                    return ;        
+                    return ;
+                if (msg.message.data.timer == 0 || msg.message.data.timer)
+                    timer = msg.message.data.timer;
                 if (msg.message.data.hosty)
                     host.y = msg.message.data.hosty;
                 if (msg.message.data.bally)
@@ -177,10 +185,8 @@
                     host.score = msg.message.data.score_host;  
                 if (msg.message.data.score_guest)
                     guest.score = msg.message.data.score_guest;
-                if (msg.message.data.timer)
-                    timer = msg.message.data.timer - 1; 
-                }
-        };
+            }
+        }
 
         function ft_send(host_id)
         {
@@ -201,14 +207,14 @@
         function playing(host_id)
         {
             //ft_pause(); // uncomment to put the pause rules
-            ft_recieve()
-            if (timer <= 0)
+            //ft_recieve()
+            if (timer < 0)
             {
                 ft_send(host_id);
                 show();
             }
             else
-                ft_timer(timer);
+                ft_timer((timer == 0) ? "GO !" : timer);
             if (host.score == 11 || guest.score == 11)
             {
                 if (guest.score == 11)
@@ -221,6 +227,7 @@
             }
             
         }
+    ft_recieve();
     var stop = setInterval(playing, 1000/frame, host_id);
     }
 

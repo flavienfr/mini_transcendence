@@ -98,19 +98,50 @@ class SessionsController < ApplicationController
 
     # --- Find user or create it
     # https://stackoverflow.com/questions/5733222/rails-how-to-use-find-or-create
-    user = User.where(name: parsed_res_api["displayname"]).first_or_create
-    user.update(
-      name: parsed_res_api["displayname"],
-      avatar: parsed_res_api["image_url"],
-      current_status: "logged in",
-      points: 0,
-      is_admin: false
-      # enabled_two_factor_auth: false
-    )
-    if ENV["logs_filter_sessions_controller"].to_i >= 2
-      puts "user:", user
+    nb_user = User.where("student_id = ?", parsed_res_api["id"].to_i).size
+    puts "nb_user:", nb_user
+    if nb_user > 1
+      render json: e, status: :unprocessable_entity and return
+    elsif nb_user == 1
+      user = User.where("student_id = ?", parsed_res_api["id"].to_i).first
+      user.update(current_status: "logged in")
+    else
+      user = User.new(
+        student_id: parsed_res_api["id"].to_i,
+        name: parsed_res_api["displayname"],
+        current_status: "logged in",
+        enabled_two_factor_auth: false
+      )
+      # --- Upload user image to cloudinary
+      # https://github.com/cloudinary/cloudinary_gem
+      require 'open-uri'
+      begin
+        puts "filename: #{user.student_id.to_s}.jpg"
+        puts "trying to write", parsed_res_api["image_url"], "as", "#{user.student_id.to_s}.jpg"
+        File.write "#{user.student_id.to_s}.jpg", open(parsed_res_api["image_url"]).read.force_encoding("UTF-8")
+        puts "ok file write"
+        require 'cloudinary'
+        cloudinary_res = Cloudinary::Uploader.upload(
+          "#{user.student_id.to_s}.jpg",
+          {
+            cloud_name: ENV["cloudinary_Cloud_name"],
+            api_key: ENV["cloudinary_API_Key"],
+            api_secret: ENV["cloudinary_API_Secret"]
+          }
+        )
+        puts 'cloudinary_res:', cloudinary_res
+        puts 'cloudinary_res["url"]:', cloudinary_res["url"]
+        user.avatar = cloudinary_res["url"]
+      rescue => e
+        puts "error in 'Upload user image to cloudinary':", e
+        render json: e, status: :unprocessable_entity and return
+      end
     end
-  
+    user.save
+    if ENV["logs_filter_sessions_controller"].to_i >= 2
+      puts "user:", user.inspect
+    end
+
     # --- 2 factor auth
     if user.enabled_two_factor_auth == true
       session.need_two_factor_auth_validation = true

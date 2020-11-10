@@ -35,6 +35,9 @@ gem 'rqrcode'
 # https://gist.github.com/stevenyap/7165259
 # gem 'simple_form'
 
+# https://cloudinary.com/documentation/rails_integration
+gem 'cloudinary'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

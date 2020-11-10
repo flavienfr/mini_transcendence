@@ -8,3 +8,10 @@ oauth_state: "a_very_long_random_string_witchmust_be_unguessable"
 
 # 1:CLEAN=1 / 2:INFO=1+2 / 3:DEBUG=1+2+3
 logs_filter_sessions_controller: "3"
+
+# Cloudinary
+#
+cloudinary_Cloud_name: "dwcxgy6qt"
+cloudinary_API_Key: "439763265978211"
+cloudinary_API_Secret: "lKJWSNjqFSqgBxLlyLuXSpORYX4"
+cloudinary_API_Environment_variable: "CLOUDINARY_URL=cloudinary://439763265978211:lKJWSNjqFSqgBxLlyLuXSpORYX4@dwcxgy6qt"

@@ -1,4 +1,4 @@
-rails g scaffold user name:string avatar:string points:integer is_admin:boolean guild_participation:references is_playing:boolean otp_secret_key:string enabled_two_factor_auth:boolean status:string
+rails g scaffold user name:string avatar:string points:integer is_admin:boolean guild_participation:references is_playing:boolean otp_secret_key:string enabled_two_factor_auth:boolean student_id:integer status:string
 
 rails g scaffold session user:references access_token:string timeout:datetime token_type:string refresh_token:string scope:string need_two_factor_auth_validation:boolean status:string
 
@@ -30,3 +30,4 @@ rails g scaffold ask_for_game from_user_id:integer to_user_id:integer game:refer
 rails g scaffold notification from_user_id:integer user:references to_channel_id:integer to_guild_id:integer table_type:string message:string status:string table_id:integer
 
 # rails generate migration add_fieldname_to_tablename fieldname:string
+# rails g migration ChangeProductPopularity

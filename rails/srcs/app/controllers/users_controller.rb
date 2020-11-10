@@ -7,7 +7,12 @@ class UsersController < ApplicationController
     puts params;
     @users = User.all
     if (params[:users_to_get] == "participants")
-      @users_in = User.where("id IN (?)", Channel.find_by(id: params[:channel_id]).channel_participations.pluck(:user_id));
+      channel_participations = Channel.find_by(id: params[:channel_id]).channel_participations;
+      channel_participations_banned = channel_participations.where("status = 'banned'");
+      if (channel_participations_banned.size > 0)
+        channel_participations = channel_participations.where.not("id IN (?)", channel_participations_banned.pluck(:id));
+      end
+      @users_in = User.where("id IN (?)", channel_participations.pluck(:user_id));
       respond_to do |format|
         format.html
         format.json { render json: @users_in}
@@ -21,6 +26,14 @@ class UsersController < ApplicationController
       respond_to do |format|
         format.html
         format.json { render json: @users_not_in}
+      end
+    elsif (params[:users_to_get] == "banned_participants")
+      participants = Channel.find_by(id: params[:channel_id]).channel_participations;
+      banned_participants = participants.where("status = 'banned'");
+      users_banned = @users.where("id IN (?)", banned_participants.pluck(:user_id));
+      respond_to do |format|
+        format.html
+        format.json {render json: users_banned}
       end
     end
   end

@@ -270,6 +270,7 @@ var NotifView = Backbone.View.extend({
 
 //_____________________________________ ChatView _____________________________________
 var ChatView = Backbone.View.extend({
+	el: '#chat_area',
 	template_chat_main: _.template($('#chat_main-template').html()),
 	template_chat_param: _.template($('#chat_param-template').html()),
 	template_chat_create: _.template($('#chat_create-template').html()),
@@ -283,7 +284,11 @@ var ChatView = Backbone.View.extend({
 	},
 
 	render_chat_param : function(e) {
-		var channel_info = $(e.currentTarget).data('channel');
+		console.log(e);
+		var channel_info = e;
+		if (!(channel_info.id))
+			channel_info = $(e.currentTarget).data('channel');
+		console.log(channel_info);
 		console.log(<%== current_user.id %>);
 		console.log(channel_info.id);
 		var ChannelParticipation = Backbone.Model.extend({
@@ -297,7 +302,13 @@ var ChatView = Backbone.View.extend({
 			success: function(data)
 			{
 				console.log(data);
-				el.html(t({channel: channel_info, channel_participation: data.toJSON()}));
+				channel_participation = new ChannelParticipation();
+				channel_participation.fetch({
+					data: {type: "facing_user", user_id: <%== current_user.id %>, receiver_id: channel_info.id},
+					success: function(data2){
+						el.html(t({channel: channel_info, channel_participation: data.toJSON(), other_participation: data2.toJSON()}));
+					}
+				});
 			}
 		});
 	},

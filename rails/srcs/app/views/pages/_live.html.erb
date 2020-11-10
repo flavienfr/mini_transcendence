@@ -12,9 +12,18 @@
 						</tr>
 					</thead>
 					<tbody>
+					<% hosts = AskForGame.all%>
+					<% hosts.each do |host| %>
 				  		<tr>
-							<td><a href="#link_to_the_game">Jean VS André</a></td>
-				  		</tr>
+							<td>
+								<% if (host.from_user_id != nil) %>
+								<a class="dropdown-item" id=<%= host.from_user_id%> onclick="save_watch(<%=host.from_user_id%>)"> <%=User.find(host.from_user_id).name %></a>
+								<% end %> 
+							</td>
+						  </tr> 
+					<% end %>
+					
+						  <!-- faire une iteration de toute les games ici qui donne les playing -->
 				  		<tr>
 							<td><a href="#link_to_the_game">Didier VS helenne</a></td>
 				  		</tr>
@@ -35,4 +44,28 @@
 		</div>
 		  
 	</div>
+</script>
+
+
+<script>
+
+var current = <%== current_user.id%>;
+
+
+function save_watch(host_id)
+{
+    var Watch = Backbone.Model.extend({
+        urlRoot: '/watches'
+    })
+	var  watch = new Watch();
+	function modify()
+	{
+		watch.set({hostId: host_id});
+		watch.save();
+		console.log("modifié");
+		//setTimeout(() => {playview.render();}, 2000);
+
+	}
+    watch.fetch({data: {user_id: current}, success: modify});
+}
 </script>

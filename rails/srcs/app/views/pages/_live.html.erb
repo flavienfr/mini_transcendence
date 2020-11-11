@@ -34,7 +34,7 @@
 			  </table>
 
 	    	</div>
-	    	<div class="col text-center">
+	    	<div class="col text-center"  id ="pong-area">
 	      		<h1>Le live pong</h1>
 	    	</div>
 			<div class="col chat" id="chat_area">
@@ -63,7 +63,7 @@ function save_watch(host_id)
 		watch.set({hostId: host_id});
 		watch.save();
 		console.log("modifié");
-		//setTimeout(() => {playview.render();}, 2000);
+		setTimeout(() => {pongWatch.setElement("#pong-area").render();}, 1000);
 
 	}
     watch.fetch({data: {user_id: current}, success: modify});

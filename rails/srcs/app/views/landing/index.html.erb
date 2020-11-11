@@ -55,6 +55,7 @@
 		<%= render "pages/chat/main" %>		
 		<%= render "pages/pongHost" %>
 		<%= render "pages/pongGuest"%>
+		<%= render "pages/pongWatch"%>		
 		<%= render "pages/guild_history" %>
 		<%= render "pages/chat/details" %>
 		<%= render "pages/war_info" %>
@@ -528,6 +529,17 @@ var GuildView = Backbone.View.extend({
 		return this;
 	}
 })
+//_____________________________________ PongWatch _____________________________________
+var PongWatch = Backbone.View.extend({
+	el : '#inside-page',
+	template: _.template($("#pongWatch-template").html()),
+	render : function() {
+		this.$el.html(this.template);
+		return this;
+	}
+})
+
+var pongWatch = new PongWatch();
 
 //_____________________________________ PongView _____________________________________
 var PongView = Backbone.View.extend({

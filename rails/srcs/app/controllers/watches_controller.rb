@@ -20,6 +20,7 @@ class WatchesController < ApplicationController
   # GET /watches/1
   # GET /watches/1.json
   def show
+    puts "je suis ici !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
   end
 
   # GET /watches/new

@@ -1,11 +1,11 @@
-<script type = "text/template" id = "pongShow-template">
+<script type = "text/template" id = "pongWatch-template">
     <%= stylesheet_link_tag "style-live-play.css" %>
     
     <div id = "pong-id" data-pong-id= <%=current_user.id%>> </div>
     <canvas id="pong" width="800px" height="600px" > </canvas>
     
     <script>
-        var current_user_id = <%== current_user.id%>
+        var current = <%== current_user.id%>
         var frame = 50;
         var time_pause = 10
         
@@ -17,7 +17,6 @@
             const context = canvas.getContext("2d");
             const element = document.getElementById("pong-id");
             var pong_id = element.getAttribute("data-pong-id");
-            canvas.addEventListener("mousemove", movePaddle);
             canvas.style.cursor = "none";
             var pause_guest = false;
             var timer = 5;
@@ -145,8 +144,9 @@
                 socket.onmessage = function(event) 
                 {            
                 const response = event.data;
-                const msg = JSON.parse(response);  
-                    if (msg.type == "ping" || !msg.message )// check if the pong_id is send to the correct personne
+                const msg = JSON.parse(response); 
+     
+                    if (msg.type == "ping" || !msg.message )
                         return ;
                     if (msg.message.data.timer == 0 || msg.message.data.timer)
                         timer = msg.message.data.timer;
@@ -175,15 +175,8 @@
     
             function playing(host_id)
             {
-                //ft_pause(); // uncomment to put the pause rules
-                //ft_recieve()
-                if (timer < 0)
-                {
-                    ft_send(host_id);
-                    show();
-                }
-                else
-                    ft_timer((timer == 0) ? "GO !" : timer);
+                ft_recieve()
+                show();
                 if (host.score == 11 || guest.score == 11)
                 {
                     if (guest.score == 11)
@@ -207,11 +200,12 @@
     socket.onopen = function()
     {         
         var Watch = Backbone.Model.extend({
-            urlRoot: '/Watches'
+            urlRoot: '/watches'
         })
         var watch = new Watch();
-        watch.fetch({data: {user_id: current_user_id}, success: function() {
-            var host_id = watch.get('HostId');
+        function get_channel()
+    {
+        var host_id = watch.get('hostId');
             socket.send(JSON.stringify({
                 command: "subscribe",
                 identifier: JSON.stringify({
@@ -220,7 +214,9 @@
                 })
             }));
            play(host_id);
-        }});
+    }
+        watch.fetch({data: {user_id: current}, success: get_channel});
+ 
     }
     
     

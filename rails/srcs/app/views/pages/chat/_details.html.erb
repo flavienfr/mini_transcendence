@@ -13,7 +13,6 @@
         function ft_back_to_conversation()
         {
             var channel_name = <%%= JSON.stringify(channel) %>;
-            console.log(channel_name);
             chatview.setElement("#chat_area").render_chat_main(<%%= JSON.stringify(channel) %>);
         }
         var User = Backbone.Model.extend({
@@ -25,9 +24,7 @@
             data: {users_to_get: "not_participants", channel_id: <%%= channel.id %>},
             success: function(data)
             {
-                console.log("to add" + data);
                 data = data.toJSON();
-                console.log(data);
                 var show_div = $("#participants_to_add");
                 show_div.append("<p>Participants To Add</p>");
                 var i = 0;
@@ -52,22 +49,54 @@
                     data: {user_id: <%== current_user.id %>, receiver_id: <%%= channel.id %>},
                     success: function(data2)
                     {
-                        var user = data2.toJSON();
-                        console.log(user);
+                        var user_participation = data2.toJSON();
                         data1 = data1.toJSON();
-                        console.log("list" + data1);
+                        console.log("aaaaaaaaaa");
+                        console.log(data1);
                         var show_div = $("#list_of_participants");
                         show_div.append("<p>list of participants</p>")
                         var i = 0;
                         while (i < Object.keys(data1).length)
                         {
-                            console.log("here");
-                            console.log(<%%= channel.owner_id %>);
                             show_div.append("<div><a href='/#profil/"+ data1[i].id +"'>" + data1[i].name + "</a>" +
-                                            (user.is_admin ? "<button onclick='ft_adminize(" + data1[i].id + ")'>Adminize</button>" : "") +
-                                            (user.is_admin && <%%= channel.owner_id %> != data1[i].id ? "<button onclick='ft_kick(" + data1[i].id + ")'>kick</button>" : "") +
+                                            (user_participation.is_owner ? "<button onclick='ft_adminize(" + data1[i].id + ")'>Adminize</button>" : "") +
+                                            (user_participation.is_admin && <%%= channel.owner_id %> != data1[i].id && <%== current_user.id %> != data1[i].id ?
+                                                "<button onclick='ft_kick(" + data1[i].id + ", \"got banned from\")'>Ban</button>"+
+                                                "<div>"+
+                                                "<select id='muteTime'>"+
+                                                "<option>1 minutes</option>"+
+                                                "<option>5 minutes</option>"+
+                                                "<option>10 minutes</option>"+
+                                                "<option>30 minutes</option>"+
+                                                "<option>1 hours</option>"+
+                                                "<option>2 hours</option>"+
+                                                "</select>"+
+                                                "<button onclick='ft_mute(" + data1[i].id + ")'>mute</button>"+
+                                                "</div>" : "") +
+                                            //(<%== current_user.id %> == data1[i].id ? "<button onclick='ft_kick(" + <%== current_user.id %> + ", \"left\")'>leave</button>" : "") +
                                             "</div>");
                             i++;
+                        }
+                        if (user_participation.is_admin)
+                        {
+                            var user = new User();
+                            user.fetch({
+                                data: {users_to_get: "banned_participants", channel_id: <%%= channel.id %>},
+                                success: function(data)
+                                {
+                                    console.log("----+++++");
+                                    data = data.toJSON();
+                                    console.log(data);
+                                    var show_div = $("#list_of_participants");
+                                    show_div.append("<p>Participants To Unban</p>");
+                                    var i = 0;
+                                    while (i < Object.keys(data).length)
+                                    {
+                                        show_div.append("<div><button onclick='ft_unban(" + data[i].id + ")'>" + data[i].name + "</button></div>");
+                                        i++;
+                                    }
+                                }
+                            });
                         }
                     }
                 });
@@ -83,6 +112,7 @@
             {
                 user_id: id,
                 receiver_id: <%%= channel.id %>,
+                name: "<%%= channel.name %>",
                 scope: "<%%= channel.scope %>",
                 added: true
             },
@@ -95,7 +125,6 @@
         }
         function ft_adminize(user_id)
         {
-            console.log("adminize");
             var ChannelParticipation = Backbone.Model.extend({
                 urlRoot: '/channel_participations'
             });
@@ -105,18 +134,24 @@
                 data: {user_id: user_id, receiver_id: <%%= channel.id %>},
                 success: function()
                 {
-                    channel_participation.unset('created_at');
-                    channel_participation.unset('updated_at');
+                    //channel_participation.unset('created_at');//unpermitted cote rails mais pg de send
+                    //channel_participation.unset('updated_at');
                     channel_participation.set({is_admin: true});
-                    console.log(channel_participation.toJSON());
                     channel_participation.save();
+                    var notification = new Notification({
+                        from_user_id: <%= current_user.id %>,
+                        user_id: user_id,
+                        table_type: "information",
+                        message: "you got adminized in group: <%%= channel.name %>"
+                    });
+                    notification.save();
                     chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
                 }
             });
         }
-        function ft_kick(user_id)
+        function ft_kick(user_id, msg)
         {
-            console.log("kick");
+            console.log("aaa!!!");
             var ChannelParticipation = Backbone.Model.extend({
                 urlRoot: '/channel_participations'
             });
@@ -124,13 +159,72 @@
             channel_participation.fetch(
             {
                 data: {user_id: user_id, receiver_id: <%%= channel.id %>},
-                success: function()
+                success: function(data)
                 {
-                    console.log(channel_participation);
-                    channel_participation.destroy(
+                    data.set("status", "banned");
+                    channel_participation.save({},
                     {
                         success: function()
                         {
+                            console.log("A");
+                            var notification = new Notification({
+                                from_user_id: <%== current_user.id %>,
+                                user_id: user_id,
+                                table_type: "information",
+                                message: "you " + msg + " group: <%%= channel.name %>"
+                            });
+                            notification.save();
+                            if (msg == "left")
+                                chatview.render_chat_main();
+                            else
+                                chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+                        }
+                    });
+                }
+            });
+        }
+        function ft_mute(id)
+        {
+            var muteTime = $("#muteTime").val();
+            console.log(muteTime);
+            var array_time = muteTime.split(' ');
+            console.log(id);
+            var minutes = (array_time[1] == "minutes" ? array_time[0] * 1 : array_time[0] * 60);
+            console.log(minutes);
+            var ChannelParticipation = Backbone.Model.extend({
+                urlRoot: '/channel_participations'
+            });
+            var channel_participation = new ChannelParticipation();
+            channel_participation.fetch({
+                data: {user_id: id, receiver_id: <%%= channel.id %>},
+                success: function(data){
+                    console.log("aaaaaa!");
+                    data.set("minutes", minutes);
+                    channel_participation.save();
+                }
+            })
+        }
+        function ft_unban(id)
+        {
+            console.log("unban" + id);
+            var ChannelParticipation = Backbone.Model.extend({
+                urlRoot: '/channel_participations'
+            });
+            var channel_participation = new ChannelParticipation();
+            channel_participation.fetch({
+                data: {user_id: id, receiver_id: <%%= channel.id %>},
+                success: function(data){
+                    data.set("status", "none");
+                    data.save({},
+                    {
+                        success: function(){
+                            var notification = new Notification({
+                                from_user_id: <%== current_user.id %>,
+                                user_id: id,
+                                table_type: "information",
+                                message: "you are no longer banned from group: <%%= channel.name %>"
+                            });
+                            notification.save();
                             chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
                         }
                     });

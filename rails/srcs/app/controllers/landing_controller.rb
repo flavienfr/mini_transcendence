@@ -26,11 +26,6 @@ class LandingController < ApplicationController
         # puts @in_channels.to_json;#a utiliser
         # puts "---------b---------"
       end
-    # auth
-    if (params[:code])
-      auth(params[:code])
-    end
-
   end
 
   def update
@@ -41,52 +36,8 @@ class LandingController < ApplicationController
   end
 
   private
-  
-    def auth_params
-      params.require(:landing).permit(:code, :state)
-    end
 
-    def auth(code)
-      #puts "code:", code
-
-      # see https://profile.intra.42.fr/oauth/applications
-
-      #puts "\n 1) Exchange your code for an access token --------------\n"
-      # --- Exchange your code for an access token
-      require "uri"
-      require "net/http"
-      require "json"
-
-      #puts ENV["oauth_grant_type"]
-      #puts ENV["oauth_client_id"]
-      #puts ENV["oauth_client_secret"]
-      #puts ENV["oauth_redirect_uri"]
-      #puts ENV["oauth_state"]
-      header = {
-          "grant_type" => ENV["oauth_grant_type"],
-          "client_id" => ENV["oauth_client_id"],
-          "client_secret" => ENV["oauth_client_secret"],
-          "code" => code,
-          "redirect_uri" => ENV["oauth_redirect_uri"],
-          "state" => ENV["oauth_state"]
-      }
-      res_access_token = Net::HTTP.post_form(URI.parse("https://api.intra.42.fr/oauth/token"), header)
-      parsed_res_access_token = JSON.parse(res_access_token.body)
-      puts parsed_res_access_token
-
-      # Session.delete_all
-      # User.delete_all
-
-      # --- Create session
-      session = Session.new(
-        access_token: parsed_res_access_token["access_token"],
-        token_type: parsed_res_access_token["token_type"],
-        expires_in: parsed_res_access_token["expires_in"],
-        refresh_token: parsed_res_access_token["refresh_token"],
-        scope: parsed_res_access_token["scope"],
-        created_at: parsed_res_access_token["created_at"]
-      )
-
+<<<<<<< HEAD
       #puts session.to_yaml
 
       #puts "\n 2) Make API requests with your token --------------\n"
@@ -130,4 +81,9 @@ class LandingController < ApplicationController
       #  redirect_to root_path # à enlever pcq ça reload la page
       #end      
     end
+=======
+  def auth
+  end
+    
+>>>>>>> 5057d05b991dff8fa8de22a56371e067a2b1732b
 end

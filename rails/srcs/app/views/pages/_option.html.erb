@@ -1,6 +1,7 @@
 <script type="text/template" id="option-template">
-<%= stylesheet_link_tag "style-option.css" %>
+<%= stylesheet_link_tag "style-edit_profile.css" %>
 
+<<<<<<< HEAD
 <div class="param_form">
 	<form class="param_form">
 		<div class="form-group">
@@ -18,29 +19,83 @@
 		</div>
 		<div class="form-group">
 			<p>Secure authentification</p>
+=======
+<div class="edit_profile_view-container">
+    <div class="form-container">
+
+		<!-- Title -->
+		<div class="form-title">
+            <h2>Edit profile</h2>    
+        <div/>
+		
+		<br>
+		
+		<div class="form-fields">
+            <form id="edit_profile_form">
+				
+				<!-- Pseudo -->
+				<div class="form-group">
+					<label for="pseudo_input">Pseudo</label>
+					<input type="text" class="form-control" id="pseudo_input" value="<%= current_user.name %>">
+				</div>
+
+                <br>
+
+				<!-- Avatar -->
+				<div class="form-group">
+					<label for="avatar_input">Avatar</label>
+					<input type="file" class="form-control-file" id="avatar_input">
+				</div>
+		
+                <br>
+
+				<!-- Double Factor Auth Checkbox -->
+				<div class="form-check">
+				<% if current_user.enabled_two_factor_auth == true %>
+					<input type="checkbox" class="form-check-input" id="google_authenticator_checkbox" checked="checked">
+				<% else %>
+					<input type="checkbox" class="form-check-input" id="google_authenticator_checkbox">
+				<% end %>
+					<label class="form-check-label <%= current_user.enabled_two_factor_auth == true ? "active" : "" %>" for="google_authenticator_checkbox">Google Authenticator</label>
+				</div>
+					
+                <br>
+
+				<!-- Submit -->
+                <button type="submit" id="edit_profile_form_submit" class="btn btn-primary">Save profile</button>
+		
+			</form>
+		<div/>
+	</div>
+
+	<br>
+	<br>
+
+	<%# if current_user.enabled_two_factor_auth == true %>
+		<!-- Double Factor Auth Modal -->
+		<div class="edit-profile-modal-btn">
+			<p>Generate QR code for Google Authenticator</p>
+>>>>>>> 5057d05b991dff8fa8de22a56371e067a2b1732b
 			<div class="box-auth">
 				<button type="button" class="btn btn-primary btn-dark" data-toggle="modal" data-target="#modalGoogle">
 					<img src="<%= image_url('google.png') %>" width="60em" height="60em" alt="" class="profil profil-photo">
 				</button>
-				<button type="button" class="btn btn-primary btn-dark" data-toggle="modal" data-target="#modalSms">
-					<svg width="3.75em" height="3.75em" viewBox="0 0 16 16" class="bi bi-phone" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-						<path fill-rule="evenodd" d="M11 1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H5z"/>
-						<path fill-rule="evenodd" d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-					</svg>
-				</button>
 			</div>
 		</div>
+<<<<<<< HEAD
 		<div class="validate-btn"> 
 			<button type="button" class="btn btn-primary btn-lg btn-block btn-dark">Validate</button>
 		</div>
 	</form>
+=======
+	<%# end %>
+
+>>>>>>> 5057d05b991dff8fa8de22a56371e067a2b1732b
 </div>
-
-
 
 <!-- Google Modal -->
 <div class="modal fade" id="modalGoogle" tabindex="-1" role="dialog" aria-labelledby="modalGoogle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLabel">Google authentification</h5>
@@ -49,7 +104,25 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				Google mon cul
+
+				<%= stylesheet_link_tag "style-qrcode.css" %>
+				<% require "rqrcode" %>
+				<% @qr = RQRCode::QRCode.new(current_user.provisioning_uri("Transcendence"), :size => 13, :level => :h ) %>
+				
+				<table class="qr">
+					<% @qr.modules.each_index do |x| %>
+						<tr>
+							<% @qr.modules.each_index do |y| %>
+								<% if @qr.qrcode.checked?(x,y) %>
+									<td class="black"/>
+								<% else %>
+									<td class="white"/>
+								<% end %>
+							<% end %>
+						</tr>
+					<% end %>
+				</table>
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -58,23 +131,4 @@
 	</div>
 </div>
 
-<!-- SMS Modal -->
-<div class="modal fade" id="modalSms" tabindex="-1" role="dialog" aria-labelledby="modalSms" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">SMS authentification</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			    	<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				SMS ton boule...
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
-</div>
 </script>

@@ -14,10 +14,17 @@ class ChannelsController < ApplicationController
       joignable_groups = joignable_groups.where.not("id IN (?)", channel_participations.pluck(:channel_id));
     end
     puts joignable_groups.to_json;#a utiliser
-    private_channels = Channel.where("scope = ?", "direct");#pour enlever les messages directs
-    puts private_channels.to_json;
-    if (private_channels.size > 0)
-      channel_participations = channel_participations.where.not("channel_id IN (?)", private_channels.pluck(:id));
+    direct_channels = Channel.where("scope = ?", "direct");#pour enlever les messages directs
+    puts direct_channels.to_json;
+    if (direct_channels.size > 0)
+      channel_participations = channel_participations.where.not("channel_id IN (?)", direct_channels.pluck(:id));
+      #channel_participations_banned = channel_participations.where("status = 'banned'");
+      #channel_participations = channel_participations.where.not("id IN (?)", channel_participations_banned.pluck(:id));
+    end
+    puts channel_participations.to_json;
+    channel_participations_banned = channel_participations.where("status = 'banned'");
+    if (channel_participations_banned.size > 0)
+      channel_participations = channel_participations.where.not("id IN (?)", channel_participations_banned.pluck(:id));
     end
     puts channel_participations.to_json;
     in_channels = Channel.where("id IN (?)", channel_participations.pluck(:channel_id));
@@ -36,6 +43,10 @@ class ChannelsController < ApplicationController
   # GET /channels/1
   # GET /channels/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.json {render json: Channel.find_by(id: params[:id])}
+    end
   end
 
   # GET /channels/new
@@ -86,6 +97,12 @@ class ChannelsController < ApplicationController
   # PATCH/PUT /channels/1
   # PATCH/PUT /channels/1.json
   def update
+    if (params["channel"][:password])
+      params["channel"][:password] = BCrypt::Password.create(params["channel"][:password]);
+    end
+    if (params["channel"][:scope] != "protected-group")
+      params["channel"][:password] = nil;
+    end
     respond_to do |format|
       if @channel.update(channel_params)
         format.html { redirect_to @channel, notice: 'Channel was successfully updated.' }

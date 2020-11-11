@@ -744,7 +744,6 @@ var WarView = Backbone.View.extend({
 		var the_guild = this.collection.findWhere({name: guild_name});
 		the_guild = the_guild.toJSON();
 
-		//#do this check back for better security
 		range_time = $('#RangeTime').val();
 		range_time = range_time.split(" to ");
 		console.log("RangeTime", range_time[0], range_time[1]);

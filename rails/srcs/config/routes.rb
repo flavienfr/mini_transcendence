@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
 	resources :ask_for_wars
 	resources :wars
+
+	get 'war_participations/war_info' => 'war_participations#war_info'
 	resources :war_participations
 	resources :war_times	
 	

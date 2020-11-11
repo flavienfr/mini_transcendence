@@ -43,8 +43,8 @@ class AskForWarsController < ApplicationController
 	to_guild_id = params[:to_guild_id]
 
 	#CHECK PARAMS
-	puts  "-------------------" + params[:start_date].to_s + " < " + DateTime.now.to_s
-	if (params[:start_date] < DateTime.now)
+	puts  "-------------------" + params[:start_date].to_s + " < " + Time.zone.now.to_s
+	if (params[:start_date] < Time.zone.now)
 		json_render["msg"] = "Your war declaration need to start later."
 		json_render["is_msg"] = 1
 		json_render['status'] = "delete"
@@ -157,7 +157,7 @@ class AskForWarsController < ApplicationController
 	puts @ask_for_war.to_json
 	puts "-----------------------"
 	from_guild = Guild.find(@ask_for_war.from_guild_id)
-	to_guild = Guild.find(@ask_for_war.from_guild_id)
+	to_guild = Guild.find(@ask_for_war.to_guild_id)
 	
 	the_war = War.find(@ask_for_war.war_id)
 	json_render = {}
@@ -188,7 +188,7 @@ class AskForWarsController < ApplicationController
 		delete_ask_war(@ask_for_war)
 		render json: json_render, status: :ok and return
 	end
-	if (the_war.start_date < DateTime.now)
+	if (the_war.start_date < Time.zone.now)
 		json_render["msg"] = "The declaration of war has expired."
 		json_render["is_msg"] = 1
 		json_render['status'] = "delete"
@@ -204,7 +204,7 @@ class AskForWarsController < ApplicationController
 			has_declared_war: true,
 			nb_unanswered_call: 0,
 			is_winner: nil,
-			status: nil
+			status: "ongoing"
 		)
 		@wpp_from_guild.save
 		from_guild.war_participation_id = @wpp_from_guild.id
@@ -221,7 +221,7 @@ class AskForWarsController < ApplicationController
 			has_declared_war: false,
 			nb_unanswered_call: 0,
 			is_winner: nil,
-			status: nil
+			status: "ongoing"
 		)
 		@wpp_to_guild.save
 		to_guild.war_participation_id = @wpp_to_guild.id
@@ -231,6 +231,8 @@ class AskForWarsController < ApplicationController
 		puts @wpp_to_guild.to_json
 		puts "-----------------------"
 
+		@ask_for_war.war.status = "ongoing"
+		@ask_for_war.war.save
 		@ask_for_war.destroy
 	end
 

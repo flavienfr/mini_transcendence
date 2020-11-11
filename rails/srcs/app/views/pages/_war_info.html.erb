@@ -5,15 +5,19 @@
 		<div class="wi_header">
 			<div class="score">
 				<h2>Score</h2>
-				<p>The order: 1616<br>The Assemble: 1616</p>
+				<p><%%= info.guild_name_a %>: <%%= info.guild_score_a %><br>
+				<%%= info.guild_name_b %>: <%%= info.guild_score_b %></p>
 			</div>
 			<div class="war_date">
+				<%% var start_date = new Date(info.war_start) %>
+				<%% var end_date = new Date(info.war_end) %>
+				<%% const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' } %>
 				<h2>War</h2>
-				<p>25/02/156 to 64/161/63</p>
+				<p><%%= start_date.toLocaleDateString('fr-FR', options) %> to <%%= end_date.toLocaleDateString('fr-FR', options) %></p>
 			</div>
-			<div class="c">
+			<div class="prize_pool">
 				<h2>Prize pool</h2>
-				<p>6448 pts</p>
+				<p><%%= info.prize_pool %> pts</p>
 			</div>
 		</div>
 
@@ -30,12 +34,8 @@
 					<tbody>
 						<tr>
 							<td>25/02/1999 to 25/19/1560</td>
-							<td>0/10</td>
+							<td>0/<%%= info.max_unanswered_call %></td>
 						</tr>
-						<tr>
-						<td>25/02/1999 to 25/19/1560</td>
-						<td>0/10</td>
-					</tr>
 					</tbody>
 				</table>
 				<button type="button" id="war_radom_match" class="btn btn-md btn-block btn-dark border border-light">Random match</button>
@@ -50,18 +50,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>Flavien roussel</td>
-							<td class="btn_td">
-								<button type="button" class="btn btn-md btn-block btn-dark border border-light">War duel</button>
-							</td>
-						</tr>
-						<tr>
-							<td>Didier</td>
-							<td class="btn_td">
-								<button type="button" class="btn btn-md btn-block btn-dark border border-light">War duel</button>
-							</td>
-						</tr>
+						<%%	for (let i = 0; i < info.opponents.length; i++) { %>
+							<tr>
+								<td><%%= info.opponents[i].name %></td>
+								<td class="btn_td">
+									<button id="war_btn_<%%= i %>" type="button" class="btn btn-md btn-block btn-dark border border-light">War duel</button>
+								</td>
+							</tr>
+						<%% } %>
 					</tbody>
 				</table>
 			</div>

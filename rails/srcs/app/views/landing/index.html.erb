@@ -499,6 +499,8 @@ var GuildView = Backbone.View.extend({
 		wars.url = "/wars.json/?guild_id=" + guild.id;
 		await wars.fetch();
 
+		console.log("war history: ", wars.toJSON());//#dell me
+
 		this.$el.html(this.template_guild_history({  
 			wars: wars.toJSON(),
 			guilds: this.collection,
@@ -832,8 +834,10 @@ var WarView = Backbone.View.extend({
 				success: function(response) {
 					console.log("Inside success");
 					if (response.is_war){
-						self.$el.html(self.template_war_info());
-						console.log("user_test: ", response.user_test);
+						self.$el.html(self.template_war_info({
+							info: response
+						}));
+						console.log("response: ", response);
 					}
 					else{
 						self.$el.html(self.template({
@@ -1029,7 +1033,7 @@ $( "#nav_to_tournament" ).on( "click", function() {
 });
 $( "#nav_to_war" ).on( "click", function() {
 	Backbone.history.navigate("/war", {trigger: true});
-	Backbone.history.loadUrl();
+	//Backbone.history.loadUrl();
 });
 
 var router = new Router();

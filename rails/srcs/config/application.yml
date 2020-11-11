@@ -1,16 +1,19 @@
-# Add configuration values here, as shown below.
-#
+# oauth
 oauth_grant_type: "authorization_code"
 oauth_client_id: "235a071025e8e19cdd302e0cff45e29c2b7c2a8b1fd37bc7cdbf4e2edc452729"
 oauth_client_secret: "bd247fc761561f68598d981c4c151e43905690f9a8f99039631e5a6b1098a2dc"
-oauth_redirect_uri: "http://localhost:3000/"
+oauth_redirect_uri: "http://localhost:3000/sessions/oauth"
 oauth_state: "a_very_long_random_string_witchmust_be_unguessable"
-# pusher_app_id: "2954"
-# pusher_key: 7381a978f7dd7f9a1117
-# pusher_secret: abdc3b896a0ffb85d373
-# stripe_api_key: sk_test_2J0l093xOyW72XUYJHE4Dv2r
-# stripe_publishable_key: pk_test_ro9jV5SNwGb1yYlQfzG17LHK
-#
-# production:
-#   stripe_api_key: sk_live_EeHnL644i6zo4Iyq4v1KdV9H
-#   stripe_publishable_key: pk_live_9lcthxpSIHbGwmdO941O1XVU
+
+# logs
+# 1:CLEAN=1 / 2:INFO=1+2 / 3:DEBUG=1+2+3
+logs_filter_sessions_controller: "3"
+
+# cloudinary
+# https://cloudinary.com/console/c-f2cacdfa6f35c0e331c720a8b64871/media_library/folders/home
+# fberger@student.42.fr
+# Transcendence42*
+cloudinary_Cloud_name: "dwcxgy6qt"
+cloudinary_API_Key: "439763265978211"
+cloudinary_API_Secret: "lKJWSNjqFSqgBxLlyLuXSpORYX4"
+cloudinary_API_Environment_variable: "CLOUDINARY_URL=cloudinary://439763265978211:lKJWSNjqFSqgBxLlyLuXSpORYX4@dwcxgy6qt"

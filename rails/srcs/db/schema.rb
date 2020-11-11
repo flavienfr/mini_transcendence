@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 2020_11_10_173642) do
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "unmute_datetime"
     t.index ["channel_id"], name: "index_channel_participations_on_channel_id"
     t.index ["user_id"], name: "index_channel_participations_on_user_id"
   end
@@ -168,6 +169,7 @@ ActiveRecord::Schema.define(version: 2020_11_10_173642) do
     t.string "expires_in"
     t.string "refresh_token"
     t.string "scope"
+    t.boolean "need_two_factor_auth_validation", default: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
@@ -210,12 +212,13 @@ ActiveRecord::Schema.define(version: 2020_11_10_173642) do
     t.string "avatar"
     t.string "current_status"
     t.integer "points"
-    t.boolean "is_admin"
+    t.boolean "is_admin", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "guild_participation_id"
     t.string "otp_secret_key"
     t.boolean "enabled_two_factor_auth", default: false
+    t.integer "student_id"
     t.index ["guild_participation_id"], name: "index_users_on_guild_participation_id"
   end
 

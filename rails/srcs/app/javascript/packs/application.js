@@ -10,7 +10,7 @@ require("channels")
 global .$ = require('jquery');
 window.jQuery = $;
 window.$ = $;
-const _ = require("underscore")
+const _ = require("underscore");
 window.underscore = _;
 window._ = _;
 
@@ -23,8 +23,3 @@ var bootstrap = require('bootstrap');		// Useless ?
 // FLATPCKR (date-time picker)
 import flatpickr from "flatpickr"
 require("flatpickr/dist/flatpickr.css")
-
-// For js in components
-//$(document).ready(function() {
-//	require("components")
-//});

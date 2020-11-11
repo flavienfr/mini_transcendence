@@ -1,8 +1,9 @@
 <%= stylesheet_link_tag "style-header.css" %>
 
-<% if !current_user %> <!-- user not connected-->
+<% if !current_user %>
 	<%= render "pages/signin" %>
-
+<% elsif current_user.sessions.last.need_two_factor_auth_validation == true %>
+	<%= render "pages/two_factor_auth" %>
 <% else %> 
 	<%= render "pages/navbar" %>
 
@@ -11,29 +12,16 @@
 			detail: {id: <%= current_user.id %>} //>#color patch
 		}));
 		document.addEventListener("notif", function(event){
-			console.log("notif listener");
-			console.log(event.detail.data);
 			if (event.detail.data.sender)
 			{
-				console.log("hey" + $("#main_chat_in").val());
-				console.log(event.detail.data);
-				console.log("channel_name" + event.detail.data.sender.id);
-				if ($("#main_chat_in").val() == event.detail.data.sender.id)//utiliser id plutot ?
+				if ($("#main_chat_in").val() == event.detail.data.sender.id)
 					chatview.setElement("#chat_area").render_chat_main(event.detail.data.sender);
 			}
 			if (event.detail.data.kicked_from)
 			{
-				console.log(event.detail.data);
-				console.log($("#detail_chat_in").val());
-				alert("you got kicked from " + event.detail.data.kicked_from.id);
 				if (($("#detail_chat_in").val() == event.detail.data.kicked_from.id || $("#main_chat_in").val() == event.detail.data.kicked_from.id) && event.detail.data.kicked_from.scope != "direct")
-				{
-					console.log("in");
-					chatview.setElement("#chat_area").render_chat_main();//marche pas quand on est dans show par exemple
-				}
+					chatview.setElement("#chat_area").render_chat_main();
 			}
-			var hidden_input_val = $("#main_chat_in").val();
-			console.log("hidden" + hidden_input_val);
 		});
 		// set the socket for having notification 
 		socket_notif = new WebSocket("ws://localhost:3000/cable"); 
@@ -72,7 +60,6 @@
 		<%= render "pages/war_info" %>
 		<%= render "pages/ladder" %>
 	</div>
-
 
 <script>
 
@@ -255,7 +242,7 @@ var LogView = Backbone.View.extend({
 		$.ajax({
 			url: "/sessions/" + session_id,
 			data: false,
-			processData: false,
+processData: false,
 			contentType: false,
 			type: 'DELETE',
 			success: function(){
@@ -263,13 +250,9 @@ var LogView = Backbone.View.extend({
 				window.location.href = "http://localhost:3000";
 			}
 		})
-		
 	},
 
 })
-
-//_____________________________________ qrcode View ___________________________________
-
 
 //_____________________________________ NotifView _____________________________________
 var NotifView = Backbone.View.extend({
@@ -291,6 +274,7 @@ var NotifView = Backbone.View.extend({
 
 //_____________________________________ ChatView _____________________________________
 var ChatView = Backbone.View.extend({
+	el: '#chat_area',
 	template_chat_main: _.template($('#chat_main-template').html()),
 	template_chat_param: _.template($('#chat_param-template').html()),
 	template_chat_create: _.template($('#chat_create-template').html()),
@@ -303,8 +287,34 @@ var ChatView = Backbone.View.extend({
 		"click #show_chat_details": "render_chat_details"
 	},
 
-	render_chat_param : function() {
-		this.$el.html(this.template_chat_param);
+	render_chat_param : function(e) {
+		console.log(e);
+		var channel_info = e;
+		if (!(channel_info.id))
+			channel_info = $(e.currentTarget).data('channel');
+		console.log(channel_info);
+		console.log(<%== current_user.id %>);
+		console.log(channel_info.id);
+		var ChannelParticipation = Backbone.Model.extend({
+			urlRoot: '/channel_participations'
+		});
+		var channel_participation = new ChannelParticipation();
+		var el = this.$el;
+		var t = this.template_chat_param;
+		channel_participation.fetch({
+			data: {user_id: <%== current_user.id %>, receiver_id: channel_info.id},
+			success: function(data)
+			{
+				console.log(data);
+				channel_participation = new ChannelParticipation();
+				channel_participation.fetch({
+					data: {type: "facing_user", user_id: <%== current_user.id %>, receiver_id: channel_info.id},
+					success: function(data2){
+						el.html(t({channel: channel_info, channel_participation: data.toJSON(), other_participation: data2.toJSON()}));
+					}
+				});
+			}
+		});
 	},
 	render_chat_create : function() {
 		this.$el.html(this.template_chat_create);
@@ -569,8 +579,56 @@ var OptionView = Backbone.View.extend({
 		console.log("OptionView created");
 	},
   
+	events: {
+		"submit #edit_profile_form": "update",
+	},
+
+	update : async function(e){
+		e.preventDefault();
+		console.log("submit two_factor_auth_form");
+
+		let pseudo = $('#pseudo_input').val();
+		let avatar = $('#avatar_input').val();
+		let file = e.target.uploadFile.files[0];
+
+		let enabled_two_factor_auth = $("#google_authenticator_checkbox").is(':checked');
+		var formData = new FormData();
+		formData.append('name', pseudo);
+		// formData.append('avatar', avatar);
+		formData.append('avatar', file);
+		formData.append('enabled_two_factor_auth', enabled_two_factor_auth);
+
+		// Affichage des paires clefs/valeurs
+		console.log("current_user_id:", current_user_id);
+		for(var pair of formData.entries()) {
+		   console.log(pair[0]+ ', '+ pair[1]); 
+		}
+
+		var user = new User({ id: current_user_id });
+		user.urlRoot = "/users";
+		await user.fetch();
+		user.save({
+				name: pseudo,
+				avatar: avatar,
+				enabled_two_factor_auth: enabled_two_factor_auth
+			}
+		);
+	},
+
 	render : function() {
-	  this.$el.html(this.template);
+		this.$el.html(this.template);
+		if ($(".form-check-input").checked) {
+			$( "div.edit-profile-modal-btn" ).show()
+		} else {
+			$( "div.edit-profile-modal-btn" ).hide();
+		}
+		$(".form-check-input").change(function() {
+			if(this.checked) {
+				$( "div.edit-profile-modal-btn" ).show('slow')
+			} else {
+				$( "div.edit-profile-modal-btn" ).hide('slow');
+			}
+		});
 		console.log("Render Option");
 		return this;
 	}
@@ -927,6 +985,7 @@ document.addEventListener("notif2", function(event){
 var Router = Backbone.Router.extend({
 	routes: {
 		'': "ft_log",
+		'validation': "ft_validation",
 		'live': "ft_live",
 		'play': "ft_play",
 		'guild': "ft_guild",
@@ -976,7 +1035,6 @@ var Router = Backbone.Router.extend({
 		profil2view.render(id_user);	
 	}
 });
-
 
 $( "#logo" ).on( "click", function() {
 	Backbone.history.navigate("/", {trigger: true});

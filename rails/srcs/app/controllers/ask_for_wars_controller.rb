@@ -43,9 +43,15 @@ class AskForWarsController < ApplicationController
 	to_guild_id = params[:to_guild_id]
 
 	#CHECK PARAMS
-	puts  "-------------------" + params[:start_date].to_s + " < " + Time.zone.now.to_s
-	if (params[:start_date] < Time.zone.now)
+	puts  "--------- Time.zone ----------" + params[:start_date].to_s + " < " + Time.zone.now.to_s
+	if (params[:start_date].to_s  < Time.zone.now.to_s)
 		json_render["msg"] = "Your war declaration need to start later."
+		json_render["is_msg"] = 1
+		json_render['status'] = "delete"
+		render json: json_render, status: :ok and return
+	end
+	if (params[:end_date].to_s  < params[:start_date].to_s)
+		json_render["msg"] = "The end of a war need to be after the beginind of a war."
 		json_render["is_msg"] = 1
 		json_render['status'] = "delete"
 		render json: json_render, status: :ok and return
@@ -188,7 +194,7 @@ class AskForWarsController < ApplicationController
 		delete_ask_war(@ask_for_war)
 		render json: json_render, status: :ok and return
 	end
-	if (the_war.start_date < Time.zone.now)
+	if (the_war.start_date.to_s < Time.zone.now.to_s)
 		json_render["msg"] = "The declaration of war has expired."
 		json_render["is_msg"] = 1
 		json_render['status'] = "delete"

@@ -37,53 +37,7 @@ class LandingController < ApplicationController
 
   private
 
-<<<<<<< HEAD
-      #puts session.to_yaml
-
-      #puts "\n 2) Make API requests with your token --------------\n"
-      # --- Make API requests with your token
-      # https://stackoverflow.com/questions/34332901/rails-http-get-request-with-no-ssl-verification-and-basic-auth
-
-      uri = URI.parse("https://api.intra.42.fr/v2/me/")
-      req_api = Net::HTTP::Get.new(uri)
-      req_api['Authorization'] = "Bearer #{session.access_token}"
-      # req_api['Authorization'] = "Bearer 1be46342256b793c5642db9e9942de8747b0d0cbc12ec5ad913fd0f3687a85a9"
-      sock = Net::HTTP.new(uri.host, uri.port)
-      sock.use_ssl = true
-      res_api = sock.start { |http| http.request(req_api) }
-
-      parsed_res_api = JSON.parse(res_api.body)
-      #puts parsed_res_api
-
-      if User.where(name: parsed_res_api["displayname"]).exists?
-        session.user_id = User.find_by(name: parsed_res_api["displayname"]).id
-        # session[:user_id] = User.find_by(name: parsed_res_api["displayname"]).id
-        cookies.permanent.signed[:id] = session.user_id
-        session.save
-      else
-        user = User.create(
-          name: parsed_res_api["displayname"],
-          avatar: parsed_res_api["image_url"],
-          current_status: "logged in",
-          points: 0,
-          is_admin: false
-        )
-        session.user_id = user.id
-        cookies.permanent.signed[:id] = session.user_id
-        # session[:user_id] = user.id
-        session.save
-      end
-
-      #if 
-      #  @qr = RQRCode::QRCode.new(user.provisioning_uri("http://localhost:3000/"), :size => 7, :level => :h)
-      #  redirect_to two_factor_auth_path
-      #else
-      #  redirect_to root_path # à enlever pcq ça reload la page
-      #end      
-    end
-=======
   def auth
   end
     
->>>>>>> 5057d05b991dff8fa8de22a56371e067a2b1732b
 end

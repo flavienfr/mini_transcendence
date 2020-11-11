@@ -293,7 +293,6 @@ var ChatView = Backbone.View.extend({
 		if (!(channel_info.id))
 			channel_info = $(e.currentTarget).data('channel');
 		console.log(channel_info);
-		console.log(<%== current_user.id %>);
 		console.log(channel_info.id);
 		var ChannelParticipation = Backbone.Model.extend({
 			urlRoot: '/channel_participations'
@@ -1074,7 +1073,7 @@ $( "#nav_to_ladder" ).on( "click", function() {
 });
 $( "#nav_to_guild" ).on( "click", function() {
 	Backbone.history.navigate("/guild", {trigger: true});
-	//Backbone.history.loadUrl(); //problem: Double call to function render in guild
+	//Backbone.history.loadUrl(); 							//problem: Double call to function render in guild
 });
 $( "#nav_to_option" ).on( "click", function() {
 	Backbone.history.navigate("/option", {trigger: true});
@@ -1090,7 +1089,7 @@ $( "#nav_to_tournament" ).on( "click", function() {
 });
 $( "#nav_to_war" ).on( "click", function() {
 	Backbone.history.navigate("/war", {trigger: true});
-	//Backbone.history.loadUrl();
+	//Backbone.history.loadUrl(); 						//problem: Double call to function render in guild
 });
 
 var router = new Router();

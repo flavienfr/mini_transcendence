@@ -368,7 +368,7 @@
                 urlRoot: '/ask_for_games'
             })
             var ask_for_game = new AskForGame();
-            ask_for_game.fetch({data: {to_user_id: current_user_id, status: "playing"}, success: function() {
+            ask_for_game.fetch({data: {from_user_id: current_user_id, status: "playing"}, success: function() {
                 ask_for_game.set({status: "ending"});
                 ask_for_game.save();
                 }

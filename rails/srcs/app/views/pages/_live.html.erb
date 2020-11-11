@@ -16,7 +16,7 @@
 					<% hosts.each do |host| %>
 				  		<tr>
 							<td>
-								<% if (host.from_user_id != nil) %>
+								<% if (host.from_user_id != nil && host.status == "playing") %>
 								<a class="dropdown-item" id=<%= host.from_user_id%> onclick="save_watch(<%=host.from_user_id%>)"> <%=User.find(host.from_user_id).name %></a>
 								<% end %> 
 							</td>

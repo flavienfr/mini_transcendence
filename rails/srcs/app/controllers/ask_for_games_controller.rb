@@ -8,7 +8,7 @@ class AskForGamesController < ApplicationController
       @game = AskForGame.where("to_user_id = ? AND status='playing'", params[:to_user_id]).last
     else
       @game = AskForGame.where("from_user_id = ? AND status='playing'", params[:from_user_id]).last
-    end 
+    end
     respond_to do |format|
       format.html
       format.json {render json: @game}

@@ -92,6 +92,13 @@ class AskForWarsController < ApplicationController
 		json_render["is_msg"] = 1
 		render json: json_render, status: :ok and return
 	end
+	if (params[:is_wartime])
+		if (params[:wt_start_date].to_s  < params[:start_date].to_s || params[:wt_end_date].to_s >  params[:end_date].to_s)
+			json_render["msg"] = "A wartime must be in the war range."
+			json_render["is_msg"] = 1
+			render json: json_render, status: :ok and return
+		end
+	end
 
 	#WAR TABLE CREATION
 	@war = War.new(
@@ -99,6 +106,7 @@ class AskForWarsController < ApplicationController
 		end_date: params[:end_date],
 		prize_in_points: params[:prize_in_points],
 		max_unanswered_call: params[:max_unanswered_call],
+		count_all_matchs_for_war: params[:is_all_matches],
 		status: "pending"
 	)
 	@war.save
@@ -107,6 +115,23 @@ class AskForWarsController < ApplicationController
 	puts "--------------"
 
 	#WAR_TIME TABLE(S) CREATION
+	if (params[:is_wartime])
+		@wartime = WarTime.new(
+			start_date: params[:wt_start_date],
+    		end_date: params[:wt_end_date],
+    		ongoing_match: nil,
+    		a: from_guild_id,
+    		b: to_guild_id,
+    		nb_unanswered_call_a: 0,
+    		nb_unanswered_call_b: 0,
+			war_id: @war.id,
+			status: "pending"
+		)
+		@wartime.save
+		puts "----- War ----"
+		puts @wartime.to_json
+		puts "--------------"
+	end
 
 	#ASK_FOR_WAR TABLE CREATION
 	@ask_for_war = AskForWar.new(

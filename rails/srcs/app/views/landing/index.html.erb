@@ -167,9 +167,6 @@ var Game = Backbone.Model.extend({
 var Games = Backbone.Collection.extend({
 	model: Game,
 	url: "/games.json",
-
-	initialize : function() {
-	}
 });
 
 var gamecollection = new Games();
@@ -242,7 +239,7 @@ var LogView = Backbone.View.extend({
 		$.ajax({
 			url: "/sessions/" + session_id,
 			data: false,
-processData: false,
+			processData: false,
 			contentType: false,
 			type: 'DELETE',
 			success: function(){
@@ -762,7 +759,6 @@ var Profil2View = Backbone.View.extend({
 	},
 });
 
-
 //_____________________________________ TournamentView _____________________________________
 var TournamentView = Backbone.View.extend({
 	el : '#inside-page',
@@ -791,7 +787,32 @@ var WarView = Backbone.View.extend({
 	},
 	events: {
 		"change #guild_drop_down": "render_guild_info",
-		"submit #create_war": "add"
+		"submit #create_war": "add",
+		"click #war_radom_match": "radom_match"
+	},
+	radom_match: function(){
+		console.log("radom_match");
+
+		var data = {
+			user_id: current_user_id,
+            type: "war_random_match",
+        }
+		self = this
+		Backbone.ajax({
+			url: '/ask_for_games/',
+			data: JSON.stringify(data),
+			type: 'post',
+			dataType: 'json',
+			contentType: 'application/json',
+			success: function(response) {
+				if (response.is_msg){
+					alert(response.msg);
+				}
+			},
+			error: function(){
+				alert("error");
+			}
+		});
 	},
 	add: async function(evt) {
 		evt.preventDefault();
@@ -809,14 +830,25 @@ var WarView = Backbone.View.extend({
 			return
 		}
 
+		let is_wartime = true;
+		war_range_time = $('#WarRangeTime').val();
+		war_range_time = war_range_time.split(" to ");
+		console.log("WarRangeTime", war_range_time[0], war_range_time[1]);
+		if (isEmpty(war_range_time[0]) || isEmpty(war_range_time[1])){
+			is_wartime = false
+		}
+
 		var ask_for_war = new Ask_for_war({
 			is_all_matches: $("#counted_match").is(':checked'),
 			current_user_id: current_user_id,
 			to_guild_id: the_guild.id,
-			start_date : range_time[0],
+			start_date: range_time[0],
 			end_date: range_time[1],
-			prize_in_points : $('#PrizePool').val(),
+			prize_in_points: $('#PrizePool').val(),
 			max_unanswered_call: $('#MaxUnansweredMatch').val(),
+			is_wartime: is_wartime,
+			wt_start_date: war_range_time[0],
+			wt_end_date: war_range_time[1]
 		});
 
 		ask_for_war.save(ask_for_war, {
@@ -891,7 +923,8 @@ var WarView = Backbone.View.extend({
 					console.log("Inside success");
 					if (response.is_war){
 						self.$el.html(self.template_war_info({
-							info: response
+							info: response,
+							guilds: self.collection
 						}));
 						console.log("response: ", response);
 					}

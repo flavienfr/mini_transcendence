@@ -35,7 +35,7 @@
 						<tr>
 							<th scope="col">#</th>
 							<th scope="col">Winner</th>
-							<th scope="col">Prize</th>
+							<th scope="col">Prize points</th>
 							<th scope="col">Start</th>
 							<th scope="col">End</th>
 						</tr>
@@ -54,12 +54,15 @@
 								<%% const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' } %>
 								<th scope="row"><%%= i + 1 %></th>
 
-								<%% if (wars[i].winner_id != null) {%>
-									<td><%%= guilds.findWhere({id: wars[i].winner_id}).toJSON().name %></td>
-									<td><%%= wars[i].prize_in_points %></td>
-								<%% }else {%>
+								<%% if (wars[i].winner_id == null) {%>
 									<td>equality</td>
-									<td><%%= wars[i].prize_in_points / 2 %></td>
+									<td>(<%%= wars[i].prize_in_points %>)</td>
+								<%% }else if (wars[i].winner_id == guild.id) {%>
+									<td><%%= guilds.findWhere({id: wars[i].winner_id}).toJSON().name %></td>
+									<td>+<%%= wars[i].prize_in_points %></td>
+								<%% }else { %>
+									<td><%%= guilds.findWhere({id: wars[i].winner_id}).toJSON().name %></td>
+									<td>-<%%= wars[i].prize_in_points %></td>
 								<%% } %>
 								<td><%%= start_date.toLocaleDateString('fr-FR', options) %></td>
 								<td><%%= end_date.toLocaleDateString('fr-FR', options) %></td>

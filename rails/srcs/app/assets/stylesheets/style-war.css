@@ -25,7 +25,8 @@
 	align-items: center;
 	justify-content: space-around;
 	border-bottom: 4px solid #333333;
-	max-height: 20%;
+	height: 150px;
+
 	color: white;
 	background: #333333;
 }
@@ -63,6 +64,9 @@
 }
 .box_prize_match{
 	display: flex;
+}
+.body_1 div{
+	margin: 5px;
 }
 
 .time_picker{

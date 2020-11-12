@@ -526,6 +526,8 @@ var GuildView = Backbone.View.extend({
 		wars.url = "/wars.json/?guild_id=" + guild.id;
 		await wars.fetch();
 
+		console.log("war history: ", wars.toJSON());//#dell me
+
 		this.$el.html(this.template_guild_history({  
 			wars: wars.toJSON(),
 			guilds: this.collection,
@@ -812,12 +814,11 @@ var WarView = Backbone.View.extend({
 	add: async function(evt) {
 		evt.preventDefault();
 		console.log("IN add war");
-		
+
 		var guild_name = $("#guild_drop_down option:selected").text();
 		var the_guild = this.collection.findWhere({name: guild_name});
 		the_guild = the_guild.toJSON();
 
-		//#do this check back for better security
 		range_time = $('#RangeTime').val();
 		range_time = range_time.split(" to ");
 		console.log("RangeTime", range_time[0], range_time[1]);
@@ -825,8 +826,9 @@ var WarView = Backbone.View.extend({
 			alert("Need range date to declare war")
 			return
 		}
-	
+
 		var ask_for_war = new Ask_for_war({
+			is_all_matches: $("#counted_match").is(':checked'),
 			current_user_id: current_user_id,
 			to_guild_id: the_guild.id,
 			start_date : range_time[0],
@@ -896,13 +898,32 @@ var WarView = Backbone.View.extend({
 				guild: the_guild.toJSON()
 			}));
 		}
-		else {	
-			this.$el.html(this.template({
-				guilds: this.collection.toJSON()
-			}));
-			this.render_guild_info();
-			//#page war info when guild is in war
-			//this.$el.html(this.template_war_info());
+		else {
+			self = this
+			Backbone.ajax({
+				url: '/war_participations/war_info/?user_id=' + current_user_id,
+				data: {},
+				type: 'get',
+				dataType: 'json',
+				success: function(response) {
+					console.log("Inside success");
+					if (response.is_war){
+						self.$el.html(self.template_war_info({
+							info: response
+						}));
+						console.log("response: ", response);
+					}
+					else{
+						self.$el.html(self.template({
+							guilds: self.collection.toJSON()
+						}));
+						self.render_guild_info();
+					}					
+				},
+				error: function(){
+					alert("error");
+				}
+			});
 		}
 		return this;
 	}
@@ -1085,7 +1106,7 @@ $( "#nav_to_ladder" ).on( "click", function() {
 });
 $( "#nav_to_guild" ).on( "click", function() {
 	Backbone.history.navigate("/guild", {trigger: true});
-	//Backbone.history.loadUrl(); //problem: Double call to function render in guild
+	//Backbone.history.loadUrl(); 							//problem: Double call to function render in guild
 });
 $( "#nav_to_option" ).on( "click", function() {
 	Backbone.history.navigate("/option", {trigger: true});
@@ -1101,7 +1122,7 @@ $( "#nav_to_tournament" ).on( "click", function() {
 });
 $( "#nav_to_war" ).on( "click", function() {
 	Backbone.history.navigate("/war", {trigger: true});
-	Backbone.history.loadUrl();
+	//Backbone.history.loadUrl(); 						//problem: Double call to function render in guild
 });
 
 var router = new Router();

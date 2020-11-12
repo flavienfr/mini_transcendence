@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 	
+  resources :players
 	get '/users/:id', to: 'users#show'
 	resources :users
 

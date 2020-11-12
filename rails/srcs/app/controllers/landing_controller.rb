@@ -6,10 +6,10 @@ class LandingController < ApplicationController
       if (current_user)
         @users = User.all
         
-          #  @players = Player.all
-            # @players.each do |player|
-              # player.destroy
-            # end
+          #@players = Player.all
+          #  @players.each do |player|
+            #  player.destroy
+          #  end
         
         # puts "------------a-----------"
         # @joignable_groups = Channel.where("scope = ? OR scope = ?", "public-group", "protected-group");

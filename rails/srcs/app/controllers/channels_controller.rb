@@ -9,6 +9,10 @@ class ChannelsController < ApplicationController
     joignable_groups = Channel.where("scope = ? OR scope = ?", "public-group", "protected-group");
     puts joignable_groups.to_json;
     channel_participations = User.find_by(id: current_user.id).channel_participations;
+    private_groups_not_in = Channel.where("scope = ?", "private-group");
+    if (channel_participations.size > 0)
+      private_groups_not_in = private_groups_not_in.where.not("id IN (?)", channel_participations.pluck(:channel_id));
+    end
     puts channel_participations.to_json;
     if (channel_participations.size > 0)
       joignable_groups = joignable_groups.where.not("id IN (?)", channel_participations.pluck(:channel_id));
@@ -34,6 +38,7 @@ class ChannelsController < ApplicationController
     json_to_return["users"] = User.all;
     json_to_return["channels_joignable"] = joignable_groups;
     json_to_return["channels_in"] = in_channels;
+    json_to_return["channels_private_not_in"] = private_groups_not_in;
     respond_to do |format|
       format.html
       format.json {render json: json_to_return}
@@ -117,7 +122,17 @@ class ChannelsController < ApplicationController
   # DELETE /channels/1
   # DELETE /channels/1.json
   def destroy
-    @channel.destroy
+    channel_participations = Channel.find_by(id: params[:id]).channel_participations;
+    #Channel.find_by(id: params[:id]).messages.destroy_all;
+    #Channel.find_by(id: params[:id]).channel_participations.destroy_all;
+    #@channel.destroy
+    puts channel_participations.to_json;
+    channel_participations.each do |participant|
+      ActionCable.server.broadcast("notification_channel_" + participant.user_id.to_s, {kicked_from: participant.channel_id});
+    end
+    Channel.find_by(id: params[:id]).messages.destroy_all;
+    Channel.find_by(id: params[:id]).channel_participations.destroy_all;
+    @channel.destroy;
     respond_to do |format|
       format.html { redirect_to channels_url, notice: 'Channel was successfully destroyed.' }
       format.json { head :no_content }

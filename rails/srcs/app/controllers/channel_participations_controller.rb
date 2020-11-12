@@ -16,9 +16,21 @@ class ChannelParticipationsController < ApplicationController
       puts "FACE";
       channel_participations = Channel.find_by(id: params[:receiver_id]).channel_participations;
       channelP = channel_participations.where.not("user_id = ?", params[:user_id]).first;
+      puts channelP.to_json;
       respond_to do |format|
         format.html
         format.json {render json: channelP}
+      end
+    elsif (params[:type] == "all")
+      puts "ALL !";
+      channel_participations = Channel.find_by(id: params[:receiver_id]).channel_participations;
+      in_user_id_order = {};
+      channel_participations.each do |participant|
+        in_user_id_order[participant.user_id] = participant;
+      end
+      respond_to do |format|
+        format.html
+        format.json {render json: in_user_id_order}
       end
     else
       @channel_participations = ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).first;
@@ -150,6 +162,9 @@ class ChannelParticipationsController < ApplicationController
   # PATCH/PUT /channel_participations/1.json
   def update
     puts params;
+    if (params[:is_admin] == "not")
+      params["channel_participation"][:is_admin] = nil;
+    end
     if (params[:status] == "none")
       params["channel_participation"][:status] = nil;
       params["channel_participation"][:unmute_datetime] = nil;

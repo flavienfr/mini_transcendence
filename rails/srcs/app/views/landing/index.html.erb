@@ -308,7 +308,7 @@ var ChatView = Backbone.View.extend({
 				console.log(data);
 				channel_participation = new ChannelParticipation();
 				channel_participation.fetch({
-					data: {type: "facing_user", user_id: <%== current_user.id %>, receiver_id: channel_info.id},
+					data: {type: (channel_info.scope == "direct" ? "facing_user" : ""), user_id: <%== current_user.id %>, receiver_id: channel_info.id},
 					success: function(data2){
 						el.html(t({channel: channel_info, channel_participation: data.toJSON(), other_participation: data2.toJSON()}));
 					}

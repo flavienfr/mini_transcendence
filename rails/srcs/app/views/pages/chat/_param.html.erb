@@ -135,14 +135,26 @@
 				success: function(data)
 				{
 					console.log(data.toJSON());
-					chatview.render_chat_param(<%%= JSON.stringify(channel) %>);
-					var notification = new Notification({
-						from_user_id: <%== current_user.id %>,
-						user_id: <%%= other_participation.user_id %>,
-						table_type: "information",
-						message: "you got blocked by <%== current_user.name %>"
+					var BlockUser = Backbone.Model.extend({
+						urlRoot: '/block_users'
 					});
-					notification.save();
+					var block_user = new BlockUser();
+					block_user.save(
+					{//faire attention a ne pas avoir la possibilite de save plusieurs fois
+						user_id: <%== current_user.id %>, block_user_id: <%%= other_participation.user_id %>
+					},
+					{
+						success: function(){
+							chatview.render_chat_param(<%%= JSON.stringify(channel) %>);
+							var notification = new Notification({
+								from_user_id: <%== current_user.id %>,
+								user_id: <%%= other_participation.user_id %>,
+								table_type: "information",
+								message: "you got blocked by <%== current_user.name %>"
+							});
+							notification.save();
+						}
+					});
 				}
 			});
 		}
@@ -158,14 +170,29 @@
 				success: function(data)
 				{
 					console.log(data.toJSON());
-					chatview.render_chat_param(<%%= JSON.stringify(channel) %>);
-					var notification = new Notification({
-						from_user_id: <%== current_user.id %>,
-						user_id: <%%= other_participation.user_id %>,
-						table_type: "information",
-						message: "you got unblocked by <%== current_user.name %>"
+					var BlockUser = Backbone.Model.extend({
+						urlRoot: '/block_users'
 					});
-					notification.save();
+					var block_user = new BlockUser();
+					block_user.fetch({
+						data: {type: "find", user_id: <%== current_user.id %>, block_user_id: <%%= other_participation.user_id %>},
+						success: function(data2){
+							console.log(data2.toJSON());
+							data2.destroy({
+								success: function(){
+									console.log("destroy ok !");
+									chatview.render_chat_param(<%%= JSON.stringify(channel) %>);
+									var notification = new Notification({
+										from_user_id: <%== current_user.id %>,
+										user_id: <%%= other_participation.user_id %>,
+										table_type: "information",
+										message: "you got unblocked by <%== current_user.name %>"
+									});
+									notification.save();
+								}
+							});
+						}
+					});
 				}
 			});
 		}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_10_191142) do
+ActiveRecord::Schema.define(version: 2020_11_12_010932) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,15 @@ ActiveRecord::Schema.define(version: 2020_11_10_191142) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "count_all_matchs_for_war", default: false
     t.index ["war_id"], name: "index_ask_for_wars_on_war_id"
+  end
+
+  create_table "block_users", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "block_user_id"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_block_users_on_user_id"
   end
 
   create_table "channel_participations", force: :cascade do |t|
@@ -211,7 +220,7 @@ ActiveRecord::Schema.define(version: 2020_11_10_191142) do
     t.string "name"
     t.string "avatar"
     t.string "current_status"
-    t.integer "points"
+    t.integer "points", default: 0
     t.boolean "is_admin", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -264,6 +273,7 @@ ActiveRecord::Schema.define(version: 2020_11_10_191142) do
 
   add_foreign_key "ask_for_friendships", "friendships"
   add_foreign_key "ask_for_wars", "wars"
+  add_foreign_key "block_users", "users"
   add_foreign_key "channel_participations", "channels"
   add_foreign_key "channel_participations", "users"
   add_foreign_key "game_participations", "games"

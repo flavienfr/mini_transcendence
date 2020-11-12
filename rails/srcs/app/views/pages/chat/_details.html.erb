@@ -1,13 +1,17 @@
 <script type="text/template" id="chat_details-template">
     <input type="hidden" id="detail_chat_in" value="<%%= channel.id %>">
-    <div class="details_chat_header">
-        <a id="back_to_current_chat" onclick="ft_back_to_conversation()">
-            X
-        </a>
-    </div>
-    <div id="participants_to_add">
-    </div>
-    <div id="list_of_participants">
+    <div>
+        <div>
+            <a style='position: absolute; right: 20px;' id="back_to_current_chat" onclick="ft_back_to_conversation()">
+                X
+            </a>
+        </div>
+        <div style='overflow-y: auto; height: auto; max-height: 60vh;'>
+            <div id="participants_to_add">
+            </div>
+            <div id="list_of_participants">
+            </div>
+        </div>
     </div>
     <script>
         function ft_back_to_conversation()
@@ -55,49 +59,59 @@
                         console.log(data1);
                         var show_div = $("#list_of_participants");
                         show_div.append("<p>list of participants</p>")
-                        var i = 0;
-                        while (i < Object.keys(data1).length)
-                        {
-                            show_div.append("<div><a href='/#profil/"+ data1[i].id +"'>" + data1[i].name + "</a>" +
-                                            (user_participation.is_owner ? "<button onclick='ft_adminize(" + data1[i].id + ")'>Adminize</button>" : "") +
-                                            (user_participation.is_admin && <%%= channel.owner_id %> != data1[i].id && <%== current_user.id %> != data1[i].id ?
-                                                "<button onclick='ft_kick(" + data1[i].id + ", \"got banned from\")'>Ban</button>"+
-                                                "<div>"+
-                                                "<select id='muteTime'>"+
-                                                "<option>1 minutes</option>"+
-                                                "<option>5 minutes</option>"+
-                                                "<option>10 minutes</option>"+
-                                                "<option>30 minutes</option>"+
-                                                "<option>1 hours</option>"+
-                                                "<option>2 hours</option>"+
-                                                "</select>"+
-                                                "<button onclick='ft_mute(" + data1[i].id + ")'>mute</button>"+
-                                                "</div>" : "") +
-                                            //(<%== current_user.id %> == data1[i].id ? "<button onclick='ft_kick(" + <%== current_user.id %> + ", \"left\")'>leave</button>" : "") +
-                                            "</div>");
-                            i++;
-                        }
-                        if (user_participation.is_admin)
-                        {
-                            var user = new User();
-                            user.fetch({
-                                data: {users_to_get: "banned_participants", channel_id: <%%= channel.id %>},
-                                success: function(data)
+                        channel_participation = new ChannelParticipation();
+                        channel_participation.fetch({
+                            data: {type: "all", receiver_id: <%%= channel.id %>},
+                            success: function(data3){
+                                data3 = data3.toJSON();
+                                console.log("!!!!!!!!!!!!!!!!");
+                                console.log(data3);
+                                var i = 0;
+                                while (i < Object.keys(data1).length)
                                 {
-                                    console.log("----+++++");
-                                    data = data.toJSON();
-                                    console.log(data);
-                                    var show_div = $("#list_of_participants");
-                                    show_div.append("<p>Participants To Unban</p>");
-                                    var i = 0;
-                                    while (i < Object.keys(data).length)
-                                    {
-                                        show_div.append("<div><button onclick='ft_unban(" + data[i].id + ")'>" + data[i].name + "</button></div>");
-                                        i++;
-                                    }
+                                    show_div.append("<div style='display: flex;'><a href='/#profil/"+ data1[i].id +"'>" + data1[i].name + "</a>" +
+                                                    (user_participation.is_owner && !data3[data1[i].id].is_admin ? "<button onclick='ft_adminize(" + data1[i].id + ")'>Adminize</button>" : "") +
+                                                    (user_participation.is_owner && <%%= channel.owner_id %> != data1[i].id && data3[data1[i].id].is_admin ? "<button onclick='ft_unadminize(" + data1[i].id + ")'>Unadminize</button>" : "") +
+                                                    (user_participation.is_admin && <%%= channel.owner_id %> != data1[i].id && <%== current_user.id %> != data1[i].id ?
+                                                        "<button onclick='ft_ban(" + data1[i].id + ", \"got banned from\")'>Ban</button>"+
+                                                        "<div>"+
+                                                        "<select id='muteTime'>"+
+                                                        "<option>1 minutes</option>"+
+                                                        "<option>5 minutes</option>"+
+                                                        "<option>10 minutes</option>"+
+                                                        "<option>30 minutes</option>"+
+                                                        "<option>1 hours</option>"+
+                                                        "<option>2 hours</option>"+
+                                                        "</select>"+
+                                                        "<button onclick='ft_mute(" + data1[i].id + ")'>mute</button>"+
+                                                        "</div>" : "") +
+                                                    (user_participation.is_admin && <%== current_user.id %> != data1[i].id && !data3[data1[i].id].is_owner ? "<button onclick='ft_kick(" + data1[i].id + ")'>kick</button>" : "") +
+                                                    "</div>");
+                                    i++;
                                 }
-                            });
-                        }
+                                if (user_participation.is_admin)
+                                {
+                                    var user = new User();
+                                    user.fetch({
+                                        data: {users_to_get: "banned_participants", channel_id: <%%= channel.id %>},
+                                        success: function(data)
+                                        {
+                                            console.log("----+++++");
+                                            data = data.toJSON();
+                                            console.log(data);
+                                            var show_div = $("#list_of_participants");
+                                            show_div.append("<p>Participants To Unban</p>");
+                                            var i = 0;
+                                            while (i < Object.keys(data).length)
+                                            {
+                                                show_div.append("<div><button onclick='ft_unban(" + data[i].id + ")'>" + data[i].name + "</button></div>");
+                                                i++;
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
                     }
                 });
             }
@@ -149,7 +163,54 @@
                 }
             });
         }
-        function ft_kick(user_id, msg)
+        function ft_unadminize(user_id)
+        {
+            console.log("unadminize");
+            var ChannelParticipation = Backbone.Model.extend({
+                urlRoot: '/channel_participations'
+            });
+            var channel_participation = new ChannelParticipation();
+            channel_participation.fetch({
+                data: {user_id: user_id, receiver_id: <%%= channel.id %>},
+                success: function(data){
+                    data.set("is_admin", "not");
+                    data.save({}, {
+                        success: function(){
+                            console.log("ok !!");
+                            chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+                        }
+                    });
+                }
+            });
+        }
+        function ft_kick(user_id)
+        {
+            console.log("kick !");
+            var ChannelParticipation = Backbone.Model.extend({
+                urlRoot: '/channel_participations'
+            });
+            var channel_participation = new ChannelParticipation();
+            channel_participation.fetch({
+                data: {user_id: user_id, receiver_id: <%%= channel.id %>},
+                success: function(data)
+                {
+                    data.destroy({
+                        success: function(){
+                            console.log("deleted");
+                            var notification = new Notification({
+                                from_user_id: <%== current_user.id %>,
+                                user_id: user_id,
+                                table_type: "information",
+                                message: "you got kicked from: <%%= channel.name %>"
+                            });
+                            notification.save();
+                            chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+                        }
+                    });
+                }
+            });
+        }
+        function ft_ban(user_id, msg)
         {
             console.log("aaa!!!");
             var ChannelParticipation = Backbone.Model.extend({

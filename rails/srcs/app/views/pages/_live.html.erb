@@ -4,45 +4,26 @@
 	<div class="container-fluid container-live-play">
 		<div class="row">
 			<div class=" active_game">
-
 				<table class="table">
 					<thead class="thead-dark">
 						<tr>
 							<th scope="col">Active match</th>
 						</tr>
 					</thead>
-					<tbody>
-					<% hosts = AskForGame.all%>
-					<% hosts.each do |host| %>
-				  		<tr>
-							<td>
-								<% if (host.from_user_id != nil && host.status == "playing") %>
-								<a class="dropdown-item" id=<%= host.from_user_id%> onclick="save_watch(<%=host.from_user_id%>)"> <%=User.find(host.from_user_id).name %></a>
-								<% end %> 
-							</td>
-						  </tr> 
-					<% end %>
-					
+					<tbody id="game_room">	
 						  <!-- faire une iteration de toute les games ici qui donne les playing -->
-				  		<tr>
-							<td><a href="#link_to_the_game">Didier VS helenne</a></td>
-				  		</tr>
-				  		<tr>
 				  			<td></td>
 				  		</tr>
 					</tbody>
 			  </table>
-
 	    	</div>
 	    	<div class="col text-center"  id ="pong-area">
 	      		<h1>Le live pong</h1>
-	    	</div>
+				  <button onclick="refresh()">Try it</button>	
+			</div>
 			<div class="col chat" id="chat_area">
-
-
 	    	</div>
 		</div>
-		  
 	</div>
 </script>
 
@@ -50,7 +31,86 @@
 <script>
 
 var current = <%== current_user.id%>;
+function getName(id)
+{
+	var Users = Backbone.Model.extend({
+		url: '/users'
+	})
+	var user = new Users();
+	user.fetch({data: {user_id: id}, success: function(name){
+		
+		name = user.get('name');
+		return name;
+		
+	}});
+	return (name);
+}
 
+function ft_getNames(data)
+{
+	var Users = Backbone.Model.extend({
+		url: '/users'
+	})
+	var user = new Users();
+	user.fetch({data: {user_id: data.from_user_id}, success: function(){
+		
+		var user2 = new Users();
+		user2.fetch({data: {user_id: data.to_user_id}, success: function ()
+	{
+		var show_div = $("#game_room");
+		var name1 = user.get('name');
+		var name2 = user2.get('name');
+		show_div.append("<a class='dropdown-item' onclick='save_watch("+ data.from_user_id +")'>"+ name1 + " VS " + name2 +"</a>");;
+	}});
+
+		
+	}});
+
+}
+
+function refresh()
+{
+	var AskForGame = Backbone.Model.extend({
+        urlRoot: '/ask_for_games'
+	})
+	var ask_for_game = new AskForGame();
+	ask_for_game.fetch({data: {all: "true"}, success: function(data){
+	data = data.toJSON();
+	var size = Object.keys(data).length;
+	var i = 0;
+	while (i < size)
+	{
+		if (data[i].status == "playing")
+		ft_getNames(data[i]);
+		i++;
+	}	
+	}});
+}
+
+
+var socket = new WebSocket("ws://localhost:3000/cable");
+socket.onopen = function()
+{    
+    socket.send(JSON.stringify({
+            command: "subscribe",
+            identifier: JSON.stringify({
+                channel: "PongnotChannel",
+                pong_id:  0
+            })
+        }));
+}
+socket.onmessage = function(event) 
+{
+	const response = event.data;
+	const msg = JSON.parse(response);
+	if (msg.type == "ping" || !msg.message)// don't check the ping message
+		return ;
+	if (msg.message.data == "refresh" || msg.message.data.play == "true")
+	{
+		$('.dropdown-item').remove();
+		refresh();
+	}
+}
 
 function save_watch(host_id)
 {
@@ -68,4 +128,7 @@ function save_watch(host_id)
 	}
     watch.fetch({data: {user_id: current}, success: modify});
 }
+ refresh();
+
+
 </script>

@@ -48,23 +48,25 @@ class AskForGamesController < ApplicationController
 		the_war = guild_a.wars.where('wars.status=?', "ongoing").first
 		warp_b = WarParticipation.all.where('war_id=? AND guild_id!=?',the_war.id, guild_a.id).first
 		guild_b = Guild.find(warp_b.guild_id)
-		wartime = WarTime.all.where('war_id=?', the_war.id)
+		wartime = WarTime.all.where('war_id=?', the_war.id).first
 
 		#Ask_for_games creation to delete afet acceptation ou after delay
 		@ask_for_game = AskForGame.new(
 			from_user_id: user.id,
 			to_user_id: nil,
+			game_type: "war_random_match",
 			status: "pending"
 		)
 		@ask_for_game.save
 
 		#Check is war time
-		if (true)#wartime.empty? == false && wartime.start_date.to_s < Time.zone.now.to_s && wartime.end_date.to_s > Time.zone.now.to_s)
-			#if (wartime.ongoing_match == true)
-			#	json_render["msg"] = "A war time match is ongoing.\nYou can have only one war time match at the time."
-			#	json_render["is_msg"] = 1
-			#	render json: json_render, status: :ok and return
-			#end
+		puts "--------------wartime: " + wartime.to_json
+		if (wartime != nil && wartime.start_date.to_s < Time.zone.now.to_s && wartime.end_date.to_s > Time.zone.now.to_s)
+			if (wartime.ongoing_match == true)
+				json_render["msg"] = "A war time match is ongoing.\nYou can have only one war time match at the time."
+				json_render["is_msg"] = 1
+				render json: json_render, status: :ok and return
+			end
 			#Send notif to all opponent guild
 			for to_user in guild_b.users do
 				puts "--- Notification sent to user: " + user.name
@@ -94,7 +96,7 @@ class AskForGamesController < ApplicationController
 	json_render = {}
 	
 	#TODO: Ajouté check du delay
-	#if (params[:type] == "war_random_match")
+	if (@ask_for_game.game_type == "war_random_match")
 		puts "------------@ask_for_game.status: " + @ask_for_game.status 
 		if (@ask_for_game.status == "pending")
 			@ask_for_game.update(
@@ -109,7 +111,7 @@ class AskForGamesController < ApplicationController
 			json_render["is_msg"] = 1
 			render json: json_render, status: :ok and return
 		end
-	#end
+	end
 
 	json_render["msg"] = "réponse accepté"
 	json_render["is_msg"] = 1

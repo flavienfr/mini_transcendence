@@ -24,17 +24,7 @@ class GameParticipationsController < ApplicationController
   # POST /game_participations
   # POST /game_participations.json
   def create
-    @game_participation = GameParticipation.new(game_participation_params)
 
-    respond_to do |format|
-      if @game_participation.save
-        format.html { redirect_to @game_participation, notice: 'Game participation was successfully created.' }
-        format.json { render :show, status: :created, location: @game_participation }
-      else
-        format.html { render :new }
-        format.json { render json: @game_participation.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # PATCH/PUT /game_participations/1

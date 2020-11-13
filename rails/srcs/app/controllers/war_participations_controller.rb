@@ -6,24 +6,18 @@ class WarParticipationsController < ApplicationController
 	#Variable utils
 	json_render = {}
 	user = User.find(params[:user_id].to_i)
-	puts "--------- 1"
+
 	if (user.guild_participation_id == nil || user.guild_participations.first.guild.war_participation_id == nil)
 		json_render["is_war"] = false
 		render json: json_render, status: :ok and return
 	end
-	puts "--------- 2"
 
 	#Variable utils
 	guild_a = user.guild_participations.first.guild
-	puts "--------- 3"
 	warp_a = WarParticipation.find(guild_a.war_participation_id)
-	puts "--------- 4"
 	the_war = guild_a.wars.where('wars.status=?', "ongoing").first
-	puts "--------- 5", the_war.to_json, guild_a.to_json
 	warp_b = WarParticipation.all.where('war_id=? AND guild_id!=?',the_war.id, guild_a.id).first
-	puts "--------- 6"
 	guild_b = Guild.find(warp_b.guild_id)
-	puts "--------- 7"
 
 	#is war finish => end of war
 	puts "Time.zone.now > the_war.end_date", Time.zone.now, the_war.end_date
@@ -34,17 +28,17 @@ class WarParticipationsController < ApplicationController
 			warp_b.is_winner = false
 			the_war.winner_id = guild_a.id
 			guild_a.points += the_war.prize_in_points
+			guild_b.points -= the_war.prize_in_points
 		elsif (warp_a.war_points < warp_b.war_points)
 			warp_a.is_winner = false
 			warp_b.is_winner = true
 			the_war.winner_id = guild_b.id
 			guild_b.points += the_war.prize_in_points
+			guild_a.points -= the_war.prize_in_points
 		else
 			warp_a.is_winner = nil
 			warp_b.is_winner = nil
 			the_war.winner_id = nil
-			guild_a.points += (the_war.prize_in_points / 2)
-			guild_b.points += (the_war.prize_in_points / 2)
 		end
 		#guild_a
 		guild_a.war_participation_id = nil
@@ -79,6 +73,7 @@ class WarParticipationsController < ApplicationController
 	json_render["prize_pool"] = the_war.prize_in_points
 	json_render["max_unanswered_call"] = the_war.max_unanswered_call
 	json_render["opponents"] = guild_b.users
+	json_render["war_times"] = WarTime.all.where('war_id=?', the_war.id)
 	render json: json_render, status: :ok and return
   end
 

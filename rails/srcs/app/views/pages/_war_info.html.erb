@@ -32,10 +32,20 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>25/02/1999 to 25/19/1560</td>
-							<td>0/<%%= info.max_unanswered_call %></td>
-						</tr>
+						<%% for (let i = 0;i < info.war_times.length; i++){ %>
+							<%% wartime = info.war_times[i] %>
+							<%% var start_date = new Date(wartime.start_date) %>
+							<%% var end_date = new Date(wartime.end_date) %>
+							<%% guild_a = guilds.findWhere({id: wartime.a }).toJSON() %>
+							<%% guild_b = guilds.findWhere({id: wartime.b }).toJSON() %>
+							<tr>
+								<td><%%= start_date.toLocaleDateString('fr-FR', options) %> to <%%= end_date.toLocaleDateString('fr-FR', options) %></td>
+								<td>
+									<%%= guild_a.name %> <%%= wartime.nb_unanswered_call_a %>/<%%= info.max_unanswered_call %><br>
+									<%%= guild_b.name %> <%%= wartime.nb_unanswered_call_b %>/<%%= info.max_unanswered_call %>
+								</td>
+							</tr>
+						<%% } %>
 					</tbody>
 				</table>
 				<button type="button" id="war_radom_match" class="btn btn-md btn-block btn-dark border border-light">Random match</button>

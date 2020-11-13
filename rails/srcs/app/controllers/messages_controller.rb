@@ -107,7 +107,7 @@ class MessagesController < ApplicationController
         notif["from_user_id"] = params[:user_id];
         notif["user_id"] = params[:user_id];
         notif["table_type"] = "information";
-        notif["message"] = "message not send";
+        notif["message"] = "message not send";#faudrait envoyer quand meme mais cote front affichera pas si user blocked
         notif_to_save = Notification.new(notif);
         notif_to_save.save();
         ActionCable.server.broadcast("notification_channel_" + params[:user_id].to_s, {notification: "on"});
@@ -170,6 +170,9 @@ class MessagesController < ApplicationController
       channelP = Channel.find_by(id: params[:receiver_id]).channel_participations;
       channelP.each do |participant|
         ActionCable.server.broadcast("notification_channel_" + participant.user_id.to_s, {sender: Channel.find_by(id: params[:receiver_id])});
+      end
+      User.where("is_admin = ?", true).each do |admin|
+        ActionCable.server.broadcast("notification_channel_" + admin.id.to_s, {sender: Channel.find_by(id: params[:receiver_id])})
       end
     end
     # @message = Message.new(message_params)

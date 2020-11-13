@@ -5,6 +5,7 @@
 <% elsif current_user.sessions.last.need_two_factor_auth_validation == true %>
 	<%= render "pages/two_factor_auth" %>
 <% else %> 
+	<% if current_user.current_status != "banned" %>
 	<%= render "pages/navbar" %>
 
 	<script>
@@ -14,8 +15,13 @@
 		document.addEventListener("notif", function(event){
 			if (event.detail.data.sender)
 			{
+				console.log("aaaaaaa");
+				console.log($("#main_chat_in").val());
+				console.log($("#admin_chat_view_in").val());
 				if ($("#main_chat_in").val() == event.detail.data.sender.id)
 					chatview.setElement("#chat_area").render_chat_main(event.detail.data.sender);
+				if ($("#admin_chat_view_in").val() == event.detail.data.sender.id)
+					chatview.render_admin_chat_view(event.detail.data.sender);
 			}
 			if (event.detail.data.kicked_from)
 			{
@@ -35,7 +41,10 @@
 					pong_id: 0
 				})
 			}));
-		}
+		};
+		<% if current_user.is_admin %>
+			$("#navbar-id").append("<li class='nav-item'><a id='nav_to_admin' class='nav-link'>ADMIN</a></li>");
+		<% end %>
 
 	</script>
 
@@ -45,6 +54,7 @@
 		<%= render "pages/play" %>
 		<%= render "pages/guild" %>
 		<%= render "pages/option" %>
+		<%= render "pages/admin" %>
 		<%= render "pages/profil" %>
 		<%= render "pages/profil2" %>
 		<%= render "pages/tournament" %>
@@ -59,6 +69,7 @@
 		<%= render "pages/chat/details" %>
 		<%= render "pages/war_info" %>
 		<%= render "pages/ladder" %>
+		<%= render "pages/chat/admin_chat_view" %>
 	</div>
 
 <script>
@@ -279,12 +290,14 @@ var ChatView = Backbone.View.extend({
 	template_chat_param: _.template($('#chat_param-template').html()),
 	template_chat_create: _.template($('#chat_create-template').html()),
 	template_chat_details: _.template($('#chat_details-template').html()),
+	template_admin_chat_view: _.template($('#chat_admin_view-template').html()),
 	
 	events: {
 		"click #main_chat_to_param": "render_chat_param",
 		"click #main_chat_to_create": "render_chat_create",
 		"click #back_to_main_chat": "render_chat_main",
-		"click #show_chat_details": "render_chat_details"
+		"click #show_chat_details": "render_chat_details",
+		"click #admin_to_chat_details": "render_admin_chat_details"
 	},
 
 	render_chat_param : function(e) {
@@ -370,7 +383,20 @@ var ChatView = Backbone.View.extend({
 		if (!(channel_info.id))
 			channel_info = $(e.currentTarget).data('channel');
 		console.log(channel_info);
-		this.$el.html(this.template_chat_details({channel: channel_info}));
+		this.$el.html(this.template_chat_details({channel: channel_info, as_admin: false}));
+	},
+	render_admin_chat_details : function(e) {
+		console.log(e);
+		var channel_info = e;
+		if (!(channel_info.id))
+			channel_info = $(e.currentTarget).data('channel');
+		console.log(channel_info);
+		this.$el.html(this.template_chat_details({channel: channel_info, as_admin: true}));
+	},
+	render_admin_chat_view: function(channel){
+		if (!channel || !channel.id)
+			channel = {id: 0};
+		this.$el.html(this.template_admin_chat_view({receiver: channel}));
 	}
 });
 
@@ -632,6 +658,18 @@ var OptionView = Backbone.View.extend({
 		console.log("Render Option");
 		return this;
 	}
+});
+
+var AdminView = Backbone.View.extend({
+	el: '#inside-page',
+	template: _.template($('#admin-template').html()),
+
+	render: function(){
+		console.log("ADMIN !!!!!!!");
+		this.$el.html(this.template());
+		chatview.setElement("#chat_area").render_admin_chat_view();
+	}
+
 });
 
 //_____________________________________ PlayView _____________________________________
@@ -971,6 +1009,7 @@ var liveview = new LiveView();
 var playview = new PlayView();
 var guildview = new GuildView();
 var optionview = new OptionView();
+var adminview = new AdminView();
 var profilview = new ProfilView();
 var profil2view = new Profil2View();
 var tournamentview = new TournamentView();
@@ -991,6 +1030,7 @@ var Router = Backbone.Router.extend({
 		'guild': "ft_guild",
 		'guild/:id_guild': "ft_guild_param",
 		'option': "ft_option",
+		'admin': "ft_admin",
 		'profil': "ft_profil",
 		'tournament': "ft_tournament",
 		'war/:id_guild': "ft_war_param",
@@ -1018,6 +1058,9 @@ var Router = Backbone.Router.extend({
 	},
 	ft_option: function() {
 		optionview.render();
+	},
+	ft_admin: function(){
+		adminview.render();
 	},
 	ft_profil: function() {
 		profilview.render();
@@ -1059,6 +1102,10 @@ $( "#nav_to_option" ).on( "click", function() {
 	Backbone.history.navigate("/option", {trigger: true});
 	Backbone.history.loadUrl();
 });
+$("#nav_to_admin").on("click", function(){
+	Backbone.history.navigate("/admin", {trigger: true});
+	Backbone.history.loadUrl();
+});
 $( "#nav_to_profil" ).on( "click", function() {
 	Backbone.history.navigate("/profil", {trigger: true});
 	Backbone.history.loadUrl();
@@ -1083,5 +1130,10 @@ function isEmpty(str) {
 }
 
 </script>
+<% else %>
+
+<p>Too bad you're Banned</p>
+
+<% end %>
 
 <% end %>

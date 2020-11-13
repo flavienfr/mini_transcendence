@@ -54,7 +54,7 @@
 			</div>
 
 			<div class="form-group">
-				<button type="submit" onclick="ft_update()" class="btn btn-primary mb-2 btn-dark">Apply</button>
+				<button onclick="ft_update()" class="btn btn-primary mb-2 btn-dark">Apply</button>
 			</div>
 
 		</form>
@@ -130,7 +130,7 @@
 				urlRoot: '/channel_participations'
 			});
 			var channel_participation = new ChannelParticipation({id: <%%= other_participation.id %>});
-			channel_participation.save({status: "blocked"},
+			channel_participation.save({status: "blocked"},// utiliser block user a la place de status ?
 			{
 				success: function(data)
 				{

@@ -41,7 +41,7 @@
 		</a>
 		<button>Request game</button>
 		<a id="chat" >
-			<button type="submit" id="post_msg" onclick="ft_send()" class="btn btn-primary btn-dark">Send</button>
+			<button id="post_msg" onclick="ft_send()" class="btn btn-primary btn-dark">Send</button>
 		</a>
 	</div>
 	<%% } %>
@@ -172,7 +172,7 @@
 							show_div.append("<div style='display:flex;'><button class='dropdown-item' onclick='ft_show_conversation(" +
 											JSON.stringify(data.channels_in[i]) + ")'>" +
 											data.channels_in[i].name + " (" + data.channels_in[i].scope + ")" + "</button>" +
-											(<%== current_user.is_admin %> ? "<button onclick='ft_delete(" + JSON.stringify(data.channels_in[i]) + ")'>Delete</button>" : "") +
+											//(<%== current_user.is_admin %> ? "<button onclick='ft_delete(" + JSON.stringify(data.channels_in[i]) + ")'>Delete</button>" : "") +
 											"</div>");
 							i++;
 						}
@@ -201,23 +201,11 @@
 							show_div.append("<div style='display: flex;'><button class='dropdown-item' onclick='ft_show_conversation(" +
 											JSON.stringify(data.channels_joignable[i]) + ")'>" +
 											data.channels_joignable[i].name + " (" + data.channels_joignable[i].scope + ")" + "</button>" +
-											(<%== current_user.is_admin %> ? "<button onclick='ft_delete(" + JSON.stringify(data.channels_joignable[i]) + ")'>Delete</button>" : "") +
+											//(<%== current_user.is_admin %> ? "<button onclick='ft_delete(" + JSON.stringify(data.channels_joignable[i]) + ")'>Delete</button>" : "") +
 											"</div>");
 							i++;
 						}
 					}
-					<% if (current_user.is_admin) %>
-					if (data.channels_private_not_in.length > 0)
-					{
-						i = 0;
-						show_div.append("<p>Private group not in</p>")
-						while (i < data.channels_private_not_in.length)
-						{
-							show_div.append("<div style='display: flex;'><p class='dropdown-item'>" + data.channels_private_not_in[i].name + " (" + data.channels_private_not_in[i].scope + ")" + "</p><button onclick='ft_delete(" + JSON.stringify(data.channels_private_not_in[i]) + ")'>Delete</button></div>");
-							i++;
-						}
-					}
-					<% end %>
 				}
 			});
 		}
@@ -249,20 +237,5 @@
 				}
 			});
 		};
-		function ft_delete(channel)
-		{
-			console.log("as admin");
-			console.log(channel);
-			var Channel = Backbone.Model.extend({
-				urlRoot: '/channels'
-			});
-			var channel = new Channel({id: channel.id});
-			channel.destroy({
-				success: function(){
-					chatview.render_chat_main();
-				}
-			});
-			//chatview.render_chat_main();
-		}
 	</script>
 </script>

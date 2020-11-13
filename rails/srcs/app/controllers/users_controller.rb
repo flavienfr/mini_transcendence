@@ -35,6 +35,11 @@ class UsersController < ApplicationController
         format.html
         format.json {render json: users_banned}
       end
+    else
+      respond_to do |format|
+        format.html
+        format.json {render json: User.all}
+      end
     end
   end
 
@@ -81,6 +86,11 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+
+    if (params[:type] == "admin_update")
+      @user.update(user_params)
+      return;
+    end
     
     puts 'inside update | PUT /users/:id'
     puts 'params: ', params

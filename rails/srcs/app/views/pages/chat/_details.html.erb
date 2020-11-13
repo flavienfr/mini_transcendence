@@ -1,8 +1,8 @@
 <script type="text/template" id="chat_details-template">
-    <input type="hidden" id="detail_chat_in" value="<%%= channel.id %>">
+    <input type="hidden" id="detail_chat_in" value="<%%= as_admin ? 0 : channel.id %>">
     <div>
         <div>
-            <a style='position: absolute; right: 20px;' id="back_to_current_chat" onclick="ft_back_to_conversation()">
+            <a style='position: absolute; right: 20px;' id="back_to_current_chat" onclick="ft_back_to_conversation(<%%= as_admin %>)">
                 X
             </a>
         </div>
@@ -14,10 +14,15 @@
         </div>
     </div>
     <script>
-        function ft_back_to_conversation()
+        function ft_back_to_conversation(as_admin)
         {
+            <%% console.log("aaaaaaaaaaaa_______") %>
+            <%% console.log(as_admin) %>
             var channel_name = <%%= JSON.stringify(channel) %>;
-            chatview.setElement("#chat_area").render_chat_main(<%%= JSON.stringify(channel) %>);
+            if (!as_admin)
+                chatview.setElement("#chat_area").render_chat_main(<%%= JSON.stringify(channel) %>);
+            else
+                chatview.setElement("#chat_area").render_admin_chat_view(<%%= JSON.stringify(channel) %>);
         }
         var User = Backbone.Model.extend({
             urlRoot: '/users'
@@ -34,7 +39,7 @@
                 var i = 0;
                 while (i < Object.keys(data).length)
                 {
-                    show_div.append("<div><button onclick='ft_add_participant("+ data[i].id +")'>"+ data[i].name +"</button></div>");
+                    show_div.append("<div><button onclick='ft_add_participant(" + data[i].id + ", <%%= as_admin %>)'>" + data[i].name + "</button></div>");
                     i++;
                 }
             }
@@ -56,6 +61,9 @@
                         var user_participation = data2.toJSON();
                         data1 = data1.toJSON();
                         console.log("aaaaaaaaaa");
+                        console.log(user_participation);
+                        console.log("<%%= channel.owner_id %>");
+                        console.log("<%== current_user.id %>");
                         console.log(data1);
                         var show_div = $("#list_of_participants");
                         show_div.append("<p>list of participants</p>")
@@ -69,11 +77,13 @@
                                 var i = 0;
                                 while (i < Object.keys(data1).length)
                                 {
+                                    console.log("->" + data1[i].id + "|" + data1[i].name);
                                     show_div.append("<div style='display: flex;'><a href='/#profil/"+ data1[i].id +"'>" + data1[i].name + "</a>" +
-                                                    (user_participation.is_owner && !data3[data1[i].id].is_admin ? "<button onclick='ft_adminize(" + data1[i].id + ")'>Adminize</button>" : "") +
-                                                    (user_participation.is_owner && <%%= channel.owner_id %> != data1[i].id && data3[data1[i].id].is_admin ? "<button onclick='ft_unadminize(" + data1[i].id + ")'>Unadminize</button>" : "") +
-                                                    (user_participation.is_admin && <%%= channel.owner_id %> != data1[i].id && <%== current_user.id %> != data1[i].id ?
-                                                        "<button onclick='ft_ban(" + data1[i].id + ", \"got banned from\")'>Ban</button>"+
+                                                    (<%%= as_admin %> && !data3[data1[i].id].is_owner ? "<button onclick='ft_ownerize(" + data1[i].id + ")'>Ownerize</button>" : "") +//a finir ownerize
+                                                    ((<%%= as_admin %> || user_participation.is_owner) && !data3[data1[i].id].is_admin ? "<button onclick='ft_adminize(" + data1[i].id + ", <%%= as_admin %>)'>Adminize</button>" : "") +
+                                                    ((<%%= as_admin %> || user_participation.is_owner) && !data3[data1[i].id].is_owner && data3[data1[i].id].is_admin ? "<button onclick='ft_unadminize(" + data1[i].id + ", <%%= as_admin %>)'>Unadminize</button>" : "") +
+                                                    (<%%= as_admin %> || (user_participation.is_admin && !data3[data1[i].id].is_owner && <%== current_user.id %> != data1[i].id) ?
+                                                        "<button onclick='ft_ban(" + data1[i].id + ", <%%= as_admin %>)'>Ban</button>"+
                                                         "<div>"+
                                                         "<select id='muteTime'>"+
                                                         "<option>1 minutes</option>"+
@@ -85,7 +95,7 @@
                                                         "</select>"+
                                                         "<button onclick='ft_mute(" + data1[i].id + ")'>mute</button>"+
                                                         "</div>" : "") +
-                                                    (user_participation.is_admin && <%== current_user.id %> != data1[i].id && !data3[data1[i].id].is_owner ? "<button onclick='ft_kick(" + data1[i].id + ")'>kick</button>" : "") +
+                                                    (<%%= as_admin %> || (user_participation.is_admin && !data3[data1[i].id].is_owner && <%== current_user.id %> != data1[i].id) ? "<button onclick='ft_kick(" + data1[i].id + ", <%%= as_admin %>)'>kick</button>" : "") +
                                                     "</div>");
                                     i++;
                                 }
@@ -104,7 +114,7 @@
                                             var i = 0;
                                             while (i < Object.keys(data).length)
                                             {
-                                                show_div.append("<div><button onclick='ft_unban(" + data[i].id + ")'>" + data[i].name + "</button></div>");
+                                                show_div.append("<div><button onclick='ft_unban(" + data[i].id + ", <%%= as_admin %>)'>" + data[i].name + "</button></div>");
                                                 i++;
                                             }
                                         }
@@ -116,7 +126,7 @@
                 });
             }
         });
-        function ft_add_participant(id)
+        function ft_add_participant(id, as_admin)
         {
             var ChannelParticipation = Backbone.Model.extend({
                 urlRoot: '/channel_participations'
@@ -133,11 +143,35 @@
             {
                 success: function()
                 {
-                    chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+                    if (!as_admin)
+                        chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+                    else
+                        chatview.render_admin_chat_details(<%%= JSON.stringify(channel) %>);
                 }
             });
         }
-        function ft_adminize(user_id)
+        function ft_ownerize(user_id)
+        {
+            console.log("ownerize" + user_id);
+            var ChannelParticipation = Backbone.Model.extend({
+                urlRoot: '/channel_participations'
+            });
+            var channel_participation = new ChannelParticipation();
+            channel_participation.fetch({
+                data: {user_id: user_id, receiver_id: <%%= channel.id %>},
+                success: function(data){
+                    data.set("type", "new_owner");
+                    data.save({}, {
+                        success: function(){
+                            console.log("got2 !!");
+                            chatview.render_admin_chat_details(<%%= JSON.stringify(channel) %>);
+                        }
+                    });
+                    console.log("got !!");
+                }
+            });
+        }
+        function ft_adminize(user_id, as_admin)
         {
             var ChannelParticipation = Backbone.Model.extend({
                 urlRoot: '/channel_participations'
@@ -159,11 +193,14 @@
                         message: "you got adminized in group: <%%= channel.name %>"
                     });
                     notification.save();
-                    chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+                    if (!as_admin)
+                        chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+                    else
+                        chatview.render_admin_chat_details(<%%= JSON.stringify(channel) %>);
                 }
             });
         }
-        function ft_unadminize(user_id)
+        function ft_unadminize(user_id, as_admin)
         {
             console.log("unadminize");
             var ChannelParticipation = Backbone.Model.extend({
@@ -177,13 +214,16 @@
                     data.save({}, {
                         success: function(){
                             console.log("ok !!");
-                            chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+                            if (!as_admin)
+                                chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+                            else
+                                chatview.render_admin_chat_details(<%%= JSON.stringify(channel) %>);
                         }
                     });
                 }
             });
         }
-        function ft_kick(user_id)
+        function ft_kick(user_id, as_admin)
         {
             console.log("kick !");
             var ChannelParticipation = Backbone.Model.extend({
@@ -204,13 +244,16 @@
                                 message: "you got kicked from: <%%= channel.name %>"
                             });
                             notification.save();
-                            chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+                            if (!as_admin)
+                                chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+                            else
+                                chatview.render_admin_chat_details(<%%= JSON.stringify(channel) %>);
                         }
                     });
                 }
             });
         }
-        function ft_ban(user_id, msg)
+        function ft_ban(user_id, as_admin)
         {
             console.log("aaa!!!");
             var ChannelParticipation = Backbone.Model.extend({
@@ -232,13 +275,13 @@
                                 from_user_id: <%== current_user.id %>,
                                 user_id: user_id,
                                 table_type: "information",
-                                message: "you " + msg + " group: <%%= channel.name %>"
+                                message: "you got banned from group: <%%= channel.name %>"
                             });
                             notification.save();
-                            if (msg == "left")
-                                chatview.render_chat_main();
-                            else
+                            if (!as_admin)
                                 chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+                            else
+                                chatview.render_admin_chat_details(<%%= JSON.stringify(channel) %>);
                         }
                     });
                 }
@@ -265,7 +308,7 @@
                 }
             })
         }
-        function ft_unban(id)
+        function ft_unban(id, as_admin)
         {
             console.log("unban" + id);
             var ChannelParticipation = Backbone.Model.extend({
@@ -286,7 +329,10 @@
                                 message: "you are no longer banned from group: <%%= channel.name %>"
                             });
                             notification.save();
-                            chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+                            if (!as_admin)
+                                chatview.render_chat_details(<%%= JSON.stringify(channel) %>);
+                            else
+                                chatview.render_admin_chat_details(<%%= JSON.stringify(channel) %>);
                         }
                     });
                 }

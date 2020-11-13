@@ -4,11 +4,11 @@
     <div id = "pong-id" data-pong-id= <%=current_user.id%>> </div>
     <canvas id="pong" width="800px" height="600px" > </canvas>
     
-    <script>
+    <script>      
+    function lets() {
         var current = <%== current_user.id%>
         var frame = 50;
         var time_pause = 10
-        
         function play(host_id)
         {
             const canvas = document.getElementById("pong");
@@ -137,17 +137,18 @@
     //-------------------------------part 5 function paddle --------------------------------------//
 
     
-    //-------------------------------part 6  socket receive and send --------------------------------------//
+    //-------------------------------part 6  sock receive and send --------------------------------------//
     
             function ft_recieve() 
             {   
-                socket.onmessage = function(event) 
+                sock.onmessage = function(event) 
                 {            
                 const response = event.data;
                 const msg = JSON.parse(response); 
-     
                     if (msg.type == "ping" || !msg.message )
                         return ;
+                    if (msg.message.data == "stop")
+                        host.score = -1;
                     if (msg.message.data.timer == 0 || msg.message.data.timer)
                         timer = msg.message.data.timer;
                     if (msg.message.data.hosty)
@@ -177,14 +178,23 @@
             {
                 ft_recieve()
                 show();
+                console.log("host score = " + host.score);
+                if (host.score == -1 || closescript == true)
+                {
+                    endText("player disco..")
+                    sock.close();
+                    clearInterval(stop);
+                    setTimeout(() => {liveview.render();}, 700);
+                }
                 if (host.score == 11 || guest.score == 11)
                 {
                     if (guest.score == 11)
                         endText("Guest win !!!");
                     else
                         endText("Host loose ... ");
+                    sock.close();
+                    setTimeout(() => {liveview.render();}, 700);
                     clearInterval(stop);
-                    socket.close();
                 }
                 
             }
@@ -193,30 +203,41 @@
         }
     
     //-------------------------------MAIN --------------------------------------//
+
+        window.onbeforeunload = function() {
+    sock.onclose = function () {}; // disable onclose handler first
+    sock.close();
+    console.log("cloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooose")
+};       
+        closescript = false;
+        sock = new WebSocket("ws://localhost:3000/cable");
+        sock.onopen = function()
+        {   
+            console.log("ici");      
+            console.log(sock);
+            var Watch = Backbone.Model.extend({
+                urlRoot: '/watches'
+            })
+            var watch = new Watch();
+            function get_channel()
+        {
+            var host_id = watch.get('hostId');
+                sock.send(JSON.stringify({
+                    command: "subscribe",
+                    identifier: JSON.stringify({
+                        channel: "PongChannel",
+                        pong_id: host_id,
+                        user_id: <%== current_user.id %>
+                    })
+                }));
+            play(host_id);
+        }
+            watch.fetch({data: {user_id: current}, success: get_channel});
     
-    var socket = new WebSocket("ws://localhost:3000/cable");
-    socket.onopen = function()
-    {         
-        var Watch = Backbone.Model.extend({
-            urlRoot: '/watches'
-        })
-        var watch = new Watch();
-        function get_channel()
-    {
-        var host_id = watch.get('hostId');
-            socket.send(JSON.stringify({
-                command: "subscribe",
-                identifier: JSON.stringify({
-                    channel: "PongChannel",
-                    pong_id: host_id
-                })
-            }));
-           play(host_id);
+        }
     }
-        watch.fetch({data: {user_id: current}, success: get_channel});
- 
-    }
-    
+
+    lets();
     
     </script>
     </script> 

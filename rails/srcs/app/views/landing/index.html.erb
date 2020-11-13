@@ -27,7 +27,6 @@
 		socket_notif = new WebSocket("ws://localhost:3000/cable"); 
 		socket_notif.onopen=  function()
 		{
-			console.log("openn");
 			socket_notif.send(JSON.stringify({
 				command: "subscribe",
 				identifier: JSON.stringify({
@@ -533,6 +532,7 @@ var GuildView = Backbone.View.extend({
 var PongWatch = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($("#pongWatch-template").html()),
+	
 	render : function() {
 		this.$el.html(this.template);
 		return this;
@@ -578,6 +578,7 @@ var LiveView = Backbone.View.extend({
 	render : function() {
 		this.$el.html(this.template);
 		chatview.setElement("#chat_area").render_chat_main(); // https://solvemprobler.com/blog/2013/04/07/backbone-tips-rendering-views-and-their-childviews/
+		console.log("Render Live");
 		refresh();
 		return this;
 	},
@@ -1053,8 +1054,10 @@ $( "#logo" ).on( "click", function() {
 	Backbone.history.navigate("/", {trigger: true});
 });
 $( "#nav_to_live" ).on( "click", function() {
+	var last_url = Backbone.history.getFragment();
 	Backbone.history.navigate("/live", {trigger: true});
-	Backbone.history.loadUrl();
+	if (last_url == "live")
+		Backbone.history.loadUrl();
 });
 $( "#nav_to_play" ).on( "click", function() {
 	Backbone.history.navigate("/play", {trigger: true});

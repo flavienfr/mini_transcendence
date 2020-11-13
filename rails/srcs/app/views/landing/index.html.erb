@@ -1016,6 +1016,33 @@ function ft_accept_notif(notif) {
 			}
 		});
 	}
+	else if (notif.table_type == "ask_for_game") {
+		console.log("ask_for_game");
+		var data = {
+			user_id: current_user_id,
+		}
+		Backbone.ajax({
+			url: '/ask_for_games/' + notif.table_id,
+			data: JSON.stringify(data),
+			contentType: 'application/json',
+			type: 'PUT',
+			dataType: 'json',
+			success: function(response){
+				if (response.is_msg){
+					alert(response.msg)
+					if (response.status != "keep_alive"){
+						delete_notif(notif);
+					}
+				}
+				else{
+					delete_notif(notif);
+				}
+			},
+			error: function(){
+				alert("error");
+			}
+		});
+	}
 };
 
 //******************************************** ROUTER ********************************************

@@ -1,0 +1,115 @@
+<script type="text/template" id="admin-template">
+    <%= stylesheet_link_tag "style-live-play.css" %>
+    <div class="container-fluid container-live-play">
+        <div class="row">
+            <div style="overflow-y:auto;height: auto;max-height: 60vh;" class="col">
+                <h1>Users</h1>
+                <div id="list_of_users_id"></div>
+            </div>
+            <div class="col text-center">
+                <h1>Admin page</h1>
+            </div>
+            <div class="col chat" id="chat_area">
+            </div>
+        </div>
+    </div>
+    <script>
+        var User = Backbone.Model.extend({
+            urlRoot: '/users'
+        });
+        var user = new User();
+        user.fetch({
+            success: function(data){
+                data = data.toJSON();
+                var size = Object.keys(data).length;
+                var i = 0;
+                while (i < size)
+                {
+                    $("#list_of_users_id").append("<div>" + data[i].name +
+                    (<%== current_user.is_admin %> && !data[i].is_admin && data[i].current_status != 'banned' ? "<button onclick='ft_ban_general(" + data[i].id + ")'>Ban</button>" : "") +
+                    (<%== current_user.is_admin %> && data[i].current_status == 'banned' ? "<button onclick='ft_unban_general(" + data[i].id + ")'>Unban</button>" : "") +
+                    (<%== current_user.is_admin %> && !data[i].is_admin ? "<button onclick='ft_adminize_general(" + data[i].id + ")'>Adminize</button>" : "") +
+                    (<%== current_user.is_admin %> && data[i].is_admin ? "<button onclick='ft_unadminize_general(" + data[i].id + ")'>Unadminize</button>" : "") +
+                    "</div>");
+                    i++;
+                }
+            }
+        });
+        function ft_ban_general(user_id)
+        {
+            console.log("user_id" + user_id);
+            var User = Backbone.Model.extend({
+                urlRoot: '/users'
+            });
+            var user = new User({id: user_id});
+            user.set("current_status", "banned");
+            user.save(
+            {
+                type: "admin_update"
+            },
+            {
+                success: function()
+                {
+                    adminview.render();
+                }
+            });
+        }
+        function ft_unban_general(user_id)
+        {
+            console.log("user_id" + user_id);
+            var User = Backbone.Model.extend({
+                urlRoot: '/users'
+            });
+            var user = new User({id: user_id});
+            user.set("current_status", "");
+            user.save(
+            {
+                type: "admin_update"
+            },
+            {
+                success: function()
+                {
+                    adminview.render();
+                }
+            });
+        }
+        function ft_adminize_general(user_id)
+        {
+            console.log("user_id" + user_id);
+            var User = Backbone.Model.extend({
+                urlRoot: '/users'
+            });
+            var user = new User({id: user_id});
+            user.set("is_admin", true);
+            user.save(
+            {
+                type: "admin_update"
+            },
+            {
+                success: function()
+                {
+                    adminview.render();
+                }
+            });
+        }
+        function ft_unadminize_general(user_id)
+        {
+            console.log("user_id" + user_id);
+            var User = Backbone.Model.extend({
+                urlRoot: '/users'
+            });
+            var user = new User({id: user_id});
+            user.set("is_admin", false);
+            user.save(
+            {
+                type: "admin_update"
+            },
+            {
+                success: function()
+                {
+                    adminview.render();
+                }
+            });
+        }
+    </script>
+</script>

@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
 	
   resources :players
+  resources :block_users
 	get '/users/:id', to: 'users#show'
 	resources :users
 

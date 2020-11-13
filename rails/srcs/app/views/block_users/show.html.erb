@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @block_user.user_id %>
+</p>
+
+<p>
+  <strong>Block user:</strong>
+  <%= @block_user.block_user_id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @block_user.status %>
+</p>
+
+<%= link_to 'Edit', edit_block_user_path(@block_user) %> |
+<%= link_to 'Back', block_users_path %>

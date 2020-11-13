@@ -56,6 +56,15 @@ ActiveRecord::Schema.define(version: 2020_11_13_022332) do
     t.index ["war_id"], name: "index_ask_for_wars_on_war_id"
   end
 
+  create_table "block_users", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "block_user_id"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_block_users_on_user_id"
+  end
+
   create_table "channel_participations", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "channel_id", null: false
@@ -273,6 +282,7 @@ ActiveRecord::Schema.define(version: 2020_11_13_022332) do
 
   add_foreign_key "ask_for_friendships", "friendships"
   add_foreign_key "ask_for_wars", "wars"
+  add_foreign_key "block_users", "users"
   add_foreign_key "channel_participations", "channels"
   add_foreign_key "channel_participations", "users"
   add_foreign_key "game_participations", "games"

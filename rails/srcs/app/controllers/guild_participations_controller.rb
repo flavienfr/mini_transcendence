@@ -10,6 +10,21 @@ class GuildParticipationsController < ApplicationController
   # GET /guild_participations/1
   # GET /guild_participations/1.json
   def show
+    if (params[:type] == "all_participations")
+      users_with_id = {};
+      User.all.each do |user|
+        users_with_id[user.id] = user.name;
+      end
+      json_to_return = {};
+      json_to_return["guild_participations"] = Guild.find_by(id: params[:id]).guild_participations;
+      json_to_return["users"] = users_with_id;
+      json_to_return["user_participation"] = GuildParticipation.where("user_id = ? AND guild_id = ?", params[:user_id], params[:guild_id]).first;
+      respond_to do |format|
+        format.html
+        format.json {render json: json_to_return}
+      end
+      return;
+    end
 	@guildparticip = GuildParticipation.find(params[:id])
 	render json: @guildparticip
   end
@@ -46,6 +61,17 @@ class GuildParticipationsController < ApplicationController
   # PATCH/PUT /guild_participations/1
   # PATCH/PUT /guild_participations/1.json
   def update
+    if (params[:type] == "new_owner")
+      params["guild_participation"][:is_admin] = true;
+      params["guild_participation"][:is_officer] = false;
+      guild = Guild.find_by(id: params[:guild_id]);
+      old_admin_id = guild.owner_id;
+      old_admin_guild_participation = guild.guild_participations.find_by(user_id: old_admin_id);
+      if (old_admin_guild_participation)
+        old_admin_guild_participation.update(is_admin: nil, is_officer: nil);
+      end
+      guild.update(owner_id: params[:user_id]);
+    end
     respond_to do |format|
       if @guild_participation.update(guild_participation_params)
         format.html { redirect_to @guild_participation, notice: 'Guild participation was successfully updated.' }

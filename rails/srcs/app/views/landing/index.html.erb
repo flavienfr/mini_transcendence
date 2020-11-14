@@ -70,6 +70,7 @@
 		<%= render "pages/war_info" %>
 		<%= render "pages/ladder" %>
 		<%= render "pages/chat/admin_chat_view" %>
+		<%= render "pages/guild_users" %>
 	</div>
 
 <script>
@@ -562,6 +563,8 @@ var GuildView = Backbone.View.extend({
 			owner: owner.toJSON(),
 			is_current_user_guild,
 		}));
+		console.log(guild);
+		guildusersview.setElement("#show_guild_users_id").render(guild.id, false);
 	},
 	render_all_guild : async function() {
 		await this.collection.fetch();
@@ -574,6 +577,29 @@ var GuildView = Backbone.View.extend({
 		return this;
 	}
 })
+
+var GuildUsersView = Backbone.View.extend({
+	el: '#show_guild_users_id',
+	template: _.template($("#guild_users-template").html()),
+
+	render: function(guild_id, as_admin)
+	{
+		var l = this.$el;
+		var t = this.template;
+		var Guild = Backbone.Model.extend({
+			urlRoot: '/guilds'
+		});
+		var guild = new Guild({id: guild_id});
+		guild.fetch({
+			success: function(data){
+				console.log("here");
+				console.log(data.toJSON());
+				l.html(t({guild: data.toJSON(), as_admin: as_admin}));
+			}
+		});
+	}
+});
+var guildusersview = new GuildUsersView();
 
 //_____________________________________ PongView _____________________________________
 var PongView = Backbone.View.extend({

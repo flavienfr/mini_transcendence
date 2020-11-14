@@ -5,38 +5,51 @@ class ChannelsController < ApplicationController
   # GET /channels.json
   def index
     # @channels = Channel.all
-    puts "------------a-----------"
-    joignable_groups = Channel.where("scope = ? OR scope = ?", "public-group", "protected-group");
-    puts joignable_groups.to_json;
-    channel_participations = User.find_by(id: current_user.id).channel_participations;
-    puts channel_participations.to_json;
-    if (channel_participations.size > 0)
-      joignable_groups = joignable_groups.where.not("id IN (?)", channel_participations.pluck(:channel_id));
-    end
-    puts joignable_groups.to_json;#a utiliser
-    direct_channels = Channel.where("scope = ?", "direct");#pour enlever les messages directs
-    puts direct_channels.to_json;
-    if (direct_channels.size > 0)
-      channel_participations = channel_participations.where.not("channel_id IN (?)", direct_channels.pluck(:id));
-      #channel_participations_banned = channel_participations.where("status = 'banned'");
-      #channel_participations = channel_participations.where.not("id IN (?)", channel_participations_banned.pluck(:id));
-    end
-    puts channel_participations.to_json;
-    channel_participations_banned = channel_participations.where("status = 'banned'");
-    if (channel_participations_banned.size > 0)
-      channel_participations = channel_participations.where.not("id IN (?)", channel_participations_banned.pluck(:id));
-    end
-    puts channel_participations.to_json;
-    in_channels = Channel.where("id IN (?)", channel_participations.pluck(:channel_id));
-    puts in_channels.to_json;#a utiliser
-    puts "---------b---------"
-    json_to_return = {};
-    json_to_return["users"] = User.all;
-    json_to_return["channels_joignable"] = joignable_groups;
-    json_to_return["channels_in"] = in_channels;
-    respond_to do |format|
-      format.html
-      format.json {render json: json_to_return}
+    if (params[:type] == "all")
+      puts "all";
+      respond_to do |format|
+        format.html
+        format.json {render json: Channel.where.not("scope = ?", "direct")}
+      end
+    else
+      puts "------------a-----------"
+      joignable_groups = Channel.where("scope = ? OR scope = ?", "public-group", "protected-group");
+      puts joignable_groups.to_json;
+      channel_participations = User.find_by(id: current_user.id).channel_participations;
+      private_groups_not_in = Channel.where("scope = ?", "private-group");
+      if (channel_participations.size > 0)
+        private_groups_not_in = private_groups_not_in.where.not("id IN (?)", channel_participations.pluck(:channel_id));
+      end
+      puts channel_participations.to_json;
+      if (channel_participations.size > 0)
+        joignable_groups = joignable_groups.where.not("id IN (?)", channel_participations.pluck(:channel_id));
+      end
+      puts joignable_groups.to_json;#a utiliser
+      direct_channels = Channel.where("scope = ?", "direct");#pour enlever les messages directs
+      puts direct_channels.to_json;
+      if (direct_channels.size > 0)
+        channel_participations = channel_participations.where.not("channel_id IN (?)", direct_channels.pluck(:id));
+        #channel_participations_banned = channel_participations.where("status = 'banned'");
+        #channel_participations = channel_participations.where.not("id IN (?)", channel_participations_banned.pluck(:id));
+      end
+      puts channel_participations.to_json;
+      channel_participations_banned = channel_participations.where("status = 'banned'");
+      if (channel_participations_banned.size > 0)
+        channel_participations = channel_participations.where.not("id IN (?)", channel_participations_banned.pluck(:id));
+      end
+      puts channel_participations.to_json;
+      in_channels = Channel.where("id IN (?)", channel_participations.pluck(:channel_id));
+      puts in_channels.to_json;#a utiliser
+      puts "---------b---------"
+      json_to_return = {};
+      json_to_return["users"] = User.all;
+      json_to_return["channels_joignable"] = joignable_groups;
+      json_to_return["channels_in"] = in_channels;
+      json_to_return["channels_private_not_in"] = private_groups_not_in;
+      respond_to do |format|
+        format.html
+        format.json {render json: json_to_return}
+      end
     end
   end
 
@@ -117,7 +130,17 @@ class ChannelsController < ApplicationController
   # DELETE /channels/1
   # DELETE /channels/1.json
   def destroy
-    @channel.destroy
+    channel_participations = Channel.find_by(id: params[:id]).channel_participations;
+    #Channel.find_by(id: params[:id]).messages.destroy_all;
+    #Channel.find_by(id: params[:id]).channel_participations.destroy_all;
+    #@channel.destroy
+    puts channel_participations.to_json;
+    channel_participations.each do |participant|
+      ActionCable.server.broadcast("notification_channel_" + participant.user_id.to_s, {kicked_from: participant.channel_id});
+    end
+    Channel.find_by(id: params[:id]).messages.destroy_all;
+    Channel.find_by(id: params[:id]).channel_participations.destroy_all;
+    @channel.destroy;
     respond_to do |format|
       format.html { redirect_to channels_url, notice: 'Channel was successfully destroyed.' }
       format.json { head :no_content }

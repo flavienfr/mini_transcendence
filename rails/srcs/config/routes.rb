@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
 
+  	#get 'guilds/get_guild_owner' => 'guilds#get_guild_owner'
+
 	
   resources :players
+  resources :block_users
 	get '/users/:id', to: 'users#show'
 	resources :users
 
@@ -26,6 +29,7 @@ Rails.application.routes.draw do
 	resources :ask_for_games
 	resources :games
 	resources :game_participations
+	resources :watches
 	
 	resources :channels
 	resources :channel_participations

@@ -29,7 +29,8 @@ Rails.application.configure do
   end
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  # config.active_storage.service = :local
+  config.active_storage.service = :cloudinary
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
@@ -50,8 +51,7 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  #config.log_level = :unknown ## ---------------------------------------------------------- dismiss log in console suppressed it for show all !!!!!
-
+  # config.log_level = :unknown ## ---------------------------------------------------------- dismiss log in console suppressed it for show all !!!!!
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true

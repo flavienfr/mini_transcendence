@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Block Users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Block user</th>
+      <th>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @block_users.each do |block_user| %>
+      <tr>
+        <td><%= block_user.user_id %></td>
+        <td><%= block_user.block_user_id %></td>
+        <td><%= block_user.status %></td>
+        <td><%= link_to 'Show', block_user %></td>
+        <td><%= link_to 'Edit', edit_block_user_path(block_user) %></td>
+        <td><%= link_to 'Destroy', block_user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Block User', new_block_user_path %>

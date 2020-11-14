@@ -3,27 +3,21 @@
 
 <div class="container-1">
 	<div>
-		<p>current: <%= current_user.name %></p>
+		<p>current: <%%= user.name %></p>
 	</div>
-	<% if false %>
-	<div>
-		<% @users.each do |user| %>
-			<p><%= user.name %></p>
-		<% end %>
-	</div>
-	<% end %>
+
 	<h3> User: </h3>
 	<div>
 	<button class="bt" id="add-user">ADD</button>
 	<button class="bt"  id="delete-user">DELETE</button>
 	</div>
-	<%% for(let i = 0; i < usr.length; i++) { %>
+	<%% for(let i = 0; i < users.length; i++) { %>
 		<div class="container-2">
-			<div> <%%= usr[i].name + " " + usr[i].id %> </div>
-			<img src="<%%= usr[i].avatar %>" style="width: 100px;"> </img>
-			<div> <%%= usr[i].current_status %> </div>
-			<div> <%%= usr[i].points %> </div>
-			<div> <%%= usr[i].is_admin %> </div>
+			<div> <%%= users[i].name + " " + users[i].id %> </div>
+			<img src="<%%= users[i].avatar %>" style="width: 100px;"> </img>
+			<div> <%%= users[i].current_status %> </div>
+			<div> <%%= users[i].points %> </div>
+			<div> <%%= users[i].is_admin %> </div>
 		</div>
 	<%% } %>
 

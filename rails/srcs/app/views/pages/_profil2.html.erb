@@ -97,28 +97,6 @@
         </tbody>
     </table>
 
-    <% require "active_model_otp" %>
-    <% require "rqrcode" %>
-    <% @qr = RQRCode::QRCode.new(current_user.provisioning_uri("Transcendence"), :size => 13, :level => :h ) %>
-
-    <table class="qr">
-    <% @qr.modules.each_index do |x| %>
-        <tr>
-            <% @qr.modules.each_index do |y| %>
-                <% if @qr.qrcode.checked?(x,y) %>
-                    <td class="black"/>
-                <% else %>
-                    <td class="white"/>
-                <% end %>
-            <% end %>
-        </tr>
-    <% end %>
-    </table>
-
-    <%= stylesheet_link_tag "style-qrcode.css" %>
-    <script type="text/template" id="log-qrcode">
-    </script>
-
 </div>
 </div>
 </body>

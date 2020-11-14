@@ -5,10 +5,12 @@ class AskForGamesController < ApplicationController
   # GET /ask_for_games.json
   def index
     if (params[:to_user_id])
-      @game = AskForGame.where("to_user_id = ? AND status='playing'", params[:to_user_id]).last
-    else
+      @game = AskForGame.where("to_user_id = ? AND status='playing'", params[:to_user_id]).last 
+    elsif  (params[:from_user_id])
       @game = AskForGame.where("from_user_id = ? AND status='playing'", params[:from_user_id]).last
-    end 
+    else
+       @game = AskForGame.all
+    end
     respond_to do |format|
       format.html
       format.json {render json: @game}
@@ -29,12 +31,25 @@ class AskForGamesController < ApplicationController
   # GET /ask_for_games/1/edit
   def edit
   end
+#
+#
+#
+#  @ask_for_game = AskForGame.new(ask_for_game_params)
+#  respond_to do |format|
+#	if @ask_for_game.save
+#	  format.html { redirect_to @ask_for_game, notice: 'Ask for game was successfully created.' }
+#	  format.json { render :show, status: :created, location: @ask_for_game }
+#	else
+#	  format.html { render :new }
+#	  format.json { render json: @ask_for_game.errors, status: :unprocessable_entity }
+#	end
+#  end
 
   # POST /ask_for_games
   # POST /ask_for_games.json
   def create
-	puts "------ POST /game_participations ---------"
-	puts params
+	# puts "------ POST /game_participations ---------"
+	# puts params
 	
 	#Variable utils
 	json_render = {}
@@ -72,14 +87,14 @@ class AskForGamesController < ApplicationController
 	elsif (params[:type] == "war_random_match")
 		puts "------ war_random_match -------"
 
-		#Ask_for_games creation to delete afet acceptation ou after delay
-		@ask_for_game = AskForGame.new(
-			from_user_id: user.id,
-			to_user_id: nil,
-			game_type: "war_random_match",
-			status: "pending"
-		)
-		@ask_for_game.save
+	 	#Ask_for_games creation to delete afet acceptation ou after delay
+	 	@ask_for_game = AskForGame.new(
+	 		from_user_id: user.id,
+	 		to_user_id: nil,
+	 		game_type: "war_random_match",
+	 		status: "pending"
+	 	)
+	 	@ask_for_game.save
 
 		#Check is war time
 		puts "--------------wartime: " + wartime.to_json

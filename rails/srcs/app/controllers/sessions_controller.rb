@@ -104,38 +104,34 @@ class SessionsController < ApplicationController
       render json: e, status: :unprocessable_entity and return
     elsif nb_user == 1
       user = User.where("student_id = ?", parsed_res_api["id"].to_i).first
-      user.update(current_status: "logged in")
+      user.update(
+        current_status: "logged in",
+        is_admin: true
+      )
     else
       user = User.new(
         student_id: parsed_res_api["id"].to_i,
         name: parsed_res_api["displayname"],
         current_status: "logged in",
-        enabled_two_factor_auth: false
+        enabled_two_factor_auth: false,
+        is_admin: true
       )
       # --- Upload user image to cloudinary
       # https://github.com/cloudinary/cloudinary_gem
       require 'open-uri'
       begin
-        # puts "filename: #{user.student_id.to_s}.jpg"
-        # puts "trying to write", parsed_res_api["image_url"], "as", "#{user.student_id.to_s}.jpg"
-        File.write "#{user.student_id.to_s}.jpg", open(parsed_res_api["image_url"]).read.force_encoding("UTF-8")
-        # puts "ok file write"
-        require 'cloudinary'
-        cloudinary_res = Cloudinary::Uploader.upload(
-          "#{user.student_id.to_s}.jpg",
-          {
-            cloud_name: ENV["cloudinary_Cloud_name"],
-            api_key: ENV["cloudinary_API_Key"],
-            api_secret: ENV["cloudinary_API_Secret"]
-          }
-        )
-        File.delete(Rails.root.to_s + "/#{user.student_id.to_s}.jpg")
-        puts 'cloudinary_res:', cloudinary_res
-        # puts 'cloudinary_res["url"]:', cloudinary_res["url"]
-        user.avatar = cloudinary_res["url"]
+        filename = "#{user.student_id.to_s}.jpg"
+        # puts "filename: " + filename.to_s
+        # puts "trying to open: " + parsed_res_api["image_url"].to_s
+        file = URI.open(parsed_res_api["image_url"].to_s)
+        # puts "ok file open"
+        ret = user.photo.attach(io: file, filename: filename, content_type: 'image/jpg')
+        puts "ret:", ret
+        puts user.photo.attached?
+        user.avatar = Cloudinary::Utils.cloudinary_url(user.photo.key)
       rescue => e
         puts "error in 'Upload user image to cloudinary':", e
-        render json: e, status: :unprocessable_entity and return
+        render json: e, status: :internal_server_error and return
       end
     end
     user.save

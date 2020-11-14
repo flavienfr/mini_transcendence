@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    puts 'inside update | PUT /users/:id'
+    puts 'inside SHOW | GET /users/:id'
     puts 'params: ', params
 
     render json: @user
@@ -85,39 +85,39 @@ class UsersController < ApplicationController
     puts 'inside update | PUT /users/:id'
     puts 'params: ', params
     puts '---'
+    # puts 'user_params', user_params
 
-    begin
-      puts "trying to read file"
-      file = params[:avatar].tempfile.read.force_encoding("UTF-8")
-      puts "ok read file"
-      data = JSON.parse(file)
-      # render json: data
-    rescue
-        render json: { errors: 'Upload failed' }
+    # parse params
+    update_params = {}
+    # name
+    if (params.has_key?(:name))
+      update_params["name"] = params[:name]
+    end
+    # photo
+    if (params.has_key?(:photo))
+
+      puts 'params[:photo]: ', params[:photo]
+      puts '---'
+      file = params[:photo].open
+      puts 'file', file
+      puts '---'
+
+      img_name = "#{@user.student_id.to_s}.jpg"
+      @user.photo.attach(io: file, filename: img_name, content_type: 'image/jpg')
+      update_params["avatar"] = Cloudinary::Utils.cloudinary_url(@user.photo.key)
+    end
+    # enabled_two_factor_auth
+    if (params.has_key?(:enabled_two_factor_auth))
+      two_factor_auth = (params[:enabled_two_factor_auth] == "true" ? true : false)
+      update_params["enabled_two_factor_auth"] = two_factor_auth
     end
 
-    File.write "#{user.student_id.to_s}.jpg", open(params[:avatar]).read.force_encoding("UTF-8")
-    puts "ok file write"
-    require 'cloudinary'
-    cloudinary_res = Cloudinary::Uploader.upload(
-      "#{user.student_id.to_s}.jpg",
-      {
-        cloud_name: ENV["cloudinary_Cloud_name"],
-        api_key: ENV["cloudinary_API_Key"],
-        api_secret: ENV["cloudinary_API_Secret"]
-      }
-    )
-    File.delete(Rails.root.to_s + "/#{user.student_id.to_s}.jpg")
-    puts 'cloudinary_res:', cloudinary_res
-    # puts 'cloudinary_res["url"]:', cloudinary_res["url"]
-    user.avatar = cloudinary_res["url"]
-
-    if @user.update(
-      name: params[:name],
-      # avatar: params[:avatar],
-      enabled_two_factor_auth: params[:enabled_two_factor_auth]
-    )
-      render json: {}, status: :ok and return
+    # if @user.update( 
+    #   name: params[:name],
+    #   avatar: Cloudinary::Utils.cloudinary_url(@user.photo.key),
+    #   enabled_two_factor_auth: two_factor_auth )
+    if @user.update(update_params)
+      render json: { new_current_user: @user.as_json }, status: :ok and return
     else
       render json: @user.errors, status: :unprocessable_entity and return
     end
@@ -142,7 +142,7 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name, :avatar, :current_status, :points, :is_admin, :enabled_two_factor_auth)
+      params.require(:user).permit(:name, :avatar, :current_status, :points, :is_admin, :enabled_two_factor_auth, :photo)
     end
 
   end

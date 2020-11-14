@@ -11,58 +11,57 @@
 		
 		<br>
 		
-		<div class="form-fields">
-            <form id="edit_profile_form">
+		<form id="edit_profile_form">
 				
-				<!-- Pseudo -->
-				<div class="form-group">
-					<label for="pseudo_input">Pseudo</label>
-					<input type="text" class="form-control" id="pseudo_input" value="<%= current_user.name %>">
-				</div>
+			<!-- Pseudo -->
+			<div class="form-group">
+				<label for="pseudo_input">Pseudo</label>
+				<input type="text" class="form-control" id="edit_profile_pseudo_input" value="<%= current_user.name %>">
+			</div>
 
-                <br>
+			<br>
 
-				<!-- Avatar -->
-				<div class="form-group">
-					<label for="avatar_input">Avatar</label>
-					<input type="file" class="form-control-file" id="avatar_input">
-				</div>
-		
-                <br>
+			<!-- Current Avatar -->
+			<p>Current Avatar</p>
+			<img src="<%= current_user.avatar %>" style="width: 100px;" id="edit_profile_current_avatar"> </img>
 
-				<!-- Double Factor Auth Checkbox -->
-				<div class="form-check">
-				<% if current_user.enabled_two_factor_auth == true %>
-					<input type="checkbox" class="form-check-input" id="google_authenticator_checkbox" checked="checked">
-				<% else %>
-					<input type="checkbox" class="form-check-input" id="google_authenticator_checkbox">
-				<% end %>
-					<label class="form-check-label <%= current_user.enabled_two_factor_auth == true ? "active" : "" %>" for="google_authenticator_checkbox">Google Authenticator</label>
-				</div>
-					
-                <br>
+			<br>
 
-				<!-- Submit -->
-                <button type="submit" id="edit_profile_form_submit" class="btn btn-primary">Save profile</button>
-		
-			</form>
-		<div/>
+			<!-- Avatar Upload -->
+			<div class="form-group">
+				<label for="avatar_input">Avatar Upload</label>
+				<input type="file" class="form-control-file" id="edit_profile_avatar_input">
+			</div>
+
+			<br>
+
+			<!-- Double Factor Auth Checkbox -->
+			<div class="form-check">
+				<input type="checkbox" class="form-check-input" id="edit_profile_two_factor_checkbox">
+				<label class="form-check-label" for="google_authenticator_checkbox">Two factor authentication</label>
+			</div>
+				
+			<br>
+
+			<!-- Submit -->
+			<button type="submit" id="edit_profile_form_submit" class="btn btn-primary">Save profile</button>
+
+		</form>
+
 	</div>
 
 	<br>
 	<br>
 
-	<%# if current_user.enabled_two_factor_auth == true %>
-		<!-- Double Factor Auth Modal -->
-		<div class="edit-profile-modal-btn">
-			<p>Generate QR code for Google Authenticator</p>
-			<div class="box-auth">
-				<button type="button" class="btn btn-primary btn-dark" data-toggle="modal" data-target="#modalGoogle">
-					<img src="<%= image_url('google.png') %>" width="60em" height="60em" alt="" class="profil profil-photo">
-				</button>
-			</div>
+	<!-- Double Factor Auth Modal -->
+	<div class="edit-profile-modal-btn">
+		<p>Generate QR code for Google Authenticator</p>
+		<div class="box-auth">
+			<button type="button" class="btn btn-primary btn-dark" data-toggle="modal" data-target="#modalGoogle">
+				<img src="<%= image_url('google.png') %>" width="60em" height="60em" alt="" class="profil profil-photo">
+			</button>
 		</div>
-	<%# end %>
+	</div>
 
 </div>
 

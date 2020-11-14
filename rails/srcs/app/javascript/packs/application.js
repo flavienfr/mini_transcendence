@@ -23,3 +23,15 @@ var bootstrap = require('bootstrap');		// Useless ?
 // FLATPCKR (date-time picker)
 import flatpickr from "flatpickr"
 require("flatpickr/dist/flatpickr.css")
+
+// cloudinary
+import 'cloudinary-core'
+// var cloudinary = require("cloudinary-core"); // If your code is for ES5
+var cloudinary = require("cloudinary-core"); // If your code is for ES5
+global .cl = new cloudinary.Cloudinary({
+    cloud_name: "dwcxgy6qt",
+    cloudinary_API_Key: "439763265978211",
+    cloudinary_API_Secret: "lKJWSNjqFSqgBxLlyLuXSpORYX4"
+});
+window.cloudinary = cl;
+window.cl = cl;

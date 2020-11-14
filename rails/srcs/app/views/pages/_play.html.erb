@@ -84,7 +84,8 @@ const msg = JSON.parse(response);
         return ;
     if (msg.message.data.id_guest == current && is_playing == false && msg.message.data.play) // read the second for understand this
     {
-        save_asking_battle(msg.message.data.id_host);
+		save_asking_battle(msg.message.data.id_host);
+		playview.render();# not working?
         pongview.setElement("#pong-area").render(); // has the invitation is validate(value play is on true), the host is redirect to the hostview
     }
     else if (msg.message.data.agree == "false" && msg.message.data.id_guest == current)

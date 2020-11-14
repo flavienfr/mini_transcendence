@@ -810,13 +810,41 @@ var WarView = Backbone.View.extend({
 	events: {
 		"change #guild_drop_down": "render_guild_info",
 		"submit #create_war": "add",
-		"click #war_radom_match": "radom_match"
+		"click #war_radom_match": "radom_match",
+		"click .war_duel_btn": "duel_match"
+	},
+	duel_match: function(event){
+		console.log("war duel", event.currentTarget.id);
+		to_user_id = event.currentTarget.id.split("=")[1];
+		console.log("war duel", to_user_id);
+
+		var data = {
+			from_user_id: current_user_id,
+			to_user_id: to_user_id,
+            type: "war_duel",
+        }
+		self = this
+		Backbone.ajax({
+			url: '/ask_for_games/',
+			data: JSON.stringify(data),
+			type: 'post',
+			dataType: 'json',
+			contentType: 'application/json',
+			success: function(response) {
+				if (response.is_msg){
+					alert(response.msg);
+				}
+			},
+			error: function(){
+				alert("error");
+			}
+		});
 	},
 	radom_match: function(){
 		console.log("radom_match");
 
 		var data = {
-			user_id: current_user_id,
+			from_user_id: current_user_id,
             type: "war_random_match",
         }
 		self = this
@@ -1052,20 +1080,24 @@ function ft_accept_notif(notif) {
             return ;
           },
           wait: true
-        });
-		socket_notif.send(JSON.stringify({
-        	command: "message",
-        	identifier: JSON.stringify({
-            channel: "PongnotChannel",
-            pong_id: 0
-            }),
-            data: JSON.stringify({
-                data: {id_host: notif.user_id, id_guest: notif.from_user_id, ask_id: ask_for_game.id}  // send a message to the guest for play with host, it s send his id et the id of the guest
-            })
-		}));
-		playview.render();
-		setTimeout(() => {pongguest.setElement("#pong-area").render();}, 800);  
-		delete_notif(notif);
+		});
+		//# REMPLACER LE CODE PAR 
+
+		//#launch_game(ask_for_game)
+
+		//#socket_notif.send(JSON.stringify({
+        //#	command: "message",
+        //#	identifier: JSON.stringify({
+        //#    channel: "PongnotChannel",
+        //#    pong_id: 0
+        //#    }),
+        //#    data: JSON.stringify({
+        //#        data: {id_host: notif.user_id, id_guest: notif.from_user_id, ask_id: ask_for_game.id}  // send a message to the guest for play with host, it s send his id et the id of the guest
+        //#    })
+		//#}));
+		//#playview.render();
+		//#setTimeout(() => {pongguest.setElement("#pong-area").render();}, 800);  
+		//#delete_notif(notif);
 	}
 	else if (notif.table_type == "ask_for_game") {
 		console.log("ask_for_game");
@@ -1081,20 +1113,42 @@ function ft_accept_notif(notif) {
 			success: function(response){
 				if (response.is_msg){
 					alert(response.msg)
-					if (response.status != "keep_alive"){
-						delete_notif(notif);
-					}
+					delete_notif(notif);
+				}
+				if (response.error){
+					delete_notif(notif);
 				}
 				else{
-					delete_notif(notif);
+					console.log("askforgame: ", response.ask_for_game);
+					launch_game(response.ask_for_game);
 				}
 			},
 			error: function(){
 				alert("error");
+				return ;
 			}
 		});
 	}
 };
+
+function launch_game(ask_for_game) {
+	socket_notif.send(JSON.stringify({
+		command: "message",
+		identifier: JSON.stringify({
+		channel: "PongnotChannel",
+		pong_id: 0
+		}),
+		data: JSON.stringify({
+			data: {
+				id_host: ask_for_game.from_user_id,
+				id_guest: ask_for_game.to_user_id,
+				ask_id: ask_for_game.id
+			} // send a message to the guest for play with host, it s send his id et the id of the guest
+		})
+	}));
+	playview.render();
+	setTimeout(() => {pongguest.setElement("#pong-area").render();}, 800);
+}
 
 //******************************************** ROUTER ********************************************
 var logview = new LogView();

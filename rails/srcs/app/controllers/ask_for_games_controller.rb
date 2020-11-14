@@ -38,17 +38,39 @@ class AskForGamesController < ApplicationController
 	
 	#Variable utils
 	json_render = {}
-	user = User.find(params[:user_id].to_i)
+	user = User.find(params[:from_user_id].to_i)
+	if (params[:type] == "war_duel" || params[:type] == "war_random_match")
+			#Variable utils
+			guild_a = user.guild_participations.first.guild
+			warp_a = WarParticipation.find(guild_a.war_participation_id)
+			the_war = guild_a.wars.where('wars.status=?', "ongoing").first
+			warp_b = WarParticipation.all.where('war_id=? AND guild_id!=?',the_war.id, guild_a.id).first
+			guild_b = Guild.find(warp_b.guild_id)
+			wartime = WarTime.all.where('war_id=?', the_war.id).first
+	end
 
-	if (params[:type] == "war_random_match")
-		puts "------ war_random_match ---------"
-		#Variable utils
-		guild_a = user.guild_participations.first.guild
-		#warp_a = WarParticipation.find(guild_a.war_participation_id)
-		the_war = guild_a.wars.where('wars.status=?', "ongoing").first
-		warp_b = WarParticipation.all.where('war_id=? AND guild_id!=?',the_war.id, guild_a.id).first
-		guild_b = Guild.find(warp_b.guild_id)
-		wartime = WarTime.all.where('war_id=?', the_war.id).first
+	if (params[:type] == "war_duel")
+		puts "------ war_duel --------"
+		to_user = User.find(params[:to_user_id].to_i)
+		#CHECK: is in war
+
+		@ask_for_game = AskForGame.new(
+			from_user_id: user.id,
+			to_user_id: to_user.id,
+			game_type: "war_duel",
+			status: "pending"
+		)
+		@ask_for_game.save
+
+		msg = "War duel match by " + user.name + " from " + guild_a.name + "."
+		send_notification(user.id, to_user.id, "ask_for_game", @ask_for_game.id, msg, "pending")
+
+		json_render["msg"] = "War duel sent to " + to_user.name + "."
+		json_render["is_msg"] = 1
+		render json: json_render, status: :ok and return
+
+	elsif (params[:type] == "war_random_match")
+		puts "------ war_random_match -------"
 
 		#Ask_for_games creation to delete afet acceptation ou after delay
 		@ask_for_game = AskForGame.new(
@@ -67,6 +89,8 @@ class AskForGamesController < ApplicationController
 				json_render["is_msg"] = 1
 				render json: json_render, status: :ok and return
 			end
+			#TODO: lancé le delay qui après un certain temps upadate war time (si atteint max unanswerd match fin du war time ?)
+
 			#Send notif to all opponent guild
 			for to_user in guild_b.users do
 				puts "--- Notification sent to user: " + user.name
@@ -95,32 +119,34 @@ class AskForGamesController < ApplicationController
 	#Variable utils
 	json_render = {}
 	
-	#TODO: Ajouté check du delay
-	if (@ask_for_game.game_type == "war_random_match")
+	if (@ask_for_game.game_type == "war_random_match" || @ask_for_game.game_type == "war_duel")
 		puts "------------@ask_for_game.status: " + @ask_for_game.status 
+		#TODO:	Ajouté check du delay
+		#		check is in war time
+		#		update status war_time ici et en fin de match
 		if (@ask_for_game.status == "pending")
 			@ask_for_game.update(
 				to_user_id: params[:user_id],
 				status: "ongoing"
 			)
 			json_render["msg"] = "LANCÉ LE MATCH"
-			json_render["is_msg"] = 1
+			json_render["is_msg"] = true
+			json_render["error"] = false
+			json_render["ask_for_game"] = @ask_for_game
 			render json: json_render, status: :ok and return
 		else
 			json_render["msg"] = "Match already accept by an other player."
-			json_render["is_msg"] = 1
+			json_render["is_msg"] = true
+			json_render["error"] = true
 			render json: json_render, status: :ok and return
 		end
 	end
-
-	json_render["msg"] = "réponse accepté"
-	json_render["is_msg"] = 1
-	render json: json_render, status: :ok and return
   end
 
   # DELETE /ask_for_games/1
   # DELETE /ask_for_games/1.json
   def destroy
+	#detruire war time ask for game quand delay est passé 
     @ask_for_game.destroy
     respond_to do |format|
       format.html { redirect_to ask_for_games_url, notice: 'Ask for game was successfully destroyed.' }

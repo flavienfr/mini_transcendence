@@ -93,46 +93,37 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    
+    puts 'inside update | PUT /users/:id'
+    puts 'params: ', params
+    puts '---'
 
     if (params[:type] == "admin_update")
       @user.update(user_params)
       return;
     end
-    
-    puts 'inside update | PUT /users/:id'
-    puts 'params: ', params
-    puts '---'
-    # puts 'user_params', user_params
 
-    # parse params
+    # parse params: name / photo / enabled_two_factor_auth
     update_params = {}
-    # name
+    # - name
     if (params.has_key?(:name))
       update_params["name"] = params[:name]
     end
-    # photo
+    # - photo
     if (params.has_key?(:photo))
-
-      puts 'params[:photo]: ', params[:photo]
-      puts '---'
       file = params[:photo].open
       puts 'file', file
       puts '---'
-
       img_name = "#{@user.student_id.to_s}.jpg"
       @user.photo.attach(io: file, filename: img_name, content_type: 'image/jpg')
       update_params["avatar"] = Cloudinary::Utils.cloudinary_url(@user.photo.key)
     end
-    # enabled_two_factor_auth
+    # - enabled_two_factor_auth
     if (params.has_key?(:enabled_two_factor_auth))
       two_factor_auth = (params[:enabled_two_factor_auth] == "true" ? true : false)
       update_params["enabled_two_factor_auth"] = two_factor_auth
     end
 
-    # if @user.update( 
-    #   name: params[:name],
-    #   avatar: Cloudinary::Utils.cloudinary_url(@user.photo.key),
-    #   enabled_two_factor_auth: two_factor_auth )
     if @user.update(update_params)
       render json: { new_current_user: @user.as_json }, status: :ok and return
     else

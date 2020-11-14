@@ -17,8 +17,8 @@ window._ = _;
 // BOOTSRAP
 import 'bootstrap'
 const backbone = require('backbone');
-Backbone.$ = window.$ = window.jQuery = $;	// Useless ?
-var bootstrap = require('bootstrap');		// Useless ?
+Backbone.$ = window.$ = window.jQuery = $;
+var bootstrap = require('bootstrap');	
 
 // FLATPCKR (date-time picker)
 import flatpickr from "flatpickr"
@@ -26,7 +26,6 @@ require("flatpickr/dist/flatpickr.css")
 
 // cloudinary
 import 'cloudinary-core'
-// var cloudinary = require("cloudinary-core"); // If your code is for ES5
 var cloudinary = require("cloudinary-core"); // If your code is for ES5
 global .cl = new cloudinary.Cloudinary({
     cloud_name: "dwcxgy6qt",

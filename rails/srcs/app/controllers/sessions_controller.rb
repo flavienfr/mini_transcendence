@@ -127,8 +127,8 @@ class SessionsController < ApplicationController
         # puts "ok file open"
         ret = user.photo.attach(io: file, filename: filename, content_type: 'image/jpg')
         puts "ret:", ret
-        binding.pry
         puts user.photo.attached?
+        user.avatar = Cloudinary::Utils.cloudinary_url(user.photo.key)
       rescue => e
         puts "error in 'Upload user image to cloudinary':", e
         render json: e, status: :internal_server_error and return

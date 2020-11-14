@@ -16,14 +16,14 @@
 			<!-- Pseudo -->
 			<div class="form-group">
 				<label for="pseudo_input">Pseudo</label>
-				<input type="text" class="form-control" id="edit_profile_pseudo_input" value="<%= current_user.name %>">
+				<input type="text" class="form-control" id="edit_profile_pseudo_input" value="<%%= user.name %>">
 			</div>
 
 			<br>
 
 			<!-- Current Avatar -->
 			<p>Current Avatar</p>
-			<img src="<%= current_user.avatar %>" style="width: 100px;" id="edit_profile_current_avatar"> </img>
+			<img src="<%%= user.avatar %>" style="width: 100px;" id="edit_profile_current_avatar"> </img>
 
 			<br>
 

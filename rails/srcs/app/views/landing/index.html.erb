@@ -76,6 +76,7 @@
 
 //****************************** GLOBAL ***************************
 var current_user_id = <%= current_user.id %>; // anti jaune >
+var current_session_id = <%= current_user.sessions.last.id %>; // anti jaune >
 
 // ******************************************** MODELS/COLLECTIONS ********************************************
 //_____________________________________ User _____________________________________
@@ -240,9 +241,20 @@ var LogView = Backbone.View.extend({
     	"click #logout ": "logout",
   	},
 
-	render : function() {
+	render : async function() {
+		
+		await this.collection.fetch({wait: true});
+
+		var user = new User({ id: current_user_id });
+		user.urlRoot = "/users";
+		await user.fetch();
+		
 	  	console.log("Render Log");
-		this.$el.html(this.template({usr: this.collection.toJSON()}));
+		this.$el.html(this.template({
+			users: this.collection.toJSON(),
+            user: user.toJSON()
+		}));
+
 	  	return this;
 
 	},
@@ -645,34 +657,30 @@ var OptionView = Backbone.View.extend({
 
 	update : async function(e){
 		e.preventDefault();
-
+		var self = this;
 		console.log("submit two_factor_auth_form");
 
+		// affiche le spinner
+		var spinner = document.getElementById("spinner");
+		spinner.classList.add("active");
+
+		// récupération des inputs
 		let pseudo = $('#edit_profile_pseudo_input').val();
 		let fileInput = document.getElementById('edit_profile_avatar_input');
 		let attachment = fileInput.files[0];
 		let enabled_two_factor_auth = $("#edit_profile_two_factor_checkbox").is(':checked');
+		
+		// création du form
 		var formData = new FormData();
 		formData.append("name", pseudo);
-		if (attachment != null) {
-			formData.append("photo", attachment, "not_important.jpg");
-		}
+		if (attachment != null) { formData.append("photo", attachment, "not_important.jpg"); }
 		formData.append("enabled_two_factor_auth", enabled_two_factor_auth);
-
-		// var formData = new FormData($('#edit_profile_form')[0]);
 
 		// Affichage des paires clefs/valeurs
 		console.log("current_user_id:", current_user_id);
 		for (var pair of formData.entries()) {
 		   console.log(pair[0]+ ', '+ pair[1]); 
 		}
-
-		var self = this;
-		console.log("edit_profile_form_submit clicked");
-
-		// affiche le spinner
-		var spinner = document.getElementById("spinner");
-		spinner.classList.add("active");
   
 		$.ajax({
 			url: 'users/' + <%= current_user.id %>, // >
@@ -686,47 +694,37 @@ var OptionView = Backbone.View.extend({
 
 				self.render();
 
-				let new_name = res.new_current_user.name;
-				console.log("new_name:", new_name);
-				$('#edit_profile_pseudo_input').val(new_name);
-
-				let old_src = "<%= current_user.avatar %>"; // >
-				console.log("old_src:", old_src);
-				let new_src = res.new_current_user.avatar;
-				console.log("new_src:", new_src);
-				$('#edit_profile_current_avatar').attr('src', new_src);
-				
-				let new_bool = Boolean(res.new_current_user.enabled_two_factor_auth);
-				console.log("new_bool:", new_bool);
-				$('#edit_profile_two_factor_checkbox').prop('checked', new_bool);
-
-				// cache le spinner
+				// cache le spinner:
 				spinner.classList.remove("active");
 
 			},
 			error: function (err) {
 				console.error("ko err:", err);
-				
-				// cache le spinner
+				// cache le spinner:
 				spinner.classList.remove("active");
 			}
 		})
 	},
 
-	render : function() {
+	render : async function() {
 		
-		this.$el.html(this.template);
-		if ($(".form-check-input").checked) {
-			$( "div.edit-profile-modal-btn" ).show()
-		} else {
-			$( "div.edit-profile-modal-btn" ).hide();
-		}
+		var user = new User({ id: current_user_id });
+		user.urlRoot = "/users";
+		await user.fetch();
+		
+		this.$el.html(this.template({
+            user: user.toJSON()
+		}));
+
+		// avatar
+		$('#edit_profile_avatar_input').on('change', function() { });
+
+		// checkbox
+		if ($(".form-check-input").checked) { $( "div.edit-profile-modal-btn" ).show() }
+		else { $( "div.edit-profile-modal-btn" ).hide(); }
 		$(".form-check-input").change(function() {
-			if(this.checked) {
-				$( "div.edit-profile-modal-btn" ).show('slow')
-			} else {
-				$( "div.edit-profile-modal-btn" ).hide('slow');
-			}
+			if(this.checked) { $( "div.edit-profile-modal-btn" ).show('slow') }
+			else { $( "div.edit-profile-modal-btn" ).hide('slow'); }
 		});
 		
 		console.log("Render Option");

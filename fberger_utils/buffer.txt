@@ -143,3 +143,19 @@ var user = new User({ id: current_user_id });
 				<%= f.button :submit %>
 			<% end %>
 		<div/>
+
+
+
+				// let new_name = res.new_current_user.name;
+				// console.log("new_name:", new_name);
+				// $('#edit_profile_pseudo_input').val(new_name);
+
+				// let old_src = "<%= current_user.avatar %>"; // >
+				// console.log("old_src:", old_src);
+				// let new_src = res.new_current_user.avatar;
+				// console.log("new_src:", new_src);
+				// $('#edit_profile_current_avatar').attr('src', new_src);
+				// 
+				// let new_bool = Boolean(res.new_current_user.enabled_two_factor_auth);
+				// console.log("new_bool:", new_bool);
+				// $('#edit_profile_two_factor_checkbox').prop('checked', new_bool);

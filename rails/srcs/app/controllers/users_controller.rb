@@ -6,7 +6,14 @@ class UsersController < ApplicationController
   def index
     puts params;
     @users = User.all
-    if (params[:users_to_get] == "participants")
+    if (params[:user_id] && params[:type] == "viewer")
+      @users = User.find(params[:user_id]);
+      puts(@users.name);
+      respond_to do |format|
+        format.html
+        format.json { render json: @users}
+      end
+    elsif (params[:users_to_get] == "participants")
       channel_participations = Channel.find_by(id: params[:channel_id]).channel_participations;
       channel_participations_banned = channel_participations.where("status = 'banned'");
       if (channel_participations_banned.size > 0)

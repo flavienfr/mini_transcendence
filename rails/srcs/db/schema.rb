@@ -280,6 +280,14 @@ ActiveRecord::Schema.define(version: 2020_11_13_022332) do
     t.boolean "count_all_matchs_for_war", default: false
   end
 
+  create_table "watches", force: :cascade do |t|
+    t.integer "hostId"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_watches_on_user_id"
+  end
+
   add_foreign_key "ask_for_friendships", "friendships"
   add_foreign_key "ask_for_wars", "wars"
   add_foreign_key "block_users", "users"
@@ -305,4 +313,5 @@ ActiveRecord::Schema.define(version: 2020_11_13_022332) do
   add_foreign_key "war_participations", "guilds"
   add_foreign_key "war_participations", "wars"
   add_foreign_key "war_times", "wars"
+  add_foreign_key "watches", "users"
 end

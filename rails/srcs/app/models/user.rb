@@ -12,5 +12,6 @@ class User < ApplicationRecord
     has_many :notifications, dependent: :nullify
     has_many :block_users, dependent: :nullify 
     # has_many :friendships, dependent: :nullify 
+    has_one :watch
     has_one_time_password
 end

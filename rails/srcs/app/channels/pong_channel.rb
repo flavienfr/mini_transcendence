@@ -5,10 +5,20 @@ class PongChannel < ApplicationCable::Channel
  
    def receive(data)
      ActionCable.server.broadcast("pong_channel_#{params[:pong_id]}", data)
-   end
+    end
  
    def unsubscribed
-     # Any cleanup needed when channel is unsubscribed
+    puts "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    puts params
+    puts "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    @state = AskForGame.find_by(from_user_id: params[:pong_id], status: "playing")
+    if (params[:user_id] == @state.from_user_id || params[:user_id] == @state.to_user_id)
+      ActionCable.server.broadcast("pongnot_channel_#{0}", {data: "refresh"})
+      ActionCable.server.broadcast("pong_channel_#{params[:pong_id]}", {data: "stop"});
+      @state.status = "ending";
+      @state.save;
+    end 
+    # Any cleanup needed when channel is unsubscribed
    end
  end
  

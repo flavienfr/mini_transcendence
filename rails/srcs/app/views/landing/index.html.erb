@@ -343,7 +343,7 @@ var ChatView = Backbone.View.extend({
 					success: function(data2){
 						el.html(t({channel: channel_info, channel_participation: data.toJSON(), other_participation: data2.toJSON()}));
 					}
-				});
+				}); // >
 			}
 		});
 	},
@@ -645,37 +645,76 @@ var OptionView = Backbone.View.extend({
 
 	update : async function(e){
 		e.preventDefault();
+
 		console.log("submit two_factor_auth_form");
 
-		let pseudo = $('#pseudo_input').val();
-		let avatar = $('#avatar_input').val();
-		let file = e.target.uploadFile.files[0];
-
-		let enabled_two_factor_auth = $("#google_authenticator_checkbox").is(':checked');
+		let pseudo = $('#edit_profile_pseudo_input').val();
+		let fileInput = document.getElementById('edit_profile_avatar_input');
+		let attachment = fileInput.files[0];
+		let enabled_two_factor_auth = $("#edit_profile_two_factor_checkbox").is(':checked');
 		var formData = new FormData();
-		formData.append('name', pseudo);
-		// formData.append('avatar', avatar);
-		formData.append('avatar', file);
-		formData.append('enabled_two_factor_auth', enabled_two_factor_auth);
+		formData.append("name", pseudo);
+		if (attachment != null) {
+			formData.append("photo", attachment, "not_important.jpg");
+		}
+		formData.append("enabled_two_factor_auth", enabled_two_factor_auth);
+
+		// var formData = new FormData($('#edit_profile_form')[0]);
 
 		// Affichage des paires clefs/valeurs
 		console.log("current_user_id:", current_user_id);
-		for(var pair of formData.entries()) {
+		for (var pair of formData.entries()) {
 		   console.log(pair[0]+ ', '+ pair[1]); 
 		}
 
-		var user = new User({ id: current_user_id });
-		user.urlRoot = "/users";
-		await user.fetch();
-		user.save({
-				name: pseudo,
-				avatar: avatar,
-				enabled_two_factor_auth: enabled_two_factor_auth
+		var self = this;
+		console.log("edit_profile_form_submit clicked");
+
+		// affiche le spinner
+		var spinner = document.getElementById("spinner");
+		spinner.classList.add("active");
+  
+		$.ajax({
+			url: 'users/' + <%= current_user.id %>, // >
+			data: formData,
+			cache: false,
+        	contentType: false,
+        	processData: false,
+			type: 'PUT',
+			success: function(res) {
+				console.log("ok res: ", res);
+
+				self.render();
+
+				let new_name = res.new_current_user.name;
+				console.log("new_name:", new_name);
+				$('#edit_profile_pseudo_input').val(new_name);
+
+				let old_src = "<%= current_user.avatar %>"; // >
+				console.log("old_src:", old_src);
+				let new_src = res.new_current_user.avatar;
+				console.log("new_src:", new_src);
+				$('#edit_profile_current_avatar').attr('src', new_src);
+				
+				let new_bool = Boolean(res.new_current_user.enabled_two_factor_auth);
+				console.log("new_bool:", new_bool);
+				$('#edit_profile_two_factor_checkbox').prop('checked', new_bool);
+
+				// cache le spinner
+				spinner.classList.remove("active");
+
+			},
+			error: function (err) {
+				console.error("ko err:", err);
+				
+				// cache le spinner
+				spinner.classList.remove("active");
 			}
-		);
+		})
 	},
 
 	render : function() {
+		
 		this.$el.html(this.template);
 		if ($(".form-check-input").checked) {
 			$( "div.edit-profile-modal-btn" ).show()
@@ -689,6 +728,7 @@ var OptionView = Backbone.View.extend({
 				$( "div.edit-profile-modal-btn" ).hide('slow');
 			}
 		});
+		
 		console.log("Render Option");
 		return this;
 	}
@@ -749,7 +789,6 @@ var ProfilView = Backbone.View.extend({
 		//guild.url = "/guild_participations/" + current_id + ".json"
 		//await guild.fetch();
 
-	
 		friendshipcollection.url = "/friendships/?id=" + current_id; 
 		await friendshipcollection.fetch();
 

@@ -1,0 +1,145 @@
+	$.ajax({
+		url: full,
+		contentType: 'json',
+		headers: { 
+			'Content-Type': 'application/json',
+			'Accept': 'application/json',
+			'Origin': 'http://localhost:3000'
+		},
+		type: 'GET',
+		credentials: 'include',
+		success: function(res) {
+			console.log("ok https://api.intra.42.fr/oauth/authorize?");
+			console.log("ok res: ", res);
+			window.location.href = "http://localhost:3000";
+		},
+		error: function (err) {
+	   	console.log("ko err:", err);
+    }
+	})
+
+
+    <% elsif current_user.enabled_two_factor_auth %>
+	    <% render "pages/qr_code" %>
+
+
+<script type="text/template" id="two_factor_auth-template">
+
+    <h1>Authentification à deux facteurs obligatoire</h1>
+    <p>Vous nous avez demandé d’exiger un code de connexion à 6 chiffres quand quelqu’un tente de se connecter à votre compte.</p>
+    <p>Saisissez le code à 6 chiffres de votre Générateur de code Google Authenticator.</p>
+
+    <form id="two_factor_auth_form">
+        
+        <label for="two_factor_auth_input">Code</label>
+        <input
+            type="text"
+            class="form-control"
+            id="two_factor_auth_form_input"
+        >
+        
+        <button
+            type="submit"
+            id="two_factor_auth_form_submit"
+            class="btn btn-primary btn-md btn-block btn-dark"
+        >
+            Continuer
+        </button>
+
+    </form>
+
+</script>
+
+		// let pseudo = $('#user_name').val();
+		// let enabled_two_factor_auth = $("#user_enabled_two_factor_auth").is(':checked');
+		
+		// let fileInput = document.getElementById('user_photo');
+		// let attachment = fileInput.files[0];
+
+		// var formData = new FormData();
+		
+
+		console.log("edit_profile_form_submit clicked");
+		$.ajax({
+			url: url,
+			data: formData,
+			dataType: "json",
+			// contentType: "application/json",
+			processData: false,
+			type: 'PUT',
+			success: function(res) {
+				console.log("ok res: ", res);
+				// window.location.href = "http://localhost:3000/#option";
+			},
+			error: function (err) {
+				console.log("ko err:", err);
+			}
+		})
+
+
+var user = new User({ id: current_user_id });
+		user.urlRoot = "/users";
+		await user.fetch();
+		user.save({
+				name: pseudo,
+				avatar: avatar,
+				photo: attachment,
+				enabled_two_factor_auth: enabled_two_factor_auth
+			}
+		);
+
+           <form id="edit_profile_form">
+				
+				<!-- Pseudo -->
+				<div class="form-group">
+					<label for="pseudo_input">Pseudo</label>
+					<input type="text" class="form-control" id="pseudo_input" value="<%= current_user.name %>">
+				</div>
+
+                <br>
+
+				<!-- Avatar -->
+				<div class="form-group">
+					<label for="avatar_input">Avatar</label>
+					<input type="file" class="form-control-file" id="avatar_input">
+				</div>
+		
+                <br>
+
+				<!-- Double Factor Auth Checkbox -->
+				<div class="form-check">
+				<% if current_user.enabled_two_factor_auth == true %>
+					<input type="checkbox" class="form-check-input" id="google_authenticator_checkbox" checked="checked">
+				<% else %>
+					<input type="checkbox" class="form-check-input" id="google_authenticator_checkbox">
+				<% end %>
+					<label class="form-check-label <%= current_user.enabled_two_factor_auth == true ? "active" : "" %>" for="google_authenticator_checkbox">Google Authenticator</label>
+				</div>
+					
+                <br>
+
+				<!-- Submit -->
+                <button type="submit" id="edit_profile_form_submit" class="btn btn-primary">Save profile</button>
+		
+			</form>
+
+
+			<%% if ( usr[i].name == "Francis Berger" ) { %>
+				<%= cl_image_tag current_user.photo.key, height: 100, width: 100, crop: :fill %>
+				<%%= cl.imageTag('https://res.cloudinary.com/dwcxgy6qt/image/upload/v1605311132/pyzg7xo3brrtnqxfxrh6fpablcp9.jpg', { width: 100, crop: "pad"} ).toHtml() %>
+			<%% } else { %>
+				<img src="<%%= usr[i].avatar %>" style="width: 100px;"> </img>
+			<%% } %>
+
+
+		<div class="form-fields">
+			<%= simple_form_for(current_user, html: { id: "edit_profile_form" }) do |f| %>
+				<%= f.input :name, label: "Name" %>
+				<% if current_user.photo.attached? %>
+					<%= cl_image_tag current_user.photo.key, height: 100, width: 100, crop: :fill %>
+				<% end %>
+				<%= f.input :photo, as: :file, label: "Avatar" %>
+				<%= f.input :enabled_two_factor_auth, label: "Two factor authentication", as: :boolean %>
+				<%= f.button :submit %>
+			<% end %>
+		<div/>

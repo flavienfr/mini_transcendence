@@ -29,5 +29,11 @@ rails g scaffold ask_for_game from_user_id:integer to_user_id:integer game:refer
 
 rails g scaffold notification from_user_id:integer user:references to_channel_id:integer to_guild_id:integer table_type:string message:string status:string table_id:integer
 
+rails g scaffold block_user user_id:references block_user_id:integer status:string
+
 # rails generate migration add_fieldname_to_tablename fieldname:string
 # rails g migration ChangeProductPopularity
+
+# rails generate migration add_fieldname_to_tablename fieldname:string
+
+# rails g migration add_count_all_matchs_for_war_to_war count_all_matchs_for_war:boolean

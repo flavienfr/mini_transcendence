@@ -240,9 +240,8 @@
 var socket = new WebSocket("ws://localhost:3000/cable");
 
 window.onbeforeunload = function() {
+    clearInterval(stop);
     socket.onclose = function () {}; // disable onclose handler first
-    console.log("enddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd")
-    socket.close();
 };
 socket.onopen = function()
 {         

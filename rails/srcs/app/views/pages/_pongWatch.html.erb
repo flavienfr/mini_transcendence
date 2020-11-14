@@ -205,10 +205,10 @@
     //-------------------------------MAIN --------------------------------------//
 
         window.onbeforeunload = function() {
-    sock.onclose = function () {}; // disable onclose handler first
-    sock.close();
-    console.log("cloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooose")
-};       
+            sock.onclose = function () {}; // disable onclose handler first
+            closescript = true;
+            sock.close();
+        };       
         closescript = false;
         sock = new WebSocket("ws://localhost:3000/cable");
         sock.onopen = function()

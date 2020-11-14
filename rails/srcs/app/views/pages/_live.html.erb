@@ -107,9 +107,7 @@ function save_watch(host_id)
 		watch.save();
 		console.log("modifié");
 		if (time != 0)
-		{
-			closescript = true;
-		}
+			closescript = true; //async
 		
 		time++;
 		

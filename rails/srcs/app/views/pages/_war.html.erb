@@ -5,7 +5,7 @@
 		<%% if (user.name == ""){ %> 
 			<p> None </p>
 		<%% } else {%>
-			<img src="<%%= user.avatar %>" width="50" height="50" alt="" class="profil profil-photo">
+			<img src="<%%= user.avatar %>" width="80" height="80" alt="" class="profil profil-photo">
 			<p> <%%= user.name  %> </p>
 		<%% } %>
 	</div>
@@ -14,7 +14,7 @@
 		<%% if ("" == ""){ %> <!-- replace "" by officer -->
 			<p> None </p>
 		<%% } else {%>
-			<img src="<%= image_url('profil-photo.png') %>" width="50" height="50" alt="" class="profil profil-photo">
+			<img src="<%= image_url('profil-photo.png') %>" width="80" height="80" alt="" class="profil profil-photo">
 			<p> <%%= officer %> </p>
 		<%% } %>
 	</div>
@@ -42,13 +42,17 @@
 						<label for="RangeTime">Range date</label>
 						<input type="text" class="form-control" id="RangeTime" required>
 					</div>
+					<div class="custom-control custom-switch">
+						<input type="checkbox" class="custom-control-input" id="counted_match">
+						<label class="custom-control-label" for="counted_match">Ladder and tournament matches included</label>
+					</div>
 					<div class="box_prize_match">
 						<div class="unanswered-match">
 							<label for="MaxUnansweredMatch">Max unanswered match</label>
 							<input type="number" class="form-control" id="MaxUnansweredMatch" required min="0" max="2147483647" value="0" onFocus="this.value='';">
 						</div>
 						<div class="PrizePool">
-							<label for="PrizePool">Prize pool</label>
+							<label for="PrizePool">Point engaged</label>
 							<input type="number" class="form-control" id="PrizePool" required min="0" max="2147483647">
 						</div>
 					</div>
@@ -76,7 +80,7 @@
 	<script>
 		$("#RangeTime, #WarRangeTime").flatpickr({
 			enableTime: true,
-			time_24hr: false,
+			time_24hr: true,
 			dateFormat: "Y-m-d H:i",
 			minDate: "today",
 			mode: "range"

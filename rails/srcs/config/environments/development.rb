@@ -51,8 +51,7 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  #config.log_level = :unknown ## ---------------------------------------------------------- dismiss log in console suppressed it for show all !!!!!
-
+  config.log_level = :unknown ## ---------------------------------------------------------- dismiss log in console suppressed it for show all !!!!!
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true

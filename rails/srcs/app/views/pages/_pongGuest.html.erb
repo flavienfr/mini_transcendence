@@ -5,7 +5,7 @@
 <canvas id="pong" width="800px" height="600px" > </canvas>
 
 <script>
-    var current_user_id = <%== current_user.id%>
+    var current_user_id = <%== current_user.id%>  // anti jaune >
     var frame = 50;
     var time_pause = 10
     
@@ -74,7 +74,7 @@
         //guest
         const guest = {
             //position
-            x : canvas.width - 10, // pas responsive il s'agit de largeur (10px)
+            x : canvas.width - 10, // pas responsive il s'agit de largeur (10px) '
             y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive correspond au paddle
             //form
             width : 10, // pas responsive
@@ -173,6 +173,8 @@
             const msg = JSON.parse(response);  
                 if (msg.type == "ping" || !msg.message )// check if the pong_id is send to the correct personne
                     return ;
+                if (msg.message.data == "stop")
+                    host.score = 11;
                 if (msg.message.data.timer == 0 || msg.message.data.timer)
                     timer = msg.message.data.timer;
                 if (msg.message.data.hosty)
@@ -193,8 +195,9 @@
             socket.send(JSON.stringify({
                 command: "message",
                 identifier: JSON.stringify({
-                channel: "PongChannel",
-                pong_id: host_id // ici il marche pas 
+                    channel: "PongChannel",
+                    pong_id: host_id,
+                    user_id: <%== current_user.id %> // ici il marche pas 
                 }),
                 data: JSON.stringify({
                     data: {guesty: guest.y, pause_guest: pause_guest}
@@ -221,9 +224,9 @@
                     endText("You win !!!");
                 else
                     endText("You loose ... ");
+                socket.close();
                 clearInterval(stop);
                 setTimeout(() => {playview.render();}, 2000);
-                socket.close();
             }
             
         }
@@ -235,6 +238,11 @@
 
 
 var socket = new WebSocket("ws://localhost:3000/cable");
+
+window.onbeforeunload = function() {
+    clearInterval(stop);
+    socket.onclose = function () {}; // disable onclose handler first
+};
 socket.onopen = function()
 {         
     var AskForGame = Backbone.Model.extend({
@@ -247,10 +255,11 @@ socket.onopen = function()
             command: "subscribe",
             identifier: JSON.stringify({
                 channel: "PongChannel",
-                pong_id: host_id
+                pong_id: host_id,
+                user_id: <%== current_user.id %>
             })
         }));
-       play(host_id);
+        play(host_id);
     }});
 }
 

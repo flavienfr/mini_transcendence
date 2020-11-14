@@ -8,6 +8,7 @@ class PongnotChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
+    puts "JE SORS !"
     # Any cleanup needed when channel is unsubscribed
   end
 end

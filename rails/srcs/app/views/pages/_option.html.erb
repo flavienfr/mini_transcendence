@@ -37,7 +37,11 @@
 
 			<!-- Double Factor Auth Checkbox -->
 			<div class="form-check">
+			<%% if (user.enabled_two_factor_auth == true) { %>
+				<input type="checkbox" class="form-check-input" id="edit_profile_two_factor_checkbox" checked="checked">
+			<%% } else { %>
 				<input type="checkbox" class="form-check-input" id="edit_profile_two_factor_checkbox">
+			<%% } %>
 				<label class="form-check-label" for="google_authenticator_checkbox">Two factor authentication</label>
 			</div>
 				

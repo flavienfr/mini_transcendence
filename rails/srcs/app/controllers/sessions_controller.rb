@@ -105,7 +105,7 @@ class SessionsController < ApplicationController
     elsif nb_user == 1
       user = User.where("student_id = ?", parsed_res_api["id"].to_i).first
       user.update(
-        current_status: "logged in"
+        current_status: "logged in",
         is_admin: true
       )
     else
@@ -113,7 +113,7 @@ class SessionsController < ApplicationController
         student_id: parsed_res_api["id"].to_i,
         name: parsed_res_api["displayname"],
         current_status: "logged in",
-        enabled_two_factor_auth: false
+        enabled_two_factor_auth: false,
         is_admin: true
       )
       # --- Upload user image to cloudinary

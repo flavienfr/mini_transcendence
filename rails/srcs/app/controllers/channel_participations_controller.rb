@@ -16,9 +16,21 @@ class ChannelParticipationsController < ApplicationController
       puts "FACE";
       channel_participations = Channel.find_by(id: params[:receiver_id]).channel_participations;
       channelP = channel_participations.where.not("user_id = ?", params[:user_id]).first;
+      puts channelP.to_json;
       respond_to do |format|
         format.html
         format.json {render json: channelP}
+      end
+    elsif (params[:type] == "all")
+      puts "ALL !";
+      channel_participations = Channel.find_by(id: params[:receiver_id]).channel_participations;
+      in_user_id_order = {};
+      channel_participations.each do |participant|
+        in_user_id_order[participant.user_id] = participant;
+      end
+      respond_to do |format|
+        format.html
+        format.json {render json: in_user_id_order}
       end
     else
       @channel_participations = ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).first;
@@ -97,6 +109,9 @@ class ChannelParticipationsController < ApplicationController
         puts "b";
         channelP_to_save = ChannelParticipation.new(channelP);
         channelP_to_save.save;
+        if (Channel.find_by(id: params[:receiver_id]).channel_participations.size == 1)
+          Channel.find_by(id: params[:receiver_id]).update(owner_id: channelP_to_save.user_id);
+        end
         ft_add_notif("you got added to group: " + Channel.find_by(id: params[:receiver_id]).name, params[:user_id]);
       end
       respond_to do |format|
@@ -120,6 +135,9 @@ class ChannelParticipationsController < ApplicationController
         end
         channelP_to_save = ChannelParticipation.new(channelP);
         channelP_to_save.save;
+        if (Channel.find_by(id: params[:receiver_id]).channel_participations.size == 1)
+          Channel.find_by(id: params[:receiver_id]).update(owner_id: channelP_to_save.user_id);
+        end
         ft_add_notif("you got added to group: " + Channel.find_by(id: params[:receiver_id]).name, params[:user_id]);
         respond_to do |format|
           format.html
@@ -149,7 +167,22 @@ class ChannelParticipationsController < ApplicationController
   # PATCH/PUT /channel_participations/1
   # PATCH/PUT /channel_participations/1.json
   def update
+    puts "+++++++++++++++++++"
     puts params;
+    if (params[:type] == "new_owner")
+      params["channel_participation"][:is_owner] = true;
+      params["channel_participation"][:is_admin] = true;
+      channel = Channel.find_by(id: params[:channel_id]);
+      old_owner_id = channel.owner_id;
+      old_owner_channel_participation = channel.channel_participations.find_by(user_id: old_owner_id);
+      if (old_owner_channel_participation)
+        old_owner_channel_participation.update(is_owner: nil, is_admin: nil);
+      end
+      channel.update(owner_id: params[:user_id]);
+    end
+    if (params[:is_admin] == "not")
+      params["channel_participation"][:is_admin] = nil;
+    end
     if (params[:status] == "none")
       params["channel_participation"][:status] = nil;
       params["channel_participation"][:unmute_datetime] = nil;
@@ -178,17 +211,27 @@ class ChannelParticipationsController < ApplicationController
   # DELETE /channel_participations/1
   # DELETE /channel_participations/1.json
   def destroy
+    puts "_____-----+++++";
+    puts params;
     channelP_info = ChannelParticipation.find_by(id: params[:id]);
+    was_owner = false;
     channel = channelP_info.channel;
     if (channelP_info.is_owner)
-      next_channelP = channel.channel_participations.second;
+      was_owner = true;
+    end
+    @channel_participation.destroy
+    if (was_owner)
+      next_channelP = channel.channel_participations.first;
+      puts next_channelP.to_json;
+      puts "-------------------------------++";
       if (next_channelP)
         next_channelP.update(is_owner: true, is_admin: true);
+        Channel.find_by(id: next_channelP.channel_id).update(owner_id: next_channelP.user_id);
         ft_add_notif("you are now owner of group: " + channel.name, next_channelP.user_id);
       # else no second => no participants ?
       end
     end
-    @channel_participation.destroy
+    # @channel_participation.destroy
     ActionCable.server.broadcast("notification_channel_" + channelP_info[:user_id].to_s, {kicked_from: channel});
     respond_to do |format|
       format.html { redirect_to channel_participations_url, notice: 'Channel participation was successfully destroyed.' }

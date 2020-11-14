@@ -37,9 +37,9 @@ function ft_getNames(data)
 		url: '/users'
 	})
 	var user = new Users();
-	user.fetch({data: {user_id: data.from_user_id}, success: function(){		
+	user.fetch({data: {user_id: data.from_user_id, type: "viewer"}, success: function(){		
 		var user2 = new Users();
-		user2.fetch({data: {user_id: data.to_user_id}, success: function ()
+		user2.fetch({data: {user_id: data.to_user_id, type: "viewer"}, success: function ()
 		{
 			var show_div = $("#game_room");
 			var name1 = user.get('name');

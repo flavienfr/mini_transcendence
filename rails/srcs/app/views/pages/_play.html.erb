@@ -5,7 +5,7 @@
 	<div class="row">
     	<div id ="pong-area"  class="col text-center">
       		<h1>Le play pong</h1>
-              <div class="dropdown">
+   <!--           <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 select your contender !
                 </button>
@@ -17,8 +17,8 @@
                 <%end %>
                 <% end %>
             </div>
-        </div>
-	<button class="bt bt_add" id="play-game">PLAY</button>
+        </div> -->
+    <button type="button" id="sign_in" class="btn btn-primary btn-lg btn-block btn-dark" onclick="new_game(<%=current_user.id%>)">PLAY</button>
     </div>
 	<div class="col chat" id="chat_area">
     </div>
@@ -49,9 +49,29 @@ function set_content(id)
             pong_id: 0
             }),
             data: JSON.stringify({
-                data: {id_host: current, id_guest: guest_id}  // send a message to the guest for play with host, it's send his id et the id of the guest
+                data: {id_host: current, id_guest: guest_id}  // send a message to the guest for play with host, it s send his id et the id of the guest
             })
     }));
+}
+
+//-------------------------------------------------------------------------//
+
+async function new_game(id)
+{
+    console.log("New game");
+    await playercollection.fetch();
+    console.log(playercollection.toJSON());
+    var players = playercollection.toJSON();
+    for (let i = 0; i < players.length; i++)
+    {
+        if (players[i].user_id == id)
+        {
+            alert("you are already on list !");
+            return ;
+        }
+    }
+    player = new Player({user_id: id});
+    player.save();
 }
 
 
@@ -61,7 +81,7 @@ function set_content(id)
 socket_notif.onmessage = function(event) {// this function check every message, for know if the message is for her, it check the guest params, if the guest params correspond to the curent id the guest it for her  
 const response = event.data;
 const msg = JSON.parse(response);
-	if (msg.type == "ping" || !msg.message)// don't check the ping message
+	if (msg.type == "ping" || !msg.message)// dont check the ping message
         return ;
     if (msg.message.data.id_guest == current && is_playing == false && msg.message.data.play) // read the second for understand this
     {
@@ -74,8 +94,9 @@ const msg = JSON.parse(response);
     }
     else if (msg.message.data.id_guest == current && is_playing == false)// reveive the invitation, if the guest gamer is agree he send a message where play(value) is on true
     {
-			var val = confirm("hey a new gamer want play with you !") ;
-			is_playing = val;
+			alert("Challege accepted!") ;
+			//var val = confirm("hey a new gamer want play with you !") ;
+			is_playing = true;
 			if (is_playing == true)
 			{	
                 socket_notif.send(JSON.stringify({

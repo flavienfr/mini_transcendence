@@ -5,7 +5,7 @@
 <canvas id="pong" width="800px" height="600px" > </canvas>
 
 <script>
-    var current_user_id = <%== current_user.id%>
+    var current_user_id = <%== current_user.id%>  // anti jaune >
     var frame = 50;
     var time_pause = 10
     
@@ -74,7 +74,7 @@
         //guest
         const guest = {
             //position
-            x : canvas.width - 10, // pas responsive il s'agit de largeur (10px)
+            x : canvas.width - 10, // pas responsive il s'agit de largeur (10px) '
             y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive correspond au paddle
             //form
             width : 10, // pas responsive

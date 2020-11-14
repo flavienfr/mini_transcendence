@@ -52,7 +52,6 @@ Rails.application.configure do
 
   config.log_level = :unknown ## ---------------------------------------------------------- dismiss log in console suppressed it for show all !!!!!
 
-
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 

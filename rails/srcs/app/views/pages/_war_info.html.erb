@@ -3,28 +3,71 @@
 	
 	<div class="war_info_container">
 		<div class="wi_header">
-			
+			<div class="score">
+				<h2>Score</h2>
+				<p><%%= info.guild_name_a %>: <%%= info.guild_score_a %><br>
+				<%%= info.guild_name_b %>: <%%= info.guild_score_b %></p>
+			</div>
+			<div class="war_date">
+				<%% var start_date = new Date(info.war_start) %>
+				<%% var end_date = new Date(info.war_end) %>
+				<%% const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' } %>
+				<h2>War</h2>
+				<p><%%= start_date.toLocaleDateString('fr-FR', options) %> to <%%= end_date.toLocaleDateString('fr-FR', options) %></p>
+			</div>
+			<div class="prize_pool">
+				<h2>Prize pool</h2>
+				<p><%%= info.prize_pool %> pts</p>
+			</div>
 		</div>
 
 		<div class="wi_body">
-			<h2>Opponents players</h2>
-			<div class="guild_player">
+
+			<div class="war_list">
 				<table class="table">
 					<thead class="thead-dark">
 						<tr>
-							<th scope="col">#</th>
+							<th scope="col">War Time</th>
+							<th scope="col">Unanswered match</th>
+						</tr>
+					</thead>
+					<tbody>
+						<%% for (let i = 0;i < info.war_times.length; i++){ %>
+							<%% wartime = info.war_times[i] %>
+							<%% var start_date = new Date(wartime.start_date) %>
+							<%% var end_date = new Date(wartime.end_date) %>
+							<%% guild_a = guilds.findWhere({id: wartime.a }).toJSON() %>
+							<%% guild_b = guilds.findWhere({id: wartime.b }).toJSON() %>
+							<tr>
+								<td><%%= start_date.toLocaleDateString('fr-FR', options) %> to <%%= end_date.toLocaleDateString('fr-FR', options) %></td>
+								<td>
+									<%%= guild_a.name %> <%%= wartime.nb_unanswered_call_a %>/<%%= info.max_unanswered_call %><br>
+									<%%= guild_b.name %> <%%= wartime.nb_unanswered_call_b %>/<%%= info.max_unanswered_call %>
+								</td>
+							</tr>
+						<%% } %>
+					</tbody>
+				</table>
+				<button type="button" id="war_radom_match" class="btn btn-md btn-block btn-dark border border-light">Random match</button>
+			</div>
+
+			<div class="player_list">
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
 							<th scope="col">Player</th>
 							<th scope="col"></th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>tests</td>
-							<td class="btn_td">
-								<button type="button" class="btn btn-md btn-block btn-dark border border-light">War duel</button>
-							</td>
-						</tr>
+						<%%	for (let i = 0; i < info.opponents.length; i++) { %>
+							<tr>
+								<td><%%= info.opponents[i].name %></td>
+								<td class="btn_td">
+									<button id="war_btn_<%%= i %>" type="button" class="btn btn-md btn-block btn-dark border border-light">War duel</button>
+								</td>
+							</tr>
+						<%% } %>
 					</tbody>
 				</table>
 			</div>

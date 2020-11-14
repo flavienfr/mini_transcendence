@@ -1,5 +1,4 @@
 import consumer from "./consumer"
-
 document.addEventListener("logged", function(event){
 
 consumer.subscriptions.create({channel: "NotificationChannel", room_id: event.detail.id}, {

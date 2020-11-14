@@ -84,6 +84,8 @@ yamin = User.create(name: "yamin", avatar: "https://cdn.intra.42.fr/users/ylegzo
 flavien = User.create(name: "flavien", avatar: "https://cdn.intra.42.fr/users/froussel.jpg", current_status: "", points: 665, is_admin: false, guild_participation_id: nil)
 luc = User.create(name: "luc", avatar: "https://cdn.intra.42.fr/users/lhuang.jpg", current_status: "", points: 52, is_admin: false, guild_participation_id: nil) 
 maxime = User.create(name: "maxime", avatar: "https://cdn.intra.42.fr/users/mpouzol.jpg", current_status: "", points: 99, is_admin: false, guild_participation_id: nil) 
+#froussel = User.create(name: "Flavien Roussel", avatar: "https://cdn.intra.42.fr/users/froussel.jpg", current_status: "", points: 2000, is_admin: false, guild_participation_id: nil)
+
 puts "----- Users created"
 
 # sessions
@@ -135,24 +137,28 @@ gm1p = GameParticipation.create(user_id: yamin.id, game_id: gm1.id, score: 15, i
 gm2p = GameParticipation.create(user_id: yamin.id, game_id: gm2.id, score: 11, is_winner: false)
 
 # War
-war1 = War.create(start_date: DateTime.new(2010,2,3,4,5,6,'+03:00') ,end_date: DateTime.new(2010,2,3,4,5,6,'+03:00'), prize_in_points: 500, max_unanswered_call: 10, winner_id: assemblee.id, status: "finished")
-war2 = War.create(start_date: DateTime.new(2009,4,6,9,3,4,'+10:45') ,end_date: DateTime.new(2009,4,6,9,3,4,'+10:45'), prize_in_points: 250, max_unanswered_call: 0, winner_id: order.id, status: "finished")
-war3 = War.create(start_date: DateTime.new(2011,6,3,5,9,7,'+22:45') ,end_date: DateTime.new(2011,6,3,5,9,7,'+22:45'), prize_in_points: 102, max_unanswered_call: 0, winner_id: order.id, status: "ongoing")
-war4 = War.create(start_date: DateTime.now ,end_date: DateTime.new(2015,1,2,3,4,5,'+23:29'), prize_in_points: 102, max_unanswered_call: 0, winner_id: order.id, status: "finished")
-war5 = War.create(start_date: DateTime.new(2014,1,2,3,4,5,'+23:29') ,end_date: DateTime.new(2014,1,2,3,4,5,'+23:29'), prize_in_points: 666, max_unanswered_call: 0, winner_id: order.id, status: "finished")
-
+#war1 = War.create(start_date: DateTime.new(2010,2,3,4,5,6,'+03:00') ,end_date: DateTime.new(2010,2,3,4,5,6,'+03:00'), prize_in_points: 500, max_unanswered_call: 10, winner_id: assemblee.id, status: "finished")
+#war2 = War.create(start_date: DateTime.new(2009,4,6,9,3,4,'+10:45') ,end_date: DateTime.new(2009,4,6,9,3,4,'+10:45'), prize_in_points: 250, max_unanswered_call: 0, winner_id: order.id, status: "finished")
+#war4 = War.create(start_date: DateTime.now ,end_date: DateTime.new(2015,1,2,3,4,5,'+23:29'), prize_in_points: 102, max_unanswered_call: 0, winner_id: order.id, status: "finished")
+#war5 = War.create(start_date: DateTime.new(2014,1,2,3,4,5,'+23:29') ,end_date: DateTime.new(2014,1,2,3,4,5,'+23:29'), prize_in_points: 666, max_unanswered_call: 0, winner_id: order.id, status: "finished")
+#war6 = War.create(start_date: DateTime.new(2014,1,2,3,4,5,'+23:29') ,end_date: DateTime.new(2021,1,2,3,4,5,'+23:29'), prize_in_points: 420, max_unanswered_call: 10, winner_id: nil, status: "ongoing")
+#
 ## War participations
-warp1 = WarParticipation.create(guild_id: assemblee.id, war_id: war1.id, war_points: 230, has_declared_war: true, nb_unanswered_call: nil, is_winner: true, status: "finished")
-warp2 = WarParticipation.create(guild_id: order.id, war_id: war1.id, war_points: 120, has_declared_war: false, nb_unanswered_call: nil, is_winner: false, status: "finished")
+#warp1 = WarParticipation.create(guild_id: assemblee.id, war_id: war1.id, war_points: 230, has_declared_war: true, nb_unanswered_call: nil, is_winner: true, status: "finished")
+#warp2 = WarParticipation.create(guild_id: order.id, war_id: war1.id, war_points: 120, has_declared_war: false, nb_unanswered_call: nil, is_winner: false, status: "finished")
+##
+#warp3 = WarParticipation.create(guild_id: assemblee.id, war_id: war2.id, war_points: 30, has_declared_war: true, nb_unanswered_call: nil, is_winner: false, status: "finished")
+#warp4 = WarParticipation.create(guild_id: order.id, war_id: war2.id, war_points: 423, has_declared_war: false, nb_unanswered_call: nil, is_winner: true, status: "finished")
+##
+#warp7 = WarParticipation.create(guild_id: assemblee.id, war_id: war4.id, war_points: 350, has_declared_war: true, nb_unanswered_call: nil, is_winner: false, status: "finished")
+#warp8 = WarParticipation.create(guild_id: order.id, war_id: war4.id, war_points: 4253, has_declared_war: false, nb_unanswered_call: nil, is_winner: true, status: "finished")
 #
-warp3 = WarParticipation.create(guild_id: assemblee.id, war_id: war2.id, war_points: 30, has_declared_war: true, nb_unanswered_call: nil, is_winner: false, status: "finished")
-warp4 = WarParticipation.create(guild_id: order.id, war_id: war2.id, war_points: 423, has_declared_war: false, nb_unanswered_call: nil, is_winner: true, status: "finished")
 #
-warp5 = WarParticipation.create(guild_id: nil, war_id: war3.id, war_points: 677, has_declared_war: true, nb_unanswered_call: nil, is_winner: false, status: "inprogress")
-warp6 = WarParticipation.create(guild_id: order.id, war_id: war3.id, war_points: 5455, has_declared_war: false, nb_unanswered_call: nil, is_winner: true, status: "inprogress")
 #
-warp7 = WarParticipation.create(guild_id: assemblee.id, war_id: war4.id, war_points: 350, has_declared_war: true, nb_unanswered_call: nil, is_winner: false, status: "finished")
-warp8 = WarParticipation.create(guild_id: order.id, war_id: war4.id, war_points: 4253, has_declared_war: false, nb_unanswered_call: nil, is_winner: true, status: "finished")
-#
-warp9 = WarParticipation.create(guild_id: nil, war_id: war5.id, war_points: 350, has_declared_war: true, nb_unanswered_call: nil, is_winner: true, status: "finished")
-warp10 = WarParticipation.create(guild_id: nil, war_id: war5.id, war_points: 4253, has_declared_war: false, nb_unanswered_call: nil, is_winner: false, status: "finished")
+## test ongoing war qui se termine 
+#warp9 = WarParticipation.create(guild_id: assemblee.id, war_id: war6.id, war_points: 100, has_declared_war: true, nb_unanswered_call: 0, is_winner: nil, status: "ongoing")
+#warp10 = WarParticipation.create(guild_id: order.id, war_id: war6.id, war_points: 50, has_declared_war: false, nb_unanswered_call: 0, is_winner: nil, status: "ongoing")
+#assemblee.war_participation_id = warp9.id
+#assemblee.save
+#order.war_participation_id = warp10.id
+#order.save

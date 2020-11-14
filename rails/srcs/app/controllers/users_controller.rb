@@ -6,15 +6,14 @@ class UsersController < ApplicationController
   def index
     puts params;
     @users = User.all
-    if (params[:user_id])
+    if (params[:user_id] && params[:type] == "viewer")
       @users = User.find(params[:user_id]);
       puts(@users.name);
       respond_to do |format|
         format.html
         format.json { render json: @users}
       end
-    end
-    if (params[:users_to_get] == "participants")
+    elsif (params[:users_to_get] == "participants")
       channel_participations = Channel.find_by(id: params[:channel_id]).channel_participations;
       channel_participations_banned = channel_participations.where("status = 'banned'");
       if (channel_participations_banned.size > 0)
@@ -42,6 +41,11 @@ class UsersController < ApplicationController
       respond_to do |format|
         format.html
         format.json {render json: users_banned}
+      end
+    else
+      respond_to do |format|
+        format.html
+        format.json {render json: User.all}
       end
     end
   end
@@ -89,6 +93,11 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+
+    if (params[:type] == "admin_update")
+      @user.update(user_params)
+      return;
+    end
     
     puts 'inside update | PUT /users/:id'
     puts 'params: ', params

@@ -1,0 +1,112 @@
+<script type="text/template" id="chat_admin_view-template">
+    <input type="hidden" id="admin_chat_view_in" value="<%%= receiver.id %>">
+    <div class="main_chat_header">
+        <div>
+        </div>
+    <%% if(receiver.name) { %>
+        <div>
+            <button id="admin_to_chat_details" data-channel='<%%= JSON.stringify(receiver) %>'>group info</button>
+        </div>
+    <%% } %>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" onclick="ft_show_channels_admin()" type="button" id="dropdownChannelMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%%= receiver.name %></button>
+            <div class="dropdown-menu dropdown-menu-right" style="overflow-y:auto; height:auto; max-height: 200px;" aria-labelledby="dropdownChannelMenuButton">
+                <div id="direct_msg_users" style="overflow-y:auto">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main_chat_middle" id="conversation_window" style="overflow-y:auto">
+    </div>
+    <script type="text/javascript">
+		<%% if (receiver && receiver.name) {%>
+			var Message = Backbone.Model.extend({
+				urlRoot: '/messages'
+			});
+			var message = new Message();
+			message.fetch({
+				data: {user_id: <%== current_user.id %>, receiver_id: <%%= receiver.id %>, scope: '<%%= receiver.scope %>'},
+				success: function(data)
+				{
+					data = data.toJSON();
+					console.log(data);
+					var BlockUser = Backbone.Model.extend({
+						urlRoot: '/block_users'
+					});
+					var block_user = new BlockUser();
+					block_user.fetch({
+						data: {user_id: <%== current_user.id %>},
+						success: function(data2){
+							data2 = data2.toJSON();
+							console.log("a");
+							console.log(data2);
+							if (data && data.messages && data.messages.length > 0)
+							{
+								var i = 0;
+								$("#conversation_window").html("");
+								while (i < data.messages.length)
+								{
+									//if (data2[data.messages[i].user_id] != "blocked")//meme si blocked si admin on voit tout les msg ?
+										$("#conversation_window").append("<div>[" + (data.guilds[data.messages[i].user_id] != "" ? data.guilds[data.messages[i].user_id] : "") + "]" + data.users[data.messages[i].user_id] + ":" + data.messages[i].text + "</div>");
+									i++;
+								}
+							}
+							else
+								$("#conversation_window").html("");
+						}
+					});
+				}
+			});
+        <%% } %>
+        function ft_show_channels_admin()
+        {
+            var Channel = Backbone.Model.extend({
+				urlRoot: '/channels'
+			});
+			var channel = new Channel();
+			channel.fetch({
+				data: {type: "all"},
+				success: function(data)
+				{
+					data = data.toJSON();
+                    console.log(data);
+                    var size = Object.keys(data).length;
+					show_div = $("#direct_msg_users");
+					show_div.empty();
+					if (data && size > 0)
+					{
+						i = 0;
+						while (i < size)
+						{
+							show_div.append("<div style='display:flex;'><button class='dropdown-item' onclick='ft_show_conversation_admin(" +
+											JSON.stringify(data[i]) + ")'>" +
+											data[i].name + " (" + data[i].scope + ")" + "</button>" +
+											(<%== current_user.is_admin %> ? "<button onclick='ft_delete(" + JSON.stringify(data[i]) + ")'>Delete</button>" : "") +
+											"</div>");
+							i++;
+						}
+					}
+				}
+			});
+        }
+        function ft_show_conversation_admin(channel)
+        {
+            chatview.render_admin_chat_view(channel);
+		}
+		function ft_delete(channel)
+		{
+			console.log("as admin");
+			console.log(channel);
+			var Channel = Backbone.Model.extend({
+				urlRoot: '/channels'
+			});
+			var channel = new Channel({id: channel.id});
+			channel.destroy({
+				success: function(){
+					chatview.render_admin_chat_view();
+				}
+			});
+			//chatview.render_chat_main();
+		}
+    </script>
+</script>

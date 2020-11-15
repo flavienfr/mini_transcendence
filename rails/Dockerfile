@@ -10,7 +10,11 @@ RUN bundle install
 COPY ./srcs/ /ft_transcendence
 
 # bad to install with old yarn
-RUN yarn add jquery && yarn add underscore && yarn add backbone && yarn add cloudinary-core
+RUN    yarn add jquery \
+    && yarn add underscore \
+    && yarn add backbone \
+    && yarn add cloudinary-core \
+    && yarn add sweetalert2
 
 # Add a script to be executed every time the container starts.
 COPY ./srcs/entrypoint.sh /usr/bin/

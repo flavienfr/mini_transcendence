@@ -125,9 +125,9 @@ class UsersController < ApplicationController
     end
 
     if @user.update(update_params)
-      render json: { new_current_user: @user.as_json }, status: :ok and return
+      render json: { data: @user.as_json }, status: :ok and return
     else
-      render json: @user.errors, status: :unprocessable_entity and return
+      render json: { data: @user.errors.as_json }, status: :unprocessable_entity and return
     end
 
   end

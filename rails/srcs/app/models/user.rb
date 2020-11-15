@@ -16,4 +16,6 @@ class User < ApplicationRecord
     has_one :watch
     has_one_time_password
     has_one_attached :photo
+
+    validates :name, presence: true, length: { minimum: 3 }
 end

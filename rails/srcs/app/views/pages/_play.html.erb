@@ -5,19 +5,6 @@
 	<div class="row">
     	<div id ="pong-area"  class="col text-center">
       		<h1>Le play pong</h1>
-   <!--           <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                select your contender !
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <% users = User.all%>
-                <% users.each do |user| %>
-                <%if (user.id != current_user.id)%>
-                    <a class="dropdown-item" id=<%= user.id%> onclick="set_content(<%=user.id%>)"> <%=user.name %></a>
-                <%end %>
-                <% end %>
-            </div>
-        </div> -->
     <button type="button" id="sign_in" class="btn btn-primary btn-lg btn-block btn-dark" onclick="new_game(<%=current_user.id%>)">PLAY</button>
     </div>
 	<div class="col chat" id="chat_area">
@@ -26,8 +13,6 @@
 <script>
 var guest_id = 0; // set a change in set_content
 var current = <%== current_user.id%>; //>
-var is_playing  = false;
-
 
 function save_asking_battle(gid)
 {
@@ -38,20 +23,6 @@ function save_asking_battle(gid)
     ask_for_game.save({ask_for_game:{from_user_id: current, to_user_id: gid, status: 'playing'}});
 }
 
-function set_content(id)
-{
-    guest_id = id;
-    socket_notif.send(JSON.stringify({
-        command: "message",
-        identifier: JSON.stringify({
-            channel: "PongnotChannel",
-            pong_id: 0
-            }),
-            data: JSON.stringify({
-                data: {id_host: current, id_guest: guest_id}  // send a message to the guest for play with host, it s send his id et the id of the guest
-            })
-    }));
-}
 //-------------------------------------------------------------------------//
 
 async function new_game(id)
@@ -75,54 +46,19 @@ async function new_game(id)
 
 
 socket_notif.onmessage = function(event) {// this function check every message, for know if the message is for her, it check the guest params, if the guest params correspond to the curent id the guest it for her  
-const response = event.data;
-const msg = JSON.parse(response);
-	if (msg.type == "ping" || !msg.message)// dont check the ping message
-        return ;
-    if (msg.message.data.id_guest == current && is_playing == false && msg.message.data.play) // read the second for understand this
-    {
-        save_asking_battle(msg.message.data.id_host);
-        pongview.setElement("#pong-area").render(); // has the invitation is validate(value play is on true), the host is redirect to the hostview
-    }
-    else if (msg.message.data.agree == "false" && msg.message.data.id_guest == current)
-    {
-        alert("the guest refused to play with you... sorry bro !");
-    }
-    else if (msg.message.data.id_guest == current && is_playing == false)// reveive the invitation, if the guest gamer is agree he send a message where play(value) is on true
-    {
-			alert("Challege accepted!") ;
-			//var val = confirm("hey a new gamer want play with you !") ;
-			is_playing = true;
-			if (is_playing == true)
-			{	
-                socket_notif.send(JSON.stringify({
-                    command: "message",
-                    identifier: JSON.stringify({
-                        channel: "PongnotChannel",
-                        pong_id: 0
-                    }),
-                    data: JSON.stringify({
-                        data: {play: "true", id_host: current, id_guest: msg.message.data.id_host}
-                    })
-                }));
-                playview.render();
-                setTimeout(() => {pongguest.setElement("#pong-area").render();}, 800);
-           }
-            else// send a message at the host player to said the invitation is refused by the guest player
-			{
-                console.log("refused");
-			    socket_notif.send(JSON.stringify({
-                    command: "message",
-                    identifier: JSON.stringify({
-                        channel: "PongnotChannel",
-                        pong_id: 0
-                    }),
-                    data: JSON.stringify({
-                        data: {id_guest: msg.message.data.id_host ,agree: "false"}
-                    })
-                }));
-	        }
-	}    
+    const response = event.data;
+    const msg = JSON.parse(response);
+	    if (msg.type == "ping" || !msg.message)// dont check the ping message
+			return ;
+			console.log("PRE---------- PLay viex");
+
+        if (msg.message.data.id_guest == current && msg.message.data.play) // read the second for understand this
+        {
+			console.log("---------- PLay viex");
+			// save_asking_battle(msg.message.data.id_host, msg.message.data.ask_id);
+			playview.render();
+            pongview.setElement("#pong-area").render(); // has the invitation is validate(value play is on true), the host is redirect to the hostview
+		}      
 };
 
 

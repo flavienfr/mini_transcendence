@@ -144,7 +144,7 @@ class AskForGamesController < ApplicationController
 		if (@ask_for_game.status == "pending")
 			@ask_for_game.update(
 				to_user_id: params[:user_id],
-				status: "ongoing"
+				status: "playing"
 			)
 			json_render["msg"] = "LANCÉ LE MATCH"
 			json_render["is_msg"] = true

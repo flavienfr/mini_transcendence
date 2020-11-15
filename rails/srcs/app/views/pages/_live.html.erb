@@ -61,7 +61,7 @@ function refresh()
 		var i = 0;
 		while (i < size)
 		{
-			if (data[i].status == "playing")
+			if (data[i].status == "playing" && data[i].from_user_id != current && data[i].to_user_id != current)
 			ft_getNames(data[i]);
 			i++;
 		}

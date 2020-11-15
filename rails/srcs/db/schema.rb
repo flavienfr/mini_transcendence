@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_13_022332) do
+ActiveRecord::Schema.define(version: 2020_11_15_221101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -257,6 +257,7 @@ ActiveRecord::Schema.define(version: 2020_11_13_022332) do
     t.string "otp_secret_key"
     t.boolean "enabled_two_factor_auth", default: false
     t.integer "student_id"
+    t.boolean "is_owner", default: false
     t.index ["guild_participation_id"], name: "index_users_on_guild_participation_id"
   end
 

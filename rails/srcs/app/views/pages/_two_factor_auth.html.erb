@@ -48,10 +48,27 @@
             type: 'POST',
             success: function(res) {
                 console.log("ok res: ", res);
+                // affiche le spinner
+                var spinner = document.getElementById("spinner");
+                spinner.classList.add("active");
                 window.location.href = "http://localhost:3000";
+                // cache le spinner:
+				spinner.classList.remove("active");
+                Swal.fire({
+					icon: 'success',
+					title: 'Your are now logged in !',
+					showConfirmButton: false,
+					timer: 2000
+				})
             },
             error: function (err) {
                 console.log("ko err:", err);
+                Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: 'Something went wrong!',
+					footer: "6 figures code is not valid."
+				})
             }
         })
     });

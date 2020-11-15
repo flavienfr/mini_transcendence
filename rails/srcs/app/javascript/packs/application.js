@@ -34,3 +34,9 @@ global .cl = new cloudinary.Cloudinary({
 });
 window.cloudinary = cl;
 window.cl = cl;
+
+// sweet alert
+// https://sweetalert2.github.io/#examples
+var Swal = require("sweetalert2");
+window.Swal = Swal;
+console.log("window.Swal", window.Swal);

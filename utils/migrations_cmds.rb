@@ -32,6 +32,7 @@ rails g scaffold notification from_user_id:integer user:references to_channel_id
 rails g scaffold block_user user_id:references block_user_id:integer status:string
 
 # rails generate migration add_fieldname_to_tablename fieldname:string
+# rails generate migration add_is_owner_to_user is_owner:boolean
 # rails g migration ChangeProductPopularity
 
 # rails generate migration add_fieldname_to_tablename fieldname:string

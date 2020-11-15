@@ -33,7 +33,7 @@ function save_asking_battle(gid)
 {
     var AskForGame = Backbone.Model.extend({
         urlRoot: '/ask_for_games'
-    })
+    })git 
     var ask_for_game = new AskForGame();
     ask_for_game.save({ask_for_game:{from_user_id: current, to_user_id: gid, status: 'playing'}});
 }

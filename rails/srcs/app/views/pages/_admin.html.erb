@@ -6,8 +6,15 @@
                 <h1>Users</h1>
                 <div id="list_of_users_id"></div>
             </div>
-            <div class="col text-center">
-                <h1>Admin page</h1>
+            <div class="col">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" onclick="ft_show_guilds()" type="button" id="dropdownGuildMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Guilds</button>
+                    <div class="dropdown-menu dropdown-menu-right" style="overflow-y:auto; height:auto; max-height: 200px;" aria-labelledby="dropdownGuildMenuButton">
+                        <div id="list_of_guilds_users_id" style="overflow-y:auto">
+                        </div>
+                    </div>
+                    <div id="show_guild_users_id"></div>
+                </div>
             </div>
             <div class="col chat" id="chat_area">
             </div>
@@ -21,11 +28,13 @@
         user.fetch({
             success: function(data){
                 data = data.toJSON();
+                var users_div = $("#list_of_users_id");
                 var size = Object.keys(data).length;
                 var i = 0;
+                users_div.empty();
                 while (i < size)
                 {
-                    $("#list_of_users_id").append("<div>" + data[i].name +
+                    users_div.append("<div>" + data[i].name +
                     (<%== current_user.is_admin %> && !data[i].is_admin && data[i].current_status != 'banned' ? "<button onclick='ft_ban_general(" + data[i].id + ")'>Ban</button>" : "") +
                     (<%== current_user.is_admin %> && data[i].current_status == 'banned' ? "<button onclick='ft_unban_general(" + data[i].id + ")'>Unban</button>" : "") +
                     (<%== current_user.is_admin %> && !data[i].is_admin ? "<button onclick='ft_adminize_general(" + data[i].id + ")'>Adminize</button>" : "") +
@@ -35,6 +44,35 @@
                 }
             }
         });
+        function ft_show_guilds()
+        {
+            var Guild = Backbone.Model.extend({
+                urlRoot: '/guilds'
+            });
+            var guild = new Guild();
+            guild.fetch({
+                data: {},
+                success: function(data){
+                    console.log(data.toJSON());
+                    console.log("guilds !");
+                    data = data.toJSON();
+                    var size = Object.keys(data).length;
+                    var guilds_div = $("#list_of_guilds_users_id");
+                    var i = 0;
+                    guilds_div.empty();
+                    while (i < size)
+                    {
+                        guilds_div.append("<div><button class='dropdown-item' onclick='ft_show_guild_users(" + data[i].id + ")'>" + data[i].name + "</button></div>")
+                        i++;
+                    }
+                }
+            });
+        }
+        function ft_show_guild_users(guild_id)
+        {
+            console.log("guild id :" + guild_id);
+            guildusersview.setElement("#show_guild_users_id").render(guild_id, true);
+        }
         function ft_ban_general(user_id)
         {
             console.log("user_id" + user_id);

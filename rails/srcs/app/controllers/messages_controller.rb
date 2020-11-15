@@ -101,20 +101,6 @@ class MessagesController < ApplicationController
       channel_name = "conversation_channel_" + smaller.to_s + "_" + bigger.to_s;
       puts channel_name;
       channel = Channel.where("name = ? AND scope = ?", channel_name, params[:scope]).last;
-      if (channel.channel_participations.find_by(user_id: params[:user_id]).status == "blocked")
-        puts "BLOCKED !!!!!"
-        notif = {};
-        notif["from_user_id"] = params[:user_id];
-        notif["user_id"] = params[:user_id];
-        notif["table_type"] = "information";
-        notif["message"] = "message not send";#faudrait envoyer quand meme mais cote front affichera pas si user blocked
-        notif_to_save = Notification.new(notif);
-        notif_to_save.save();
-        ActionCable.server.broadcast("notification_channel_" + params[:user_id].to_s, {notification: "on"});
-        return;
-      else
-        puts "not BLOCKED !!!!!!"
-      end
       @new_msg = {};
       @new_msg["user_id"] = params[:user_id];
       @new_msg["channel_id"] = channel.id;

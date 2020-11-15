@@ -4,7 +4,11 @@ class GuildsController < ApplicationController
   # GET /guilds
   # GET /guilds.json
   def index
-	@guilds = Guild.all.order(points: :desc)
+  @guilds = Guild.all.order(points: :desc)
+  respond_to do |format|
+    format.html
+    format.json {render json: @guilds}
+  end
   end
 
   # GET /guilds/1

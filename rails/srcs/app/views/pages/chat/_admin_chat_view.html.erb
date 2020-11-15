@@ -1,11 +1,12 @@
 <script type="text/template" id="chat_admin_view-template">
-    <input type="hidden" id="admin_chat_view_in" value="<%%= receiver.id %>">
+	<input type="hidden" id="admin_chat_view_in" value="<%%= receiver.id %>">
+	<input type="hidden" id="chat_hidden_id" value="admin_chat_<%%= receiver.id %>">
     <div class="main_chat_header">
         <div>
         </div>
     <%% if(receiver.name) { %>
         <div>
-            <button id="admin_to_chat_details" data-channel='<%%= JSON.stringify(receiver) %>'>group info</button>
+            <button id="admin_to_chat_details" data-channel=<%%= receiver.id %>>group info</button>
         </div>
     <%% } %>
         <div class="dropdown">

@@ -1,4 +1,6 @@
 <script type="text/template" id="chat_param-template">
+	<input type="hidden" id="in_chat_param" value="true">
+	<input type="hidden" id="chat_hidden_id" value="param_<%%= channel.id %>">
 	<%% console.log("-------------------------------here") %>
 	<%% console.log(channel_participation) %>
 	<%% console.log(other_participation) %>
@@ -54,6 +56,8 @@
 	<div class="param_chat_footer">
 	</div>
 	<script>
+		var channel = {};
+		channel["id"] = <%%= channel.id %>;
 	<%% if (channel.scope == "direct") { %>
 		var BlockUser = Backbone.Model.extend({
 			urlRoot: 'block_users'
@@ -77,7 +81,7 @@
 		function ft_back_to_conversation()
 		{
 			console.log("back");
-			chatview.render_chat_main(<%%= JSON.stringify(channel) %>);
+				chatview.render_chat_main(<%%= JSON.stringify(channel) %>);
 		}
 		function ft_leave()
 		{
@@ -148,7 +152,7 @@
 			},
 			{
 				success: function(){
-					chatview.render_chat_param(<%%= JSON.stringify(channel) %>);
+					chatview.render_chat_param(channel);
 				}
 			});
 		}
@@ -166,7 +170,7 @@
 					data2.destroy({
 						success: function(){
 							console.log("destroy ok !");
-							chatview.render_chat_param(<%%= JSON.stringify(channel) %>);
+							chatview.render_chat_param(channel);
 						}
 					});
 				}

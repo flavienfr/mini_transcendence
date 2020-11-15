@@ -31,26 +31,28 @@ class AskForGamesController < ApplicationController
   # GET /ask_for_games/1/edit
   def edit
   end
-#
-#
-#
-#  @ask_for_game = AskForGame.new(ask_for_game_params)
-#  respond_to do |format|
-#	if @ask_for_game.save
-#	  format.html { redirect_to @ask_for_game, notice: 'Ask for game was successfully created.' }
-#	  format.json { render :show, status: :created, location: @ask_for_game }
-#	else
-#	  format.html { render :new }
-#	  format.json { render json: @ask_for_game.errors, status: :unprocessable_entity }
-#	end
-#  end
 
   # POST /ask_for_games
   # POST /ask_for_games.json
   def create
-	# puts "------ POST /game_participations ---------"
-	# puts params
-	
+	puts "------ POST /game_participations ---------"
+
+	#gestion duel amicale TMP WTF
+	#if (params[:type] == "duel")
+	#	puts "--------- duel ---------"
+	#	@ask_for_game = AskForGame.new(ask_for_game_params)
+	#	respond_to do |format|
+	#	  if @ask_for_game.save
+	#		format.html { redirect_to @ask_for_game, notice: 'Ask for game was successfully created.' }
+	#		format.json { render :show, status: :created, location: @ask_for_game }
+	#	  else
+	#		format.html { render :new }
+	#		format.json { render json: @ask_for_game.errors, status: :unprocessable_entity }
+	#	  end
+	#	end
+	#	return
+	#end
+
 	#Variable utils
 	json_render = {}
 	user = User.find(params[:from_user_id].to_i)

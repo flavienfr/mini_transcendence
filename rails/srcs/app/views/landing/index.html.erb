@@ -860,11 +860,14 @@ var Profil2View = Backbone.View.extend({
 
 	ask_duel : async function() {
 		console.log("Ask a duel");
+
+		//#remplacer par ajax ask for game create
+
 		var current_id = current_user_id;
 		user = this.collection.findWhere({id: parseInt(current_id)});
 		user = user.toJSON();
-		message = user.name + " challenge you";
-		type = "challenge";
+		message = user.name + " duel you";
+		type = "duel";
 		notif = new Notification({from_user_id: current_id, user_id: user_cible, table_type: type, message: message});
 		await notif.save();
 
@@ -1093,10 +1096,10 @@ var LadderView = Backbone.View.extend({
 		return this;
 	},
 
-//	new_game : function(){
-//		pongview.setElement("#pong-area").render();
-//		console.log("pong area");
-//	}
+	//new_game : function(){
+	//	pongview.setElement("#pong-area").render();
+	//	console.log("pong area");
+	//}
 });
 
 //*************************************** Notification handler ***************************************
@@ -1161,29 +1164,24 @@ function ft_accept_notif(notif) {
 			}
 		});
 	}
-	else if (notif.table_type == "challenge") {
-		var ask_for_game = new Ask_for_game({from_user_id: notif.from_user_id, to_user_id: notif.user_id, type: "duel" });
-		ask_for_game.save(ask_for_game, {
-		  success: function() {
-		   },
-		  error: function() {
-			return ;
-		  },
-		  wait: true
-		});
-		socket_notif.send(JSON.stringify({
-			command: "message",
-			identifier: JSON.stringify({
-			channel: "PongnotChannel",
-			pong_id: 0
-			}),
-			data: JSON.stringify({
-				data: {id_host: notif.user_id, id_guest: notif.from_user_id, ask_id: ask_for_game.id}  // send a message to the guest for play with host, it s send his id et the id of the guest
-			})
-		}));
-		playview.render();
-		setTimeout(() => {pongguest.setElement("#pong-area").render();}, 800);  
-		delete_notif(notif);
+	else if (notif.table_type == "duel") {
+		//# Mauvais
+
+		//#var ask_for_game = new Ask_for_game({from_user_id: notif.from_user_id, to_user_id: notif.user_id, type: "duel" });
+		//#ask_for_game.save(ask_for_game, {
+		//#  success: function() {
+		//#   },
+		//#  error: function() {
+		//#	return ;
+		//#  },
+		//#  wait: true
+		//#});
+		//#console.log("ask_for_game.id: ", ask_for_game.id); //#ask_for_game.id est UNDIFINED !!!
+		//#launch_game({
+		//#	from_user_id: notif.user_id,
+		//#	to_user_id: notif.from_user_id,
+		//#	id: ask_for_game.id
+		//#});
 	}
 	else if (notif.table_type == "ask_for_game") {
 		console.log("ask_for_game");
@@ -1218,6 +1216,8 @@ function ft_accept_notif(notif) {
 };
 
 function launch_game(ask_for_game) {
+	console.log("from_user_id: ", ask_for_game.from_user_id," to_user_id: ", ask_for_game.to_user_id, "id", ask_for_game.id);
+	
 	socket_notif.send(JSON.stringify({
 		command: "message",
 		identifier: JSON.stringify({
@@ -1229,7 +1229,7 @@ function launch_game(ask_for_game) {
 				id_host: ask_for_game.from_user_id,
 				id_guest: ask_for_game.to_user_id,
 				ask_id: ask_for_game.id
-			} // send a message to the guest for play with host, it s send his id et the id of the guest
+			}
 		})
 	}));
 	playview.render();

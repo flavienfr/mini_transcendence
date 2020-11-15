@@ -1134,7 +1134,7 @@ function ft_accept_notif(notif) {
 		});
 	}
 	else if (notif.table_type == "challenge") {
-		var ask_for_game = new Ask_for_game({from_user_id: notif.from_user_id, to_user_id: notif.user_id, type: "duel" });
+		var ask_for_game = new Ask_for_game({from_user_id: notif.from_user_id, to_user_id: notif.user_id, status: "playing", game_type: "duel" });
         ask_for_game.save(ask_for_game, {
           success: function() {
            },
@@ -1150,11 +1150,11 @@ function ft_accept_notif(notif) {
             pong_id: 0
             }),
             data: JSON.stringify({
-                data: {id_host: notif.user_id, id_guest: notif.from_user_id, ask_id: ask_for_game.id}  // send a message to the guest for play with host, it s send his id et the id of the guest
-            })
+                data: {id_host: notif.from_user_id, id_guest: notif.user_id, ask_id: ask_for_game.id}  // send a message to the guest for play with host, it s send his id et the id of the guest
+            }) // a voir si marche pas tenter de inverser
 		}));
 		playview.render();
-		setTimeout(() => {pongguest.setElement("#pong-area").render();}, 800);  
+		pongguest.setElement("#pong-area").render();  
 		delete_notif(notif);
 	}
 	else if (notif.table_type == "ask_for_game") {

@@ -12,17 +12,17 @@
 </div>
 <script>
 var guest_id = 0; // set a change in set_content
-var current = <%== current_user.id%>; //>
+var current = <%== current_user.id%>;
 
 function save_asking_battle(gid)
 {
     var AskForGame = Backbone.Model.extend({
         urlRoot: '/ask_for_games'
-    })git 
+    })
     var ask_for_game = new AskForGame();
     ask_for_game.save({ask_for_game:{from_user_id: current, to_user_id: gid, status: 'playing'}});
-}
 
+}
 //-------------------------------------------------------------------------//
 
 async function new_game(id)
@@ -49,16 +49,13 @@ socket_notif.onmessage = function(event) {// this function check every message, 
     const response = event.data;
     const msg = JSON.parse(response);
 	    if (msg.type == "ping" || !msg.message)// dont check the ping message
-			return ;
-			console.log("PRE---------- PLay viex");
-
+            return ;
         if (msg.message.data.id_guest == current && msg.message.data.play) // read the second for understand this
         {
-			console.log("---------- PLay viex");
 			// save_asking_battle(msg.message.data.id_host, msg.message.data.ask_id);
 			playview.render();
             pongview.setElement("#pong-area").render(); // has the invitation is validate(value play is on true), the host is redirect to the hostview
-		}      
+        }      
 };
 
 

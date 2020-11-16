@@ -174,7 +174,7 @@
                 if (msg.type == "ping" || !msg.message )// check if the pong_id is send to the correct personne
                     return ;
                 if (msg.message.data == "stop")
-                    host.score = 11;
+                    guest.score = 11;
                 if (msg.message.data.timer == 0 || msg.message.data.timer)
                     timer = msg.message.data.timer;
                 if (msg.message.data.hosty)
@@ -220,7 +220,7 @@
                 ft_timer((timer == 0) ? "GO !" : timer);
             if (host.score == 11 || guest.score == 11)
             {
-                if (guest.score == 11)
+                if (host.score != 11)
                     endText("You win !!!");
                 else
                     endText("You loose ... ");

@@ -1,17 +1,23 @@
 class GamesController < ApplicationController
-  #before_action :set_game, only: [:show, :edit, :update, :destroy]
+  before_action :set_game, only: [:show, :edit, :update, :destroy]
 
   # GET /games
   # GET /games.json
   def index
     @games = Game.all
+
   end
 
   # GET /games/1
   # GET /games/1.json
   def show
-    
-
+    if (params[:id])
+      @game = Game.find(params[:id]);
+      respond_to do |format|
+        format.html
+        format.json {render json: @game};
+      end
+    end
   end
 
   # GET /games/new
@@ -42,6 +48,7 @@ class GamesController < ApplicationController
   # PATCH/PUT /games/1
   # PATCH/PUT /games/1.json
   def update
+    puts "((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((9"
     respond_to do |format|
       if @game.update(game_params)
         format.html { redirect_to @game, notice: 'Game was successfully updated.' }
@@ -71,6 +78,6 @@ class GamesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def game_params
-      params.require(:game).permit(:start_date, :end_date, :contex, :contex, :winner_id)
+      params.require(:game).permit(:start_date, :end_date, :context, :winner_id)
     end
 end

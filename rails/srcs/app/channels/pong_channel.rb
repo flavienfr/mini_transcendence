@@ -15,8 +15,10 @@ class PongChannel < ApplicationCable::Channel
     if (params[:user_id] == @state.from_user_id || params[:user_id] == @state.to_user_id)
       ActionCable.server.broadcast("pongnot_channel_#{0}", {data: "refresh"})
       ActionCable.server.broadcast("pong_channel_#{params[:pong_id]}", {data: "stop"});
-      @state.status = "ending";
-      @state.save;
+      if (@state.status != "playing")
+        @state.status = "ending";
+        @state.save;
+     end
     end 
     # Any cleanup needed when channel is unsubscribed
    end

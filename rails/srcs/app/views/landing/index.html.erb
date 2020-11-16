@@ -63,6 +63,7 @@
 				})
 			}));
 		};
+
 		<% if current_user.is_admin %>
 			$("#navbar-id").append("<li class='nav-item'><a id='nav_to_admin' class='nav-link'>ADMIN</a></li>");
 		<% end %>
@@ -98,8 +99,8 @@
 <script>
 
 //****************************** GLOBAL ***************************
-var current_user_id = <%= current_user.id %>; // anti jaune >
-var current_session_id = <%= current_user.sessions.last.id %>; // anti jaune >
+var current_user_id = <%= current_user.id %>; // >
+var current_session_id = <%= current_user.sessions.last.id %>; //  >
 
 // ******************************************** MODELS/COLLECTIONS ********************************************
 //_____________________________________ User _____________________________________
@@ -663,6 +664,7 @@ var GuildView = Backbone.View.extend({
 		return this;
 	}
 })
+
 //_____________________________________ PongWatch _____________________________________
 var PongWatch = Backbone.View.extend({
 	el : '#inside-page',
@@ -861,6 +863,7 @@ var OptionView = Backbone.View.extend({
 	}
 });
 
+//_____________________________________ AdminView _____________________________________
 var AdminView = Backbone.View.extend({
 	el: '#inside-page',
 	template: _.template($('#admin-template').html()),
@@ -888,10 +891,10 @@ var PlayView = Backbone.View.extend({
 		console.log("Render Play");
 		return this;
 	},
-//	new_game : function(){
-//		pongview.setElement("#pong-area").render();
-//		console.log("pong area");
-//	}
+	//new_game : function(){
+	//	pongview.setElement("#pong-area").render();
+	//	console.log("pong area");
+	//}
 
 })
 
@@ -988,13 +991,36 @@ var Profil2View = Backbone.View.extend({
 
 	ask_duel : async function() {
 		console.log("Ask a duel");
-		var current_id = current_user_id;
-		user = this.collection.findWhere({id: parseInt(current_id)});
-		user = user.toJSON();
-		message = user.name + " challenge you";
-		type = "challenge";
-		notif = new Notification({from_user_id: current_id, user_id: user_cible, table_type: type, message: message});
-		await notif.save();
+
+		var data = {
+			from_user_id: current_user_id,
+			to_user_id: user_cible,
+            game_type: "friendly_duel",
+        }
+		self = this
+		Backbone.ajax({
+			url: '/ask_for_games/',
+			data: JSON.stringify(data),
+			type: 'post',
+			dataType: 'json',
+			contentType: 'application/json',
+			success: function(response) {
+				if (response.is_msg){
+					alert(response.msg);
+				}
+			},
+			error: function(){
+				alert("error");
+			}
+		});
+
+		//var current_id = current_user_id;
+		//user = this.collection.findWhere({id: parseInt(current_id)});
+		//user = user.toJSON();
+		//message = user.name + " duel you";
+		//type = "duel";
+		//notif = new Notification({from_user_id: current_id, user_id: user_cible, table_type: type, message: message});
+		//await notif.save();
 
 	},
 });
@@ -1028,14 +1054,42 @@ var WarView = Backbone.View.extend({
 	events: {
 		"change #guild_drop_down": "render_guild_info",
 		"submit #create_war": "add",
-		"click #war_radom_match": "radom_match"
+		"click #war_radom_match": "radom_match",
+		"click .war_duel_btn": "duel_match"
+	},
+	duel_match: function(event){
+		console.log("war duel", event.currentTarget.id);
+		to_user_id = event.currentTarget.id.split("=")[1];
+		console.log("war duel", to_user_id);
+
+		var data = {
+			from_user_id: current_user_id,
+			to_user_id: to_user_id,
+            game_type: "war_duel",
+        }
+		self = this
+		Backbone.ajax({
+			url: '/ask_for_games/',
+			data: JSON.stringify(data),
+			type: 'post',
+			dataType: 'json',
+			contentType: 'application/json',
+			success: function(response) {
+				if (response.is_msg){
+					alert(response.msg);
+				}
+			},
+			error: function(){
+				alert("error");
+			}
+		});
 	},
 	radom_match: function(){
 		console.log("radom_match");
 
 		var data = {
-			user_id: current_user_id,
-            type: "war_random_match",
+			from_user_id: current_user_id,
+            game_type: "war_random_match",
         }
 		self = this
 		Backbone.ajax({
@@ -1193,10 +1247,10 @@ var LadderView = Backbone.View.extend({
 		return this;
 	},
 
-//	new_game : function(){
-//		pongview.setElement("#pong-area").render();
-//		console.log("pong area");
-//	}
+	//new_game : function(){
+	//	pongview.setElement("#pong-area").render();
+	//	console.log("pong area");
+	//}
 });
 
 //*************************************** Notification handler ***************************************
@@ -1261,30 +1315,6 @@ function ft_accept_notif(notif) {
 			}
 		});
 	}
-	else if (notif.table_type == "challenge") {
-		var ask_for_game = new Ask_for_game({from_user_id: notif.from_user_id, to_user_id: notif.user_id, status: "playing", game_type: "duel" });
-        ask_for_game.save(ask_for_game, {
-          success: function() {
-           },
-          error: function() {
-            return ;
-          },
-          wait: true
-        });
-		socket_notif.send(JSON.stringify({
-        	command: "message",
-        	identifier: JSON.stringify({
-            channel: "PongnotChannel",
-            pong_id: 0
-            }),
-            data: JSON.stringify({
-                data: {id_host: notif.from_user_id, id_guest: notif.user_id, ask_id: ask_for_game.id}  // send a message to the guest for play with host, it s send his id et the id of the guest
-            }) // a voir si marche pas tenter de inverser
-		}));
-		playview.render();
-		pongguest.setElement("#pong-area").render();  
-		delete_notif(notif);
-	}
 	else if (notif.table_type == "ask_for_game") {
 		console.log("ask_for_game");
 		var data = {
@@ -1299,20 +1329,50 @@ function ft_accept_notif(notif) {
 			success: function(response){
 				if (response.is_msg){
 					alert(response.msg)
-					if (response.status != "keep_alive"){
-						delete_notif(notif);
-					}
+				}
+				if (response.error){
+					delete_notif(notif);
 				}
 				else{
+					console.log("askforgame: ", response.ask_for_game);
+					launch_game(response.ask_for_game);
 					delete_notif(notif);
 				}
 			},
-			error: function(){
-				alert("error");
+			error: function(response){
+				if (response.delete_notif){
+					delete_notif(notif);
+				}
+				if (response.is_msg){
+					alert(response.msg)
+				}
+				return ;
 			}
 		});
 	}
 };
+
+function launch_game(ask_for_game) {
+	console.log("from_user_id: ", ask_for_game.from_user_id," to_user_id: ", ask_for_game.to_user_id, "id", ask_for_game.id);
+
+	socket_notif.send(JSON.stringify({
+		command: "message",
+		identifier: JSON.stringify({
+		channel: "PongnotChannel",
+		pong_id: 0
+		}),
+		data: JSON.stringify({
+			data: {
+				id_host: ask_for_game.to_user_id,
+				id_guest: ask_for_game.from_user_id,
+				ask_id: ask_for_game.id,
+				play: "true"
+			}
+		})
+	}));
+	playview.render();
+	setTimeout(() => {pongguest.setElement("#pong-area").render();}, 800);
+}
 
 //******************************************** ROUTER ********************************************
 var logview = new LogView();
@@ -1450,3 +1510,4 @@ function isEmpty(str) {
 <% end %>
 
 <% end %>
+

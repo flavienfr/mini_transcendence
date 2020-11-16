@@ -23,7 +23,6 @@ function save_asking_battle(gid)
     ask_for_game.save({ask_for_game:{from_user_id: current, to_user_id: gid, status: 'playing'}});
 
 }
-
 //-------------------------------------------------------------------------//
 
 async function new_game(id)
@@ -43,8 +42,6 @@ async function new_game(id)
     player = new Player({user_id: id});
     player.save();
 }
-
-
 //-------------------------------MAIN--------------------------------------//
 
 
@@ -55,7 +52,8 @@ socket_notif.onmessage = function(event) {// this function check every message, 
             return ;
         if (msg.message.data.id_guest == current && msg.message.data.play) // read the second for understand this
         {
-            // save_asking_battle(msg.message.data.id_host, msg.message.data.ask_id);
+			// save_asking_battle(msg.message.data.id_host, msg.message.data.ask_id);
+			playview.render();
             pongview.setElement("#pong-area").render(); // has the invitation is validate(value play is on true), the host is redirect to the hostview
         }      
 };

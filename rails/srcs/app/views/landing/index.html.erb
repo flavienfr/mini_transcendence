@@ -15,9 +15,6 @@
 		document.addEventListener("notif", function(event){
 			if (event.detail.data.sender)
 			{
-				console.log("aaaaaaa");
-				console.log($("#main_chat_in").val());
-				console.log($("#admin_chat_view_in").val());
 				if ($("#main_chat_in").val() == event.detail.data.sender.id)
 					chatview.setElement("#chat_area").render_chat_main(event.detail.data.sender);
 				if ($("#admin_chat_view_in").val() == event.detail.data.sender.id)
@@ -25,30 +22,28 @@
 			}
 			if (event.detail.data.kicked_from)
 			{
-				console.log("kicked from");
-				console.log($("#chat_hidden_id").val());
-				console.log("+++++++++++++");
 				var val_hidden = $("#chat_hidden_id").val();
 				var kicked_from = event.detail.data.kicked_from;
 				if (val_hidden == "chat_" + kicked_from.id || val_hidden == "param_" + kicked_from.id || val_hidden == "detail_" + kicked_from.id)
 					chatview.setElement("#chat_area").render_chat_main();
-				//if (($("#detail_chat_in").val() == event.detail.data.kicked_from.id || $("#main_chat_in").val() == event.detail.data.kicked_from.id) && event.detail.data.kicked_from.scope != "direct")
-				//	chatview.setElement("#chat_area").render_chat_main();
 			}
 			if (event.detail.data.refresh)
 			{
-				console.log("might need refresh !!!");
-				console.log($("#chat_hidden_id").val());
-				console.log("==================");
 				var val_hidden = $("#chat_hidden_id").val();
 				var data = event.detail.data.refresh;
-				//if (val_hidden == "param_" + data.id)
-				//	chatview.setElement("#chat_area").render_chat_param(data);
 				if (val_hidden == "detail_" + data.id)
 					chatview.setElement("#chat_area").render_chat_details(data);
 				if (val_hidden == "admin_detail_" + data.id)
 					chatview.setElement("#chat_area").render_admin_chat_details(data);
-				//if ()
+			}
+			if (event.detail.data.channel_destroyed)
+			{
+				var data = event.detail.data.channel_destroyed;
+				var val_hidden = $("#chat_hidden_id").val();
+				if (val_hidden == "admin_chat_" + data)
+					chatview.setElement("#chat_area").render_admin_chat_view();
+				if (val_hidden == "admin_detail_" + data)
+					chatview.setElement("#chat_area").render_admin_chat_view();
 			}
 		});
 		// set the socket for having notification 

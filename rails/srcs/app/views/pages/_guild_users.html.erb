@@ -6,11 +6,11 @@
     </div>
     <script>
         console.log("guild participations");
-        var GuildParticipation = Backbone.Model.extend({
-            urlRoot: '/guild_participations'
+        var Guild = Backbone.Model.extend({
+            urlRoot: '/guilds'
         });
-        var guild_participation = new GuildParticipation({id: <%%= guild.id %>});
-        guild_participation.fetch({
+        var guild = new Guild({id: <%%= guild.id %>});
+        guild.fetch({
             data: {type: "all_participations", user_id: <%== current_user.id %>, guild_id: <%%= guild.id %>},
             success: function(data){
                 data.unset("id");//pour enlever le id et pour qu il ne soit pas pris en compte dans le length
@@ -24,6 +24,7 @@
                 console.log(data);
                 //console.log(data[1]);
                 var guild_participation_div = $("#guild_participations_div");
+                guild_participation_div.empty();
                 var size = Object.keys(guild_participations).length;
                 var i = 0;
                 while (i < size)

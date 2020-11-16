@@ -1,5 +1,4 @@
 <script type="text/template" id="chat_details-template">
-    <input type="hidden" id="detail_chat_in" value="<%%= as_admin ? 0 : channel.id %>">
     <input type="hidden" id="chat_hidden_id" value="<%%= as_admin ? 'admin_' : '' %>detail_<%%= channel.id %>">
     <div>
         <div>
@@ -21,8 +20,6 @@
         channel["id"] = <%%= channel.id %>;
         function ft_back_to_conversation(as_admin)
         {
-            <%% console.log("aaaaaaaaaaaa_______") %>
-            <%% console.log(as_admin) %>
             var channel_name = <%%= JSON.stringify(channel) %>;
             if (!as_admin)
                 chatview.setElement("#chat_area").render_chat_main(<%%= JSON.stringify(channel) %>);
@@ -66,11 +63,6 @@
                     {
                         var user_participation = data2.toJSON();
                         data1 = data1.toJSON();
-                        console.log("aaaaaaaaaa");
-                        console.log(user_participation);
-                        console.log("<%%= channel.owner_id %>");
-                        console.log("<%== current_user.id %>");
-                        console.log(data1);
                         var show_div = $("#list_of_participants");
                         show_div.empty();
                         show_div.append("<p>list of participants</p>")
@@ -79,12 +71,9 @@
                             data: {type: "all", receiver_id: <%%= channel.id %>},
                             success: function(data3){
                                 data3 = data3.toJSON();
-                                console.log("!!!!!!!!!!!!!!!!");
-                                console.log(data3);
                                 var i = 0;
                                 while (i < Object.keys(data1).length)
                                 {
-                                    console.log("->" + data1[i].id + "|" + data1[i].name);
                                     show_div.append("<div style='display: flex;'><a href='/#profil/"+ data1[i].id +"'>" + data1[i].name + "</a>" +
                                                     (<%%= as_admin %> && !data3[data1[i].id].is_owner ? "<button onclick='ft_ownerize(" + data1[i].id + ")'>Ownerize</button>" : "") +//a finir ownerize
                                                     ((<%%= as_admin %> || user_participation.is_owner) && !data3[data1[i].id].is_admin ? "<button onclick='ft_adminize(" + data1[i].id + ", <%%= as_admin %>)'>Adminize</button>" : "") +
@@ -113,9 +102,7 @@
                                         data: {users_to_get: "banned_participants", channel_id: <%%= channel.id %>},
                                         success: function(data)
                                         {
-                                            console.log("----+++++");
                                             data = data.toJSON();
-                                            console.log(data);
                                             var show_div = $("#participants_to_unban");
                                             show_div.empty();
                                             show_div.append("<p>Participants To Unban</p>");
@@ -160,7 +147,6 @@
         }
         function ft_ownerize(user_id)
         {
-            console.log("ownerize" + user_id);
             var ChannelParticipation = Backbone.Model.extend({
                 urlRoot: '/channel_participations'
             });
@@ -171,11 +157,9 @@
                     data.set("type", "new_owner");
                     data.save({}, {
                         success: function(){
-                            console.log("got2 !!");
                             chatview.render_admin_chat_details(channel);
                         }
                     });
-                    console.log("got !!");
                 }
             });
         }
@@ -190,8 +174,6 @@
                 data: {user_id: user_id, receiver_id: <%%= channel.id %>},
                 success: function()
                 {
-                    //channel_participation.unset('created_at');//unpermitted cote rails mais pg de send
-                    //channel_participation.unset('updated_at');
                     channel_participation.set({is_admin: true});
                     channel_participation.save();
                     var notification = new Notification({
@@ -210,7 +192,6 @@
         }
         function ft_unadminize(user_id, as_admin)
         {
-            console.log("unadminize");
             var ChannelParticipation = Backbone.Model.extend({
                 urlRoot: '/channel_participations'
             });
@@ -221,7 +202,6 @@
                     data.set("is_admin", "not");
                     data.save({}, {
                         success: function(){
-                            console.log("ok !!");
                             if (!as_admin)
                                 chatview.render_chat_details(channel);
                             else
@@ -233,7 +213,6 @@
         }
         function ft_kick(user_id, as_admin)
         {
-            console.log("kick !");
             var ChannelParticipation = Backbone.Model.extend({
                 urlRoot: '/channel_participations'
             });
@@ -244,7 +223,6 @@
                 {
                     data.destroy({
                         success: function(){
-                            console.log("deleted");
                             var notification = new Notification({
                                 from_user_id: <%== current_user.id %>,
                                 user_id: user_id,
@@ -263,7 +241,6 @@
         }
         function ft_ban(user_id, as_admin)
         {
-            console.log("aaa!!!");
             var ChannelParticipation = Backbone.Model.extend({
                 urlRoot: '/channel_participations'
             });
@@ -278,7 +255,6 @@
                     {
                         success: function()
                         {
-                            console.log("A");
                             var notification = new Notification({
                                 from_user_id: <%== current_user.id %>,
                                 user_id: user_id,
@@ -298,11 +274,8 @@
         function ft_mute(id)
         {
             var muteTime = $("#muteTime").val();
-            console.log(muteTime);
             var array_time = muteTime.split(' ');
-            console.log(id);
             var minutes = (array_time[1] == "minutes" ? array_time[0] * 1 : array_time[0] * 60);
-            console.log(minutes);
             var ChannelParticipation = Backbone.Model.extend({
                 urlRoot: '/channel_participations'
             });
@@ -310,7 +283,6 @@
             channel_participation.fetch({
                 data: {user_id: id, receiver_id: <%%= channel.id %>},
                 success: function(data){
-                    console.log("aaaaaa!");
                     data.set("minutes", minutes);
                     channel_participation.save();
                 }
@@ -318,7 +290,6 @@
         }
         function ft_unban(id, as_admin)
         {
-            console.log("unban" + id);
             var ChannelParticipation = Backbone.Model.extend({
                 urlRoot: '/channel_participations'
             });

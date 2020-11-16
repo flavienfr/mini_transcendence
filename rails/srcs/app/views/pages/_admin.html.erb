@@ -53,8 +53,6 @@
             guild.fetch({
                 data: {},
                 success: function(data){
-                    console.log(data.toJSON());
-                    console.log("guilds !");
                     data = data.toJSON();
                     var size = Object.keys(data).length;
                     var guilds_div = $("#list_of_guilds_users_id");
@@ -70,12 +68,10 @@
         }
         function ft_show_guild_users(guild_id)
         {
-            console.log("guild id :" + guild_id);
             guildusersview.setElement("#show_guild_users_id").render(guild_id, true);
         }
         function ft_ban_general(user_id)
         {
-            console.log("user_id" + user_id);
             var User = Backbone.Model.extend({
                 urlRoot: '/users'
             });
@@ -94,7 +90,6 @@
         }
         function ft_unban_general(user_id)
         {
-            console.log("user_id" + user_id);
             var User = Backbone.Model.extend({
                 urlRoot: '/users'
             });
@@ -113,7 +108,6 @@
         }
         function ft_adminize_general(user_id)
         {
-            console.log("user_id" + user_id);
             var User = Backbone.Model.extend({
                 urlRoot: '/users'
             });
@@ -132,7 +126,6 @@
         }
         function ft_unadminize_general(user_id)
         {
-            console.log("user_id" + user_id);
             var User = Backbone.Model.extend({
                 urlRoot: '/users'
             });

@@ -76,8 +76,8 @@
 <script>
 
 //****************************** GLOBAL ***************************
-var current_user_id = <%= current_user.id %>; // anti jaune >
-var current_session_id = <%= current_user.sessions.last.id %>; // anti jaune >
+var current_user_id = <%= current_user.id %>; // >
+var current_session_id = <%= current_user.sessions.last.id %>; //  >
 
 // ******************************************** MODELS/COLLECTIONS ********************************************
 //_____________________________________ User _____________________________________
@@ -587,6 +587,7 @@ var GuildView = Backbone.View.extend({
 		return this;
 	}
 })
+
 //_____________________________________ PongWatch _____________________________________
 var PongWatch = Backbone.View.extend({
 	el : '#inside-page',
@@ -891,15 +892,35 @@ var Profil2View = Backbone.View.extend({
 	ask_duel : async function() {
 		console.log("Ask a duel");
 
-		//#remplacer par ajax ask for game create
+		var data = {
+			from_user_id: current_user_id,
+			to_user_id: user_cible,
+            game_type: "friendly_duel",
+        }
+		self = this
+		Backbone.ajax({
+			url: '/ask_for_games/',
+			data: JSON.stringify(data),
+			type: 'post',
+			dataType: 'json',
+			contentType: 'application/json',
+			success: function(response) {
+				if (response.is_msg){
+					alert(response.msg);
+				}
+			},
+			error: function(){
+				alert("error");
+			}
+		});
 
-		var current_id = current_user_id;
-		user = this.collection.findWhere({id: parseInt(current_id)});
-		user = user.toJSON();
-		message = user.name + " duel you";
-		type = "duel";
-		notif = new Notification({from_user_id: current_id, user_id: user_cible, table_type: type, message: message});
-		await notif.save();
+		//var current_id = current_user_id;
+		//user = this.collection.findWhere({id: parseInt(current_id)});
+		//user = user.toJSON();
+		//message = user.name + " duel you";
+		//type = "duel";
+		//notif = new Notification({from_user_id: current_id, user_id: user_cible, table_type: type, message: message});
+		//await notif.save();
 
 	},
 });
@@ -944,7 +965,7 @@ var WarView = Backbone.View.extend({
 		var data = {
 			from_user_id: current_user_id,
 			to_user_id: to_user_id,
-            type: "war_duel",
+            game_type: "war_duel",
         }
 		self = this
 		Backbone.ajax({
@@ -968,7 +989,7 @@ var WarView = Backbone.View.extend({
 
 		var data = {
 			from_user_id: current_user_id,
-            type: "war_random_match",
+            game_type: "war_random_match",
         }
 		self = this
 		Backbone.ajax({
@@ -1194,24 +1215,6 @@ function ft_accept_notif(notif) {
 			}
 		});
 	}
-	else if (notif.table_type == "duel") {
-		//# Mauvais
-		var ask_for_game = new Ask_for_game({from_user_id: notif.from_user_id, to_user_id: notif.user_id, type: "duel" });
-		ask_for_game.save(ask_for_game, {
-		  success: function() {
-		   },
-		  error: function() {
-			return ;
-		  },
-		  wait: true
-		});
-		console.log("ask_for_game.id: ", ask_for_game.id); //#ask_for_game.id est UNDIFINED !!!
-		launch_game({
-			from_user_id: notif.from_user_id,
-			to_user_id: notif.user_id,
-			id: ask_for_game.id
-		});
-	}
 	else if (notif.table_type == "ask_for_game") {
 		console.log("ask_for_game");
 		var data = {
@@ -1226,7 +1229,6 @@ function ft_accept_notif(notif) {
 			success: function(response){
 				if (response.is_msg){
 					alert(response.msg)
-					delete_notif(notif);
 				}
 				if (response.error){
 					delete_notif(notif);
@@ -1234,10 +1236,16 @@ function ft_accept_notif(notif) {
 				else{
 					console.log("askforgame: ", response.ask_for_game);
 					launch_game(response.ask_for_game);
+					delete_notif(notif);
 				}
 			},
-			error: function(){
-				alert("error");
+			error: function(response){
+				if (response.delete_notif){
+					delete_notif(notif);
+				}
+				if (response.is_msg){
+					alert(response.msg)
+				}
 				return ;
 			}
 		});
@@ -1265,29 +1273,6 @@ function launch_game(ask_for_game) {
 	playview.render();
 	setTimeout(() => {pongguest.setElement("#pong-area").render();}, 800);
 }
-//else if (notif.table_type == "challenge") {
-//	var ask_for_game = new Ask_for_game({from_user_id: notif.from_user_id, to_user_id: notif.user_id, status: "playing", game_type: "duel" });
-//	ask_for_game.save(ask_for_game, {
-//	  success: function() {
-//	   },
-//	  error: function() {
-//		return ;
-//	  },
-//	  wait: true
-//	});
-//	socket_notif.send(JSON.stringify({
-//		command: "message",
-//		identifier: JSON.stringify({
-//		channel: "PongnotChannel",
-//		pong_id: 0
-//		}),
-//		data: JSON.stringify({
-//			data: {id_host: notif.from_user_id, id_guest: notif.user_id, ask_id: ask_for_game.id}  // send a message to the guest for play with host, it s send his id et the id of the guest
-//		}) // a voir si marche pas tenter de inverser
-//	}));
-//	playview.render();
-//	pongguest.setElement("#pong-area").render();  
-//	delete_notif(notif);
 
 //******************************************** ROUTER ********************************************
 var logview = new LogView();

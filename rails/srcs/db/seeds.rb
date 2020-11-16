@@ -53,6 +53,10 @@ puts "----- Guild.destroy_all"
 Guild.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('guilds') # to reset id back to 1
 
+puts "----- AskForGame.destroy_all"
+AskForGame.destroy_all
+ActiveRecord::Base.connection.reset_pk_sequence!('ask_for_games') # to reset id back to 1
+
 puts "----- GameParticipation.destroy_all"
 GameParticipation.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('game_participations') # to reset id back to 1

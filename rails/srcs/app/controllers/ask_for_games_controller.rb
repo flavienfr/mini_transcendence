@@ -147,7 +147,12 @@ class AskForGamesController < ApplicationController
   # PATCH/PUT /ask_for_games/1.json
   def update
 	puts "--------- PATCH/PUT /ask_for_games/1 --------"
-
+	if (params[:status] == "ending")
+		@ask_for_game.update(
+			status: params[:status]
+		)
+		return ;
+	end 
 	#----------- Variable utils -------------------
 	json_render = {}
 

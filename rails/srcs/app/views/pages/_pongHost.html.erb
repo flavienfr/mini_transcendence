@@ -373,9 +373,12 @@
             })
             var ask_for_game = new AskForGame();
             ask_for_game.fetch({data: {from_user_id: current_user_id, status: "playing"}, success: function() {
-                ask_for_game.set({status: "ending"});
-                ask_for_game.save();
+                if (ask_for_game.get("status"))
+                {
+                    ask_for_game.set({status: "ending"});
+                   ask_for_game.save();
                 }
+            }
             });
         }
 

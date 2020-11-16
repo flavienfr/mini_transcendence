@@ -20,13 +20,13 @@ class PongChannel < ApplicationCable::Channel
         puts params
         @state.status = "ending";
         @state.save;
-        # @game = Game.find(@state.game_id);
-        # if (params[:user_id] == @state.from_user_id)
-        #   @game.winner_id = @state.to_user_id;
-        # else
-        #   @game.winner_id = @state.from_user_id;
-        # end 
-        # @game.save();
+        @game = Game.find(@state.game_id);
+        if (params[:user_id] == @state.from_user_id)
+          @game.winner_id = @state.to_user_id;
+        else
+          @game.winner_id = @state.from_user_id;
+        end 
+        @game.save();
       end
     end 
     # Any cleanup needed when channel is unsubscribed

@@ -1257,6 +1257,10 @@ var LadderView = Backbone.View.extend({
 
 async function delete_notif(notif) {
 	console.log("Delete notif")
+
+	if (notif.table_type == "ask_for_game"){
+		
+	}
 	the_notif = notificationcollection.findWhere({id: notif.id});
 	the_notif.urlRoot = "/notifications/";	
 	await the_notif.destroy();
@@ -1326,7 +1330,7 @@ function ft_accept_notif(notif) {
 			contentType: 'application/json',
 			type: 'PUT',
 			dataType: 'json',
-			success: function(response){
+			success: function(response){;
 				if (response.is_msg){
 					alert(response.msg)
 				}
@@ -1340,6 +1344,8 @@ function ft_accept_notif(notif) {
 				}
 			},
 			error: function(response){
+				response = response.responseJSON;
+				console.log("reponse: ", response);
 				if (response.delete_notif){
 					delete_notif(notif);
 				}

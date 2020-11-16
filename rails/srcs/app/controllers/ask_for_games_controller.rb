@@ -45,25 +45,34 @@ class AskForGamesController < ApplicationController
 	if (user.guild_participations.first != nil)
 		guild_a = user.guild_participations.first.guild
 	end
+	puts "--------------------1 "
 	if (guild_a != nil)
 		war_a = guild_a.wars.where('wars.status=?', "ongoing").first
 	end
+	puts "--------------------2 "
+
 	if (war_a != nil)
 		wartime = WarTime.all.where('war_id=?', war_a.id).first
 	end
+	puts "--------------------3"
 
 	# USER B
 	if (params[:game_type] != "war_random_match")
+	puts "--------------------4"
 		to_user = User.find(params[:to_user_id].to_i)
-		guild_b = to_user.guild_participations.first.guild #can bug if guild_participations is nil ?
+		if (to_user.guild_participations.first != nil)
+			guild_b = to_user.guild_participations.first.guild
+		end
 		war_b = nil
 		if (guild_b != nil)
 			war_b = guild_b.wars.where('wars.status=?', "ongoing").first
 		end
 	end
+	puts "--------------------5"
+
 	#---------------------------------------------
 
-	#TODO: check multiple notif for game_type
+	#TODO: check multiple notif per game_type
 
 	if (params[:game_type] == "war_duel" || params[:game_type] == "duel")
 		if (war_a != nil && war_a.id == war_b.id && war_a.start_date.to_s < Time.zone.now.to_s && war_a.end_date.to_s > Time.zone.now.to_s)
@@ -148,11 +157,10 @@ class AskForGamesController < ApplicationController
   def update
 	puts "--------- PATCH/PUT /ask_for_games/1 --------"
 	if (params[:status] == "ending")
-		@ask_for_game.update(
-			status: params[:status]
-		)
-		return ;
-	end 
+		@ask_for_game.update(status: params[:status])
+		return
+	end
+
 	#----------- Variable utils -------------------
 	json_render = {}
 
@@ -175,15 +183,19 @@ class AskForGamesController < ApplicationController
 	#	Ne pas accepté si en tournois (si le tournois lance des match automatique)
 	#	Test si le joueur est connecté hor war time
 	if (AskForGame.where('status=? and (from_user_id=? or to_user_id=?)', "playing", from_user.id, from_user.id).size >= 1)
+		puts "------------------ ici1"
 		json_render["msg"] = "Your opponent is currently in a duel.\nYou can try again after the end of the duel."
 		json_render["is_msg"] = true
 		json_render["delete_notif"] = false
+		puts "------------------ fin1"
 		render json: json_render, status: :unprocessable_entity and return
 	end
-	if (AskForGame.where('status=? and (to_user_id=? or to_user_id=?)', "playing", to_user.id, to_user.id).size >= 1)
+	if (AskForGame.where('status=? and (from_user_id=? or to_user_id=?)', "playing", to_user.id, to_user.id).size >= 1)
+		puts "------------------ ici2"
 		json_render["msg"] = "You are in a duel.\nWait until the end to accept."
 		json_render["is_msg"] = true
 		json_render["delete_notif"] = false
+		puts "------------------ fin2"
 		render json: json_render, status: :unprocessable_entity and return
 	end
 

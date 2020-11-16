@@ -196,6 +196,7 @@ class AskForGamesController < ApplicationController
 	#GESTION DES DIFFERENT TYPE DE GAME
 	if (@ask_for_game.game_type == "friendly_duel")
 		#do some check
+		@game.context = "friendly_duel"
 	elsif (@ask_for_game.game_type == "war_random_match")
 		#do some check
 		if (@ask_for_game.status != "pending")

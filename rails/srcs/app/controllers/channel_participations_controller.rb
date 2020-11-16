@@ -233,6 +233,19 @@ class ChannelParticipationsController < ApplicationController
     end
     # @channel_participation.destroy
     ActionCable.server.broadcast("notification_channel_" + channelP_info[:user_id].to_s, {kicked_from: channel});
+    channel.channel_participations.each do |participation|
+      ActionCable.server.broadcast("notification_channel_" + participation.user_id.to_s, {refresh: channel});
+    end
+    admin_users = User.where("is_admin = ? ", true);
+    if (channel.channel_participations.size > 0)
+      admin_users = admin_users.where.not("id IN (?)", channel.channel_participations.pluck(:user_id));
+    end
+    puts admin_users.to_json;
+    admin_users.each do |participation|
+      #if (channelP_info.user_id != participation.id)
+        ActionCable.server.broadcast("notification_channel_" + participation.id.to_s, {refresh: channel});
+      #end
+    end
     respond_to do |format|
       format.html { redirect_to channel_participations_url, notice: 'Channel participation was successfully destroyed.' }
       format.json { head :no_content }

@@ -1,5 +1,7 @@
 <script type="text/template" id="chat_param-template">
-	<%% console.log("here") %>
+	<input type="hidden" id="in_chat_param" value="true">
+	<input type="hidden" id="chat_hidden_id" value="param_<%%= channel.id %>">
+	<%% console.log("-------------------------------here") %>
 	<%% console.log(channel_participation) %>
 	<%% console.log(other_participation) %>
 	<div class="param_chat_header">
@@ -21,23 +23,13 @@
 				<button type="button" onclick="ft_leave()" class="btn btn-primary btn-md btn-block btn-dark">Leave the channel</button>
 			</div>
 		<%% } %>
-		<%% if (channel.scope == "direct") { %>
-			<%% if (other_participation.status != "blocked") { %>
-				<div>
-					<button type="button" onclick="ft_block()">Block</button>
-				</div>
-			<%% } %>
-			<%% if (other_participation.status == "blocked") { %>
-				<div>
-					<button type="button" onclick="ft_unblock()">Unblock</button>
-				</div>
-			<%% } %>
-		<%% } %>
+		<div id="block_button_id">
+		</div>
 
 			<%% if (channel_participation.is_owner) { %>
 		<form>
 			<div class="form-group">
-				<label for="inputStatus">Change channel status</label>
+				<label>Change channel status</label>
 				<select class="form-control form-control-md" id="updateScope">
 					<option>protected</option>
 					<option>private</option>
@@ -46,7 +38,7 @@
 			</div>
 
 			<div class="form-group">
-				<label for="inputPassword">Password</label>
+				<label>Password</label>
 				<input type="password" id="parameterPassword" class="form-control" aria-describedby="passwordHelpBlock">
 				<small id="passwordHelpBlock" class="form-text text-muted">
 					Your password must be 8-20 characters long
@@ -54,7 +46,7 @@
 			</div>
 
 			<div class="form-group">
-				<button onclick="ft_update()" class="btn btn-primary mb-2 btn-dark">Apply</button>
+				<button type="button" onclick="ft_update()" class="btn btn-primary mb-2 btn-dark">Apply</button>
 			</div>
 
 		</form>
@@ -64,10 +56,32 @@
 	<div class="param_chat_footer">
 	</div>
 	<script>
+		var channel = {};
+		channel["id"] = <%%= channel.id %>;
+	<%% if (channel.scope == "direct") { %>
+		var BlockUser = Backbone.Model.extend({
+			urlRoot: 'block_users'
+		});
+		var block_user = new BlockUser();
+		block_user.fetch({
+			data: {user_id: <%== current_user.id %>},
+			success: function(data){
+				data = data.toJSON();
+				console.log("here");
+				console.log(data);
+				console.log(<%%= other_participation.id %>);
+				var block_button = $("#block_button_id");
+				if (data[<%%= other_participation.user_id %>] == "blocked")
+					block_button.append("<button type='button' onclick='ft_unblock()'>Unblock</button>");
+				else
+					block_button.append("<button type='button' onclick='ft_block()'>Block</button>");
+			}
+		});
+	<%% } %>
 		function ft_back_to_conversation()
 		{
 			console.log("back");
-			chatview.render_chat_main(<%%= JSON.stringify(channel) %>);
+				chatview.render_chat_main(<%%= JSON.stringify(channel) %>);
 		}
 		function ft_leave()
 		{
@@ -118,79 +132,45 @@
 					channel.set("scope", scope + "-group");
 					if (scope == "protected")
 						channel.set("password", pwd);
-					channel.save();
+					channel.save({}, {
+						success: function(){
+							alert("scope updated !");
+						}
+					});
 				}
 			});
 		}
 		function ft_block()
 		{
-			console.log('<%%= JSON.stringify(channel) %>');
-			console.log("block !");
-			var ChannelParticipation = Backbone.Model.extend({
-				urlRoot: '/channel_participations'
+			var BlockUser = Backbone.Model.extend({
+				urlRoot: '/block_users'
 			});
-			var channel_participation = new ChannelParticipation({id: <%%= other_participation.id %>});
-			channel_participation.save({status: "blocked"},// utiliser block user a la place de status ?
+			var block_user = new BlockUser();
+			block_user.save(
+			{//faire attention a ne pas avoir la possibilite de save plusieurs fois
+				user_id: <%== current_user.id %>, block_user_id: <%%= other_participation.user_id %>
+			},
 			{
-				success: function(data)
-				{
-					console.log(data.toJSON());
-					var BlockUser = Backbone.Model.extend({
-						urlRoot: '/block_users'
-					});
-					var block_user = new BlockUser();
-					block_user.save(
-					{//faire attention a ne pas avoir la possibilite de save plusieurs fois
-						user_id: <%== current_user.id %>, block_user_id: <%%= other_participation.user_id %>
-					},
-					{
-						success: function(){
-							chatview.render_chat_param(<%%= JSON.stringify(channel) %>);
-							var notification = new Notification({
-								from_user_id: <%== current_user.id %>,
-								user_id: <%%= other_participation.user_id %>,
-								table_type: "information",
-								message: "you got blocked by <%== current_user.name %>"
-							});
-							notification.save();
-						}
-					});
+				success: function(){
+					chatview.render_chat_param(channel);
 				}
 			});
 		}
 		function ft_unblock()
 		{
 			console.log("unblock");
-			var ChannelParticipation = Backbone.Model.extend({
-				urlRoot: '/channel_participations'
+			var BlockUser = Backbone.Model.extend({
+				urlRoot: '/block_users'
 			});
-			var channel_participation = new ChannelParticipation({id: <%%= other_participation.id %>});
-			channel_participation.save({status: "none"},
-			{
-				success: function(data)
-				{
-					console.log(data.toJSON());
-					var BlockUser = Backbone.Model.extend({
-						urlRoot: '/block_users'
-					});
-					var block_user = new BlockUser();
-					block_user.fetch({
-						data: {type: "find", user_id: <%== current_user.id %>, block_user_id: <%%= other_participation.user_id %>},
-						success: function(data2){
-							console.log(data2.toJSON());
-							data2.destroy({
-								success: function(){
-									console.log("destroy ok !");
-									chatview.render_chat_param(<%%= JSON.stringify(channel) %>);
-									var notification = new Notification({
-										from_user_id: <%== current_user.id %>,
-										user_id: <%%= other_participation.user_id %>,
-										table_type: "information",
-										message: "you got unblocked by <%== current_user.name %>"
-									});
-									notification.save();
-								}
-							});
+			var block_user = new BlockUser();
+			block_user.fetch({
+				data: {type: "find", user_id: <%== current_user.id %>, block_user_id: <%%= other_participation.user_id %>},
+				success: function(data2){
+					console.log(data2.toJSON());
+					data2.destroy({
+						success: function(){
+							console.log("destroy ok !");
+							chatview.render_chat_param(channel);
 						}
 					});
 				}

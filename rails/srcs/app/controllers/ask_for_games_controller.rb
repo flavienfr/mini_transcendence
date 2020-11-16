@@ -65,13 +65,13 @@ class AskForGamesController < ApplicationController
 
 	#TODO: check multiple notif for game_type
 
-	if (params[:game_type] == "war_duel" || params[:game_type] == "friendly_duel")
+	if (params[:game_type] == "war_duel" || params[:game_type] == "duel")
 		if (war_a != nil && war_a.id == war_b.id && war_a.start_date.to_s < Time.zone.now.to_s && war_a.end_date.to_s > Time.zone.now.to_s)
 			puts "------ war_duel --------"
 			@ask_for_game = AskForGame.new(
 				from_user_id: user.id,
 				to_user_id: to_user.id,
-				game_type: params[:game_type],
+				game_type: "war_duel",
 				status: "pending"
 			)
 			@ask_for_game.save
@@ -88,7 +88,7 @@ class AskForGamesController < ApplicationController
 			@ask_for_game = AskForGame.new(
 				from_user_id: user.id,
 				to_user_id: to_user.id,
-				game_type: params[:game_type],
+				game_type: "friendly_duel",
 				status: "pending"
 			)
 			@ask_for_game.save
@@ -218,11 +218,13 @@ class AskForGamesController < ApplicationController
 	end
 
 	# --------- Succes -----------
+	@game.save
+
 	@ask_for_game.update(
-		status: "playing"
+		status: "playing",
+		game_id: @game.id
 	)
 
-	@game.save
 	@game_p1 = GameParticipation.new(
 		user_id: from_user.id,
 		game_id: @game.id,

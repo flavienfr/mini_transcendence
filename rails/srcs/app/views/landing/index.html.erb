@@ -389,7 +389,7 @@ var ChatView = Backbone.View.extend({
 							data:
 							{
 								type: (data1.scope == "direct" ? "facing_user" : ""),
-								user_id: <%== current_user.id %>,
+								user_id: <%== current_user.id %>,// >
 								receiver_id: data1.id
 							},
 							success: function(data2)
@@ -398,7 +398,7 @@ var ChatView = Backbone.View.extend({
 							}
 						});
 					}
-				}); // >
+				}); 
 			}
 		});
 	},
@@ -1006,22 +1006,13 @@ var Profil2View = Backbone.View.extend({
 			contentType: 'application/json',
 			success: function(response) {
 				if (response.is_msg){
-					alert(response.msg);
+					Swal.fire("", response.msg, "info");
 				}
 			},
 			error: function(){
 				alert("error");
 			}
 		});
-
-		//var current_id = current_user_id;
-		//user = this.collection.findWhere({id: parseInt(current_id)});
-		//user = user.toJSON();
-		//message = user.name + " duel you";
-		//type = "duel";
-		//notif = new Notification({from_user_id: current_id, user_id: user_cible, table_type: type, message: message});
-		//await notif.save();
-
 	},
 });
 
@@ -1279,6 +1270,20 @@ async function ft_refuse_notif(notif) {
 			}
 		});
 	}
+	else if (notif.table_type == "ask_for_game"){
+		Backbone.ajax({
+			url: '/ask_for_games/' + notif.table_id,
+			data: {},
+			type: 'DELETE',
+			dataType: 'json',
+			success: function() {
+				delete_notif(notif);
+			},
+			error: function(){
+				alert("error");
+			}
+		});
+	}
 	else{
 		delete_notif(notif);
 	}
@@ -1330,27 +1335,24 @@ function ft_accept_notif(notif) {
 				if (response.is_msg){
 					alert(response.msg)
 				}
-				if (response.error){
-					delete_notif(notif);
-				}
-				else{
-					console.log("askforgame: ", response.ask_for_game);
-					launch_game(response.ask_for_game);
-					delete_notif(notif);
-				}
+				console.log("askforgame: ", response.ask_for_game);
+				launch_game(response.ask_for_game);
+				delete_notif(notif);
 			},
 			error: function(response){
+				response = response.responseJSON;
 				if (response.delete_notif){
-					delete_notif(notif);
+					ft_refuse_notif(notif);
 				}
 				if (response.is_msg){
 					alert(response.msg)
 				}
-				return ;
 			}
 		});
 	}
 };
+
+//******************************************** Game launcher ********************************************
 
 function launch_game(ask_for_game) {
 	console.log("from_user_id: ", ask_for_game.from_user_id," to_user_id: ", ask_for_game.to_user_id, "id", ask_for_game.id);

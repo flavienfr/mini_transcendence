@@ -36,10 +36,8 @@ class AskForGamesController < ApplicationController
   # POST /ask_for_games.json
   def create
 	puts "------ POST /game_participations ---------"
-
 	#----------- Variable utils ------------------- #
 	json_render = {}
-
 	# USER A
 	user = User.find(params[:from_user_id].to_i)
 	if (user.guild_participations.first != nil)
@@ -51,11 +49,12 @@ class AskForGamesController < ApplicationController
 	if (war_a != nil)
 		wartime = WarTime.all.where('war_id=?', war_a.id).first
 	end
-
 	# USER B
 	if (params[:game_type] != "war_random_match")
 		to_user = User.find(params[:to_user_id].to_i)
-		guild_b = to_user.guild_participations.first.guild #can bug if guild_participations is nil ?
+		if (to_user.guild_participations.first != nil)
+			guild_b = to_user.guild_participations.first.guild
+		end
 		war_b = nil
 		if (guild_b != nil)
 			war_b = guild_b.wars.where('wars.status=?', "ongoing").first
@@ -63,11 +62,20 @@ class AskForGamesController < ApplicationController
 	end
 	#---------------------------------------------
 
-	#TODO: check multiple notif for game_type
-
 	if (params[:game_type] == "war_duel" || params[:game_type] == "duel")
+		if (user.id == to_user.id)
+			json_render["msg"] = "You can't duel your self."
+			json_render["is_msg"] = 1
+			render json: json_render, status: :ok and return
+		end
+		if (AskForGame.where('status=? AND to_user_id=?', "pending", to_user.id).size > 0)
+			json_render["msg"] = "An invitation to duel is already in progress with this player."
+			json_render["is_msg"] = 1
+			render json: json_render, status: :ok and return
+		end
 		if (war_a != nil && war_a.id == war_b.id && war_a.start_date.to_s < Time.zone.now.to_s && war_a.end_date.to_s > Time.zone.now.to_s)
 			puts "------ war_duel --------"
+
 			@ask_for_game = AskForGame.new(
 				from_user_id: user.id,
 				to_user_id: to_user.id,
@@ -85,6 +93,7 @@ class AskForGamesController < ApplicationController
 		
 		else
 			puts "------ friendly_duel --------"
+
 			@ask_for_game = AskForGame.new(
 				from_user_id: user.id,
 				to_user_id: to_user.id,
@@ -102,7 +111,41 @@ class AskForGamesController < ApplicationController
 		end
 	elsif (params[:game_type] == "war_random_match")
 		puts "------ war_random_match -------"
-	 	@ask_for_game = AskForGame.new(
+
+		#----------------- Checking -----------------------
+		if (!(wartime != nil && wartime.start_date.to_s < Time.zone.now.to_s && wartime.end_date.to_s > Time.zone.now.to_s))
+			json_render["msg"] = "There is no war time currently.\nYou can ask for random fight only during war time."
+			json_render["is_msg"] = 1
+			render json: json_render, status: :ok and return
+		end
+
+		#AskForGame.where('status=? AND to_user_id is ?', "pending", nil)
+		warp_a = WarParticipation.all.where('war_id=? AND guild_id=?',war_a.id, guild_a.id).first
+		warp_b = WarParticipation.all.where('war_id=? AND guild_id!=?',war_a.id, guild_a.id).first
+		guild_b = Guild.find(warp_b.guild_id)
+		if (wartime.a == guild_b.id) 
+			nb_unanswered_call = wartime.nb_unanswered_call_a
+		else
+			nb_unanswered_call = wartime.nb_unanswered_call_b
+		end
+		if (nb_unanswered_call >= war_a.max_unanswered_call)
+			json_render["msg"] = "You can't anymore request a randome match, the opposing guild has reached its unanswered match limit."
+			json_render["is_msg"] = 1
+			render json: json_render, status: :ok and return
+		end
+		if (wartime.ongoing_match == true) #mettre true dans update et false dans update game (fin de match)
+			json_render["msg"] = "A war time match is ongoing.\nYou can have only one war time match at the time."
+			json_render["is_msg"] = 1
+			render json: json_render, status: :ok and return
+		end
+		if (AskForGame.where('status=? AND to_user_id is ?', "pending", nil).size > 0)
+			json_render["msg"] = "An invitation to random match is already in progress with this guild."
+			json_render["is_msg"] = 1
+			render json: json_render, status: :ok and return
+		end
+		#--------------------------------------------------
+
+		@ask_for_game = AskForGame.new(
 	 		from_user_id: user.id,
 	 		to_user_id: nil,
 	 		game_type: params[:game_type],
@@ -110,36 +153,26 @@ class AskForGamesController < ApplicationController
 	 	)
 	 	@ask_for_game.save
 
-		#Check is war time
-		puts "--------------wartime: " + wartime.to_json
-		if (wartime != nil && wartime.start_date.to_s < Time.zone.now.to_s && wartime.end_date.to_s > Time.zone.now.to_s)
-			if (wartime.ongoing_match == true)
-				json_render["msg"] = "A war time match is ongoing.\nYou can have only one war time match at the time."
-				json_render["is_msg"] = 1
-				render json: json_render, status: :ok and return
-			end
-			#TODO: lancé le delay qui après un certain temps upadate war time (si atteint max unanswerd match fin du war time ?)
-
-			# Send notif to all opponent guild
-			warp_b = WarParticipation.all.where('war_id=? AND guild_id!=?',war_a.id, guild_a.id).first
-			guild_b = Guild.find(warp_b.guild_id)
-			for to_user in guild_b.users do
-				puts "--- Notification sent to user: " + user.name
-				msg = "War Random match by " + user.name + " from " + guild_a.name + ".\n You have n minutes to accept."
-				send_notification(user.id, to_user.id, "ask_for_game", @ask_for_game.id, msg, "pending")
-			end
-			json_render["msg"] = "Random duel sent to all players of " + guild_b.name + ".\nFor a duration of n minutes."
-			json_render["is_msg"] = 1
-			render json: json_render, status: :ok and return
-		else
-			json_render["msg"] = "There is no war time currently.\nYou can ask for random fight only during war time."
-			json_render["is_msg"] = 1
-			render json: json_render, status: :ok and return
+		# Send notif to all opponent guild
+		for to_user in guild_b.users do
+			puts "--- Notification sent to user: " + user.name
+			msg = "War Random match by " + user.name + " from " + guild_a.name + ".\n You have 5 minutes to accept."
+			send_notification(user.id, to_user.id, "ask_for_game", @ask_for_game.id, msg, "pending")
 		end
+
+		# Life time war declaration
+		AskForWarTimerJob.set(wait: 5.minutes).perform_later(@ask_for_game.id, war_a.id, warp_a.id, warp_b.id)
+
+		json_render["msg"] = "Random duel sent to all players of " + guild_b.name + ".\nFor a duration of 5 minutes."
+		json_render["is_msg"] = 1
+		render json: json_render, status: :ok and return
+
 	elsif (params[:game_type] == "ladder_match_making")
 		puts "------ ladder_match_making ---------"
+
 	else
 		puts "------ error type --------=> " + params[:game_type].to_s
+
 	end
   end
 
@@ -148,11 +181,10 @@ class AskForGamesController < ApplicationController
   def update
 	puts "--------- PATCH/PUT /ask_for_games/1 --------"
 	if (params[:status] == "ending")
-		@ask_for_game.update(
-			status: params[:status]
-		)
-		return ;
-	end 
+		@ask_for_game.update(status: params[:status])
+		return
+	end
+
 	#----------- Variable utils -------------------
 	json_render = {}
 
@@ -180,7 +212,7 @@ class AskForGamesController < ApplicationController
 		json_render["delete_notif"] = false
 		render json: json_render, status: :unprocessable_entity and return
 	end
-	if (AskForGame.where('status=? and (to_user_id=? or to_user_id=?)', "playing", to_user.id, to_user.id).size >= 1)
+	if (AskForGame.where('status=? and (from_user_id=? or to_user_id=?)', "playing", to_user.id, to_user.id).size >= 1)
 		json_render["msg"] = "You are in a duel.\nWait until the end to accept."
 		json_render["is_msg"] = true
 		json_render["delete_notif"] = false
@@ -255,7 +287,10 @@ class AskForGamesController < ApplicationController
   # DELETE /ask_for_games/1
   # DELETE /ask_for_games/1.json
   def destroy
-	#detruire war time ask for game quand delay est passé 
+	puts "-------------  DELETE /ask_for_games/ ----------"
+	if (@ask_for_game.game_type == "war_random_match")
+		return
+	end
     @ask_for_game.destroy
     respond_to do |format|
       format.html { redirect_to ask_for_games_url, notice: 'Ask for game was successfully destroyed.' }
@@ -273,23 +308,4 @@ class AskForGamesController < ApplicationController
     def ask_for_game_params
       params.require(:ask_for_game).permit(:from_user_id, :to_user_id, :status)
 	end
-	
-	def send_notification(from_user_id, to_user_id, table_type, table_id, message, status)
-		@notification = Notification.new(
-		  from_user_id: from_user_id,
-		  user_id: to_user_id,
-		  table_type: table_type,
-		  table_id: table_id,
-		  message: message,
-		  status: status
-		)
-		puts "----- notification ----"
-		puts @notification.to_json
-		puts "-----------------------"
-
-		@notification.save
-		notif_channel = "notification_channel_" + to_user_id.to_s;
-		ActionCable.server.broadcast(notif_channel, {notification: "On"})
-	end
-
 end

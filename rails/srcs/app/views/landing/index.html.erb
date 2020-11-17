@@ -349,15 +349,11 @@ var ChatView = Backbone.View.extend({
 	},
 
 	render_chat_param : function(e) {
-		console.log(e);
 		var channel_id = e;
 		if (!(channel_id.id))
 			channel_id = $(e.currentTarget).data('channel');
 		else
 			channel_id = channel_id["id"];
-		console.log(channel_id);
-		console.log(<%== current_user.id %>); // anti jaune >
-		//console.log(channel_id.id);
 		var ChannelParticipation = Backbone.Model.extend({
 			urlRoot: '/channel_participations'
 		});
@@ -375,7 +371,6 @@ var ChatView = Backbone.View.extend({
 					data: {user_id: <%== current_user.id %>, receiver_id: data1.id}, // anti jaune >
 					success: function(data)
 					{
-						console.log(data.toJSON());
 						if (!data.toJSON().id)
 							return;
 						channel_participation = new ChannelParticipation();
@@ -400,11 +395,8 @@ var ChatView = Backbone.View.extend({
 		this.$el.html(this.template_chat_create);
 	},
 	render_chat_main : function(channel) {
-		console.log("user selected !!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-		console.log(channel)
 		if (channel && channel.name)
 		{
-			console.log("render_chat_main" + channel.name);
 			if (channel.scope == "direct")
 			{
 				var el = this.$el;
@@ -435,8 +427,6 @@ var ChatView = Backbone.View.extend({
 							}
 							i++;
 						}
-						console.log("name" + target);
-						console.log(channel);
 						el.html(temp({receiver: channel, target: target}));
 					}
 				});
@@ -454,7 +444,6 @@ var ChatView = Backbone.View.extend({
 		return this;
 	},
 	render_chat_details : function(e) {
-		console.log(e);
 		var channel_id = e;
 		var l = this.$el;
 		var t = this.template_chat_details;
@@ -462,7 +451,6 @@ var ChatView = Backbone.View.extend({
 			channel_id = $(e.currentTarget).data('channel');
 		else
 			channel_id = channel_id["id"];
-		console.log(channel_id);
 		var Channel = Backbone.Model.extend({
 			urlRoot: '/channels'
 		});
@@ -474,7 +462,6 @@ var ChatView = Backbone.View.extend({
 		});
 	},
 	render_admin_chat_details : function(e) {
-		console.log(e);
 		var channel_id = e;
 		var l = this.$el;
 		var t = this.template_chat_details;
@@ -482,7 +469,6 @@ var ChatView = Backbone.View.extend({
 			channel_id = $(e.currentTarget).data('channel');
 		else
 			channel_id = channel_id["id"];
-		console.log(channel_id);
 		var Channel = Backbone.Model.extend({
 			urlRoot: '/channels'
 		});
@@ -685,8 +671,6 @@ var GuildUsersView = Backbone.View.extend({
 		var guild = new Guild({id: guild_id});
 		guild.fetch({
 			success: function(data){
-				console.log("here");
-				console.log(data.toJSON());
 				l.html(t({guild: data.toJSON(), as_admin: as_admin}));
 			}
 		});

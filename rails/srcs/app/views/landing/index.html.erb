@@ -812,23 +812,25 @@ var OptionView = Backbone.View.extend({
 				// cache le spinner:
 				spinner.classList.remove("active");
 
-				// console.log("err.responseJSON.data:", err.responseJSON.data);
-				// console.log("Object.keys(err.responseJSON.data).toString():", Object.keys(err.responseJSON.data).toString());
+				let footer_msg = "";
 
-				let concat_errors = "";
-				for (var key in err.responseJSON.data) {
-					if (err.responseJSON.data.hasOwnProperty(key)) {
-						console.log(key + " -> " + err.responseJSON.data[key]);
-						concat_errors += (key + " " + err.responseJSON.data[key]);
+				if (err.status == 401) {
+					footer_msg = "Unauthorized";
+				} else if (err.status == 422) {
+					for (var key in err.responseJSON.data) {
+						if (err.responseJSON.data.hasOwnProperty(key)) {
+							console.log(key + " -> " + err.responseJSON.data[key]);
+							footer_msg += (key + " " + err.responseJSON.data[key]);
+						}
 					}
+					console.log("footer_msg:", footer_msg);
 				}
-				console.log("concat_errors:", concat_errors);
 
 				Swal.fire({
 					icon: 'error',
 					title: 'Oops...',
 					text: 'Something went wrong!',
-					footer: concat_errors
+					footer: footer_msg
 				})
 
 				self.render();

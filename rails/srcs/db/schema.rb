@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_13_022332) do
+ActiveRecord::Schema.define(version: 2020_11_17_162701) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,11 +147,13 @@ ActiveRecord::Schema.define(version: 2020_11_13_022332) do
   create_table "guild_participations", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "guild_id", null: false
-    t.boolean "is_admin"
-    t.boolean "is_officer"
+    t.boolean "is_admin", default: false
+    t.boolean "is_officer", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status"
+    t.boolean "is_veteran", default: false
+    t.boolean "is_initiate", default: true
     t.index ["guild_id"], name: "index_guild_participations_on_guild_id"
     t.index ["user_id"], name: "index_guild_participations_on_user_id"
   end

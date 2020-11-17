@@ -103,6 +103,9 @@ class UsersController < ApplicationController
       return;
     end
 
+    
+    render json: { }, status: :unauthorized and return if User.find(params[:id]).id != current_user.id
+
     # parse params: name / photo / enabled_two_factor_auth
     update_params = {} # hash
     # - name

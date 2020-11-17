@@ -14,6 +14,21 @@ class GuildsController < ApplicationController
   # GET /guilds/1
   # GET /guilds/1.json
   def show
+    if (params[:type] == "all_participations")
+      users_with_id = {};
+      User.all.each do |user|
+        users_with_id[user.id] = user.name;
+      end
+      json_to_return = {};
+      json_to_return["guild_participations"] = Guild.find_by(id: params[:guild_id]).guild_participations;
+      json_to_return["users"] = users_with_id;
+      json_to_return["user_participation"] = GuildParticipation.where("user_id = ? AND guild_id = ?", params[:user_id], params[:guild_id]).first;
+      respond_to do |format|
+        format.html
+        format.json {render json: json_to_return}
+      end
+      return;
+    end
 	@guild = Guild.find(params[:id])
 	render json: @guild
   end

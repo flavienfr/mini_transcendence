@@ -1,30 +1,27 @@
 <script type = "text/template" id = "pongGuest-template">
 <%= stylesheet_link_tag "style-live-play.css" %>
 
-<div id = "pong-id" data-pong-id= <%=current_user.id%>> </div>
-<canvas id="pong" width="800px" height="600px" > </canvas>
+
 
 <script>
     var current_user_id = <%== current_user.id%>  // anti jaune >
-    var frame = 50;
+    // var frame = 50;
     var time_pause = 10
     
     function play(host_id)
     {
-        const canvas = document.getElementById("pong");
-        const height = canvas.height;
-        const width = canvas.width;
-        const context = canvas.getContext("2d");
-        const element = document.getElementById("pong-id");
-        var pong_id = element.getAttribute("data-pong-id");
-        canvas.addEventListener("mousemove", movePaddle);
-        canvas.addEventListener("mouseleave", triggerMouseOut);
+        // const canvas = document.getElementById("pong");
+        // const height = canvas.height;
+        // const width = canvas.width;
+        // const context = canvas.getContext("2d");
+        // const element = document.getElementById("pong-id");
+        // var pong_id = element.getAttribute("data-pong-id");
+        // canvas.addEventListener("mousemove", movePaddle);
+        // canvas.addEventListener("mouseleave", triggerMouseOut);
         canvas.style.cursor = "none";
-        var pause_guest = false;
         var timer = 5;
         var pause  = 0;
-     
-    
+        var own_score = 0;
 
 
 //-------------------------------part 1 functions draw--------------------------------------//
@@ -59,7 +56,7 @@
             context.closePath();
             context.fill();
         }
-//-------------------------------part 2 object guest host padlle and ball--------------------------------------//
+//-------------------------------part 2 object gamer host padlle and ball--------------------------------------//
         //host
         const host = { 
             //position
@@ -71,17 +68,6 @@
             color : "GREY",
             score : 0
             }
-        //guest
-        const guest = {
-            //position
-            x : canvas.width - 10, // pas responsive il s'agit de largeur (10px) '
-            y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive correspond au paddle
-            //form
-            width : 10, // pas responsive
-            height : height/5, // pas responsive
-            color : "GREY",
-            score : 0
-        }
         //ball
         const ball =  {
             //position
@@ -110,10 +96,10 @@
             drawRect(0,0, canvas.width, canvas.height,"BLACK"); // the game place
             drawMiddleLine(line);
             drawScore(canvas.width/4, canvas.height/5, host.score, "WHITE");
-            drawScore(3 * canvas.width/4, canvas.height/5, guest.score, "WHITE");
+            drawScore(3 * canvas.width/4, canvas.height/5, own_score, "WHITE");
             // move part
             drawRect(host.x, host.y, host.width, host.height, host.color);
-            drawRect(guest.x, guest.y, guest.width, guest.height, guest.color);
+            drawRect(gamer.x, gamer.y, gamer.width, gamer.height, gamer.color);
             drawBall(ball.x, ball.y, ball.radius, ball.color);
         }
         
@@ -138,35 +124,38 @@
 
 //-------------------------------part 4 pause function --------------------------------------//
         
-        function triggerMouseOut(event) {
-            pause = 1;
-        }
+        // function triggerMouseOut(event) {
+        //     pause = 1;
+        // }
         
         function ft_pause() {
             if (pause != 0)
                 pause++;
+            console.log(pause);
             if (pause == frame * 2)
-                pause_guest = true;       
+            {
+                console.log("pause");
+                pause_gamer = true;  
+            }     
         }
 
 //-------------------------------part 5 function paddle --------------------------------------//
 
     function movePaddle(event){ // function to permite to change the direction of the users paddle with the mouse
-            if (pause_guest != false) // if the paddle move it mean the guest is on the game
+            if (pause_gamer != false) // if the paddle move it mean the gamer is on the game
             {
                 pause  = 0;
-                pause_guest = false;
+                pause_gamer = false;
             }
             var rect = canvas.getBoundingClientRect();
             var result = 600 / (rect.bottom - rect.top) ;
-            guest.y = (event.clientY - rect.top - 20) * result;   
+            gamer.y = (event.clientY - rect.top - 20) * result;   
         }
 
 
 //-------------------------------part 6  socket receive and send --------------------------------------//
 
-        function ft_recieve() 
-        {   
+   
             socket.onmessage = function(event) 
             {            
             const response = event.data;
@@ -174,7 +163,7 @@
                 if (msg.type == "ping" || !msg.message )// check if the pong_id is send to the correct personne
                     return ;
                 if (msg.message.data == "stop")
-                    guest.score = 11;
+                    own_score = 11;
                 if (msg.message.data.timer == 0 || msg.message.data.timer)
                     timer = msg.message.data.timer;
                 if (msg.message.data.hosty)
@@ -186,12 +175,13 @@
                 if (msg.message.data.score_host)
                     host.score = msg.message.data.score_host;  
                 if (msg.message.data.score_guest)
-                    guest.score = msg.message.data.score_guest;
+                    own_score = msg.message.data.score_guest;
             }
-        }
+        
 
         function ft_send(host_id)
         {
+            console.log("pause gamer = " + pause_gamer);
             socket.send(JSON.stringify({
                 command: "message",
                 identifier: JSON.stringify({
@@ -200,12 +190,12 @@
                     user_id: <%== current_user.id %> // ici il marche pas 
                 }),
                 data: JSON.stringify({
-                    data: {guesty: guest.y, pause_guest: pause_guest}
+                    data: {guesty: gamer.y, pause_guest: pause_gamer}
                 })
             }));
         }
 
-//-------------------------------part 7 play on guest view --------------------------------------//
+//-------------------------------part 7 play on gamer view --------------------------------------//
 
         function playing(host_id)
         {
@@ -218,7 +208,7 @@
             }
             else
                 ft_timer((timer == 0) ? "GO !" : timer);
-            if (host.score == 11 || guest.score == 11)
+            if (host.score == 11 || own_score == 11)
             {
                 if (host.score != 11)
                     endText("You win !!!");
@@ -230,8 +220,8 @@
             }
             
         }
-    ft_recieve();
-    var stop = setInterval(playing, 1000/frame, host_id);
+    // ft_recieve();
+    var stop = setInterval(playing, 1000/(frame), host_id);
     }
 
 //-------------------------------MAIN --------------------------------------//
@@ -241,7 +231,8 @@ var socket = new WebSocket("ws://localhost:3000/cable");
 
 window.onbeforeunload = function() {
     clearInterval(stop);
-    socket.onclose = function () {}; // disable onclose handler first
+    
+    socket.onclose = function () {socket.close();}; // disable onclose handler first
 };
 socket.onopen = function()
 {         

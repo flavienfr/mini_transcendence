@@ -22,11 +22,14 @@ class PongChannel < ApplicationCable::Channel
         @state.save;
         @game = Game.find(@state.game_id);
         if (params[:user_id] == @state.from_user_id)
-          @game.winner_id = @state.to_user_id;
+          @game.update(
+            winner_id: @state.to_user_id, 
+            forfeit: true)
         else
-          @game.winner_id = @state.from_user_id;
+          @game.update(
+            winner_id: @state.from_user_id,
+            forfeit: true)        
         end 
-        @game.save();
       end
     end 
     # Any cleanup needed when channel is unsubscribed

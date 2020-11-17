@@ -3,8 +3,10 @@
 
 <div class="container-fluid container-live-play">
 	<div class="row">
+        <canvas id="pong" width="800px" height="600px" >Pas de game en cours</canvas>
     	<div id ="pong-area"  class="col text-center">
-      		<h1>Le play pong</h1>
+              <h1>Le play pong</h1>
+
     <button type="button" id="sign_in" class="btn btn-primary btn-lg btn-block btn-dark" onclick="new_game(<%=current_user.id%>)">PLAY</button>
     </div>
 	<div class="col chat" id="chat_area">
@@ -13,6 +15,7 @@
 <script>
 var guest_id = 0; // set a change in set_content
 var current = <%== current_user.id%>;
+
 
 function save_asking_battle(gid)
 {
@@ -28,22 +31,64 @@ function save_asking_battle(gid)
 async function new_game(id)
 {
     console.log("New game");
-    await playercollection.fetch();
-    console.log(playercollection.toJSON());
-    var players = playercollection.toJSON();
-    for (let i = 0; i < players.length; i++)
+    await gamercollection.fetch();
+    console.log(gamercollection.toJSON());
+    var gamers = gamercollection.toJSON();
+    for (let i = 0; i < gamers.length; i++)
     {
-        if (players[i].user_id == id)
+        if (gamers[i].user_id == id)
         {
             alert("you are already on list !");
             return ;
         }
     }
-    player = new Player({user_id: id});
-    player.save();
+    gamer = new gamer({user_id: id});
+    gamer.save();
 }
 //-------------------------------MAIN--------------------------------------//
 
+
+canvas = document.getElementById("pong");
+context = canvas.getContext("2d");
+canvas.style.cursor = "none";
+canvas.addEventListener("mousemove", movePaddle);
+canvas.addEventListener("mouseleave", triggerMouseOut);
+var frame = 50;
+var height = canvas.height;
+var width = canvas.width;
+var pause_gamer = false;
+var limit_gamer = 0;
+var pause = 0;
+
+gamer = {
+        //position
+        x : canvas.width - 10, // pas responsive il s'agit de largeur (10px) '
+        y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive correspond au paddle
+        //form
+        width : 10, // pas responsive
+        height : height/5, // pas responsive
+        color : "GREY",
+        score : 0
+    }
+
+
+
+function movePaddle(event){ // function to permite to change the direction of the users paddle with the mouse
+        if (pause_gamer != false)
+        {
+            limit_gamer = 0;
+            pause  = 0;
+            pause_gamer = false;
+        }
+        var rect = canvas.getBoundingClientRect();
+        var result = 600 / (rect.bottom - rect.top);
+        gamer.y = (event.clientY - rect.top -  20) * result;
+    }
+
+    function triggerMouseOut(event) {
+        console.log("pause = 1");
+        pause = 1;
+    }
 
 socket_notif.onmessage = function(event) {// this function check every message, for know if the message is for her, it check the guest params, if the guest params correspond to the curent id the guest it for her  
     const response = event.data;
@@ -52,9 +97,9 @@ socket_notif.onmessage = function(event) {// this function check every message, 
             return ;
         if (msg.message.data.id_guest == current && msg.message.data.play) // read the second for understand this
         {
-			// save_asking_battle(msg.message.data.id_host, msg.message.data.ask_id);
+			// save_asking_battle(msg.message.data.id_gamer, msg.message.data.ask_id);
 			playview.render();
-            pongview.setElement("#pong-area").render(); // has the invitation is validate(value play is on true), the host is redirect to the hostview
+            pongview.setElement("#pong-area").render(); // has the invitation is validate(value play is on true), the gamer is redirect to the gamerview
         }      
 };
 

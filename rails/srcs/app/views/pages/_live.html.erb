@@ -28,94 +28,94 @@
 
 
 <script>
-// var clic = 0;
-// var current = <%== current_user.id%>;
+var clic = 0;
+var current = <%== current_user.id%>;
 
-// function ft_getNames(data)
-// {
-// 	var Users = Backbone.Model.extend({
-// 		url: '/users'
-// 	})
-// 	var user = new Users();
-// 	user.fetch({data: {user_id: data.from_user_id, type: "viewer"}, success: function(){		
-// 		var user2 = new Users();
-// 		user2.fetch({data: {user_id: data.to_user_id, type: "viewer"}, success: function ()
-// 		{
-// 			var show_div = $("#game_room");
-// 			var name1 = user.get('name');
-// 			var name2 = user2.get('name');
-// 			show_div.append("<a class='dropdown-item' onclick='save_watch("+ data.from_user_id +")'>"+ name1 + " VS " + name2 +"</a>");;
-// 		}});
-// 	}});
-// }
+function ft_getNames(data)
+{
+	var Users = Backbone.Model.extend({
+		url: '/users'
+	})
+	var user = new Users();
+	user.fetch({data: {user_id: data.from_user_id, type: "viewer"}, success: function(){		
+		var user2 = new Users();
+		user2.fetch({data: {user_id: data.to_user_id, type: "viewer"}, success: function ()
+		{
+			var show_div = $("#game_room");
+			var name1 = user.get('name');
+			var name2 = user2.get('name');
+			show_div.append("<a class='dropdown-item' onclick='save_watch("+ data.from_user_id +")'>"+ name1 + " VS " + name2 +"</a>");;
+		}});
+	}});
+}
 
-// function refresh()
-// {
-// 	var AskForGame = Backbone.Model.extend({
-//         urlRoot: '/ask_for_games'
-// 	})
-// 	var ask_for_game = new AskForGame();
-// 	ask_for_game.fetch({data: {all: "true"}, success: function(data){
-// 		data = data.toJSON();
-// 		var size = Object.keys(data).length;
-// 		var i = 0;
-// 		while (i < size)
-// 		{
-// 			if (data[i].status == "playing" && data[i].from_user_id != current && data[i].to_user_id != current)
-// 			ft_getNames(data[i]);
-// 			i++;
-// 		}
-// 		console.log("i = " + i );
-// 		}});
-// }
+function refresh()
+{
+	var AskForGame = Backbone.Model.extend({
+        urlRoot: '/ask_for_games'
+	})
+	var ask_for_game = new AskForGame();
+	ask_for_game.fetch({data: {all: "true"}, success: function(data){
+		data = data.toJSON();
+		var size = Object.keys(data).length;
+		var i = 0;
+		while (i < size)
+		{
+			if (data[i].status == "playing" && data[i].from_user_id != current && data[i].to_user_id != current)
+			ft_getNames(data[i]);
+			i++;
+		}
+		console.log("i = " + i );
+		}});
+}
 
 
-// var socket = new WebSocket("ws://localhost:3000/cable");
-// socket.onopen = function()
-// {    
-//     socket.send(JSON.stringify({
-//             command: "subscribe",
-//             identifier: JSON.stringify({
-//                 channel: "PongnotChannel",
-// 				pong_id:  0
-//             })
-//         }));
-// }
+var socket = new WebSocket("ws://localhost:3000/cable");
+socket.onopen = function()
+{    
+    socket.send(JSON.stringify({
+            command: "subscribe",
+            identifier: JSON.stringify({
+                channel: "PongnotChannel",
+				pong_id:  0
+            })
+        }));
+}
 
-// socket.onmessage = function(event) 
-// {
-// 	const response = event.data;
-// 	const msg = JSON.parse(response);
-// 	if (msg.type == "ping" || !msg.message)// don't check the ping message
-// 		return ;
-// 	if (msg.message.data == "refresh" || msg.message.data.play == "true")
-// 	{
-// 		$('.dropdown-item').remove();
-// 		setTimeout(() => {refresh();}, 500);
-// 	}
-// }
+socket.onmessage = function(event) 
+{
+	const response = event.data;
+	const msg = JSON.parse(response);
+	if (msg.type == "ping" || !msg.message)// don't check the ping message
+		return ;
+	if (msg.message.data == "refresh" || msg.message.data.play == "true")
+	{
+		$('.dropdown-item').remove();
+		setTimeout(() => {refresh();}, 500);
+	}
+}
 
-// function save_watch(host_id)
-// {
-//     var Watch = Backbone.Model.extend({
-//         urlRoot: '/watches'
-//     })
-// 	var  watch = new Watch();
-// 	function modify()
-// 	{
-// 		watch.set({hostId: host_id});
-// 		watch.save();
-// 		console.log("modifié");
-// 		if (time != 0)
-// 			closescript = true; //async
+function save_watch(host_id)
+{
+    var Watch = Backbone.Model.extend({
+        urlRoot: '/watches'
+    })
+	var  watch = new Watch();
+	function modify()
+	{
+		watch.set({hostId: host_id});
+		watch.save();
+		console.log("modifié");
+		if (time != 0)
+			closescript = true; //async
 		
-// 		time++;
+		time++;
 		
-// 		setTimeout(() => {pongWatch.setElement("#pong-area").render();}, 1200);
-// 	}
-//     watch.fetch({data: {user_id: current}, success: modify});
-// }
-// var time = 0;
-// var closescript = false;
+		setTimeout(() => {pongWatch.setElement("#pong-area").render();}, 1200);
+	}
+    watch.fetch({data: {user_id: current}, success: modify});
+}
+var time = 0;
+var closescript = false;
 
 </script>

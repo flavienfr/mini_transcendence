@@ -17,5 +17,5 @@ class User < ApplicationRecord
     has_one_time_password
     has_one_attached :photo
 
-    validates :name, presence: true, length: { minimum: 3 }
+    validates :name, presence: true, length: { minimum: 3 }, uniqueness: { case_sensitive: false }
 end

@@ -64,23 +64,39 @@ function movePaddle(event){ // function to permite to change the direction of th
 
 //-------------------------------------------------------------------------//
 
-async function new_game(id)
+async function add_to_list(id)
 {
-    console.log("New game");
-    await gamercollection.fetch();
-    console.log(gamercollection.toJSON());
-    var gamers = gamercollection.toJSON();
-    for (let i = 0; i < gamers.length; i++)
-    {
-        if (gamers[i].user_id == id)
-        {
-            alert("you are already on list !");
-            return ;
-        }
-    }
-    gamer = new gamer({user_id: id});
-    gamer.save();
+    console.log("join list");
+    player = new Player({user_id: id});
+    await player.save();
+    await playercollection.fetch();
+    console.log(playercollection);
+    listbtnview.setElement("#btn_match_making").render(); 
 }
+
+async function  quit_list(id)
+{
+    console.log("quit list");
+    await playercollection.fetch();
+    console.log(playercollection);
+    var player = playercollection.findWhere({user_id: id});
+    console.log(player);
+    await Backbone.ajax({
+			url: '/players/' + player.id + ".json",
+			data: {},
+			type: 'DELETE',
+			dataType: 'json',
+			success: function(response) {
+				console.log("Inside success");
+                ladderview.render();
+			},
+			error: function(){
+				alert("error");
+			}
+		});
+    console.log(playercollection);
+}
+
 //-------------------------------MAIN--------------------------------------//
 
 

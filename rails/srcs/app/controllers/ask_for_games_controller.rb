@@ -36,6 +36,9 @@ class AskForGamesController < ApplicationController
   # POST /ask_for_games.json
   def create
 	puts "------ POST /game_participations ---------"
+	puts params[:from_user_id].to_i
+	puts params[:to_user_id].to_i
+	puts params[:game_type]
 	#----------- Variable utils ------------------- #
 	json_render = {}
 	# USER A
@@ -169,7 +172,45 @@ class AskForGamesController < ApplicationController
 
 	elsif (params[:game_type] == "ladder_match_making")
 		puts "------ ladder_match_making ---------"
+		@game = Game.new(
+			start_date: Time.zone.now,
+			end_date: nil,
+			context: nil,
+			winner_id: nil,
+			war_id: nil,
+			war_time_id: nil,
+			tournament_id: nil,
+			channel_id: nil
+		)
+		@game.save
 
+		@game_p1 = GameParticipation.new(
+			user_id: user.id,
+			game_id: @game.id,
+			score: nil,
+			is_winner: nil,
+		)
+		@game_p1.save
+	
+		@game_p2 = GameParticipation.new(
+			user_id: to_user.id,
+			game_id: @game.id,
+			score: nil,
+			is_winner: nil,
+		)
+		@game_p2.save
+
+		@ask_for_game = AskForGame.new(
+			from_user_id: user.id,
+			to_user_id: to_user.id,
+			game_type: "friendly_duel",
+			status: "playing",
+			game_id: @game.id
+		)
+		# FAIRE DES CHECK ICI !!!!!
+		@ask_for_game.save
+		json_render["ask_for_game"] = @ask_for_game
+		render json: json_render, status: :ok and return
 	else
 		puts "------ error type --------=> " + params[:game_type].to_s
 

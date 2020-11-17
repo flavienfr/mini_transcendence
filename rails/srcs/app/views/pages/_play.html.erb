@@ -5,14 +5,13 @@
 	<div class="row">
     	<div id ="pong-area"  class="col text-center">
       		<h1>Le play pong</h1>
-    <button type="button" id="sign_in" class="btn btn-primary btn-lg btn-block btn-dark" onclick="new_game(<%=current_user.id%>)">PLAY</button>
     </div>
 	<div class="col chat" id="chat_area">
     </div>
 </div>
 <script>
 var guest_id = 0; // set a change in set_content
-var current = <%== current_user.id%>;
+var current = <%== current_user.id%>; // >
 
 function save_asking_battle(gid)
 {
@@ -25,23 +24,39 @@ function save_asking_battle(gid)
 }
 //-------------------------------------------------------------------------//
 
-async function new_game(id)
+async function add_to_list(id)
 {
-    console.log("New game");
-    await playercollection.fetch();
-    console.log(playercollection.toJSON());
-    var players = playercollection.toJSON();
-    for (let i = 0; i < players.length; i++)
-    {
-        if (players[i].user_id == id)
-        {
-            alert("you are already on list !");
-            return ;
-        }
-    }
+    console.log("join list");
     player = new Player({user_id: id});
-    player.save();
+    await player.save();
+    await playercollection.fetch();
+    console.log(playercollection);
+    listbtnview.setElement("#btn_match_making").render(); 
 }
+
+async function  quit_list(id)
+{
+    console.log("quit list");
+    await playercollection.fetch();
+    console.log(playercollection);
+    var player = playercollection.findWhere({user_id: id});
+    console.log(player);
+    await Backbone.ajax({
+			url: '/players/' + player.id + ".json",
+			data: {},
+			type: 'DELETE',
+			dataType: 'json',
+			success: function(response) {
+				console.log("Inside success");
+                ladderview.render();
+			},
+			error: function(){
+				alert("error");
+			}
+		});
+    console.log(playercollection);
+}
+
 //-------------------------------MAIN--------------------------------------//
 
 

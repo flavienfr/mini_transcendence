@@ -100,7 +100,7 @@
 
 //****************************** GLOBAL ***************************
 var current_user_id = <%= current_user.id %>; // >
-var current_session_id = <%= current_user.sessions.last.id %>; //  >
+var current_session_id = <%= current_user.sessions.last.id %>; // >
 
 // ******************************************** MODELS/COLLECTIONS ********************************************
 //_____________________________________ User _____________________________________
@@ -130,6 +130,26 @@ var Users = Backbone.Collection.extend({
 });
 
 var usercollection = new Users();
+
+async function set_status() {
+	var data = {
+		current_status: "logged in",	
+	}
+	Backbone.ajax({
+        url: '/users/' + current_user_id,
+        data: JSON.stringify(data),
+        type: 'put',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response) {
+        },
+        error: function(){
+          alert("error");
+        }
+      });
+};
+
+set_status();
 
 //_____________________________________ Guild _____________________________________
 var Guild = Backbone.Model.extend({
@@ -263,6 +283,7 @@ var LogView = Backbone.View.extend({
     	"click #add-user": "add",
     	"click #delete-user": "delete",
     	"click #logout ": "logout",
+    	"click #user_status ": "status",
   	},
 
 	render : async function() {
@@ -316,6 +337,15 @@ var LogView = Backbone.View.extend({
 			}
 		})
 	},
+	
+	status: async function() { 
+		
+		usr = this.collection.toJSON(); 
+		for (let i = 0; i < usr.length; i++)
+		{
+			console.log(usr[i].name, " : ", usr[i].current_status);
+		}
+	}
 
 })
 
@@ -1229,20 +1259,37 @@ var WarView = Backbone.View.extend({
 	}
 });
 
+//_____________________________________ LadderView _____________________________________
 var LadderView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#ladder_template').html()),
+  
+	render: async function() {
+		this.$el.html(this.template);
+		await playercollection.fetch();
+    	var players = playercollection.toJSON();
+    	for (let i = 0; i < players.length; i++)
+    	{
+    	    if (players[i].user_id == current_user_id)
+    	    {
+    	        listbtnview.setElement("#btn_match_making").render(); 
+    	    }
+    	}
+		return this;
+	},
+});
+
+var ListbtnView = Backbone.View.extend({
+	el : '#btn_match_making',
+	template: _.template($('#quit_list').html()),
   
 	render: function() {
 		this.$el.html(this.template);
 		return this;
 	},
-
-	//new_game : function(){
-	//	pongview.setElement("#pong-area").render();
-	//	console.log("pong area");
-	//}
 });
+
+listbtnview = new ListbtnView();
 
 //*************************************** Notification handler ***************************************
 
@@ -1493,6 +1540,27 @@ $( "#nav_to_war" ).on( "click", function() {
 	Backbone.history.navigate("/war", {trigger: true});
 	//Backbone.history.loadUrl(); 						//problem: Double call to function render in guild
 });
+
+function closeIt()
+{
+	var data = {
+		current_status: "logged out",	
+	}
+	Backbone.ajax({
+        url: '/users/' + current_user_id,
+        data: JSON.stringify(data),
+        type: 'put',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response) {
+        },
+        error: function(){
+          alert("error");
+        }
+      });	
+}
+
+window.onbeforeunload = closeIt;
 
 var router = new Router();
 playview.render();

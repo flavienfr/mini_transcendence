@@ -2,8 +2,8 @@
 	<%= stylesheet_link_tag "style-ladder.css" %>
 	
 	<div class="ladder_container">
-		<div class="ld_header">
-			<button type="button" id="match_making_btn" class="btn btn-primary btn-lg btn-block btn-light border border-light" onclick="new_game(<%=current_user.id%>)">Match making</button>
+		<div class="ld_header" id="btn_match_making">
+			<button type="button" id="match_making_btn" class="btn btn-primary btn-lg btn-block btn-light border border-light" onclick="add_to_list(<%=current_user.id%>)">Match making</button>
 		</div>
 
 		<div class="ld_body">
@@ -30,4 +30,8 @@
 		</div>
 	</div>
 
+</script>
+
+<script type="text/template" id="quit_list">
+	<button type="button" id="match_making_btn" class="btn btn-primary btn-lg btn-block btn-light border border-light" onclick="quit_list(<%=current_user.id%>)">Waiting...</button>
 </script>

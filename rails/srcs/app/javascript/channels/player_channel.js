@@ -10,41 +10,40 @@ consumer.subscriptions.create("PlayerChannel", {
   },
 
 
-  async received(data) {
+  async received(arg) {
+    if (arg.current_status) {
+      await usercollection.fetch();
+      return ;
+    }
     await playercollection.fetch();
     var list = playercollection.toJSON();
-  //  for (let i = 0; i < playercollection.length; i++)
-  //  {
-      if (playercollection.length == 2 && list[1].user_id == current_user_id)
-      {
-        playview.render();
+    if (playercollection.length == 2 && list[0].user_id == current_user_id)
+    {
+      var data = {
+        from_user_id: list[1].user_id,
+        to_user_id: list[0].user_id,
+        game_type: "ladder_match_making",
       }
-      if (playercollection.length == 2 && list[0].user_id == current_user_id)
-      {
-        // var ask_for_game = new Ask_for_game({from_user_id: list[0].user_id, to_user_id: list[1].user_id, type: "ladder_match_making" });
-        var AskForGame = Backbone.Model.extend({
-          urlRoot: '/ask_for_games'
-        })
-        var ask_for_game = new AskForGame();
-        ask_for_game.save({ask_for_game:{from_user_id: list[1].user_id, to_user_id: list[0].user_id, status: 'playing', game_type: "ladder_match_making"}});
-        await socket_notif.send(JSON.stringify({
-            command: "message",
-            identifier: JSON.stringify({
-              channel: "PongnotChannel",
-              pong_id: 0
-            }),
-            data: JSON.stringify({
-                data: {play: "true", id_host: list[0].user_id, id_guest: list[1].user_id, ask_id: ask_for_game.id}  // send a message to the guest for play with host, it s send his id et the id of the guest
-            })
-        }));
-        await playview.render();
-        await pongguest.setElement("#pong-area").render();  
-        var tmp = playercollection.findWhere({user_id: list[0].user_id});
-        await tmp.destroy();
-        tmp = playercollection.findWhere({user_id: list[1].user_id});
-        await tmp.destroy();
-        return ;
-      }
-  //  }
+
+      Backbone.ajax({
+        url: '/ask_for_games/',
+        data: JSON.stringify(data),
+        type: 'post',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response) {
+            console.log("LAUNCH GAME");
+            launch_game(response.ask_for_game); 
+        },
+        error: function(){
+          alert("error");
+        }
+      });
+      var tmp = playercollection.findWhere({user_id: list[0].user_id});
+      await tmp.destroy();
+      tmp = playercollection.findWhere({user_id: list[1].user_id});
+      await tmp.destroy();
+      return ;
+    }
   }
 });

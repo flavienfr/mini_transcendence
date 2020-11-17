@@ -124,6 +124,12 @@ class UsersController < ApplicationController
       update_params["enabled_two_factor_auth"] = two_factor_auth
     end
 
+    # - current_status
+    if (params.has_key?(:current_status))
+      update_params["current_status"] = params[:current_status]
+      ActionCable.server.broadcast("player_channel", {current_status: "On"})
+    end
+
     if @user.update(update_params)
       render json: { data: @user.as_json }, status: :ok and return
     else

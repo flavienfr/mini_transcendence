@@ -21,6 +21,7 @@ consumer.subscriptions.create({channel: "NotificationChannel", room_id: event.de
   if (data.notification) {
     document.dispatchEvent(new CustomEvent("notif2", {}));
   }
+
     // Called when there's incoming data on the websocket for this channel
   }
 });

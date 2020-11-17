@@ -5,23 +5,15 @@
 
 <script>
     var current_user_id = <%== current_user.id%>  // anti jaune >
-    // var frame = 50;
     var time_pause = 10
     
     function play(host_id)
     {
-        // const canvas = document.getElementById("pong");
-        // const height = canvas.height;
-        // const width = canvas.width;
-        // const context = canvas.getContext("2d");
-        // const element = document.getElementById("pong-id");
-        // var pong_id = element.getAttribute("data-pong-id");
-        // canvas.addEventListener("mousemove", movePaddle);
-        // canvas.addEventListener("mouseleave", triggerMouseOut);
         canvas.style.cursor = "none";
         var timer = 5;
-        var pause  = 0;
         var own_score = 0;
+        var height = canvas.height;
+        var width = canvas.width;
 
 
 //-------------------------------part 1 functions draw--------------------------------------//
@@ -36,7 +28,7 @@
 
         //draw the line at the middle
         function drawMiddleLine(line){
-            for(let i =  0; i <= canvas.height; i += height/20){  // pas responsive
+            for(let i =  0; i <= canvas.height; i += canvas.height/20){  // pas responsive
                 drawRect(line.x, line.y + i, line.width, line.height, line.color);
             }
         }
@@ -64,7 +56,7 @@
             y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive
             //form 
             width : 10, // pas responsive
-            height : height/5, // pas responsive
+            height : canvas.height/5, // pas responsive
             color : "GREY",
             score : 0
             }
@@ -100,7 +92,14 @@
             // move part
             drawRect(host.x, host.y, host.width, host.height, host.color);
             drawRect(gamer.x, gamer.y, gamer.width, gamer.height, gamer.color);
-            drawBall(ball.x, ball.y, ball.radius, ball.color);
+            if (pause < frame * 2 - 4)
+                drawBall(ball.x, ball.y, ball.radius, ball.color);
+            else
+            {
+                drawRect(0,0, canvas.width, canvas.height,"BLACK");
+                endText("    pause");
+            }
+
         }
         
         function ft_timer(val) // make a countdown
@@ -123,65 +122,45 @@
         }
 
 //-------------------------------part 4 pause function --------------------------------------//
-        
-        // function triggerMouseOut(event) {
-        //     pause = 1;
-        // }
-        
+
         function ft_pause() {
             if (pause != 0)
                 pause++;
-            console.log(pause);
             if (pause == frame * 2)
-            {
-                console.log("pause");
                 pause_gamer = true;  
-            }     
         }
 
 //-------------------------------part 5 function paddle --------------------------------------//
 
-    function movePaddle(event){ // function to permite to change the direction of the users paddle with the mouse
-            if (pause_gamer != false) // if the paddle move it mean the gamer is on the game
-            {
-                pause  = 0;
-                pause_gamer = false;
-            }
-            var rect = canvas.getBoundingClientRect();
-            var result = 600 / (rect.bottom - rect.top) ;
-            gamer.y = (event.clientY - rect.top - 20) * result;   
-        }
-
-
+ 
 //-------------------------------part 6  socket receive and send --------------------------------------//
 
    
-            socket.onmessage = function(event) 
-            {            
-            const response = event.data;
-            const msg = JSON.parse(response);  
-                if (msg.type == "ping" || !msg.message )// check if the pong_id is send to the correct personne
-                    return ;
-                if (msg.message.data == "stop")
-                    own_score = 11;
-                if (msg.message.data.timer == 0 || msg.message.data.timer)
-                    timer = msg.message.data.timer;
-                if (msg.message.data.hosty)
-                    host.y = msg.message.data.hosty;
-                if (msg.message.data.bally)
-                    ball.y = msg.message.data.bally;
-                if (msg.message.data.ballx)
-                    ball.x = msg.message.data.ballx;
-                if (msg.message.data.score_host)
-                    host.score = msg.message.data.score_host;  
-                if (msg.message.data.score_guest)
-                    own_score = msg.message.data.score_guest;
-            }
+socket.onmessage = function(event) 
+{            
+const response = event.data;
+const msg = JSON.parse(response);  
+    if (msg.type == "ping" || !msg.message )// check if the pong_id is send to the correct personne
+        return ;
+    if (msg.message.data == "stop")
+        own_score = 11;
+    if (msg.message.data.timer == 0 || msg.message.data.timer)
+        timer = msg.message.data.timer;
+    if (msg.message.data.hosty)
+        host.y = msg.message.data.hosty;
+    if (msg.message.data.bally)
+        ball.y = msg.message.data.bally;
+    if (msg.message.data.ballx)
+        ball.x = msg.message.data.ballx;
+    if (msg.message.data.score_host)
+        host.score = msg.message.data.score_host;  
+    if (msg.message.data.score_guest)
+        own_score = msg.message.data.score_guest;
+}
         
 
         function ft_send(host_id)
         {
-            console.log("pause gamer = " + pause_gamer);
             socket.send(JSON.stringify({
                 command: "message",
                 identifier: JSON.stringify({
@@ -200,7 +179,6 @@
         function playing(host_id)
         {
             //ft_pause(); // uncomment to put the pause rules
-            //ft_recieve()
             if (timer < 0)
             {
                 ft_send(host_id);
@@ -210,6 +188,7 @@
                 ft_timer((timer == 0) ? "GO !" : timer);
             if (host.score == 11 || own_score == 11)
             {
+                drawRect(0,0, canvas.width, canvas.height,"BLACK");
                 if (host.score != 11)
                     endText("You win !!!");
                 else
@@ -220,7 +199,6 @@
             }
             
         }
-    // ft_recieve();
     var stop = setInterval(playing, 1000/(frame), host_id);
     }
 
@@ -231,8 +209,9 @@ var socket = new WebSocket("ws://localhost:3000/cable");
 
 window.onbeforeunload = function() {
     clearInterval(stop);
-    
-    socket.onclose = function () {socket.close();}; // disable onclose handler first
+    socket.onclose = function () {socket.close();
+    canvas.close();
+    console.log("socket pongchannel close")}; // disable onclose handler first
 };
 socket.onopen = function()
 {         

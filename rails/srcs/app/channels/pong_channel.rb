@@ -1,6 +1,7 @@
 class PongChannel < ApplicationCable::Channel
   def subscribed
-     stream_from "pong_channel_#{params[:pong_id]}"
+    puts "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII" 
+    stream_from "pong_channel_#{params[:pong_id]}"
    end
  
    def receive(data)

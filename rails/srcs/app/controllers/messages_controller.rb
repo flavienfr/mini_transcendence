@@ -10,22 +10,16 @@ class MessagesController < ApplicationController
       bigger = params[:user_id] < params[:receiver_id] ? params[:receiver_id] : params[:user_id];
       channel_name = "conversation_channel_" + smaller.to_s + "_" + bigger.to_s;
       @channel = Channel.where("name = ? AND scope = ?", channel_name, params[:scope]);
-      puts "channel ! " + channel_name;
       if (@channel.size == 0 || params[:receiver_id] == "0")
-        puts "aaaaaaa";
         @messages = []
-        puts @messages
         respond_to do |format|
           format.html
           format.json {render json: @messages}
         end
       else
-        puts "bbbbb"
-        puts @channel[0]
         @messages = Message.where("channel_id = ?", @channel[0].id)
         json_to_return = {};
         json_to_return["messages"] = @messages;
-        #json_to_return["users"] = User.all;
         users = User.all;
         users_with_id = {};
         users_guild_with_id = {};
@@ -37,20 +31,14 @@ class MessagesController < ApplicationController
             users_guild_with_id[user.id] = "";
           end
         end
-        puts users_with_id;
         json_to_return["users"] = users_with_id;
         json_to_return["guilds"] = users_guild_with_id;
-        #json_to_return["user"] = User.find_by(id: params[:user_id]);#envoyer users a la place de 2 pour faire pareil en dessous
-        #json_to_return["receiver"] = User.find_by(id: params[:receiver_id]);
-        puts(json_to_return);
-        puts @messages
         respond_to do |format|
           format.html
           format.json {render json: json_to_return}
         end
       end
     else
-      puts "else !"
       @messages = Message.where("channel_id = ?", params[:receiver_id]);
       json_to_return = {};
       json_to_return["messages"] = @messages;
@@ -67,7 +55,6 @@ class MessagesController < ApplicationController
       end
       json_to_return["users"] = users_with_id;
       json_to_return["guilds"] = users_guild_with_id;
-      # json_to_return["users"] = User.all;
       respond_to do |format|
         format.html
         format.json {render json: json_to_return}
@@ -95,26 +82,24 @@ class MessagesController < ApplicationController
   def create
     puts params
     if params[:scope] == "direct"
-      puts "private direct"
       smaller = params[:user_id] < params[:receiver_id] ? params[:user_id] : params[:receiver_id];
       bigger = params[:user_id] < params[:receiver_id] ? params[:receiver_id] : params[:user_id];
       channel_name = "conversation_channel_" + smaller.to_s + "_" + bigger.to_s;
-      puts channel_name;
       channel = Channel.where("name = ? AND scope = ?", channel_name, params[:scope]).last;
-      @new_msg = {};
-      @new_msg["user_id"] = params[:user_id];
-      @new_msg["channel_id"] = channel.id;
-      @new_msg["text"] = params[:text];
-      @new_msg_to_save = Message.new(@new_msg);
-      @new_msg_to_save.save;
+      params[:message]["channel_id"] = channel.id;
+      @message = Message.new(message_params);
+      if (!@message.save)
+        respond_to do |format|
+          format.html
+          format.json {render json: @message.errors, status: :unprocessable_entity}
+        end
+        return;
+      end
       notif_channel = "notification_channel_" + params[:receiver_id].to_s;
-      puts "NOTIF"
-      puts notif_channel;
       ActionCable.server.broadcast(notif_channel, {sender: channel})
       notif_channel = "notification_channel_" + params[:user_id].to_s;#pour update la page du sender aussi
       ActionCable.server.broadcast(notif_channel, {sender: channel});
     else
-      puts "other !"
       # faire ici des check channelP ?
       channelP = Channel.find_by(id: params[:receiver_id]).channel_participations;
       current_channelP = channelP.find_by(user_id: params[:user_id]);
@@ -146,13 +131,15 @@ class MessagesController < ApplicationController
           current_channelP.update(status: nil);
         end
       end
-      @new_msg = {};
-      @new_msg["user_id"] = params[:user_id];
-      @new_msg["channel_id"] = params[:receiver_id];#receiver ici c est la channel groupe
-      @new_msg["text"] = params[:text];
-      puts @new_msg
-      @new_msg_to_save = Message.new(@new_msg);
-      @new_msg_to_save.save;
+      params[:message]["channel_id"] = params[:receiver_id];#receiver ici c est la channel groupe
+      @message = Message.new(message_params);
+      if (!@message.save)
+        respond_to do |format|
+          format.html
+          format.json {render json: @message.errors, status: :unprocessable_entity}
+        end
+        return;
+      end
       channelP = Channel.find_by(id: params[:receiver_id]).channel_participations;
       channelP.each do |participant|
         ActionCable.server.broadcast("notification_channel_" + participant.user_id.to_s, {sender: Channel.find_by(id: params[:receiver_id])});

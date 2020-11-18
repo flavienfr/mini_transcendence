@@ -18,10 +18,10 @@
         </div>
         <div class="space3"></div>
         <div class="elem">
-            <%% if (user.current_status == "online") { %>
+            <%% if (user.current_status == "logged in") { %>
                 <span class="badge badge-success badge_profil2" style="background: #02800d;">Online</span>
             <%% } %>
-            <%% if (user.current_status == "") { %>
+            <%% if (user.current_status == "logged out" || user.current_status == "") { %>
                 <span class="badge badge-success badge_profil2">Offline</span>
             <%% } %>
             <p class="live-game">Live Game:

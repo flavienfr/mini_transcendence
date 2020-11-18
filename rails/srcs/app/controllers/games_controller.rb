@@ -49,7 +49,6 @@ class GamesController < ApplicationController
   # PATCH/PUT /games/1.json
   def update
 	puts "((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((9"
-	
 	@game.set_end_game(params)
   end
 

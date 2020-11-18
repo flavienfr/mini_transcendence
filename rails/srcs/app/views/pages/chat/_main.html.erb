@@ -1,8 +1,6 @@
 <script type="text/template" id="chat_main-template">
 	<input type="hidden" id="main_chat_in" value="<%%= receiver.id %>">
 	<input type="hidden" id="chat_hidden_id" value="chat_<%%= receiver.id %>">
-	<%% console.log("--------") %>
-	<%% console.log(receiver) %>
 	<div class="main_chat_header">
 		<a id="main_chat_to_create" >
 			<svg width="2.25em" height="2.25em" viewBox="0 0 16 16" class="bi bi-plus-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -58,7 +56,6 @@
 				success: function(data)
 				{
 					data = data.toJSON();
-					console.log(data);
 					var BlockUser = Backbone.Model.extend({
 						urlRoot: '/block_users'
 					});
@@ -67,8 +64,6 @@
 						data: {user_id: <%== current_user.id %>},
 						success: function(data2){
 							data2 = data2.toJSON();
-							console.log("a");
-							console.log(data2);
 							if (data && data.messages && data.messages.length > 0)
 							{
 								var i = 0;
@@ -89,8 +84,6 @@
 		<%% } %>
 		function ft_show_conversation(channel_or_user_selected)
 		{
-			console.log("++++++++++");
-			console.log(channel_or_user_selected);
 			if (channel_or_user_selected.scope == "protected-group")//protected
 			{
 				var ChannelParticipation = Backbone.Model.extend({
@@ -161,7 +154,6 @@
 				success: function(data)
 				{
 					data = data.toJSON();
-					console.log(data);
 					show_div = $("#direct_msg_users");
 					show_div.empty();
 					if (data.channels_in && data.channels_in.length > 0)
@@ -173,7 +165,6 @@
 							show_div.append("<div style='display:flex;'><button class='dropdown-item' onclick='ft_show_conversation(" +
 											JSON.stringify(data.channels_in[i]) + ")'>" +
 											data.channels_in[i].name + " (" + data.channels_in[i].scope + ")" + "</button>" +
-											//(<%== current_user.is_admin %> ? "<button onclick='ft_delete(" + JSON.stringify(data.channels_in[i]) + ")'>Delete</button>" : "") +
 											"</div>");
 							i++;
 						}
@@ -188,7 +179,6 @@
 								show_div.append("<div style='display: flex;'><button class='dropdown-item' onclick='ft_show_conversation(" +
 												JSON.stringify(data.users[i]) + ")'>" +
 												data.users[i].name + "</button>" +
-												//(<%== current_user.is_admin %> ? "<button onclick='ft_delete(" + JSON.stringify(data.users[i]) + ")'>Delete</button>" : "") +
 												"</div>");
 							i++;
 						}
@@ -202,7 +192,6 @@
 							show_div.append("<div style='display: flex;'><button class='dropdown-item' onclick='ft_show_conversation(" +
 											JSON.stringify(data.channels_joignable[i]) + ")'>" +
 											data.channels_joignable[i].name + " (" + data.channels_joignable[i].scope + ")" + "</button>" +
-											//(<%== current_user.is_admin %> ? "<button onclick='ft_delete(" + JSON.stringify(data.channels_joignable[i]) + ")'>Delete</button>" : "") +
 											"</div>");
 							i++;
 						}
@@ -214,28 +203,18 @@
 			var text = $('#text_to_send').val();
 			var receiver_id = <%%= receiver.scope == "direct" ? target.id : receiver.id %>;//cote rails target.id dans le cas direct permet de trouver la channel
 			if (text.length == 0 || receiver_id == 0)
-			{
-				console.log("empty !");
 				return;
-			}
 			$('#text_to_send').val('');
 			var Message = Backbone.Model.extend({
 				urlRoot: '/messages'
 			});
 			var message = new Message();
-			//var form_data = new FormData();
 			message.save(
 			{
 				user_id: <%== current_user.id %>,
 				text: text,
 				scope: '<%%= receiver.scope ? receiver.scope : "direct" %>',
 				receiver_id: receiver_id
-			},
-			{
-				success: function()
-				{
-					console.log('OK!');
-				}
 			});
 		};
 	</script>

@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2020_11_17_233347) do
+=======
+ActiveRecord::Schema.define(version: 2020_11_17_162701) do
+>>>>>>> 4acd8dc639a910b642d0baeac2586b5dcb1ed22b
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -148,11 +152,13 @@ ActiveRecord::Schema.define(version: 2020_11_17_233347) do
   create_table "guild_participations", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "guild_id", null: false
-    t.boolean "is_admin"
-    t.boolean "is_officer"
+    t.boolean "is_admin", default: false
+    t.boolean "is_officer", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status"
+    t.boolean "is_veteran", default: false
+    t.boolean "is_initiate", default: true
     t.index ["guild_id"], name: "index_guild_participations_on_guild_id"
     t.index ["user_id"], name: "index_guild_participations_on_user_id"
   end
@@ -258,6 +264,7 @@ ActiveRecord::Schema.define(version: 2020_11_17_233347) do
     t.string "otp_secret_key"
     t.boolean "enabled_two_factor_auth", default: false
     t.integer "student_id"
+    t.boolean "is_owner", default: false
     t.index ["guild_participation_id"], name: "index_users_on_guild_participation_id"
   end
 

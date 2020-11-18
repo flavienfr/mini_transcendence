@@ -11,7 +11,7 @@ consumer.subscriptions.create({channel: "NotificationChannel", room_id: event.de
   },
 
   received(data) {
-  if (data.sender || data.kicked_from || data.refresh) {
+  if (data.sender || data.kicked_from || data.refresh || data.channel_destroyed) {
     console.log("notif");
     console.log(data);
     document.dispatchEvent(new CustomEvent("notif", {
@@ -21,6 +21,7 @@ consumer.subscriptions.create({channel: "NotificationChannel", room_id: event.de
   if (data.notification) {
     document.dispatchEvent(new CustomEvent("notif2", {}));
   }
+
     // Called when there's incoming data on the websocket for this channel
   }
 });

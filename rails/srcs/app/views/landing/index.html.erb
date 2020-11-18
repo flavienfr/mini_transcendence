@@ -15,9 +15,6 @@
 		document.addEventListener("notif", function(event){
 			if (event.detail.data.sender)
 			{
-				console.log("aaaaaaa");
-				console.log($("#main_chat_in").val());
-				console.log($("#admin_chat_view_in").val());
 				if ($("#main_chat_in").val() == event.detail.data.sender.id)
 					chatview.setElement("#chat_area").render_chat_main(event.detail.data.sender);
 				if ($("#admin_chat_view_in").val() == event.detail.data.sender.id)
@@ -25,30 +22,28 @@
 			}
 			if (event.detail.data.kicked_from)
 			{
-				console.log("kicked from");
-				console.log($("#chat_hidden_id").val());
-				console.log("+++++++++++++");
 				var val_hidden = $("#chat_hidden_id").val();
 				var kicked_from = event.detail.data.kicked_from;
 				if (val_hidden == "chat_" + kicked_from.id || val_hidden == "param_" + kicked_from.id || val_hidden == "detail_" + kicked_from.id)
 					chatview.setElement("#chat_area").render_chat_main();
-				//if (($("#detail_chat_in").val() == event.detail.data.kicked_from.id || $("#main_chat_in").val() == event.detail.data.kicked_from.id) && event.detail.data.kicked_from.scope != "direct")
-				//	chatview.setElement("#chat_area").render_chat_main();
 			}
 			if (event.detail.data.refresh)
 			{
-				console.log("might need refresh !!!");
-				console.log($("#chat_hidden_id").val());
-				console.log("==================");
 				var val_hidden = $("#chat_hidden_id").val();
 				var data = event.detail.data.refresh;
-				//if (val_hidden == "param_" + data.id)
-				//	chatview.setElement("#chat_area").render_chat_param(data);
 				if (val_hidden == "detail_" + data.id)
 					chatview.setElement("#chat_area").render_chat_details(data);
 				if (val_hidden == "admin_detail_" + data.id)
 					chatview.setElement("#chat_area").render_admin_chat_details(data);
-				//if ()
+			}
+			if (event.detail.data.channel_destroyed)
+			{
+				var data = event.detail.data.channel_destroyed;
+				var val_hidden = $("#chat_hidden_id").val();
+				if (val_hidden == "admin_chat_" + data)
+					chatview.setElement("#chat_area").render_admin_chat_view();
+				if (val_hidden == "admin_detail_" + data)
+					chatview.setElement("#chat_area").render_admin_chat_view();
 			}
 		});
 		// set the socket for having notification 
@@ -100,7 +95,7 @@
 
 //****************************** GLOBAL ***************************
 var current_user_id = <%= current_user.id %>; // >
-var current_session_id = <%= current_user.sessions.last.id %>; //  >
+var current_session_id = <%= current_user.sessions.last.id %>; // >
 
 // ******************************************** MODELS/COLLECTIONS ********************************************
 //_____________________________________ User _____________________________________
@@ -130,6 +125,26 @@ var Users = Backbone.Collection.extend({
 });
 
 var usercollection = new Users();
+
+async function set_status() {
+	var data = {
+		current_status: "logged in",	
+	}
+	Backbone.ajax({
+        url: '/users/' + current_user_id,
+        data: JSON.stringify(data),
+        type: 'put',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response) {
+        },
+        error: function(){
+          alert("error");
+        }
+      });
+};
+
+set_status();
 
 //_____________________________________ Guild _____________________________________
 var Guild = Backbone.Model.extend({
@@ -263,6 +278,7 @@ var LogView = Backbone.View.extend({
     	"click #add-user": "add",
     	"click #delete-user": "delete",
     	"click #logout ": "logout",
+    	"click #user_status ": "status",
   	},
 
 	render : async function() {
@@ -316,6 +332,15 @@ var LogView = Backbone.View.extend({
 			}
 		})
 	},
+	
+	status: async function() { 
+		
+		usr = this.collection.toJSON(); 
+		for (let i = 0; i < usr.length; i++)
+		{
+			console.log(usr[i].name, " : ", usr[i].current_status);
+		}
+	}
 
 })
 
@@ -355,15 +380,11 @@ var ChatView = Backbone.View.extend({
 	},
 
 	render_chat_param : function(e) {
-		console.log(e);
 		var channel_id = e;
 		if (!(channel_id.id))
 			channel_id = $(e.currentTarget).data('channel');
 		else
 			channel_id = channel_id["id"];
-		console.log(channel_id);
-		console.log(<%== current_user.id %>); // anti jaune >
-		//console.log(channel_id.id);
 		var ChannelParticipation = Backbone.Model.extend({
 			urlRoot: '/channel_participations'
 		});
@@ -381,7 +402,6 @@ var ChatView = Backbone.View.extend({
 					data: {user_id: <%== current_user.id %>, receiver_id: data1.id}, // anti jaune >
 					success: function(data)
 					{
-						console.log(data.toJSON());
 						if (!data.toJSON().id)
 							return;
 						channel_participation = new ChannelParticipation();
@@ -406,11 +426,8 @@ var ChatView = Backbone.View.extend({
 		this.$el.html(this.template_chat_create);
 	},
 	render_chat_main : function(channel) {
-		console.log("user selected !!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-		console.log(channel)
 		if (channel && channel.name)
 		{
-			console.log("render_chat_main" + channel.name);
 			if (channel.scope == "direct")
 			{
 				var el = this.$el;
@@ -441,8 +458,6 @@ var ChatView = Backbone.View.extend({
 							}
 							i++;
 						}
-						console.log("name" + target);
-						console.log(channel);
 						el.html(temp({receiver: channel, target: target}));
 					}
 				});
@@ -460,7 +475,6 @@ var ChatView = Backbone.View.extend({
 		return this;
 	},
 	render_chat_details : function(e) {
-		console.log(e);
 		var channel_id = e;
 		var l = this.$el;
 		var t = this.template_chat_details;
@@ -468,7 +482,6 @@ var ChatView = Backbone.View.extend({
 			channel_id = $(e.currentTarget).data('channel');
 		else
 			channel_id = channel_id["id"];
-		console.log(channel_id);
 		var Channel = Backbone.Model.extend({
 			urlRoot: '/channels'
 		});
@@ -480,7 +493,6 @@ var ChatView = Backbone.View.extend({
 		});
 	},
 	render_admin_chat_details : function(e) {
-		console.log(e);
 		var channel_id = e;
 		var l = this.$el;
 		var t = this.template_chat_details;
@@ -488,7 +500,6 @@ var ChatView = Backbone.View.extend({
 			channel_id = $(e.currentTarget).data('channel');
 		else
 			channel_id = channel_id["id"];
-		console.log(channel_id);
 		var Channel = Backbone.Model.extend({
 			urlRoot: '/channels'
 		});
@@ -692,8 +703,6 @@ var GuildUsersView = Backbone.View.extend({
 		var guild = new Guild({id: guild_id});
 		guild.fetch({
 			success: function(data){
-				console.log("here");
-				console.log(data.toJSON());
 				l.html(t({guild: data.toJSON(), as_admin: as_admin}));
 			}
 		});
@@ -812,23 +821,25 @@ var OptionView = Backbone.View.extend({
 				// cache le spinner:
 				spinner.classList.remove("active");
 
-				// console.log("err.responseJSON.data:", err.responseJSON.data);
-				// console.log("Object.keys(err.responseJSON.data).toString():", Object.keys(err.responseJSON.data).toString());
+				let footer_msg = "";
 
-				let concat_errors = "";
-				for (var key in err.responseJSON.data) {
-					if (err.responseJSON.data.hasOwnProperty(key)) {
-						console.log(key + " -> " + err.responseJSON.data[key]);
-						concat_errors += (key + " " + err.responseJSON.data[key]);
+				if (err.status == 401) {
+					footer_msg = "Unauthorized";
+				} else if (err.status == 422) {
+					for (var key in err.responseJSON.data) {
+						if (err.responseJSON.data.hasOwnProperty(key)) {
+							console.log(key + " -> " + err.responseJSON.data[key]);
+							footer_msg += (key + " " + err.responseJSON.data[key]);
+						}
 					}
+					console.log("footer_msg:", footer_msg);
 				}
-				console.log("concat_errors:", concat_errors);
 
 				Swal.fire({
 					icon: 'error',
 					title: 'Oops...',
 					text: 'Something went wrong!',
-					footer: concat_errors
+					footer: footer_msg
 				})
 
 				self.render();
@@ -1229,20 +1240,37 @@ var WarView = Backbone.View.extend({
 	}
 });
 
+//_____________________________________ LadderView _____________________________________
 var LadderView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#ladder_template').html()),
+  
+	render: async function() {
+		this.$el.html(this.template);
+		await playercollection.fetch();
+    	var players = playercollection.toJSON();
+    	for (let i = 0; i < players.length; i++)
+    	{
+    	    if (players[i].user_id == current_user_id)
+    	    {
+    	        listbtnview.setElement("#btn_match_making").render(); 
+    	    }
+    	}
+		return this;
+	},
+});
+
+var ListbtnView = Backbone.View.extend({
+	el : '#btn_match_making',
+	template: _.template($('#quit_list').html()),
   
 	render: function() {
 		this.$el.html(this.template);
 		return this;
 	},
-
-	//new_game : function(){
-	//	pongview.setElement("#pong-area").render();
-	//	console.log("pong area");
-	//}
 });
+
+listbtnview = new ListbtnView();
 
 //*************************************** Notification handler ***************************************
 
@@ -1493,6 +1521,27 @@ $( "#nav_to_war" ).on( "click", function() {
 	Backbone.history.navigate("/war", {trigger: true});
 	//Backbone.history.loadUrl(); 						//problem: Double call to function render in guild
 });
+
+function closeIt()
+{
+	var data = {
+		current_status: "logged out",	
+	}
+	Backbone.ajax({
+        url: '/users/' + current_user_id,
+        data: JSON.stringify(data),
+        type: 'put',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response) {
+        },
+        error: function(){
+          alert("error");
+        }
+      });	
+}
+
+window.onbeforeunload = closeIt;
 
 var router = new Router();
 playview.render();

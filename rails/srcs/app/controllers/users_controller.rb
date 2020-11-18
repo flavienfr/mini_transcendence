@@ -103,8 +103,11 @@ class UsersController < ApplicationController
       return;
     end
 
+    
+    render json: { }, status: :unauthorized and return if User.find(params[:id]).id != current_user.id
+
     # parse params: name / photo / enabled_two_factor_auth
-    update_params = {}
+    update_params = {} # hash
     # - name
     if (params.has_key?(:name))
       update_params["name"] = params[:name]
@@ -122,6 +125,16 @@ class UsersController < ApplicationController
     if (params.has_key?(:enabled_two_factor_auth))
       two_factor_auth = (params[:enabled_two_factor_auth] == "true" ? true : false)
       update_params["enabled_two_factor_auth"] = two_factor_auth
+    end
+    # - current_status
+    if (params.has_key?(:current_status))
+      update_params["current_status"] = params[:current_status]
+    end
+
+    # - current_status
+    if (params.has_key?(:current_status))
+      update_params["current_status"] = params[:current_status]
+      ActionCable.server.broadcast("player_channel", {current_status: "On"})
     end
 
     if @user.update(update_params)

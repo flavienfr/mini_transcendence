@@ -223,6 +223,7 @@ class AskForGamesController < ApplicationController
 		start_date: Time.zone.now,
 		end_date: nil,
 		context: nil,
+		status: "playing",
 		winner_id: nil,
 		war_id: nil,
 		war_time_id: nil,

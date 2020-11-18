@@ -19,7 +19,7 @@ class WarParticipationsController < ApplicationController
 	warp_b = WarParticipation.all.where('war_id=? AND guild_id!=?',the_war.id, guild_a.id).first
 	guild_b = Guild.find(warp_b.guild_id)
 
-	#is war finish => end of war
+	#is war ending => end of war
 	puts "Time.zone.now > the_war.end_date", Time.zone.now, the_war.end_date
 	if (Time.zone.now > the_war.end_date)
 		puts "warp_a.war_points > warp_b.war_points", warp_a.war_points, warp_b.war_points
@@ -43,18 +43,18 @@ class WarParticipationsController < ApplicationController
 		#guild_a
 		guild_a.war_participation_id = nil
 		guild_a.is_making_war = false
-		warp_a.status = "finish"
+		warp_a.status = "ending"
 		guild_a.save
 		warp_a.save
 		
 		#guild_b
 		guild_b.war_participation_id = nil
 		guild_b.is_making_war = false
-		warp_b.status = "finish"
+		warp_b.status = "ending"
 		guild_b.save
 		warp_b.save
 
-		the_war.status = "finish"
+		the_war.status = "ending"
 		the_war.save
 		
 		#TO DO: envoyer une notif de fin de guerre

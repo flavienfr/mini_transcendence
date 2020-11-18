@@ -319,7 +319,7 @@
     {   
         ball.y =  canvas.height/2, // for be at the center
         ball.x = canvas.width/2,
-        ball.speed = 1, // check if it's to or less speed
+        ball.speed = 1, // check if it's to or less speed'
         ball.velocityX = i * speed_ball,
         ball.velocityY = y * speed_ball,
         ball.color = "RED"
@@ -366,7 +366,7 @@
     }
 //-------------------------------part 10 save state in database--------------------------------------//
 
-        function archive_askForGame_table(host_score)
+        function archive_askForGame_table(host_score, guest_score)
         {
             var AskForGame = Backbone.Model.extend({
                 urlRoot: '/ask_for_games'
@@ -377,17 +377,17 @@
                 console.log(ask_for_game.toJSON()); 
                 if (ask_for_game.get("status") == "playing")
                     {
-                        if (host_score == 11)
-                            saveScore(ask_for_game.get("game_id"), ask_for_game.get("from_user_id"));
+						if (host_score == 11)
+                            saveScore(ask_for_game.get("game_id"), ask_for_game.get("from_user_id"),host_score, guest_score)
                          else
-                            saveScore(ask_for_game.get("game_id"), ask_for_game.get("to_user_id"));
+                            saveScore(ask_for_game.get("game_id"), ask_for_game.get("to_user_id"), guest_score, host_score);
                         ask_for_game.save({status: "ending"});
                     }
                 }
             });
         }
 
-        function saveScore(game_id, winner_id) // saving in games pas fait encore depend de comment est géré
+        function saveScore(game_id, winner_id, winner_score, loser_score)
         {
             var Game = Backbone.Model.extend({
                 urlRoot: '/games'
@@ -395,8 +395,13 @@
             var game = new Game({id: game_id});
             game.fetch({success: function(data) {
                 console.log(data.toJSON());
-                game.set({winner_id: winner_id});
-                game.save();
+				game.set({
+					winner_id: winner_id,
+					winner_score: winner_score,
+					loser_score: loser_score,
+					forfeit: false
+				});
+				game.save();
                 }
             });
         }
@@ -422,7 +427,7 @@
                 endText("You win !!!");
             else
                 endText("You loose ...");
-            archive_askForGame_table(host.score)
+            archive_askForGame_table(host.score, guest.score);//#host.score ou own_score ??
             socket.close();
             clearInterval(stop);
             setTimeout(() => {playview.render();}, 2000);

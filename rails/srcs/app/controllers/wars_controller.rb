@@ -5,7 +5,7 @@ class WarsController < ApplicationController
   # GET /wars.json
   def index
 	@wars = Guild.find(params[:guild_id].to_i).wars.order(start_date: 'desc')
-	@wars = @wars.where('wars.status = ?', "finish")
+	@wars = @wars.where('wars.status = ?', "ending")
 	#@wars = War.all
 	puts "------------------------------------------"
 	puts "@wars= ", @wars.to_json

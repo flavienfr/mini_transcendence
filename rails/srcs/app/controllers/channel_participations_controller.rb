@@ -6,23 +6,19 @@ class ChannelParticipationsController < ApplicationController
   def index
     puts params;
     if (params[:type] == "direct")
-      @channel = Channel.find_by(name: params[:name]);
-      puts @channel.to_json;
+      channel = Channel.find_by(name: params[:name]);
       respond_to do |format|
         format.html
-        format.json {render json: @channel.users}
+        format.json {render json: channel.users}
       end
     elsif (params[:type] == "facing_user")
-      puts "FACE";
       channel_participations = Channel.find_by(id: params[:receiver_id]).channel_participations;
-      channelP = channel_participations.where.not("user_id = ?", params[:user_id]).first;
-      puts channelP.to_json;
+      channel_participation = channel_participations.where.not("user_id = ?", params[:user_id]).first;
       respond_to do |format|
         format.html
-        format.json {render json: channelP}
+        format.json {render json: channel_participation}
       end
     elsif (params[:type] == "all")
-      puts "ALL !";
       channel_participations = Channel.find_by(id: params[:receiver_id]).channel_participations;
       in_user_id_order = {};
       channel_participations.each do |participant|
@@ -33,10 +29,10 @@ class ChannelParticipationsController < ApplicationController
         format.json {render json: in_user_id_order}
       end
     else
-      @channel_participations = ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).first;
+      channel_participations = ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).first;
       respond_to do |format|
         format.html
-        format.json {render json: @channel_participations}
+        format.json {render json: channel_participations}
       end
     end
   end
@@ -63,33 +59,29 @@ class ChannelParticipationsController < ApplicationController
       smaller = params[:user_id] < params[:receiver_id] ? params[:user_id] : params[:receiver_id];
       bigger = params[:user_id] < params[:receiver_id] ? params[:receiver_id] : params[:user_id];
       channel_name = "conversation_channel_" + smaller.to_s + "_" + bigger.to_s;
-      if (Channel.where("name = ? AND scope = 'direct'", channel_name).size > 0)
-        puts "exist !";
-      else
-        puts "create channel !" + channel_name;
+      if (Channel.where("name = ? AND scope = 'direct'", channel_name).size == 0)
         @new_channel = {};
         @new_channel["name"] = channel_name;
         @new_channel["scope"] = params[:scope];
         @channel_to_save = Channel.new(@new_channel);
-        @channel_to_save.save;
-        puts "hey--------";
+        if !(@channel_to_save.save)
+          respond_to do |format|
+            format.html
+            format.json {render json: @channel_to_save.errors, status: :unprocessable_entity}
+          end
+          return;
+        end
       end
       channel = Channel.where("name = ? AND scope = ?", channel_name, params[:scope]).last;
-      if (ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], channel.id).size > 0)
-        puts "channelP exist !"
-      else
-        puts "channelP doesnt exist"
-        # channel_id = Channel.find_by(name: channel_name).id;
-        @new_channelP = {};
-        @new_channelP["user_id"] = params[:user_id];
-        @new_channelP["channel_id"] = channel.id;
-        puts @new_channelP;
-        @new_channelP_to_save = ChannelParticipation.new(@new_channelP);
-        @new_channelP_to_save.save;
-        @new_channelP["user_id"] = params[:receiver_id];
-        @new_channelP["channel_id"] = channel.id;
-        @new_channelP_to_save = ChannelParticipation.new(@new_channelP);
-        @new_channelP_to_save.save;
+      if (ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], channel.id).size == 0)
+        params[:channel_participation]["user_id"] = params[:user_id];
+        params[:channel_participation]["channel_id"] = channel.id;
+        @channel_participation = ChannelParticipation.new(channel_participation_params);
+        @channel_participation.save;
+        params[:channel_participation]["user_id"] = params[:receiver_id];
+        params[:channel_participation]["channel_id"] = channel.id;
+        @channel_participation = ChannelParticipation.new(channel_participation_params);
+        @channel_participation.save;
       end
       respond_to do |format|
         format.html
@@ -97,20 +89,16 @@ class ChannelParticipationsController < ApplicationController
       end
     elsif (params[:scope] == "public-group" || params[:added])
       if (ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).size == 0)
-        channelP = {};
-        channelP["user_id"] = params[:user_id];
-        channelP["channel_id"] = params[:receiver_id];
+        params[:channel_participation]["user_id"] = params[:user_id];
+        params[:channel_participation]["channel_id"] = params[:receiver_id];
         if (Channel.find_by(id: params[:receiver_id]).channel_participations.size == 0)#si il y avait aucun participants alors le seul nouveau devient owner and admin
-          channelP["is_owner"] = true;
-          channelP["is_admin"] = true;
+          params[:channel_participation]["is_owner"] = true;
+          params[:channel_participation]["is_admin"] = true;
         end
-        puts "a";
-        puts channelP;
-        puts "b";
-        channelP_to_save = ChannelParticipation.new(channelP);
-        channelP_to_save.save;
+        @channel_participation = ChannelParticipation.new(channel_participation_params);
+        @channel_participation.save;
         if (Channel.find_by(id: params[:receiver_id]).channel_participations.size == 1)
-          Channel.find_by(id: params[:receiver_id]).update(owner_id: channelP_to_save.user_id);
+          Channel.find_by(id: params[:receiver_id]).update(owner_id: @channel_participation.user_id);
         end
         ft_add_notif("you got added to group: " + Channel.find_by(id: params[:receiver_id]).name, params[:user_id]);
       end
@@ -125,26 +113,25 @@ class ChannelParticipationsController < ApplicationController
       end
     else
       if (params[:scope] == "protected-group" && BCrypt::Password.new(Channel.find_by(id: params[:receiver_id]).password) == params[:password])
-        puts "ok password correct !"
-        channelP = {};
-        channelP["user_id"] = params[:user_id];
-        channelP["channel_id"] = params[:receiver_id];
-        if (Channel.find_by(id: params[:receiver_id]).channel_participations.size == 0)
-          channelP["is_owner"] = true;
-          channelP["is_admin"] = true;
+        if (ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).size == 0)
+          params[:channel_participation]["user_id"] = params[:user_id];
+          params[:channel_participation]["channel_id"] = params[:receiver_id];
+          if (Channel.find_by(id: params[:receiver_id]).channel_participations.size == 0)
+            params[:channel_participation]["is_owner"] = true;
+            params[:channel_participation]["is_admin"] = true;
+          end
+          @channel_participation = ChannelParticipation.new(channel_participation_params);
+          @channel_participation.save;
+          if (Channel.find_by(id: params[:receiver_id]).channel_participations.size == 1)
+            Channel.find_by(id: params[:receiver_id]).update(owner_id: @channel_participation.user_id);
+          end
+          ft_add_notif("you got added to group: " + Channel.find_by(id: params[:receiver_id]).name, params[:user_id]);
         end
-        channelP_to_save = ChannelParticipation.new(channelP);
-        channelP_to_save.save;
-        if (Channel.find_by(id: params[:receiver_id]).channel_participations.size == 1)
-          Channel.find_by(id: params[:receiver_id]).update(owner_id: channelP_to_save.user_id);
-        end
-        ft_add_notif("you got added to group: " + Channel.find_by(id: params[:receiver_id]).name, params[:user_id]);
         respond_to do |format|
           format.html
           format.json { render json: {res: true}};
         end
       else
-        puts "protected"
         respond_to do |format|
           format.html
           format.json { render json: {res: false}};
@@ -167,7 +154,6 @@ class ChannelParticipationsController < ApplicationController
   # PATCH/PUT /channel_participations/1
   # PATCH/PUT /channel_participations/1.json
   def update
-    puts "+++++++++++++++++++"
     puts params;
     if (params[:type] == "new_owner")
       params["channel_participation"][:is_owner] = true;
@@ -196,7 +182,6 @@ class ChannelParticipationsController < ApplicationController
       params["channel_participation"][:status] = "muted";
       params["channel_participation"][:unmute_datetime] = (Time.now.to_datetime + params[:minutes].minutes).to_datetime;
     end
-    puts params;
     respond_to do |format|
       if @channel_participation.update(channel_participation_params)
         format.html { redirect_to @channel_participation, notice: 'Channel participation was successfully updated.' }
@@ -211,7 +196,6 @@ class ChannelParticipationsController < ApplicationController
   # DELETE /channel_participations/1
   # DELETE /channel_participations/1.json
   def destroy
-    puts "_____-----+++++";
     puts params;
     channelP_info = ChannelParticipation.find_by(id: params[:id]);
     was_owner = false;
@@ -222,8 +206,6 @@ class ChannelParticipationsController < ApplicationController
     @channel_participation.destroy
     if (was_owner)
       next_channelP = channel.channel_participations.first;
-      puts next_channelP.to_json;
-      puts "-------------------------------++";
       if (next_channelP)
         next_channelP.update(is_owner: true, is_admin: true);
         Channel.find_by(id: next_channelP.channel_id).update(owner_id: next_channelP.user_id);
@@ -240,7 +222,6 @@ class ChannelParticipationsController < ApplicationController
     if (channel.channel_participations.size > 0)
       admin_users = admin_users.where.not("id IN (?)", channel.channel_participations.pluck(:user_id));
     end
-    puts admin_users.to_json;
     admin_users.each do |participation|
       #if (channelP_info.user_id != participation.id)
         ActionCable.server.broadcast("notification_channel_" + participation.id.to_s, {refresh: channel});

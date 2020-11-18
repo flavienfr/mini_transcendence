@@ -291,7 +291,7 @@
     {   
         ball.y =  canvas.height/2, // for be at the center
         ball.x = canvas.width/2,
-        ball.speed = 1, // check if it's to or less speed
+        ball.speed = 1, // check if it's to or less speed'
         ball.velocityX = i * speed_ball,
         ball.velocityY = y * speed_ball,
         ball.color = "RED"
@@ -348,27 +348,35 @@
             ask_for_game.fetch({data: {from_user_id: current_user_id, status: "playing"}, success: function(data) {
                 if (ask_for_game.get("status") == "playing")
                     {
-                        if (host_score == 11)
+						if (host_score == 11)
                             saveScore(ask_for_game.get("game_id"), ask_for_game.get("from_user_id"),host_score, guest_score)
                          else
-                            saveScore(ask_for_game.get("game_id"), ask_for_game.get("to_user_id"),host_score, guest_score);
+                            saveScore(ask_for_game.get("game_id"), ask_for_game.get("to_user_id"), guest_score, host_score);
                         ask_for_game.save({status: "ending"});
                     }
                 }
             });
         }
 
-        function saveScore(game_id, winner_id, host_score, guest_score) // saving in games pas fait encore depend de comment est géré
+        function saveScore(game_id, winner_id, winner_score, loser_score)
         {
-            var Game = Backbone.Model.extend({
-                urlRoot: '/games'
-            })
-            var game = new Game({id: game_id});
-            game.fetch({success: function(data) {
-                game.set({winner_id: winner_id, from_user_score: host_score, to_user_score: guest_score, forfeit: false});
-                game.save();
-                }
-            });
+			data = {
+				winner_id: winner_id,
+				winner_score: winner_score,
+				loser_score: loser_score,
+				is_forfeit: false
+			}
+			Backbone.ajax({
+				url: '/games/' + game_id,
+				data: JSON.stringify(data),
+				contentType: 'application/json',
+				type: 'PUT',
+				dataType: 'json',
+				success: function(response){},
+				error: function(){
+					alert("error when saving score");
+				}
+			});
         }
 
 
@@ -407,7 +415,7 @@
 //-------------------------------MAIN--------------------------------------//
 
 var socket = new WebSocket("ws://localhost:3000/cable");
-gamer.x = 0;
+
 window.onbeforeunload = function() {
     clearInterval(stop);
     socket.onclose = function () {socket.close();

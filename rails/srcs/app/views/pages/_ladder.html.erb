@@ -2,8 +2,14 @@
 	<%= stylesheet_link_tag "style-ladder.css" %>
 	
 	<div class="ladder_container">
-		<div class="ld_header" id="btn_match_making">
-			<button type="button" id="match_making_btn" class="btn btn-primary btn-lg btn-block btn-light border border-light" onclick="add_to_list(<%=current_user.id%>)">Match making</button>
+		<div class="ld_header" >
+			<div id="btn_match_making">
+				<button type="button" id="match_making_btn" class="btn btn-primary btn-lg btn-block btn-light border border-light" onclick="add_to_list(<%=current_user.id%>)">Match making</button>
+			</div>
+			<select name="mode" id="mode_match_making">
+					<option value="ranked">Ranked</option>
+					<option value="casual">Casual</option>
+			</select>
 		</div>
 
 		<div class="ld_body">

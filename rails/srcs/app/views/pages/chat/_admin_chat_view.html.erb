@@ -30,7 +30,6 @@
 				success: function(data)
 				{
 					data = data.toJSON();
-					console.log(data);
 					var BlockUser = Backbone.Model.extend({
 						urlRoot: '/block_users'
 					});
@@ -39,8 +38,6 @@
 						data: {user_id: <%== current_user.id %>},
 						success: function(data2){
 							data2 = data2.toJSON();
-							console.log("a");
-							console.log(data2);
 							if (data && data.messages && data.messages.length > 0)
 							{
 								var i = 0;
@@ -70,7 +67,6 @@
 				success: function(data)
 				{
 					data = data.toJSON();
-                    console.log(data);
                     var size = Object.keys(data).length;
 					show_div = $("#direct_msg_users");
 					show_div.empty();
@@ -96,8 +92,6 @@
 		}
 		function ft_delete(channel)
 		{
-			console.log("as admin");
-			console.log(channel);
 			var Channel = Backbone.Model.extend({
 				urlRoot: '/channels'
 			});

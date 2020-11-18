@@ -1,6 +1,5 @@
 class PongChannel < ApplicationCable::Channel
   def subscribed
-    puts "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII" 
     stream_from "pong_channel_#{params[:pong_id]}"
    end
  
@@ -23,14 +22,17 @@ class PongChannel < ApplicationCable::Channel
         @state.save;
         @game = Game.find(@state.game_id);
         if (params[:user_id] == @state.from_user_id)
-          @game.update(
-            winner_id: @state.to_user_id, 
-            forfeit: true)
+        	winner_id = @state.to_user_id;
         else
-          @game.update(
-            winner_id: @state.from_user_id,
-            forfeit: true)        
-        end 
+        	winner_id = @state.from_user_id;
+        end
+        puts "-------------- set_end_game ---------------"
+		@game.set_end_game({
+			winner_id: winner_id,
+			is_forfeit: true
+		})
+        puts "-------------- set_end_game ---------------"
+
       end
     end 
     # Any cleanup needed when channel is unsubscribed

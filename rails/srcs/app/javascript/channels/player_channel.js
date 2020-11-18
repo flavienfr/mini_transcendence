@@ -22,7 +22,7 @@ consumer.subscriptions.create("PlayerChannel", {
       var data = {
         from_user_id: list[1].user_id,
         to_user_id: list[0].user_id,
-        game_type: "ladder_match_making",
+        game_type: "ranked_match_making",//possiblité ranked_match_making ou casual_match_making
       }
 
       Backbone.ajax({

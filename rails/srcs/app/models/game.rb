@@ -56,7 +56,8 @@ class Game < ApplicationRecord
 		else
 			return
 		end
-		warp_winner.save
+		if (warp_winner != nil)
+			warp_winner.save()
+		end 
 	end
-
 end

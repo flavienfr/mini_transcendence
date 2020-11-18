@@ -9,8 +9,8 @@ class ApplicationController < ActionController::Base
             puts "existing cookies.signed[:id]"
             @current_user = User.find(cookies.signed[:id])
         elsif params[:type]
-            # fake login
-            @current_user = User.find(1);
+            puts "OK                        aaaaaaaaaaa"
+            @current_user = User.find(2);
             session = Session.new()
             session.user_id = @current_user.id
             cookies.permanent.signed[:id] = session.user_id

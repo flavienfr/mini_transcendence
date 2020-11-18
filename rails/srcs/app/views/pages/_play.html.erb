@@ -3,25 +3,65 @@
 
 <div class="container-fluid container-live-play">
 	<div class="row">
-    	<div id ="pong-area"  class="col text-center">
-      		<h1>Le play pong</h1>
+        <div  class="col text-center">
+            <h1>Le play pong</h1>
+            <canvas id="pong" width="800px" height="600px" >
+                ton navigateur ne supporte pas canvas...
+            </canvas>
+        </div>
+    	<div id ="pong-area">
+    <!-- <button type="button" id="sign_in" class="btn btn-primary btn-lg btn-block btn-dark" onclick="new_game(<%=current_user.id%>)">PLAY</button> -->
     </div>
 	<div class="col chat" id="chat_area">
     </div>
 </div>
 <script>
-var guest_id = 0; // set a change in set_content
-var current = <%== current_user.id%>;//>
+var current = <%== current_user.id%>;
 
-function save_asking_battle(gid)
+//--------------------------- set the canvas for the game----------------------------------------------//
+var canvas;
+gamer = {
+        //position
+        x : 0, // pas responsive il s'agit de largeur (10px) '
+        y : 0, // le 100 / 2 pas responsive correspond au paddle
+        //form
+        width : 10, // pas responsive
+        height : 0, // pas responsive
+        color : "GREY",
+        score : 0
+    }
+function get_canvas()
 {
-    var AskForGame = Backbone.Model.extend({
-        urlRoot: '/ask_for_games'
-    })
-    var ask_for_game = new AskForGame();
-    ask_for_game.save({ask_for_game:{from_user_id: current, to_user_id: gid, status: 'playing'}});
-
+    canvas = document.getElementById("pong");
+    context = canvas.getContext("2d");
+    canvas.style.cursor = "none";
+    canvas.addEventListener("mousemove", movePaddle);
+    canvas.addEventListener("mouseleave", triggerMouseOut);
+    gamer.x = canvas.width - 10;
+    gamer.y = canvas.height/2 - 100 /2;
+    gamer.height = canvas.height/5;
 }
+var frame = 60;
+var pause_gamer = false;
+var limit_gamer = 0;
+var pause = 0;
+
+function movePaddle(event){ // function to permite to change the direction of the users paddle with the mouse
+        if (pause_gamer != false)
+        {
+            limit_gamer = 0;
+            pause  = 0;
+            pause_gamer = false;
+        }
+        var rect = canvas.getBoundingClientRect();
+        var result = 600 / (rect.bottom - rect.top);
+        gamer.y = (event.clientY - rect.top -  20) * result;
+    }
+
+    function triggerMouseOut(event) {
+        pause = 1;
+    }
+
 //-------------------------------------------------------------------------//
 
 async function add_to_list(id)
@@ -60,6 +100,8 @@ async function  quit_list(id)
 //-------------------------------MAIN--------------------------------------//
 
 
+get_canvas(canvas);
+
 socket_notif.onmessage = function(event) {// this function check every message, for know if the message is for her, it check the guest params, if the guest params correspond to the curent id the guest it for her  
     const response = event.data;
     const msg = JSON.parse(response);
@@ -67,9 +109,9 @@ socket_notif.onmessage = function(event) {// this function check every message, 
             return ;
         if (msg.message.data.id_guest == current && msg.message.data.play) // read the second for understand this
         {
-			// save_asking_battle(msg.message.data.id_host, msg.message.data.ask_id);
+			// save_asking_battle(msg.message.data.id_gamer, msg.message.data.ask_id);
 			playview.render();
-            pongview.setElement("#pong-area").render(); // has the invitation is validate(value play is on true), the host is redirect to the hostview
+            pongview.setElement("#pong-area").render(); // has the invitation is validate(value play is on true), the gamer is redirect to the gamerview
         }      
 };
 

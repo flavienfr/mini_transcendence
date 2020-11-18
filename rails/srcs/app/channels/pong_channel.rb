@@ -1,6 +1,6 @@
 class PongChannel < ApplicationCable::Channel
   def subscribed
-     stream_from "pong_channel_#{params[:pong_id]}"
+    stream_from "pong_channel_#{params[:pong_id]}"
    end
  
    def receive(data)
@@ -26,7 +26,6 @@ class PongChannel < ApplicationCable::Channel
         else
         	winner_id = @state.from_user_id;
         end
-
         puts "-------------- set_end_game ---------------"
 		@game.set_end_game({
 			winner_id: winner_id,

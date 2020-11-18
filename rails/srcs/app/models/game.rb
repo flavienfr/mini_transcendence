@@ -46,10 +46,13 @@ class Game < ApplicationRecord
 			if (war.status != "ending")
 				warp_winner.war_points += wartime_duel_points
 			end
-		elsif (self.context == "ladder_match_making")
+		elsif (self.context == "ranked_match_making")
 			if (war != nil && war.count_all_matchs_for_war && war.status != "ending")
 				warp_winner.war_points += war_duel_points
 			end
+
+			# ICI gestion du scorring ladder style
+
 		else
 			return
 		end

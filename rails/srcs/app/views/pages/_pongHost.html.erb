@@ -389,21 +389,23 @@
 
         function saveScore(game_id, winner_id, winner_score, loser_score)
         {
-            var Game = Backbone.Model.extend({
-                urlRoot: '/games'
-            })
-            var game = new Game({id: game_id});
-            game.fetch({success: function(data) {
-                console.log(data.toJSON());
-				game.set({
-					winner_id: winner_id,
-					winner_score: winner_score,
-					loser_score: loser_score,
-					forfeit: false
-				});
-				game.save();
-                }
-            });
+			data = {
+				winner_id: winner_id,
+				winner_score: winner_score,
+				loser_score: loser_score,
+				is_forfeit: false
+			}
+			Backbone.ajax({
+				url: '/games/' + game_id,
+				data: JSON.stringify(data),
+				contentType: 'application/json',
+				type: 'PUT',
+				dataType: 'json',
+				success: function(response){},
+				error: function(){
+					alert("error when saving score");
+				}
+			});
         }
 
 

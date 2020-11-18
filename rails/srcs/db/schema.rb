@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_17_162701) do
+ActiveRecord::Schema.define(version: 2020_11_17_202712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -260,6 +260,8 @@ ActiveRecord::Schema.define(version: 2020_11_17_162701) do
     t.boolean "enabled_two_factor_auth", default: false
     t.integer "student_id"
     t.boolean "is_owner", default: false
+    t.integer "nb_won_tournaments", default: 0
+    t.integer "ladder_level", default: 0
     t.index ["guild_participation_id"], name: "index_users_on_guild_participation_id"
   end
 

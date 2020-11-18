@@ -30,6 +30,15 @@ gamer = {
         color : "GREY",
         score : 0
     }
+
+function msg_canvas()
+{
+    context.fillStyle = "GREY";
+        context.font = '48px serif';
+        context.beginPath();
+        context.fillText("No match..", canvas.width/2 * 0.7, canvas.height / 2);
+        context.closePath();
+}
 function get_canvas()
 {
     canvas = document.getElementById("pong");
@@ -40,6 +49,7 @@ function get_canvas()
     gamer.x = canvas.width - 10;
     gamer.y = canvas.height/2 - 100 /2;
     gamer.height = canvas.height/5;
+    msg_canvas();
 }
 var frame = 60;
 var pause_gamer = false;

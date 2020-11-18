@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
             @current_user = User.find(cookies.signed[:id])
         elsif params[:type]
             puts "OK                        aaaaaaaaaaa"
-            @current_user = User.find(2);
+            @current_user = User.find(5);
             session = Session.new()
             session.user_id = @current_user.id
             cookies.permanent.signed[:id] = session.user_id

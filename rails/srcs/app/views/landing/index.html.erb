@@ -58,10 +58,7 @@
 				})
 			}));
 		};
-		window.onbeforeunload = function() {
-    	socket.onclose = function () {socket_notif.close();
-    	console.log("socket pongnotchannel close")};
-		};
+
 		<% if current_user.is_admin %>
 			$("#navbar-id").append("<li class='nav-item'><a id='nav_to_admin' class='nav-link'>ADMIN</a></li>");
 		<% end %>
@@ -1404,7 +1401,7 @@ function launch_game(ask_for_game) {
 		})
 	}));
 	playview.render();
-	setTimeout(() => {pongguest.setElement("#pong-area").render();}, 800);
+	pongguest.setElement("#pong-area").render();
 }
 
 //******************************************** ROUTER ********************************************

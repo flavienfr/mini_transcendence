@@ -178,6 +178,7 @@ const msg = JSON.parse(response);
 
         function playing(host_id)
         {
+            fps++;
             //ft_pause(); // uncomment to put the pause rules
             if (timer < 0)
             {
@@ -195,18 +196,29 @@ const msg = JSON.parse(response);
                     endText("You loose ... ");
                 socket.close();
                 clearInterval(stop);
-                setTimeout(() => {playview.render();}, 2000);
+                setTimeout(() => {playview.render();}, 2000); // permet au joueur de voir s'il a gagné ou perdu
             }
-            
+            get_fps();
         }
     var stop = setInterval(playing, 1000/(frame), host_id);
     }
+
+function get_fps()
+{
+    if (Date.now() - start > 1000 )
+    {
+        console.log("fps = " + fps);
+        fps = 0;
+        start = Date.now();
+    }
+}
 
 //-------------------------------MAIN --------------------------------------//
 
 
 var socket = new WebSocket("ws://localhost:3000/cable");
-
+var fps  = 0;
+var start = Date.now();
 window.onbeforeunload = function() {
     clearInterval(stop);
     socket.onclose = function () {socket.close();

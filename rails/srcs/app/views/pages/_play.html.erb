@@ -20,24 +20,29 @@ var current = <%== current_user.id%>;
 
 //--------------------------- set the canvas for the game----------------------------------------------//
 var canvas;
-gamer = {
-        //position
-        x : 0, // pas responsive il s'agit de largeur (10px) '
-        y : 0, // le 100 / 2 pas responsive correspond au paddle
-        //form
-        width : 10, // pas responsive
-        height : 0, // pas responsive
-        color : "GREY",
-        score : 0
-    }
+var frame = 45;
+var pause_gamer = false;
+var limit_gamer = 0;
+var pause = 0;
+var gamer = 
+{
+    //position
+    x : 0, 
+    y : 0, 
+    //form
+    width : 10, 
+    height : 0,
+    color : "GREY",
+    score : 0
+}
 
 function msg_canvas()
 {
     context.fillStyle = "GREY";
-        context.font = '48px serif';
-        context.beginPath();
-        context.fillText("No match..", canvas.width/2 * 0.7, canvas.height / 2);
-        context.closePath();
+    context.font = '48px serif';
+    context.beginPath();
+    context.fillText("No match..", canvas.width/2 * 0.7, canvas.height / 2);
+    context.closePath();
 }
 function get_canvas()
 {
@@ -51,26 +56,22 @@ function get_canvas()
     gamer.height = canvas.height/5;
     msg_canvas();
 }
-var frame = 60;
-var pause_gamer = false;
-var limit_gamer = 0;
-var pause = 0;
 
 function movePaddle(event){ // function to permite to change the direction of the users paddle with the mouse
-        if (pause_gamer != false)
-        {
-            limit_gamer = 0;
-            pause  = 0;
-            pause_gamer = false;
-        }
-        var rect = canvas.getBoundingClientRect();
-        var result = 600 / (rect.bottom - rect.top);
-        gamer.y = (event.clientY - rect.top -  20) * result;
+    if (pause_gamer != false)
+    {
+        limit_gamer = 0;
+        pause  = 0;
+        pause_gamer = false;
     }
+    var rect = canvas.getBoundingClientRect();
+    var result = 600 / (rect.bottom - rect.top);
+    gamer.y = (event.clientY - rect.top -  20) * result;
+}
 
-    function triggerMouseOut(event) {
-        pause = 1;
-    }
+function triggerMouseOut(event) {
+    pause = 1;
+}
 
 //-------------------------------------------------------------------------//
 
@@ -111,7 +112,6 @@ async function  quit_list(id)
 
 
 get_canvas(canvas);
-
 socket_notif.onmessage = function(event) {// this function check every message, for know if the message is for her, it check the guest params, if the guest params correspond to the curent id the guest it for her  
     const response = event.data;
     const msg = JSON.parse(response);
@@ -119,7 +119,6 @@ socket_notif.onmessage = function(event) {// this function check every message, 
             return ;
         if (msg.message.data.id_guest == current && msg.message.data.play) // read the second for understand this
         {
-			// save_asking_battle(msg.message.data.id_gamer, msg.message.data.ask_id);
 			playview.render();
             pongview.setElement("#pong-area").render(); // has the invitation is validate(value play is on true), the gamer is redirect to the gamerview
         }      

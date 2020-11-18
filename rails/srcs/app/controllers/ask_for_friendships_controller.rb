@@ -69,6 +69,6 @@ class AskForFriendshipsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def ask_for_friendship_params
-      params.require(:ask_for_friendship).permit(:from_user_id, :to_user_id, :friendship_id, :status)
+      params.require(:ask_for_friendship).permit(:friendship_id, :status)
     end
 end

@@ -1,37 +1,14 @@
-<%= form_with(model: ask_for_friendship, local: true) do |form| %>
-  <% if ask_for_friendship.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(ask_for_friendship.errors.count, "error") %> prohibited this ask_for_friendship from being saved:</h2>
 
-      <ul>
-        <% ask_for_friendship.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= simple_form_for(@ask_for_friendship) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-  <div class="field">
-    <%= form.label :from_user_id %>
-    <%= form.number_field :from_user_id %>
+  <div class="form-inputs">
+    <%= f.association :friendship %>
+    <%= f.input :status %>
   </div>
 
-  <div class="field">
-    <%= form.label :to_user_id %>
-    <%= form.number_field :to_user_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :friendship_id %>
-    <%= form.text_field :friendship_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :status %>
-    <%= form.text_field :status %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= f.button :submit %>
   </div>
 <% end %>

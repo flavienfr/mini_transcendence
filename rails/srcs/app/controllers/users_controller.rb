@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :profile, :edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
@@ -57,6 +57,20 @@ class UsersController < ApplicationController
     puts 'params: ', params
 
     render json: @user
+  end
+
+  # GET /users/1/profile
+  def profile
+    puts 'inside GET /users/:id/profile'
+    puts 'params: ', params
+
+    render json: {
+      "data": {
+        "user": @user.as_json,
+        "match_history": @user.get_match_history("played").as_json,
+        "friends": @user.get_friendships("active").as_json  
+      }
+    }, status: :ok and return
   end
 
   # GET /users/google_authenticator_qr_code

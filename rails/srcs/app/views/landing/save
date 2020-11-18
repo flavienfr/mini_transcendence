@@ -358,7 +358,7 @@ var PlayView = Backbone.View.extend({
 //_____________________________________ ProfilView _____________________________________
 var ProfilView = Backbone.View.extend({
 	el : '#inside-page',
-	template: _.template($('#profil-template').html()),
+	template: _.template($('#profile-template').html()),
   
 	initialize : function() {
 		console.log("ProfilView created");

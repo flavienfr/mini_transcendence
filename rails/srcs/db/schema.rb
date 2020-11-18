@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_17_233347) do
+ActiveRecord::Schema.define(version: 2020_11_18_205415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,13 +45,15 @@ ActiveRecord::Schema.define(version: 2020_11_17_233347) do
   end
 
   create_table "ask_for_friendships", force: :cascade do |t|
-    t.integer "from_user_id"
-    t.integer "to_user_id"
-    t.bigint "friendship_id", null: false
+    t.bigint "friendship_id"
+    t.bigint "sender_id"
+    t.bigint "recipient_id"
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["friendship_id"], name: "index_ask_for_friendships_on_friendship_id"
+    t.index ["recipient_id"], name: "index_ask_for_friendships_on_recipient_id"
+    t.index ["sender_id"], name: "index_ask_for_friendships_on_sender_id"
   end
 
   create_table "ask_for_games", force: :cascade do |t|
@@ -109,11 +111,13 @@ ActiveRecord::Schema.define(version: 2020_11_17_233347) do
   end
 
   create_table "friendships", force: :cascade do |t|
-    t.integer "user1_id"
-    t.integer "user2_id"
+    t.bigint "sender_id"
+    t.bigint "recipient_id"
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["recipient_id"], name: "index_friendships_on_recipient_id"
+    t.index ["sender_id"], name: "index_friendships_on_sender_id"
   end
 
   create_table "game_participations", force: :cascade do |t|
@@ -123,6 +127,7 @@ ActiveRecord::Schema.define(version: 2020_11_17_233347) do
     t.boolean "is_winner"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status"
     t.index ["game_id"], name: "index_game_participations_on_game_id"
     t.index ["user_id"], name: "index_game_participations_on_user_id"
   end
@@ -317,10 +322,14 @@ ActiveRecord::Schema.define(version: 2020_11_17_233347) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ask_for_friendships", "friendships"
+  add_foreign_key "ask_for_friendships", "users", column: "recipient_id"
+  add_foreign_key "ask_for_friendships", "users", column: "sender_id"
   add_foreign_key "ask_for_wars", "wars"
   add_foreign_key "block_users", "users"
   add_foreign_key "channel_participations", "channels"
   add_foreign_key "channel_participations", "users"
+  add_foreign_key "friendships", "users", column: "recipient_id"
+  add_foreign_key "friendships", "users", column: "sender_id"
   add_foreign_key "game_participations", "games"
   add_foreign_key "game_participations", "users"
   add_foreign_key "games", "channels"

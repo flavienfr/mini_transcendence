@@ -170,12 +170,14 @@ class AskForGamesController < ApplicationController
 		json_render["is_msg"] = 1
 		render json: json_render, status: :ok and return
 
-	elsif (params[:game_type] == "ladder_match_making")
-		puts "------ ladder_match_making ---------"
+	elsif (params[:game_type] == "ranked_match_making" || params[:game_type] == "casual_match_making")
+		puts "------ match_making ---------"
+		# FAIRE DES CHECK ICI !!!!!
+
 		@game = Game.new(
 			start_date: Time.zone.now,
 			end_date: nil,
-			context: nil,
+			context: params[:game_type],
 			winner_id: nil,
 			war_id: nil,
 			war_time_id: nil,
@@ -203,11 +205,10 @@ class AskForGamesController < ApplicationController
 		@ask_for_game = AskForGame.new(
 			from_user_id: user.id,
 			to_user_id: to_user.id,
-			game_type: "friendly_duel",
+			game_type: params[:game_type],
 			status: "playing",
 			game_id: @game.id
 		)
-		# FAIRE DES CHECK ICI !!!!!
 		@ask_for_game.save
 		json_render["ask_for_game"] = @ask_for_game
 		render json: json_render, status: :ok and return
@@ -264,6 +265,7 @@ class AskForGamesController < ApplicationController
 		start_date: Time.zone.now,
 		end_date: nil,
 		context: nil,
+		status: "playing",
 		winner_id: nil,
 		war_id: nil,
 		war_time_id: nil,

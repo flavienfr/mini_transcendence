@@ -1,31 +1,21 @@
 <script type = "text/template" id = "pongHost-template">
 <%= stylesheet_link_tag "style-live-play.css" %>
 
-    <div id = "pong-id" data-pong-id= <%=current_user.id%>> </div>
-    <canvas id="pong" width="800px" height="600px" > </canvas>
 
 <script> 
 
     var pong_id = <%== current_user.id%> // anti jaune >
 
     function playgame(host_id){
-        var frame = 50;
-        var time_pause = 10;
+        var time_pause = 10; // pause before excit game
         var limit_guest = 0;
-        var limit_host = 0;
         var timer = 6; // second before launch the game
-        var pause = 0;
         var speed_ball = 4;
-        var pause_host = false;
         var pause_guest = false;
-        const element = document.getElementById("pong-id");
-        const canvas = document.getElementById("pong");
-        const context = canvas.getContext("2d");
-        const height = canvas.height;
-        const width = canvas.width;
-        canvas.style.cursor = "none";
-        canvas.addEventListener("mousemove", movePaddle);
-        canvas.addEventListener("mouseleave", triggerMouseOut);
+        var own_score = 0;
+        
+       
+        
 
 //-------------------------------part 1 functions draw--------------------------------------//
     // part 1 functions draw
@@ -40,7 +30,7 @@
 
     //draw the line at the middle
     function drawMiddleLine(line){
-        for(let i =  0; i <= canvas.height; i += height/20){  // pas responsive
+        for(let i =  0; i <= canvas.height; i += canvas.height/20){  // pas responsive
             drawRect(line.x, line.y + i, line.width, line.height, line.color);
         }
     }
@@ -63,17 +53,7 @@
     }
 
 //-------------------------------part 2 object guest host padlle and ball--------------------------------------//
-    //host
-    const host = { 
-        //position
-        x : 0, 
-        y : canvas.height/2 - 100 / 2, // le 100 / 2 pas responsive
-        //form 
-        width : 10, // pas responsive
-        height : height/5, // pas responsive
-        color : "GREY",
-        score : 0
-        }
+
     //guest
     const guest = {
         //position
@@ -82,7 +62,7 @@
         
         //form
         width : 10, // pas responsive
-        height : height/5, // pas responsive
+        height : canvas.height/5, // pas responsive
         color : "GREY",
         score : 0
     }
@@ -117,12 +97,18 @@
         // const part
         drawRect(0,0, canvas.width, canvas.height,"BLACK"); // the game place
         drawMiddleLine(line);
-        drawScore(canvas.width/4, canvas.height/5, host.score, "WHITE");
+        drawScore(canvas.width/4, canvas.height/5, own_score, "WHITE");
         drawScore(3 * canvas.width/4, canvas.height/5, guest.score, "WHITE");
         // move part
-        drawRect(host.x, host.y, host.width, host.height, host.color);
+        drawRect(gamer.x, gamer.y, gamer.width, gamer.height, gamer.color);
         drawRect(guest.x, guest.y, guest.width, guest.height, guest.color);
-        drawBall(ball.x, ball.y, ball.radius, ball.color);
+        if (pause < frame * 2 - 4)
+            drawBall(ball.x, ball.y, ball.radius, ball.color);
+        else
+        {
+            drawRect(0,0, canvas.width, canvas.height,"BLACK");
+            endText("    pause");
+        }
     }
 
     function ft_timer(val) // make countdown
@@ -144,22 +130,23 @@
         context.closePath();
     }
 //-------------------------------part 4 pause function --------------------------------------//
-    function triggerMouseOut(event) {
-        pause = 1;
-    }
+    // function triggerMouseOut(event) {
+    //     pause = 1;
+    // }
 
     function ft_pause(){
         if (pause != 0)
             pause++;
         if (pause == frame * 2)
-            pause_host = true;
+            pause_gamer = true;
     }
+
     function limitPause(host_id)
     {
-        if (pause_host == true)
+        if (pause_gamer == true)
         {
-            limit_host++;
-            if (limit_host == frame * time_pause)
+            limit_gamer++;
+            if (limit_gamer == frame * time_pause)
             {
                 guest.score = 11;
                 ft_send_score(host_id);
@@ -170,7 +157,7 @@
             limit_guest++;
             if (limit_guest == frame * time_pause)
             {
-                host.score = 11;
+                own_score = 11;
                 ft_send_score(host_id);
             }
         }
@@ -180,23 +167,10 @@
 //-------------------------------part 5 function paddle --------------------------------------//
 
 
-    function movePaddle(event){ // function to permite to change the direction of the users paddle with the mouse
-        if (pause_host != false)
-        {
-            limit_host = 0;
-            pause  = 0;
-            pause_host = false;
-        }
-        var rect = canvas.getBoundingClientRect();
-        var result = 600 / (rect.bottom - rect.top) ;
-        host.y = (event.clientY - rect.top -  20) * result;
 
-    }
 //-------------------------------part 6  socket send and reveive --------------------------------------//
     function ft_send_timer()
     {
-
-        console.log("timer send = " + timer);
         socket.send(JSON.stringify({
                 command: "message",
                 identifier: JSON.stringify({
@@ -221,7 +195,7 @@
 
                 }),
                 data: JSON.stringify({
-                    data: {hosty: host.y, bally: ball.y, ballx: ball.x}
+                    data: {hosty: gamer.y, bally: ball.y, ballx: ball.x}
                 })
             }));
     }
@@ -236,13 +210,12 @@
                     user_id: <%== current_user.id %>
                 }),
                 data: JSON.stringify({
-                    data: {score_host: host.score, score_guest: guest.score}
+                    data: {score_host: own_score, score_guest: guest.score}
                 })
             }));
     }
 
-    function ft_receive()
-    {
+ 
         socket.onmessage = function(event) {            
         const response = event.data;
         const msg = JSON.parse(response);
@@ -250,7 +223,7 @@
                 return ;
             // selecte only y pos of guest
             if (msg.message.data == "stop")
-                host.score = 11;
+                own_score = 11;
             if (msg.message.data.guesty)
                 guest.y = msg.message.data.guesty;
             if (msg.message.data.pause_guest == false || msg.message.data.pause_guest == true)
@@ -260,7 +233,7 @@
                 pause_guest = msg.message.data.pause_guest;
             }
         };
-    }
+    
 //-------------------------------part 7 physic on ball --------------------------------------//
     function get_collision(ba, paddle)
     {
@@ -281,20 +254,20 @@
 
     function sync(host_id) // sync the ball deplacement
     {
-        if (ball.x + ball.velocityX <= guest.x + guest.width + ball.speed || ball.x + ball.velocityX >= host.x - host.width - ball.speed)
+        if (ball.x + ball.velocityX <= guest.x + guest.width + ball.speed || ball.x + ball.velocityX >= gamer.x - gamer.width - ball.speed)
             ball.x += ball.velocityX;
         else
-            ball.x = (ball.x < canvas.width/2) ? host.x : guest.x;
+            ball.x = (ball.x < canvas.width/2) ? gamer.x : guest.x;
         ball.y += ball.velocityY;
 
         if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height){ // collision to the top and the bottom
             ball.velocityY =  -ball.velocityY;  
         }
-        let player = (ball.x < canvas.width/2) ? host : guest; // determine if the ball is on the right or the left
+        let player = (ball.x < canvas.width/2) ? gamer : guest; // determine if the ball is on the right or the left
 
         if (get_collision(ball, player) == true)
         {
-            let direction = (player == host) ? 1 : -1; // set if the ball should go to the right or left
+            let direction = (player == gamer) ? 1 : -1; // set if the ball should go to the right or left
 
             let col = ball.y - (player.y + player.height/2); // set the colision point
             col = col/(player.height/2); // normalize the colision point 
@@ -304,9 +277,8 @@
             ball.velocityY = direction * ball.speed * Math.sin(angleRad); // calculate the y deplacement + speed 
             ball.velocityX = direction * ball.speed * Math.cos(angleRad); // calculate the x deplacement + speed
 
-            if (ball.speed < 100)
+            if (ball.speed < 40)
                 ball.speed += 1; // increase the speed at each contact with the paddle
-            console.log("speed = " + ball.speed);
         }
         isFinish(host_id);
     }
@@ -319,7 +291,7 @@
     {   
         ball.y =  canvas.height/2, // for be at the center
         ball.x = canvas.width/2,
-        ball.speed = 1, // check if it's to or less speed
+        ball.speed = 1, // check if it's to or less speed'
         ball.velocityX = i * speed_ball,
         ball.velocityY = y * speed_ball,
         ball.color = "RED"
@@ -334,7 +306,8 @@
             restartBall(i, y);
         }
         if (ball.x + ball.radius > canvas.width) // if the ball is to the right
-        {    host.score++;
+        {
+            own_score++;
             let i = -1;
             let y = (getRandomInt(3)%2) ? -1 : 1; 
             restartBall(i, y);
@@ -349,7 +322,7 @@
     {
         ret = setInterval(function() 
         {   
-            if (timer >= 0 && host.score == 0)
+            if (timer >= 0 && own_score == 0)
             {
                 if (timer <= 1)
                     ft_timer("GO !");
@@ -366,39 +339,44 @@
     }
 //-------------------------------part 10 save state in database--------------------------------------//
 
-        function archive_askForGame_table(host_score)
+        function archive_askForGame_table(host_score, guest_score)
         {
             var AskForGame = Backbone.Model.extend({
                 urlRoot: '/ask_for_games'
             })
             var ask_for_game = new AskForGame();
             ask_for_game.fetch({data: {from_user_id: current_user_id, status: "playing"}, success: function(data) {
-                console.log(data.toJSON());   
-                console.log(ask_for_game.toJSON()); 
                 if (ask_for_game.get("status") == "playing")
                     {
-                        if (host_score == 11)
-                            saveScore(ask_for_game.get("game_id"), ask_for_game.get("from_user_id"));
+						if (host_score == 11)
+                            saveScore(ask_for_game.get("game_id"), ask_for_game.get("from_user_id"),host_score, guest_score)
                          else
-                            saveScore(ask_for_game.get("game_id"), ask_for_game.get("to_user_id"));
+                            saveScore(ask_for_game.get("game_id"), ask_for_game.get("to_user_id"), guest_score, host_score);
                         ask_for_game.save({status: "ending"});
                     }
                 }
             });
         }
 
-        function saveScore(game_id, winner_id) // saving in games pas fait encore depend de comment est géré
+        function saveScore(game_id, winner_id, winner_score, loser_score)
         {
-            var Game = Backbone.Model.extend({
-                urlRoot: '/games'
-            })
-            var game = new Game({id: game_id});
-            game.fetch({success: function(data) {
-                console.log(data.toJSON());
-                game.set({winner_id: winner_id});
-                game.save();
-                }
-            });
+			data = {
+				winner_id: winner_id,
+				winner_score: winner_score,
+				loser_score: loser_score,
+				is_forfeit: false
+			}
+			Backbone.ajax({
+				url: '/games/' + game_id,
+				data: JSON.stringify(data),
+				contentType: 'application/json',
+				type: 'PUT',
+				dataType: 'json',
+				success: function(response){},
+				error: function(){
+					alert("error when saving score");
+				}
+			});
         }
 
 
@@ -406,23 +384,23 @@
 
     function playing(host_id)
     {
-        ft_receive();
-        // ft_pause();
-        // limitPause(host_id) // a remettre plus tard quand le site sera fini
-
-        if (timer <= -1 && pause_host == false && pause_guest == false )
+        //ft_pause();
+        limitPause(host_id) // a remettre plus tard quand le site sera fini
+        gamer.x = 0;
+        if (timer <= -1 && pause_gamer == false && pause_guest == false )
         {
             sync(host_id);
             ft_send(host_id);
             show();
         }
-        if (host.score == 11 || guest.score == 11)
+        if (own_score == 11 || guest.score == 11)
         {
-            if (host.score == 11)
+            drawRect(0,0, canvas.width, canvas.height,"BLACK");
+            if (own_score == 11)
                 endText("You win !!!");
             else
                 endText("You loose ...");
-            archive_askForGame_table(host.score)
+            archive_askForGame_table(own_score, guest.score);
             socket.close();
             clearInterval(stop);
             setTimeout(() => {playview.render();}, 2000);
@@ -440,7 +418,9 @@ var socket = new WebSocket("ws://localhost:3000/cable");
 
 window.onbeforeunload = function() {
     clearInterval(stop);
-    socket.onclose = function () {}; // disable onclose handler first
+    socket.onclose = function () {socket.close();
+    canvas.close();
+    console.log("socket pongchannel close")}; // disable onclose handler first
 };
 socket.onopen = function()
 {    

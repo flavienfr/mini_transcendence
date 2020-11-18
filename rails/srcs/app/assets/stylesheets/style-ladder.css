@@ -11,9 +11,10 @@
 
 .ld_header{
 	display: flex;
+	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
-	height: 100px;
+	height: 125px;
 	
 	border-bottom: 6px solid #333333;
 	color: white;

@@ -1525,12 +1525,12 @@ $( "#nav_to_war" ).on( "click", function() {
 	//Backbone.history.loadUrl(); 						//problem: Double call to function render in guild
 });
 
-function closeIt()
+async function closeIt()
 {
 	var data = {
 		current_status: "logged out",	
 	}
-	Backbone.ajax({
+	await Backbone.ajax({
         url: '/users/' + current_user_id,
         data: JSON.stringify(data),
         type: 'put',
@@ -1539,12 +1539,12 @@ function closeIt()
         success: function(response) {
         },
         error: function(){
-          alert("error");
+          alert("error close it");
         }
       });	
 }
 
-window.onbeforeunload = closeIt;
+window.onunload = closeIt;
 
 var router = new Router();
 playview.render();

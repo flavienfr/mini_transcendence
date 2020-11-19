@@ -16,7 +16,7 @@
     </div>
 </div>
 <script>
-var current = <%== current_user.id%>;
+var current = <%== current_user.id%>; //>
 
 //--------------------------- set the canvas for the game----------------------------------------------//
 var canvas;
@@ -77,34 +77,46 @@ function movePaddle(event){ // function to permite to change the direction of th
 async function add_to_list(id)
 {
     console.log("join list");
-    player = new Player({user_id: id});
-    await player.save();
-    await playercollection.fetch();
-    console.log(playercollection);
-    listbtnview.setElement("#btn_match_making").render(); 
+    var selectElmt = document.getElementById("mode_match_making");
+    var valeur = selectElmt.options[selectElmt.selectedIndex].value;
+    var data = {
+        user_id: id,
+        game_type: valeur
+    }
+    await Backbone.ajax({
+        url: "/players.json",
+        data: JSON.stringify(data),
+        type: 'post',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: async function(response) {
+            await playercollection.fetch();
+            listbtnview.setElement("#btn_match_making").render(); 
+        },
+        error: function(){
+            alert("you cannot subscribe while you're playing another game");
+        }
+    }); 
+
 }
 
 async function  quit_list(id)
 {
     console.log("quit list");
     await playercollection.fetch();
-    console.log(playercollection);
     var player = playercollection.findWhere({user_id: id});
-    console.log(player);
     await Backbone.ajax({
 			url: '/players/' + player.id + ".json",
 			data: {},
 			type: 'DELETE',
 			dataType: 'json',
 			success: function(response) {
-				console.log("Inside success");
                 ladderview.render();
 			},
 			error: function(){
 				alert("error");
 			}
 		});
-    console.log(playercollection);
 }
 
 //-------------------------------MAIN--------------------------------------//

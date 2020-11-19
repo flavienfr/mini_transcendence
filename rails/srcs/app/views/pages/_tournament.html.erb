@@ -4,6 +4,7 @@
 <div class="space">
 </div>
 <div class="body-tournament">
+<div id="admin_create_button"></div>
 <div class="title">
     <h1>Tournaments</h1>
 </div>
@@ -12,55 +13,139 @@
         <thead>
             <tr>
                 <th scope="col">Name</th>
-                <th scope="col">Player</th>
+                <th scope="col">Incentive</th>
                 <th scope="col">Time left to register</th>
-                <th scope="col"></th>
+                <th scope="col">Register</th>
             </tr>
         </thead>
     </table>
 </div>
 <div class="container-tableau1">
     <table class="table">
-        <tbody>
-            <tr>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td><p class="bouton"><a href="">register</a></p></td>
-            </tr>
-            <tr>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td><p class="bouton"><a href="">register</a></p></td>
-            </tr>
-            <tr>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                <td><p class="bouton"><a href="">register</a></p></td>
-            </tr>
-            <tr>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                <td><p class="bouton"><a href="">register</a></p></td>
-            </tr>
-            <tr>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                <td></td>
-            </tr>
+        <tbody id="tournaments_show_body">
         </tbody>
     </table>
 </div>
 </div>
 </body>
+<script>
+    var Tournament = Backbone.Model.extend({
+        urlRoot: '/tournaments'
+    });
+    var tournament = new Tournament();
+    tournament.fetch({
+        success: function(data1){
+            data1 = data1.toJSON();
+            console.log("aaaaa");
+            console.log(data1);
+            var tournaments_table_show = $("#tournaments_show_body");
+            var TournamentParticipation = Backbone.Model.extend({
+                urlRoot: '/tournament_participations'
+            });
+            var tournament_participation = new TournamentParticipation();
+            tournament_participation.fetch({
+                data: {user_id: <%== current_user.id %>, type: "all_in"},
+                success: function(data2){
+                    data2 = data2.toJSON();
+                    console.log(data2);
+                    var size = Object.keys(data1).length;
+                    var i = 0;
+                    while (i < size)
+                    {
+                        tournaments_table_show.append("<tr>" +
+                            "<td>" + data1[i].rules + "</td>" +
+                            "<td>" + data1[i].incentive +  "</td>"+
+                            "<td>" + data1[i].deadline + "</td>" +
+                            "<td>" + (data2[data1[i].id] ? "<button onclick='ft_unregister_tournament(" + data2[data1[i].id].id + ")'>unregister</button>" : "<button onclick='ft_register_tournament(" + data1[i].id + ")'>register</button>") + "</td>" +
+                            "</tr>");
+                        i++;
+                    }
+                }
+            });
+        }
+    })
+    <% if(current_user.is_owner || current_user.is_admin) %>
+        var admin_button_div = $("#admin_create_button");
+        admin_button_div.append("<div style='display: flex; flex-direction: column; width: 50vh;'>" +
+            "<div><label>Name</label><input id='tournament_name' type='text' required></div>" +
+            "<div class='time_picker'><label for='start_time'>Start Time</label><input id='start_time' required></div>" +
+            "<div><label for='nb_of_players_selected'>Number of Players</label><select id='nb_of_players_selected'><option>2</option><option>4</option><option>6</option><option>8</option></select></div>" +
+            "<div><button onclick='ft_create_tournament()'>Create Tournament</button></div>" +
+            "</div>");
+            flatpickr("#start_time", {
+                enableTime: true,
+                time_24hr: true,
+                dateFormat: "Y-m-d H:i",
+                minDate: "today"
+            });
+    <% end %>
+    function ft_create_tournament(){
+        var name = $("#tournament_name").val();
+        var start_time = $("#start_time").val();
+        var nb_of_players = $("#nb_of_players_selected").val();
+        var game_type = "single_round";
+        if (name.length == 0)
+        {
+            alert("Name cannot be empty !");
+            return;
+        }
+        if (start_time.length == 0)
+        {
+            alert("Start Time cannot be empty !");
+            return;
+        }
+        console.log(start_time);
+        console.log(nb_of_players);
+        console.log(name);
+        var Tournament = Backbone.Model.extend({
+            urlRoot: '/tournaments'
+        });
+        var tournament = new Tournament();
+        tournament.save(
+        {
+            rules: name,
+            deadline: start_time,
+            max_nb_player: nb_of_players * 1,
+            type: game_type,
+        },
+        {
+            success: function(){
+                console.log("success !!");
+            },
+            error: function(){
+                console.log("error !");
+            }
+        });
+    }
+    function ft_register_tournament(tournament_id)
+    {
+        console.log("register" + tournament_id);
+        var TournamentParticipation = Backbone.Model.extend({
+            urlRoot: '/tournament_participations'
+        });
+        var tournament_participation = new TournamentParticipation({
+            user_id: <%== current_user.id %>,
+            tournament_id: tournament_id
+        });
+        tournament_participation.save({}, {
+            success: function(){
+                console.log("created");
+                tournamentview.render();
+            }
+        });
+    }
+    function ft_unregister_tournament(tournament_participation_id)
+    {
+        console.log("unregister");
+        var TournamentParticipation = Backbone.Model.extend({
+            urlRoot: '/tournament_participations'
+        });
+        var tournament_participation = new TournamentParticipation({id: tournament_participation_id});
+        tournament_participation.destroy({
+            success: function(){
+                tournamentview.render();
+            }
+        });
+    }
+</script>
 </script>

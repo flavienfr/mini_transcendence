@@ -5,6 +5,17 @@ class TournamentParticipationsController < ApplicationController
   # GET /tournament_participations.json
   def index
     @tournament_participations = TournamentParticipation.all
+    if (params[:type] == "all_in")
+      tournamentP = TournamentParticipation.where("user_id = ?", params[:user_id]);
+      to_return_json = {};
+      tournamentP.each do |participation|
+        to_return_json[participation.tournament_id] = participation;
+      end
+      respond_to do |format|
+        format.html
+        format.json {render json: to_return_json}
+      end
+    end
   end
 
   # GET /tournament_participations/1

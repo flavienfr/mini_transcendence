@@ -5,6 +5,10 @@ class TournamentsController < ApplicationController
   # GET /tournaments.json
   def index
     @tournaments = Tournament.all
+    respond_to do |format|
+      format.html
+      format.json {render json: @tournaments}
+    end
   end
 
   # GET /tournaments/1
@@ -69,6 +73,6 @@ class TournamentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tournament_params
-      params.require(:tournament).permit(:rules, :incentives, :status, :deadline)
+      params.require(:tournament).permit(:rules, :incentives, :status, :deadline, :max_nb_player)
     end
 end

@@ -1,10 +1,11 @@
 <script type="text/template" id="guild_users-template">
     <div>
-        <h1><%%= guild.name %></h1>
+        <h1><%%= (guild.id != 0 ? guild.name : "") %></h1>
         <div style="overflow-y: auto; height: auto; max-height: 60vh;" id="guild_participations_div">
         </div>
     </div>
     <script>
+    <%% if(guild.id != 0) { %>
         var Guild = Backbone.Model.extend({
             urlRoot: '/guilds'
         });
@@ -33,34 +34,38 @@
                 }
             }
         });
+    <%% } %>
         function ft_ownerize_guild(guild_participation)
         {
+            console.log(guild_participation);
             var GuildParticipation = Backbone.Model.extend({
                 urlRoot: '/guild_participations'
             });
-            var guild_participation = new GuildParticipation({id: guild_participation.id});
-                    guild_participation.save(
-                    {
-                        type: "new_owner",
-                        user_id: guild_participation.user_id,
-                        guild_id: guild_participation.guild_id
-                    },
-                    {
-                        success: function()
-                        {
-                            guildusersview.render(<%%= guild.id %>, true);
-                        },
-                        error: function(data, xhr)
-                        {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Ooops...',
-                                text: 'Something went wrong!',
-                                footer: xhr.statusText
-                            });
-                            guildusersview.render(<%%= guild.id %>, true);
-                        }
+            var guild_participation = new GuildParticipation({
+                id: guild_participation.id,
+                user_id: guild_participation.user_id,
+                guild_id: guild_participation.guild_id
+            });
+            guild_participation.save(
+            {
+                type: "new_owner"
+            },
+            {
+                success: function()
+                {
+                    guildusersview.render(<%%= guild.id %>, true);
+                },
+                error: function(data, xhr)
+                {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ooops...',
+                        text: 'Something went wrong!',
+                        footer: xhr.statusText
                     });
+                    guildusersview.render(<%%= guild.id %>, true);
+                }
+            });
         }
         function ft_officerize_guild(guild_participation, as_admin)
         {
@@ -68,30 +73,30 @@
                 urlRoot: '/guild_participations'
             });
             var guild_participation = new GuildParticipation({id: guild_participation.id});
-                    guild_participation.set("is_officer", true);
-                    guild_participation.save({},
-                    {
-                        success: function()
-                        {
-                            if (as_admin)
-                                guildusersview.render(<%%= guild.id %>, true);
-                            else
-                                guildusersview.render(<%%= guild.id %>, false);
-                        },
-                        error: function(data, xhr)
-                        {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Ooops...',
-                                text: 'Something went wrong!',
-                                footer: xhr.statusText
-                            });
-                            if (as_admin)
-                                guildusersview.render(<%%= guild.id %>, true);
-                            else
-                                guildusersview.render(<%%= guild.id %>, false);
-                        }
+            guild_participation.set("is_officer", true);
+            guild_participation.save({},
+            {
+                success: function()
+                {
+                    if (as_admin)
+                        guildusersview.render(<%%= guild.id %>, true);
+                    else
+                        guildusersview.render(<%%= guild.id %>, false);
+                },
+                error: function(data, xhr)
+                {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ooops...',
+                        text: 'Something went wrong!',
+                        footer: xhr.statusText
                     });
+                    if (as_admin)
+                        guildusersview.render(<%%= guild.id %>, true);
+                    else
+                        guildusersview.render(<%%= guild.id %>, false);
+                }
+            });
         }
         function ft_unofficerize_guild(guild_participation, as_admin)
         {
@@ -99,33 +104,35 @@
                 urlRoot: '/guild_participations'
             });
             var guild_participation = new GuildParticipation({id: guild_participation.id});
-                    guild_participation.set("is_officer", false);
-                    guild_participation.save({},
-                    {
-                        success: function()
-                        {
-                            if (as_admin)
-                                guildusersview.render(<%%= guild.id %>, true);
-                            else
-                                guildusersview.render(<%%= guild.id %>, false);
-                        },
-                        error: function(data, xhr)
-                        {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Ooops...',
-                                text: 'Something went wrong!',
-                                footer: xhr.statusText
-                            });
-                            if (as_admin)
-                                guildusersview.render(<%%= guild.id %>, true);
-                            else
-                                guildusersview.render(<%%= guild.id %>, false);
-                        }
+            guild_participation.set("is_officer", false);
+            guild_participation.save({},
+            {
+                success: function()
+                {
+                    if (as_admin)
+                        guildusersview.render(<%%= guild.id %>, true);
+                    else
+                        guildusersview.render(<%%= guild.id %>, false);
+                },
+                error: function(data, xhr)
+                {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ooops...',
+                        text: 'Something went wrong!',
+                        footer: xhr.statusText
                     });
+                    if (as_admin)
+                        guildusersview.render(<%%= guild.id %>, true);
+                    else
+                        guildusersview.render(<%%= guild.id %>, false);
+                }
+            });
         }
         function ft_kick_guild(guild_participation, as_admin)
         {
+            console.log(guild_participation);
+            console.log(as_admin);
             var GuildParticipation = Backbone.Model.extend({
                 urlRoot: '/guild_participations'
             });

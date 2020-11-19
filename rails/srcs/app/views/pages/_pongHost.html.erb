@@ -96,7 +96,7 @@
         //deplacement
         velocityX : speed_ball,
         velocityY : speed_ball,
-        speed : 5 // a voir si pas assez rapide ou trop
+        speed : speed_ball // a voir si pas assez rapide ou trop
 
     }
     //line
@@ -390,7 +390,36 @@
 				}
 			});
         }
-
+        // faire une save du gagnant et une save du perdant
+        // function winnerTournament(tournamentId, winner_id, winner_score)
+        // {
+        //     var TournamentParticipation = Backbone.model.extend({
+        //         urlRoot: "/TournamentParticipations"
+        //     });
+        //     var participation = new TournamentParticipation();
+        //     participation.fetch({data: {user_id: host_id, tournament_id:, tournamentId}, success: function(){
+        //         var win = participation.get("nb_won_game");
+        //         win++;
+        //         participation.save({participation:{nb_won_game: win, score: winner_score, status: 'end'}});
+        //     })
+        // }
+        // function looserTournament(tournamentId, looser_id, looser_score)
+        // {
+        //     var TournamentParticipation = Backbone.model.extend({
+        //         urlRoot: "/TournamentParticipations"
+        //     });
+        //     var participation = new TournamentParticipation();
+        //     participation.fetch({data: {user_id: guest_id, tournament_id: tournamentId}, success: function(){
+        //         var lose = participation.get("nb_lose_game");
+        //         lose++;
+        //         participation.save({participation:{nb_lose_game: lose, score: looser_score, status: 'end'}});
+        //     })
+        // }
+        // function SaveTournament(tournamentId, winner_id, looser_id, winner_score, looser_score)
+        // {
+        //     winnerTournament(tournamentId, winner_id, winner_score);
+            
+        // }
 
 //-------------------------------part 11 Tournament--------------------------------------//
 
@@ -403,20 +432,20 @@
                 own_score = 11;
                 ft_send_score(host_id);
                 setTimeout(() => {
-                    socket.close();
                     clearInterval(stop);
+                    socket.close();
                     playview.render();
                 }, 2000);
             }
             else if (own_score < guest.score)
             {
                 endText("You loose ...");
-                archive_askForGame_table(host_score, guest_score);
+                archive_askForGame_table(own_score, guest.score);
                 guest.score = 11;
                 ft_send_score(host_id);
                 setTimeout(() => {
-                    socket.close();
                     clearInterval(stop);
+                    socket.close();
                     playview.render();
                 }, 2000);
             }
@@ -426,11 +455,10 @@
 
     function playing(host_id)
     {
-        fps++;
         if (timer <= -1)
             ft_pause();
         limitPause(host_id) // a remettre plus tard quand le site sera fini
-        if (timer <= -1 && pause_gamer == false && pause_guest == false && document.hidden == false )
+        if (timer <= -1 && pause_gamer == false && pause_guest == false)
         {
             sync(host_id);
             ft_send(host_id);
@@ -444,13 +472,16 @@
             else
                 endText("You loose ...");
             archive_askForGame_table(own_score, guest.score);
-            socket.close();
             clearInterval(stop);
+            socket.close();
             setTimeout(() => {playview.render();}, 2000);
         }
-        if (dbzTimer != 0 && Date.now() - dbzTimer  >= 180000) // 3 minutes
+        if (tournament != 0 && Date.now() - tournament  >= 10000) // 3 minutes
             endTournament(host_id);
-        get_fps();      
+        if (document.hidden == true)
+            guest.score = 11;  
+        get_fps();  
+        fps++;  
     }
     countdown();
     var stop = setInterval(playing, 1000/(frame * 0.8), host_id); 
@@ -467,6 +498,13 @@ function get_fps()
 }
 
 //-------------------------------MAIN--------------------------------------//
+window.onbeforeunload = function() {
+    clearInterval(stop);
+    socket.onclose = function () {
+    socket.close();
+    canvas.close();
+    console.log("socket pongchannel close")}; // disable onclose handler first
+};
 
 var socket = new WebSocket("ws://localhost:3000/cable");
 var fps  = 0;
@@ -474,12 +512,7 @@ var medium_fps = 0;
 gamer.x  = 0;
 var time_pause = Date.now();
 var start = Date.now();
-window.onbeforeunload = function() {
-    clearInterval(stop);
-    socket.onclose = function () {socket.close();
-    canvas.close();
-    console.log("socket pongchannel close")}; // disable onclose handler first
-};
+
 socket.onopen = function()
 {    
     socket.send(JSON.stringify({

@@ -213,7 +213,6 @@
         sock = new WebSocket("ws://localhost:3000/cable");
         sock.onopen = function()
         {   
-            console.log("ici");      
             console.log(sock);
             var Watch = Backbone.Model.extend({
                 urlRoot: '/watches'

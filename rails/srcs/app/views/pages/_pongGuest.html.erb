@@ -213,11 +213,13 @@ const msg = JSON.parse(response);
                     endText("You win !!!");
                 else
                     endText("You loose ... ");
-                socket.close();
                 clearInterval(stop);
+                socket.close();
                 setTimeout(() => {playview.render();}, 2000); // permet au joueur de voir s'il a gagné ou perdu
             }
             get_fps();
+            if (document.hidden == true)
+                host.score = 11;
         }
     var stop = setInterval(playing, 1000/(frame), host_id);
     }
@@ -233,18 +235,20 @@ const msg = JSON.parse(response);
     }
 
 //-------------------------------MAIN --------------------------------------//
-
-
-var socket = new WebSocket("ws://localhost:3000/cable");
-var fps  = 0;
-var start = Date.now();
-var time_pause = Date.now();
 window.onbeforeunload = function() {
     clearInterval(stop);
     socket.onclose = function () {socket.close();
     canvas.close();
     console.log("socket pongchannel close")}; // disable onclose handler first
 };
+
+
+
+var socket = new WebSocket("ws://localhost:3000/cable");
+var fps  = 0;
+var start = Date.now();
+var time_pause = Date.now();
+
 socket.onopen = function()
 {         
     var AskForGame = Backbone.Model.extend({

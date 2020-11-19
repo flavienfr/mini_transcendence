@@ -10,7 +10,7 @@
         var time_pause = 10; // pause before excit game
         var limit_guest = 0;
         var timer = 6; // second before launch the game
-        var speed_ball = 4;
+        var speed_ball = 10;
         var pause_guest = false;
         var own_score = 0;
         
@@ -271,25 +271,43 @@
             ball.x = (ball.x < canvas.width/2) ? gamer.x : guest.x;
         ball.y += ball.velocityY;
 
-        if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height){ // collision to the top and the bottom
-            ball.velocityY =  -ball.velocityY;  
+        if (ball.y - ball.radius < 0)
+        { // collision to the top and the bottom
+            ball.velocityY =  -(ball.velocityY); 
+            ball.y += ball.radius; 
+        }
+        if (ball.y + ball.radius > canvas.height)
+        { // collision to the top and the bottom
+            ball.velocityY =  -(ball.velocityY);
+            ball.y -= ball.radius;  
         }
         let player = (ball.x < canvas.width/2) ? gamer : guest; // determine if the ball is on the right or the left
 
         if (get_collision(ball, player) == true)
         {
+            let angle = 0;
+            if (ball.y < (player.y + player.height /2))
+            {
+                angle = -1 * Math.PI / 4;
+            }
+            else if (ball.y > (player.y + player.height / 2))
+            {
+                angle = Math.PI / 4;
+            }
+
             let direction = (player == gamer) ? 1 : -1; // set if the ball should go to the right or left
-
-            let col = ball.y - (player.y + player.height/2); // set the colision point
-            col = col/(player.height/2); // normalize the colision point 
-            
-            let angleRad = col * Math.PI/4; // determine the angle to return 
-
-            ball.velocityY = direction * ball.speed * Math.sin(angleRad); // calculate the y deplacement + speed 
-            ball.velocityX = direction * ball.speed * Math.cos(angleRad); // calculate the x deplacement + speed
-
-            if (ball.speed < 40)
-                ball.speed += 1; // increase the speed at each contact with the paddle
+            var lastX = -ball.velocityX;
+            var lastY = -ball.velocityY
+            ball.velocityY = ball.speed * Math.sin(angle); // calculate the y deplacement + speed 
+            ball.velocityX = direction * ball.speed * Math.cos(angle); // calculate the x deplacement + speed
+            if (ball.velocityX > 0 && lastX > ball.velocityX)
+                ball.velocityX = lastX;
+            if (ball.velocityX < 0 && lastX < ball.velocityX)
+                ball.velocityX = lastX;
+            console.log("velocity  = " + ball.velocityY);
+            console.log("velocityX = " + ball.velocityX);
+            if (ball.speed < 50)
+                ball.speed += 1.5; // increase the speed at each contact with the paddle
         }
         isFinish(host_id);
     }
@@ -455,8 +473,8 @@
 
     function playing(host_id)
     {
-        if (timer <= -1)
-            ft_pause();
+        // if (timer <= -1)
+        //     ft_pause();
         limitPause(host_id) // a remettre plus tard quand le site sera fini
         if (timer <= -1 && pause_gamer == false && pause_guest == false)
         {

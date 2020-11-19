@@ -194,8 +194,8 @@ const msg = JSON.parse(response);
         function playing(host_id)
         {
             fps++;
-            if (timer < 0)
-                ft_pause(); // uncomment to put the pause rules
+            // if (timer < 0)
+            //     ft_pause(); // uncomment to put the pause rules
             if (timer < 0 && document.hidden == false)
             {
                 ft_send(host_id);

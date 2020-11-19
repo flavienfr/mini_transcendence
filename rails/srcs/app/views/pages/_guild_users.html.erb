@@ -1,9 +1,20 @@
 <script type="text/template" id="guild_users-template">
-    <div>
-        <h1><%%= guild.name %></h1>
-        <div style="overflow-y: auto; height: auto; max-height: 60vh;" id="guild_participations_div">
-        </div>
-    </div>
+	<%= stylesheet_link_tag "style_guild_history.css" %>
+
+	<div class="player_list">
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Player</th>
+					<th scope="col"></th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody id="guild_participations_div">
+			</tbody>
+		</table>
+	</div>
+
     <script>
         var Guild = Backbone.Model.extend({
             urlRoot: '/guilds'
@@ -23,12 +34,12 @@
                 var i = 0;
                 while (i < size)
                 {
-                    guild_participation_div.append("<div>" + users_in_order[guild_participations[i].user_id] +
+                    guild_participation_div.append('<tr> <td>' + users_in_order[guild_participations[i].user_id] + '</td>' +
                                                     (<%%= as_admin %> && !guild_participations[i].is_admin ? "<button onclick='ft_ownerize_guild(" + JSON.stringify(guild_participations[i]) + ")'>Ownerize</button>" : "") +
-                                                    ((<%%= as_admin %> || (user_participation && user_participation.is_admin)) && !guild_participations[i].is_admin && !guild_participations[i].is_officer ? "<button onclick='ft_officerize_guild(" + JSON.stringify(guild_participations[i]) + ", <%%= as_admin %>)'>Officerize</button>" : "") +
-                                                    ((<%%= as_admin %> || (user_participation && user_participation.is_admin)) && !guild_participations[i].is_admin && guild_participations[i].is_officer ? "<button onclick='ft_unofficerize_guild(" + JSON.stringify(guild_participations[i]) + ", <%%= as_admin %>)'>Unofficerize</button>" : "") +
-                                                    ((<%%= as_admin %> || (user_participation && (user_participation.is_admin || user_participation.is_officer) && !guild_participations[i].is_admin && <%== current_user.id %> != guild_participations[i].user_id)) ? "<button onclick='ft_kick_guild(" + JSON.stringify(guild_participations[i]) + ", <%%= as_admin %>)'>Kick</button>" : "") +
-                                                    "</div>");
+                                                    ((<%%= as_admin %> || (user_participation && user_participation.is_admin)) && !guild_participations[i].is_admin && !guild_participations[i].is_officer ? "<td> <button onclick='ft_officerize_guild(" + JSON.stringify(guild_participations[i]) + ", <%%= as_admin %>)'>Officerize</button></td>" : "") +
+                                                    ((<%%= as_admin %> || (user_participation && user_participation.is_admin)) && !guild_participations[i].is_admin && guild_participations[i].is_officer ? "<td><button onclick='ft_unofficerize_guild(" + JSON.stringify(guild_participations[i]) + ", <%%= as_admin %>)'>Unofficerize</button></td>" : "") +
+                                                    ((<%%= as_admin %> || (user_participation && (user_participation.is_admin || user_participation.is_officer) && !guild_participations[i].is_admin && <%== current_user.id %> != guild_participations[i].user_id)) ? "<td><button onclick='ft_kick_guild(" + JSON.stringify(guild_participations[i]) + ", <%%= as_admin %>)'>Kick</button></td>" : "") +
+                                                    "</tr>");//'
                     i++;
                 }
             }

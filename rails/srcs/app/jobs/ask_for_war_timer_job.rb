@@ -30,6 +30,4 @@ end
 
 # wait: x.time for now
   # AskForWarTimerJob.set(wait: 2.seconds).perform_later(1)
-  # AskForWarTimerJob.set(wait: 2.hours).perform_later(1)
-
-# wait_until: Date.tomorrow.noon
+  # AskForWarTimerJob.set(wait_until: Date.tomorrow.noon).perform_later(1)

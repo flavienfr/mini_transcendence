@@ -94,7 +94,7 @@ class AskForGamesController < ApplicationController
 			json_render["is_msg"] = 1
 			render json: json_render, status: :ok and return
 		
-		else
+		else#elsif (params[:game_type] == "duel")
 			puts "------ friendly_duel --------"
 
 			@ask_for_game = AskForGame.new(
@@ -164,7 +164,7 @@ class AskForGamesController < ApplicationController
 		end
 
 		# Life time war declaration
-		AskForWarTimerJob.set(wait: 5.minutes).perform_later(@ask_for_game.id, war_a.id, warp_a.id, warp_b.id)
+		AskForWarTimerJob.set(wait: 30.seconds).perform_later(@ask_for_game.id, war_a.id, warp_a.id, warp_b.id)
 
 		json_render["msg"] = "Random duel sent to all players of " + guild_b.name + ".\nFor a duration of 5 minutes."
 		json_render["is_msg"] = 1
@@ -260,6 +260,16 @@ class AskForGamesController < ApplicationController
 		json_render["delete_notif"] = false
 		render json: json_render, status: :unprocessable_entity and return
 	end
+	# War match check
+	if (@ask_for_game.game_type == "war_duel" || @ask_for_game.game_type == "war_random_match")
+		if (the_war.status == "ending")
+			json_render["msg"] = "The war is over"
+			json_render["is_msg"] = true
+			json_render["delete_notif"] = true
+			render json: json_render, status: :unprocessable_entity and return
+		end
+	end
+	#----------------------------------------------------
 
 	@game = Game.new(
 		start_date: Time.zone.now,

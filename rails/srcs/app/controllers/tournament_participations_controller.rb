@@ -103,7 +103,7 @@ class TournamentParticipationsController < ApplicationController
         format.json { render json: @tournament_participation.errors, status: :unprocessable_entity }
       end
     end
-    if (params[:type] == "update_tournament")
+    if (params[:type] == "update_tournament_win")
       tournament = TournamentParticipation.find(params[:id]).tournament;
       puts tournament.to_json;
       if (tournament.max_nb_player == 1)

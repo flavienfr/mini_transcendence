@@ -369,23 +369,38 @@
     }
 //-------------------------------part 10 save state in database--------------------------------------//
 
-        function archive_askForGame_table(host_score, guest_score)
+        function archive_askForGame_table(host_score, guest_score, is_tournament)
         {
             var AskForGame = Backbone.Model.extend({
                 urlRoot: '/ask_for_games'
             })
             var ask_for_game = new AskForGame();
-            ask_for_game.fetch({data: {from_user_id: current_user_id, status: "playing"}, success: function(data) {
+            ask_for_game.fetch({data: {from_user_id: current_user_id, status: "playing"}, success: function(data) 
+            {
                 if (ask_for_game.get("status") == "playing")
+                {
+                    if (host_score > guest_score)
+                        saveScore(ask_for_game.get("game_id"), ask_for_game.get("from_user_id"),host_score, guest_score)
+                        else
+                        saveScore(ask_for_game.get("game_id"), ask_for_game.get("to_user_id"), guest_score, host_score);
+                    
+                    var Games = Backbone.Model.extend({
+                        urlRoot: 'games'
+                    })
+                    if (is_tournament == true)
                     {
-						if (host_score > guest_score)
-                            saveScore(ask_for_game.get("game_id"), ask_for_game.get("from_user_id"),host_score, guest_score)
-                         else
-                            saveScore(ask_for_game.get("game_id"), ask_for_game.get("to_user_id"), guest_score, host_score);
-                        ask_for_game.save({status: "ending"});
+                        var game = new Games();
+                        game.fetch({data: {id: ask_for_game.get("game_id")}, success: function(data)
+                        {
+                            if (host_score > guest_score)
+                                SaveTournament(game.get("tournament_id"), ask_for_game.get("from_user_id"), ask_for_game.get("to_user_id"), host_score, guest_score)
+                            else 
+                                SaveTournament(game.get("tournament_id"), ask_for_game.get("to_user_id"), ask_for_game.get("from_user_id"), guest_score, host_score)
+                        }}) 
                     }
+                    ask_for_game.save({status: "ending"});
                 }
-            });
+            }});
         }
 
         function saveScore(game_id, winner_id, winner_score, loser_score)
@@ -408,36 +423,37 @@
 				}
 			});
         }
-        // faire une save du gagnant et une save du perdant
-        // function winnerTournament(tournamentId, winner_id, winner_score)
-        // {
-        //     var TournamentParticipation = Backbone.model.extend({
-        //         urlRoot: "/TournamentParticipations"
-        //     });
-        //     var participation = new TournamentParticipation();
-        //     participation.fetch({data: {user_id: host_id, tournament_id:, tournamentId}, success: function(){
-        //         var win = participation.get("nb_won_game");
-        //         win++;
-        //         participation.save({participation:{nb_won_game: win, score: winner_score, status: 'end'}});
-        //     })
-        // }
-        // function looserTournament(tournamentId, looser_id, looser_score)
-        // {
-        //     var TournamentParticipation = Backbone.model.extend({
-        //         urlRoot: "/TournamentParticipations"
-        //     });
-        //     var participation = new TournamentParticipation();
-        //     participation.fetch({data: {user_id: guest_id, tournament_id: tournamentId}, success: function(){
-        //         var lose = participation.get("nb_lose_game");
-        //         lose++;
-        //         participation.save({participation:{nb_lose_game: lose, score: looser_score, status: 'end'}});
-        //     })
-        // }
-        // function SaveTournament(tournamentId, winner_id, looser_id, winner_score, looser_score)
-        // {
-        //     winnerTournament(tournamentId, winner_id, winner_score);
-            
-        // }
+        //faire une save du gagnant et une save du perdant
+        function winnerTournament(tournamentId, winner_id, winner_score)
+        {
+            var TournamentParticipation = Backbone.model.extend({
+                urlRoot: "/TournamentParticipations"
+            });
+            var participation = new TournamentParticipation();
+            participation.fetch({data: {user_id: winner_id, tournament_id: tournamentId}, success: function()
+            {
+                var win = participation.get("nb_won_game");
+                win++;
+                participation.save({participation:{nb_won_game: win, score: winner_score, status: 'end'}});
+            }})
+        }
+        function looserTournament(tournamentId, looser_id, looser_score)
+        {
+            var TournamentParticipation = Backbone.model.extend({
+                urlRoot: "/TournamentParticipations"
+            });
+            var participation = new TournamentParticipation();
+            participation.fetch({data: {user_id: looser_id, tournament_id: tournamentId}, success: function(){
+                var lose = participation.get("nb_lose_game");
+                lose++;
+                participation.save({participation:{nb_lose_game: lose, score: looser_score, status: 'end'}});
+            }})
+        }
+        function SaveTournament(tournamentId, winner_id, looser_id, winner_score, looser_score)
+        {
+            winnerTournament(tournamentId, winner_id, winner_score);
+            looserTournament(tournamentId, looser_id, looser_score);
+        }
 
 //-------------------------------part 11 Tournament--------------------------------------//
 
@@ -446,7 +462,8 @@
         if (own_score > guest.score)
             {
                 endText("You win !!!");
-                archive_askForGame_table(own_score, guest.score);
+                archive_askForGame_table(own_score, guest.score, true);
+                timer = 0;
                 own_score = 11;
                 ft_send_score(host_id);
                 setTimeout(() => {
@@ -458,7 +475,8 @@
             else if (own_score < guest.score)
             {
                 endText("You loose ...");
-                archive_askForGame_table(own_score, guest.score);
+                archive_askForGame_table(own_score, guest.score, true);
+                timer = 0;
                 guest.score = 11;
                 ft_send_score(host_id);
                 setTimeout(() => {
@@ -482,14 +500,14 @@
             ft_send(host_id);
             show();
         }
-        if (own_score == 11 || guest.score == 11)
+        if (tournament == 0 && (own_score == 11 || guest.score == 11))
         {
             drawRect(0,0, canvas.width, canvas.height,"BLACK");
             if (own_score == 11)
                 endText("You win !!!");
             else
                 endText("You loose ...");
-            archive_askForGame_table(own_score, guest.score);
+            archive_askForGame_table(own_score, guest.score, false);
             clearInterval(stop);
             socket.close();
             setTimeout(() => {playview.render();}, 2000);

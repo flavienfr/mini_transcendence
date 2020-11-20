@@ -12,6 +12,20 @@
 		document.dispatchEvent(new CustomEvent("logged", {
 			detail: {id: <%= current_user.id %>} //>#color patch
 		}));
+		document.addEventListener("start_game", function(){
+			console.log("start");
+			console.log(event.detail.info);
+			if (event.detail.info == "host_user")
+			{
+				playview.render(true);
+				pongview.setElement("#pong-area").render();
+			}
+			else
+			{
+				playview.render(true);
+				pongguest.setElement("#pong-area").render();
+			}
+		});
 		document.addEventListener("notif", function(event){
 			if (event.detail.data.sender)
 			{
@@ -58,8 +72,11 @@
 				})
 			}));
 		};
-
-		<% if current_user.is_admin %>
+		window.onbeforeunload = function() {
+    	socket.onclose = function () {socket_notif.close();
+    	console.log("socket pongnotchannel close")};
+		};
+		<% if(current_user.is_owner || current_user.is_admin) %>
 			$("#navbar-id").append("<li class='nav-item'><a id='nav_to_admin' class='nav-link'>ADMIN</a></li>");
 		<% end %>
 
@@ -710,6 +727,9 @@ var GuildUsersView = Backbone.View.extend({
 		guild.fetch({
 			success: function(data){
 				l.html(t({guild: data.toJSON(), as_admin: as_admin}));
+			},
+			error: function(data){
+				l.html(t({guild: {id: 0}, as_admin: as_admin}));
 			}
 		});
 	}

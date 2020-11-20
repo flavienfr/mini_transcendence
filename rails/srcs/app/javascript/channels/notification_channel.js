@@ -18,6 +18,13 @@ consumer.subscriptions.create({channel: "NotificationChannel", room_id: event.de
       detail: {data: data}
     }));
   }
+  if (data.game)
+  {
+    console.log("---------->>>>>>>>>>");
+    document.dispatchEvent(new CustomEvent("start_game", {
+      detail: {info: data.content}
+    }));
+  }
   if (data.notification) {
     document.dispatchEvent(new CustomEvent("notif2", {}));
   }

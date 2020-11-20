@@ -5,7 +5,18 @@ class TournamentParticipationsController < ApplicationController
   # GET /tournament_participations.json
   def index
     @tournament_participations = TournamentParticipation.all
-    if (params[:type] == "all_in")
+    puts "----------------------------------"
+    puts params
+    puts "///////////////////////////////////"
+    if (params[:type] == "user_participation")
+      puts "here"
+      @participation = TournamentParticipation.where("user_id = ? AND tournament_id = ?", params[:user_id], params[:tournament_id]).first
+      puts @participation
+      respond_to do |format|
+        format.html
+        format.json {render json: @participation}
+      end
+    elsif (params[:type] == "all_in")
       tournamentP = TournamentParticipation.where("user_id = ?", params[:user_id]);
       puts tournamentP.to_json;
       user_tournament_participations = {};
@@ -43,6 +54,7 @@ class TournamentParticipationsController < ApplicationController
   # POST /tournament_participations
   # POST /tournament_participations.json
   def create
+    puts "????????????????????"
     puts params;
     # @tournament_participation = TournamentParticipation.new(tournament_participation_params)
     tournament = Tournament.find_by(id: params[:tournament_id]);
@@ -81,6 +93,7 @@ class TournamentParticipationsController < ApplicationController
   # PATCH/PUT /tournament_participations/1
   # PATCH/PUT /tournament_participations/1.json
   def update
+    puts params
     respond_to do |format|
       if @tournament_participation.update(tournament_participation_params)
         format.html { redirect_to @tournament_participation, notice: 'Tournament participation was successfully updated.' }

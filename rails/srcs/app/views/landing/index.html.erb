@@ -12,6 +12,24 @@
 		document.dispatchEvent(new CustomEvent("logged", {
 			detail: {id: <%= current_user.id %>} //>#color patch
 		}));
+		document.addEventListener("start_game", function(){
+			console.log("start");
+			console.log(event.detail.info);
+			if (event.detail.info == "host_user")
+			{
+				setTimeout(() => {
+					playview.render(true);
+					pongview.setElement("#pong-area").render();
+				}, 5000);
+			}
+			else
+			{
+				setTimeout(() => {
+					playview.render(true);
+					pongguest.setElement("#pong-area").render();
+				}, 5000);
+			}
+		});
 		document.addEventListener("notif", function(event){
 			if (event.detail.data.sender)
 			{
@@ -62,7 +80,7 @@
     	socket.onclose = function () {socket_notif.close();
     	console.log("socket pongnotchannel close")};
 		};
-		<% if current_user.is_admin %>
+		<% if(current_user.is_owner || current_user.is_admin) %>
 			$("#navbar-id").append("<li class='nav-item'><a id='nav_to_admin' class='nav-link'>ADMIN</a></li>");
 		<% end %>
 
@@ -713,6 +731,9 @@ var GuildUsersView = Backbone.View.extend({
 		guild.fetch({
 			success: function(data){
 				l.html(t({guild: data.toJSON(), as_admin: as_admin}));
+			},
+			error: function(data){
+				l.html(t({guild: {id: 0}, as_admin: as_admin}));
 			}
 		});
 	}
@@ -905,7 +926,8 @@ var PlayView = Backbone.View.extend({
 		console.log("PlayView created");
 	},
 
-	render : function() {
+	render : function(is_tournament) {
+		tournament = is_tournament == true ? Date.now() : 0;
 		this.$el.html(this.template);
 		chatview.setElement("#chat_area").render_chat_main(); // https://solvemprobler.com/blog/2013/04/07/backbone-tips-rendering-views-and-their-childviews/
 		console.log("Render Play");
@@ -1447,6 +1469,7 @@ function ft_accept_notif(notif) {
 function launch_game(ask_for_game) {
 	console.log("from_user_id: ", ask_for_game.from_user_id," to_user_id: ", ask_for_game.to_user_id, "id", ask_for_game.id);
 
+
 	socket_notif.send(JSON.stringify({
 		command: "message",
 		identifier: JSON.stringify({
@@ -1463,7 +1486,7 @@ function launch_game(ask_for_game) {
 		})
 	}));
 	playview.render();
-	setTimeout(() => {pongguest.setElement("#pong-area").render();}, 800);
+	pongguest.setElement("#pong-area").render();
 }
 
 //******************************************** ROUTER ********************************************

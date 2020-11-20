@@ -48,6 +48,24 @@
             context.closePath();
             context.fill();
         }
+
+        function endText(txt) // said who win and loose
+        {
+            context.fillStyle = "GREY";
+            context.font = '48px serif';
+            context.beginPath();
+            context.fillText(txt, canvas.width/2 * 0.7, canvas.height / 2);
+            context.closePath();
+        }
+
+        function fpsText(txt)
+        {
+            context.fillStyle = "GREY";
+            context.font = '38px serif';
+            context.beginPath();
+            context.fillText(txt, canvas.width * 0.85, canvas.height * 0.05);
+            context.closePath();
+        }
 //-------------------------------part 2 object gamer host padlle and ball--------------------------------------//
         //host
         const host = { 
@@ -89,6 +107,7 @@
             drawMiddleLine(line);
             drawScore(canvas.width/4, canvas.height/5, host.score, "WHITE");
             drawScore(3 * canvas.width/4, canvas.height/5, own_score, "WHITE");
+            fpsText(medium_fps + " FPS")
             // move part
             drawRect(host.x, host.y, host.width, host.height, host.color);
             drawRect(gamer.x, gamer.y, gamer.width, gamer.height, gamer.color);
@@ -112,21 +131,17 @@
             context.closePath();
         }
 
-        function endText(txt) // said who win and loose
-        {
-            context.fillStyle = "GREY";
-            context.font = '48px serif';
-            context.beginPath();
-            context.fillText(txt, canvas.width/2 * 0.7, canvas.height / 2);
-            context.closePath();
-        }
 
 //-------------------------------part 4 pause function --------------------------------------//
 
-        function ft_pause() {
-            if (pause != 0)
+        function ft_pause() 
+        {
+            if (pause == 1)
+            {
                 pause++;
-            if (pause == frame * 2)
+                time_pause = Date.now();
+            }
+            if (pause > 1 && Date.now() - time_pause > 2000)
                 pause_gamer = true;  
         }
 
@@ -178,14 +193,19 @@ const msg = JSON.parse(response);
 
         function playing(host_id)
         {
-            //ft_pause(); // uncomment to put the pause rules
-            if (timer < 0)
+            fps++;
+            // if (timer < 0)
+            //     ft_pause(); // uncomment to put the pause rules
+            if (timer < 0 && document.hidden == false)
             {
                 ft_send(host_id);
                 show();
             }
             else
+            {
                 ft_timer((timer == 0) ? "GO !" : timer);
+                pause = 0;
+            }
             if (host.score == 11 || own_score == 11)
             {
                 drawRect(0,0, canvas.width, canvas.height,"BLACK");
@@ -193,26 +213,42 @@ const msg = JSON.parse(response);
                     endText("You win !!!");
                 else
                     endText("You loose ... ");
-                socket.close();
                 clearInterval(stop);
-                setTimeout(() => {playview.render();}, 2000);
+                socket.close();
+                setTimeout(() => {playview.render();}, 2000); // permet au joueur de voir s'il a gagné ou perdu
             }
-            
+            get_fps();
+            if (document.hidden == true)
+                host.score = 11;
         }
     var stop = setInterval(playing, 1000/(frame), host_id);
     }
 
+    function get_fps()
+    {
+        if (Date.now() - start > 1000)
+        {
+            medium_fps = fps;
+            fps = 0;
+            start = Date.now();
+        }
+    }
+
 //-------------------------------MAIN --------------------------------------//
-
-
-var socket = new WebSocket("ws://localhost:3000/cable");
-
 window.onbeforeunload = function() {
     clearInterval(stop);
     socket.onclose = function () {socket.close();
     canvas.close();
     console.log("socket pongchannel close")}; // disable onclose handler first
 };
+
+
+
+var socket = new WebSocket("ws://localhost:3000/cable");
+var fps  = 0;
+var start = Date.now();
+var time_pause = Date.now();
+
 socket.onopen = function()
 {         
     var AskForGame = Backbone.Model.extend({

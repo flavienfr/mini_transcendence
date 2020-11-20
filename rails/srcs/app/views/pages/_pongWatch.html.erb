@@ -184,7 +184,7 @@
                     endText("player disco..")
                     sock.close();
                     clearInterval(stop);
-                    setTimeout(() => {liveview.render();}, 700);
+                    setTimeout(() => {liveview.render();}, 2000);
                 }
                 if (host.score == 11 || guest.score == 11)
                 {
@@ -193,7 +193,7 @@
                     else
                         endText("Host loose ... ");
                     sock.close();
-                    setTimeout(() => {liveview.render();}, 700);
+                    setTimeout(() => {liveview.render();}, 2000);
                     clearInterval(stop);
                 }
                 
@@ -213,7 +213,6 @@
         sock = new WebSocket("ws://localhost:3000/cable");
         sock.onopen = function()
         {   
-            console.log("ici");      
             console.log(sock);
             var Watch = Backbone.Model.extend({
                 urlRoot: '/watches'

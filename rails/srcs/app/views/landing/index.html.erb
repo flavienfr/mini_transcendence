@@ -204,6 +204,12 @@ var Ask_for_war = Backbone.Model.extend({
 	urlRoot: "/ask_for_wars.json",
 });
 
+var Ask_for_wars = Backbone.Collection.extend({
+	model: Ask_for_war,
+	url: "/ask_for_wars.json",
+});
+
+
 var WarParticipation = Backbone.Model.extend({
 	urlRoot: "/war_participations.json",
 });
@@ -627,10 +633,10 @@ var GuildView = Backbone.View.extend({
 
 			this.render_history(guild_p.guild_id, true);
 		}
-		else{
+		else{	
 			await this.collection.fetch();
 			this.$el.html(this.template({
-				guilds: this.collection.toJSON()
+				guilds: this.collection.toJSON(),
 			}));
 		}
 		return this;
@@ -1058,7 +1064,36 @@ var WarView = Backbone.View.extend({
 		"change #guild_drop_down": "render_guild_info",
 		"submit #create_war": "add",
 		"click #war_radom_match": "radom_match",
-		"click .war_duel_btn": "duel_match"
+		"click .war_duel_btn": "duel_match",
+		"click #quit_request": "quit_request"
+	},
+	quit_request: function(){
+		console.log("quit_request");
+		self = this;
+		Backbone.ajax({
+			url: 'ask_for_wars/is_in_request/?current_user_id=' + current_user_id,
+			data: {},
+			type: 'GET',
+			success: function(response){
+				console.log("succes", response);
+				Backbone.ajax({
+					url: '/ask_for_wars/' + response.ask_for_war_id,
+					data: {},
+					type: 'DELETE',
+					dataType: 'json',
+					success: function(response) {
+						console.log("delete ok");
+						self.render();
+					},
+					error: function(){
+						self.render();
+					}
+				});
+			},
+			error: function(){
+				alert("error2");
+			}
+		});
 	},
 	duel_match: function(event){
 		console.log("war duel", event.currentTarget.id);
@@ -1113,7 +1148,11 @@ var WarView = Backbone.View.extend({
 	},
 	add: async function(evt) {
 		evt.preventDefault();
-		console.log("IN add war");
+
+		if (guildcollection.length == 0){
+			alert("The is no guild to declare war.");
+			return;
+		}
 
 		var guild_name = $("#guild_drop_down option:selected").text();
 		var the_guild = this.collection.findWhere({name: guild_name});
@@ -1148,14 +1187,23 @@ var WarView = Backbone.View.extend({
 			wt_end_date: war_range_time[1]
 		});
 
+		self = this;
 		ask_for_war.save(ask_for_war, {
 			success: function(response) {
 				if (response.toJSON().is_msg){
 					alert(response.toJSON().msg);
+					self.render();
 				}
 			},
 			error: function(model, response) {
-				alert("War declaration fail.");
+				if (response.status){
+					if (response.responseJSON.is_msg){
+						alert(response.responseJSON.msg);
+					}
+				}
+				else{
+					alert("War declaration fail. (error= "+response.status+")");
+				}
 			},
 			wait: true
 		});
@@ -1216,9 +1264,9 @@ var WarView = Backbone.View.extend({
 				data: {},
 				type: 'get',
 				dataType: 'json',
-				success: function(response) {
-					console.log("Inside success");
+				success: async function(response) {
 					if (response.is_war){
+						console.log("is war");
 						self.$el.html(self.template_war_info({
 							info: response,
 							guilds: self.collection
@@ -1226,15 +1274,25 @@ var WarView = Backbone.View.extend({
 						console.log("response: ", response);
 					}
 					else{
-						self.$el.html(self.template({
-							guilds: self.collection.toJSON()
-						}));
-						self.render_guild_info();
+						Backbone.ajax({
+							url: 'ask_for_wars/is_in_request/?current_user_id=' + current_user_id,
+							data: {},
+							type: 'GET',
+							success: function(response){
+								console.log("succes", response);
+
+								self.$el.html(self.template({
+									guilds: self.collection.toJSON(),
+									is_in_request: response.is_in_request
+								}));
+								self.render_guild_info();
+							},
+							error: function(){
+								alert("error");
+							}
+						});
 					}					
 				},
-				error: function(){
-					alert("error");
-				}
 			});
 		}
 		return this;
@@ -1295,7 +1353,7 @@ async function ft_refuse_notif(notif) {
 				delete_notif(notif);
 			},
 			error: function(){
-				alert("error");
+				delete_notif(notif);
 			}
 		});
 	}
@@ -1309,7 +1367,7 @@ async function ft_refuse_notif(notif) {
 				delete_notif(notif);
 			},
 			error: function(){
-				alert("error");
+				delete_notif(notif);
 			}
 		});
 	}
@@ -1345,7 +1403,8 @@ function ft_accept_notif(notif) {
 				}
 			},
 			error: function(){
-				alert("error");
+				alert("Request expired");
+				delete_notif(notif);
 			}
 		});
 	}
@@ -1524,12 +1583,12 @@ $( "#nav_to_war" ).on( "click", function() {
 	//Backbone.history.loadUrl(); 						//problem: Double call to function render in guild
 });
 
-function closeIt()
+async function closeIt()
 {
 	var data = {
 		current_status: "logged out",	
 	}
-	Backbone.ajax({
+	await Backbone.ajax({
         url: '/users/' + current_user_id,
         data: JSON.stringify(data),
         type: 'put',
@@ -1538,12 +1597,12 @@ function closeIt()
         success: function(response) {
         },
         error: function(){
-          alert("error");
+          alert("error: closeIt");
         }
       });	
 }
 
-window.onbeforeunload = closeIt;
+window.onunload = closeIt;
 
 var router = new Router();
 playview.render();

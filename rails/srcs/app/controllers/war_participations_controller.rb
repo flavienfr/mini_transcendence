@@ -7,6 +7,7 @@ class WarParticipationsController < ApplicationController
 	json_render = {}
 	user = User.find(params[:user_id].to_i)
 
+	
 	if (user.guild_participation_id == nil || user.guild_participations.first.guild.war_participation_id == nil)
 		json_render["is_war"] = false
 		render json: json_render, status: :ok and return
@@ -18,49 +19,6 @@ class WarParticipationsController < ApplicationController
 	the_war = guild_a.wars.where('wars.status=?', "ongoing").first
 	warp_b = WarParticipation.all.where('war_id=? AND guild_id!=?',the_war.id, guild_a.id).first
 	guild_b = Guild.find(warp_b.guild_id)
-
-	#is war ending => end of war
-	puts "Time.zone.now > the_war.end_date", Time.zone.now, the_war.end_date
-	if (Time.zone.now > the_war.end_date)
-		puts "warp_a.war_points > warp_b.war_points", warp_a.war_points, warp_b.war_points
-		if (warp_a.war_points > warp_b.war_points)
-			warp_a.is_winner = true
-			warp_b.is_winner = false
-			the_war.winner_id = guild_a.id
-			guild_a.points += the_war.prize_in_points
-			guild_b.points -= the_war.prize_in_points
-		elsif (warp_a.war_points < warp_b.war_points)
-			warp_a.is_winner = false
-			warp_b.is_winner = true
-			the_war.winner_id = guild_b.id
-			guild_b.points += the_war.prize_in_points
-			guild_a.points -= the_war.prize_in_points
-		else
-			warp_a.is_winner = nil
-			warp_b.is_winner = nil
-			the_war.winner_id = nil
-		end
-		#guild_a
-		guild_a.war_participation_id = nil
-		guild_a.is_making_war = false
-		warp_a.status = "ending"
-		guild_a.save
-		warp_a.save
-		
-		#guild_b
-		guild_b.war_participation_id = nil
-		guild_b.is_making_war = false
-		warp_b.status = "ending"
-		guild_b.save
-		warp_b.save
-
-		the_war.status = "ending"
-		the_war.save
-		
-		#TO DO: envoyer une notif de fin de guerre
-		json_render["is_war"] = false
-		render json: json_render, status: :ok and return
-	end
 
 	#Ongoing war render war info
 	json_render["is_war"] = true

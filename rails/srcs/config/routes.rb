@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 	
 	resources :notifications
 
+	get 'ask_for_wars/is_in_request' => 'ask_for_wars#is_in_request'
 	resources :ask_for_wars
 	resources :wars
 

@@ -68,7 +68,7 @@ class GuildsController < ApplicationController
 	@guild = Guild.new(
 		name: params[:name],
 		anagram: params[:anagram],
-		points: 0,
+		points: 100,
 		is_making_war: false,
 		owner_id: params[:owner_id],
 		war_participation_id: nil

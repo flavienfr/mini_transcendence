@@ -35,8 +35,6 @@ rails g scaffold block_user user_id:references block_user_id:integer status:stri
 # rails generate migration add_is_owner_to_user is_owner:boolean
 # rails g migration ChangeProductPopularity
 
-rails generate migration add_ranks_to_guild_participations is_veteran:boolean is_initiate:boolean
-
 # rails generate migration add_fieldname_to_tablename fieldname:string
 
 # rails g migration add_count_all_matchs_for_war_to_war count_all_matchs_for_war:boolean

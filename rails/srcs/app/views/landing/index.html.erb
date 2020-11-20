@@ -12,6 +12,20 @@
 		document.dispatchEvent(new CustomEvent("logged", {
 			detail: {id: <%= current_user.id %>} //>#color patch
 		}));
+		document.addEventListener("start_game", function(){
+			console.log("start");
+			console.log(event.detail.info);
+			if (event.detail.info == "host_user")
+			{
+				playview.render(true);
+				pongview.setElement("#pong-area").render();
+			}
+			else
+			{
+				playview.render(true);
+				pongguest.setElement("#pong-area").render();
+			}
+		});
 		document.addEventListener("notif", function(event){
 			if (event.detail.data.sender)
 			{

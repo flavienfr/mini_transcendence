@@ -15,6 +15,8 @@
                 <th scope="col">Name</th>
                 <th scope="col">Incentive</th>
                 <th scope="col">Time left to register</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">Number of Players</th>
                 <th scope="col">Register</th>
             </tr>
         </thead>
@@ -36,8 +38,6 @@
     tournament.fetch({
         success: function(data1){
             data1 = data1.toJSON();
-            console.log("aaaaa");
-            console.log(data1);
             var tournaments_table_show = $("#tournaments_show_body");
             var TournamentParticipation = Backbone.Model.extend({
                 urlRoot: '/tournament_participations'
@@ -47,15 +47,23 @@
                 data: {user_id: <%== current_user.id %>, type: "all_in"},
                 success: function(data2){
                     data2 = data2.toJSON();
+                    var all_tournament_nb_player = data2["tournament_nb_player_ordered"];
+                    console.log(all_tournament_nb_player);
+                    data2 = data2["user_tournament_participations"];
                     console.log(data2);
                     var size = Object.keys(data1).length;
                     var i = 0;
+                    tournaments_table_show.empty();
                     while (i < size)
                     {
+                        var start_time = new Date(data1[i].deadline);
+                        var limit_to_register_time = new Date(start_time - 15 * 60000);
                         tournaments_table_show.append("<tr>" +
                             "<td>" + data1[i].rules + "</td>" +
                             "<td>" + data1[i].incentive +  "</td>"+
-                            "<td>" + data1[i].deadline + "</td>" +
+                            "<td>" + limit_to_register_time + "</div>" +
+                            "<td>" + start_time + "</td>" +
+                            "<td>" + all_tournament_nb_player[data1[i].id] + "/" + data1[i].max_nb_player + "</td>" +
                             "<td>" + (data2[data1[i].id] ? "<button onclick='ft_unregister_tournament(" + data2[data1[i].id].id + ")'>unregister</button>" : "<button onclick='ft_register_tournament(" + data1[i].id + ")'>register</button>") + "</td>" +
                             "</tr>");
                         i++;
@@ -94,9 +102,6 @@
             alert("Start Time cannot be empty !");
             return;
         }
-        console.log(start_time);
-        console.log(nb_of_players);
-        console.log(name);
         var Tournament = Backbone.Model.extend({
             urlRoot: '/tournaments'
         });
@@ -110,16 +115,12 @@
         },
         {
             success: function(){
-                console.log("success !!");
-            },
-            error: function(){
-                console.log("error !");
+                tournamentview.render();
             }
         });
     }
     function ft_register_tournament(tournament_id)
     {
-        console.log("register" + tournament_id);
         var TournamentParticipation = Backbone.Model.extend({
             urlRoot: '/tournament_participations'
         });
@@ -129,20 +130,38 @@
         });
         tournament_participation.save({}, {
             success: function(){
-                console.log("created");
+                tournamentview.render();
+            },
+            error: function(data, xhr){
+                console.log(xhr);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: xhr.responseJSON["error_text"],
+                    footer: xhr.statusText
+                });
                 tournamentview.render();
             }
         });
     }
     function ft_unregister_tournament(tournament_participation_id)
     {
-        console.log("unregister");
         var TournamentParticipation = Backbone.Model.extend({
             urlRoot: '/tournament_participations'
         });
         var tournament_participation = new TournamentParticipation({id: tournament_participation_id});
         tournament_participation.destroy({
             success: function(){
+                tournamentview.render();
+            },
+            error: function(data, xhr){
+                console.log("error");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ooops...',
+                    text: xhr.responseJSON["error_text"],
+                    footer: xhr.statusText
+                });
                 tournamentview.render();
             }
         });

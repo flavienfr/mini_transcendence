@@ -28,10 +28,14 @@ class TournamentsController < ApplicationController
   # POST /tournaments
   # POST /tournaments.json
   def create
+    #puts params[:deadline].to_datetime - 15.minute;
     @tournament = Tournament.new(tournament_params)
+
+    #StartTournamentJob.set(wait: 1.minute).perform_later("hey");
 
     respond_to do |format|
       if @tournament.save
+        StartTournamentJob.set(wait_until: @tournament.deadline).perform_later(@tournament);
         format.html { redirect_to @tournament, notice: 'Tournament was successfully created.' }
         format.json { render :show, status: :created, location: @tournament }
       else

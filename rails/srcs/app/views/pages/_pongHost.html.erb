@@ -436,7 +436,7 @@
                 var win = participation.get("nb_won_game");
                 win++;
                 participation.set({nb_won_game: win});
-                participation.save();
+                participation.save({type: "update_tournament"});
             }})
         }
         function looserTournament(tournamentId, looser_id, looser_score)
@@ -449,7 +449,7 @@
                 var lose = participation.get("nb_lose_game");
                 lose++;
                 participation.set({nb_lose_game: lose})
-                participation.save();
+                participation.save({type: "update_tournament"});
             }})
         }
         function SaveTournament(tournamentId, winner_id, looser_id, winner_score, looser_score)

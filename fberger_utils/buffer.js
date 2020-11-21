@@ -110,3 +110,52 @@ $.ajax({
         })
     }
 })
+
+
+
+
+
+
+
+
+
+
+$.ajax({
+	url: 'users/' + current_user_id + '/profile?target_user_id=6', // >
+	data: false,
+	cache: false,
+	contentType: false,
+	processData: false,
+	type: 'GET',
+	success: function(res) {
+		console.log("ok res: ", res);
+		console.log("res.data: ", res.data);
+		self.$el.html(self.template({
+				current_user: res.data["current_user"],
+				target_user: res.data["target_user"],
+				guild: res.data["guild"],
+				match_history: res.data["match_history"],
+				friends: res.data["friends"]
+			})
+		);
+		return self;
+	},
+	error: function (err) {
+		console.log("ko err:", err);
+		Swal.fire({
+			icon: 'error',
+			title: 'Oops...',
+			text: 'Something went wrong!',
+			footer: "---"
+		})
+		self.$el.html(self.template({
+				current_user: "",
+				target_user: "",
+				guild: "",
+				match_history: "",
+				friends: ""
+			})
+		);
+		return self;		
+	}
+})

@@ -921,15 +921,76 @@ var ProfileView = Backbone.View.extend({
 	},
     
 	events: {
+		"click #add_to_friend": "add_friend",
+		"click #ask_a_duel": "ask_duel",
+		"click .target_profile": "load_target_profile",
+		// click sur un user: re render avec le bon target id
 	},
 
+	add_friend : async function() {
+		friendshipcollection.url = "/friendships/?id=" + current_user_id; 
+		await friendshipcollection.fetch();
+		if (friendshipcollection.findWhere({id: user_cible}))
+		{
+			alert("You are already friend !");
+		}
+		else
+		{
+			console.log("Add friend");
+			var current_id = current_user_id;
+			user = this.collection.findWhere({id: parseInt(current_id)});
+			user = user.toJSON();
+			message = user.name + " send you a friend request";
+			type = "add_friend";
+			notif = new Notification({
+				from_user_id: current_id,
+				user_id: user_cible,
+				table_type: type,
+				message: message
+			});
+			await notif.save();
+		}
+	},
+
+	ask_duel : async function() {
+		console.log("Ask a duel");
+
+		var data = {
+			from_user_id: current_user_id,
+			to_user_id: user_cible,
+            game_type: "duel",
+        }
+		self = this
+		Backbone.ajax({
+			url: '/ask_for_games/',
+			data: JSON.stringify(data),
+			type: 'post',
+			dataType: 'json',
+			contentType: 'application/json',
+			success: function(response) {
+				if (response.is_msg){
+					Swal.fire("", response.msg, "info");
+				}
+			},
+			error: function(){
+				alert("error");
+			}
+		});
+	},
+
+	target_profile : async function() {
+		console.log("load target profile");
+	},
+
+	get_profile_data : async function() {
+		// todo tomorrow
+	},
+	
 	render : async function() {
 		console.log("Render Profile");
-		// var formData = new FormData();
-		// formData.append('target_user_id', 6)
 		var self = this;
 		$.ajax({
-			url: 'users/6/profile?target_user_id=6', // >
+			url: 'users/' + current_user_id + '/profile?target_user_id=6', // >
 			data: false,
 			cache: false,
         	contentType: false,

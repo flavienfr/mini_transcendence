@@ -69,12 +69,12 @@ class AskForGamesController < ApplicationController
 		if (user.id == to_user.id)
 			json_render["msg"] = "You can't duel your self."
 			json_render["is_msg"] = 1
-			render json: json_render, status: :ok and return
+			render json: json_render, status: :unprocessable_entity and return
 		end
 		if (AskForGame.where('status=? AND to_user_id=?', "pending", to_user.id).size > 0)
 			json_render["msg"] = "An invitation to duel is already in progress with this player."
 			json_render["is_msg"] = 1
-			render json: json_render, status: :ok and return
+			render json: json_render, status: :unprocessable_entity and return
 		end
 		if (war_a != nil && war_a.id == war_b.id && war_a.start_date.to_s < Time.zone.now.to_s && war_a.end_date.to_s > Time.zone.now.to_s)
 			puts "------ war_duel --------"
@@ -93,7 +93,6 @@ class AskForGamesController < ApplicationController
 			json_render["msg"] = "War duel sent to " + to_user.name + "."
 			json_render["is_msg"] = 1
 			render json: json_render, status: :ok and return
-		
 		else#elsif (params[:game_type] == "duel")
 			puts "------ friendly_duel --------"
 
@@ -119,7 +118,7 @@ class AskForGamesController < ApplicationController
 		if (!(wartime != nil && wartime.start_date.to_s < Time.zone.now.to_s && wartime.end_date.to_s > Time.zone.now.to_s))
 			json_render["msg"] = "There is no war time currently.\nYou can ask for random fight only during war time."
 			json_render["is_msg"] = 1
-			render json: json_render, status: :ok and return
+			render json: json_render, status: :unprocessable_entity and return
 		end
 
 		#AskForGame.where('status=? AND to_user_id is ?', "pending", nil)
@@ -134,17 +133,17 @@ class AskForGamesController < ApplicationController
 		if (nb_unanswered_call >= war_a.max_unanswered_call)
 			json_render["msg"] = "You can't anymore request a randome match, the opposing guild has reached its unanswered match limit."
 			json_render["is_msg"] = 1
-			render json: json_render, status: :ok and return
+			render json: json_render, status: :unprocessable_entity and return
 		end
 		if (wartime.ongoing_match == true) #mettre true dans update et false dans update game (fin de match)
 			json_render["msg"] = "A war time match is ongoing.\nYou can have only one war time match at the time."
 			json_render["is_msg"] = 1
-			render json: json_render, status: :ok and return
+			render json: json_render, status: :unprocessable_entity and return
 		end
 		if (AskForGame.where('status=? AND to_user_id is ?', "pending", nil).size > 0)
 			json_render["msg"] = "An invitation to random match is already in progress with this guild."
 			json_render["is_msg"] = 1
-			render json: json_render, status: :ok and return
+			render json: json_render, status: :unprocessable_entity and return
 		end
 		#--------------------------------------------------
 
@@ -164,7 +163,7 @@ class AskForGamesController < ApplicationController
 		end
 
 		# Life time war declaration
-		AskForWarTimerJob.set(wait: 30.seconds).perform_later(@ask_for_game.id, war_a.id, warp_a.id, warp_b.id)
+		AskForWarTimerJob.set(wait: 5.minutes).perform_later(@ask_for_game.id, war_a.id, warp_a.id, warp_b.id)
 
 		json_render["msg"] = "Random duel sent to all players of " + guild_b.name + ".\nFor a duration of 5 minutes."
 		json_render["is_msg"] = 1
@@ -241,7 +240,9 @@ class AskForGamesController < ApplicationController
 	if (@ask_for_game.game_type == "war_random_match" || @ask_for_game.game_type == "war_duel")
 		guild_a = from_user.guild_participations.first.guild
 		the_war = guild_a.wars.where('wars.status=?', "ongoing").first
-		wartime = WarTime.all.where('war_id=?', the_war.id).first
+		if (the_war != nil)
+			wartime = WarTime.all.where('war_id=?', the_war.id).first
+		end
 	end
 	#---------------------------------------------
 
@@ -261,7 +262,7 @@ class AskForGamesController < ApplicationController
 		render json: json_render, status: :unprocessable_entity and return
 	end
 	# War match check
-	if (@ask_for_game.game_type == "war_duel" || @ask_for_game.game_type == "war_random_match")
+	if (the_war != nil && (@ask_for_game.game_type == "war_duel" || @ask_for_game.game_type == "war_random_match"))
 		if (the_war.status == "ending")
 			json_render["msg"] = "The war is over"
 			json_render["is_msg"] = true
@@ -289,7 +290,7 @@ class AskForGamesController < ApplicationController
 		@game.context = "friendly_duel"
 	elsif (@ask_for_game.game_type == "war_random_match")
 		#do some check
-		if (@ask_for_game.status != "pending")
+		if (the_war == nil || @ask_for_game.status != "pending")
 			json_render["msg"] = "Match request expired."
 			json_render["is_msg"] = true
 			json_render["delete_notif"] = true
@@ -301,6 +302,18 @@ class AskForGamesController < ApplicationController
 		@game.war_time_id = wartime.id
 	elsif (@ask_for_game.game_type == "war_duel")
 		#do some check
+		if (the_war == nil)
+			json_render["msg"] = "Match request expired."
+			json_render["is_msg"] = true
+			json_render["delete_notif"] = true
+			render json: json_render, status: :unprocessable_entity and return
+		end
+		if (the_war == nil || the_war.start_date.to_s > Time.zone.now.to_s || the_war.end_date.to_s < Time.zone.now.to_s)
+			json_render["msg"] = "Your are not in war anymore."
+			json_render["is_msg"] = true
+			json_render["delete_notif"] = true
+			render json: json_render, status: :unprocessable_entity and return
+		end
 
 		@game.context = "war_duel"
 		@game.war_id = the_war.id

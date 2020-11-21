@@ -77,15 +77,11 @@ class GuildParticipationsController < ApplicationController
 	guild_size = guild.users.size 
 	is_admin = @guild_participation.is_admin
 
-	if (guild.is_making_war) #war_participation_id ?
-		return
+	if (guild.is_making_war)#test with admin to quit somewone in war
+		json_render["msg"] = "You can't leave your guild is in war."
+		json_render["is_msg"] = 1
+		render json: json_render, status: :ok and return
 	end
-	# TODO: Renvoyer message si guild.is_making_war
-	#if (guild.is_making_war)
-	#	json_render["msg"] = "You can't leave your guild in a war."
-	#	json_render["is_msg"] = 1
-	#	render json: json_render, status: :ok and return
-	#end
 
 	user.guild_participation_id = nil
 	user.save

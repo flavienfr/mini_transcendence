@@ -12,10 +12,10 @@
 		document.dispatchEvent(new CustomEvent("logged", {
 			detail: {id: <%= current_user.id %>} //>#color patch
 		}));
-		document.addEventListener("start_game", function(){
+		document.addEventListener("start_game", function(event){
 			console.log("start");
-			console.log(event.detail.info);
-			if (event.detail.info == "host_user")
+			console.log(event.detail);
+			if (event.detail.data.content == "host_user")
 			{
 				setTimeout(() => {
 					playview.render(true);
@@ -24,10 +24,11 @@
 			}
 			else
 			{
-				setTimeout(() => {
-					playview.render(true);
-					pongguest.setElement("#pong-area").render();
-				}, 5000);
+				var host_id = event.detail.data.host_id
+					setTimeout(() => {
+				playview.render(true);
+				pongguest.setElement("#pong-area").render(host_id);
+				}, 5000, host_id);
 			}
 		});
 		document.addEventListener("notif", function(event){
@@ -756,8 +757,8 @@ var pongview = new PongView();
 var PongGuest = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($("#pongGuest-template").html()),
-	render : function() {
-		this.$el.html(this.template);
+	render : function(host_id) {
+		this.$el.html(this.template({host_id: host_id}));
 		return this;
 	}
 });
@@ -1486,7 +1487,7 @@ function launch_game(ask_for_game) {
 		})
 	}));
 	playview.render();
-	pongguest.setElement("#pong-area").render();
+	pongguest.setElement("#pong-area").render(ask_for_game.from_user_id);
 }
 
 //******************************************** ROUTER ********************************************

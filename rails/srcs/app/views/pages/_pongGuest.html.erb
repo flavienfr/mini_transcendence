@@ -251,22 +251,22 @@ var time_pause = Date.now();
 
 socket.onopen = function()
 {         
-    var AskForGame = Backbone.Model.extend({
-        urlRoot: '/ask_for_games'
-    })
-    var ask_for_game = new AskForGame();
-    ask_for_game.fetch({data: {to_user_id: current_user_id, status: "playing"}, success: function() {
-        var host_id = ask_for_game.get('from_user_id');
+    // var AskForGame = Backbone.Model.extend({
+    //     urlRoot: '/ask_for_games'
+    // })
+    // var ask_for_game = new AskForGame();
+    // ask_for_game.fetch({data: {to_user_id: current_user_id, status: "playing"}, success: function() {
+        // var host_id = ask_for_game.get('from_user_id');
         socket.send(JSON.stringify({
             command: "subscribe",
             identifier: JSON.stringify({
                 channel: "PongChannel",
-                pong_id: host_id,
+                pong_id: <%%= host_id %>,
                 user_id: <%== current_user.id %>
             })
         }));
-        play(host_id);
-    }});
+        play(<%%= host_id %>);
+    // }});
 }
 
 

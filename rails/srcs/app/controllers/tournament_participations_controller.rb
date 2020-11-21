@@ -121,11 +121,13 @@ class TournamentParticipationsController < ApplicationController
           game = Game.create(tournament_id:  tournament.id);
           gameP1 = GameParticipation.create(user_id: participations[j].user_id, game_id: game.id);
           gameP2 = GameParticipation.create(user_id: participations[j + 1].user_id, game_id: game.id);
-          AskForGame.create(from_user_id: participations[j].user_id, to_user_id: participations[j + 1].user_id, status: "playing", game_type: "Tournament", game_id: game.id);
-          ActionCable.server.broadcast("notification_channel_" + participations[j].user_id.to_s, {game: "on", content: "host_user"});
-          ActionCable.server.broadcast("notification_channel_" + participations[j + 1].user_id.to_s, {game: "on", content: "guest_user"});
-          j = j + 2;  
-          i = i + 1;
+          ask = AskForGame.new(from_user_id: participations[j].user_id, to_user_id: participations[j + 1].user_id, status: "playing", game_type: "Tournament", game_id: game.id);
+          if (ask.save)
+            ActionCable.server.broadcast("notification_channel_" + participations[j].user_id.to_s, {game: "on", content: "host_user"});
+            ActionCable.server.broadcast("notification_channel_" + participations[j + 1].user_id.to_s, {game: "on", content: "guest_user"});
+            j = j + 2;  
+            i = i + 1;
+          end
         end
         tournament.update(max_nb_player: tournament.max_nb_player / 2);
         tournament.update(step: tournament.step + 1);

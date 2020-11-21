@@ -24,11 +24,13 @@
 						</tr>
 					</thead>
 					<tbody>
+					<%%	for (let i = 0; i < ladder.length; i++) { %>
 						<tr>
-							<th scope="row">1</th>
-							<td>tom jedusor</td>
-							<td>1266</td>
+							<th scope="row"><%%= i + 1 %></th>
+							<td><%%= ladder[i].name %></td>
+							<td><%%= ladder[i].points %></td>
 						</tr>
+					<%% } %>
 					</tbody>
 				</table>
 			</div>

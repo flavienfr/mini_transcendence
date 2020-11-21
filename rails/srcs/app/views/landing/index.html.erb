@@ -785,7 +785,7 @@ var LiveView = Backbone.View.extend({
 
 //_____________________________________ OptionView _____________________________________
 var OptionView = Backbone.View.extend({
-	el : '#inside-page',
+	el : '#option_wiew',
 	template: _.template($('#option-template').html()),
   
 	initialize : function() {
@@ -794,6 +794,23 @@ var OptionView = Backbone.View.extend({
   
 	events: {
 		"submit #edit_profile_form": "update",
+		"click #logout ": "logout",
+	},
+
+	logout: function() {
+		console.log("LOG OUT") 
+		var session_id = <%== current_user.sessions.last.id %>; // anti jaune >
+		$.ajax({
+			url: "/sessions/" + session_id,
+			data: false,
+			processData: false,
+			contentType: false,
+			type: 'DELETE',
+			success: function(){
+				console.log("DELETE sent !");
+				window.location.href = "http://localhost:3000";
+			}
+		})
 	},
 
 	update : async function(e){
@@ -1329,7 +1346,16 @@ var LadderView = Backbone.View.extend({
 	template: _.template($('#ladder_template').html()),
   
 	render: async function() {
-		this.$el.html(this.template);
+		// ----------------------
+		var users = new Users();
+		users.url = "/users/ladder";
+		await users.fetch();
+		console.log(users.toJSON());
+		
+		
+		// ----------------------
+
+		this.$el.html(this.template({ladder: users.toJSON()}));
 		await playercollection.fetch();
     	var players = playercollection.toJSON();
     	for (let i = 0; i < players.length; i++)
@@ -1503,6 +1529,8 @@ var warview = new WarView();
 var ladderview = new LadderView();
 var notifview = new NotifView();
 
+optionview.render();
+
 document.addEventListener("notif2", function(event){
 			notifview.render();
 });
@@ -1515,7 +1543,6 @@ var Router = Backbone.Router.extend({
 		'play': "ft_play",
 		'guild': "ft_guild",
 		'guild/:id_guild': "ft_guild_param",
-		'option': "ft_option",
 		'admin': "ft_admin",
 		'profil': "ft_profil",
 		'tournament': "ft_tournament",
@@ -1541,9 +1568,6 @@ var Router = Backbone.Router.extend({
 	},
 	ft_guild_param: function(id_guild) {
 		guildview.render_history(id_guild, false);
-	},
-	ft_option: function() {
-		optionview.render();
 	},
 	ft_admin: function(){
 		adminview.render();
@@ -1587,8 +1611,8 @@ $( "#nav_to_guild" ).on( "click", function() {
 	//Backbone.history.loadUrl(); 							//problem: Double call to function render in guild
 });
 $( "#nav_to_option" ).on( "click", function() {
-	Backbone.history.navigate("/option", {trigger: true});
-	Backbone.history.loadUrl();
+	// Backbone.history.navigate("/option", {trigger: true});
+	// Backbone.history.loadUrl();
 });
 $("#nav_to_admin").on("click", function(){
 	Backbone.history.navigate("/admin", {trigger: true});

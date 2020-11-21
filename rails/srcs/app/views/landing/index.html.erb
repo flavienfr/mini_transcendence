@@ -142,7 +142,7 @@ async function set_status() {
         success: function(response) {
         },
         error: function(){
-          alert("error");
+			Swal.fire("", "error", "error");
         }
       });
 };
@@ -547,7 +547,7 @@ var GuildView = Backbone.View.extend({
 		"submit #create_guild": "add",
 		"submit #join_a_guild": "join",
 	},
-	join: function(evt) {
+	join: function(evt) { //#join isisi
 		evt.preventDefault();
 		console.log("Join guild");
 
@@ -570,7 +570,7 @@ var GuildView = Backbone.View.extend({
 				self.render();
 			},
 			error: function(model, response) {
-				alert('Fail to join the guild');
+				Swal.fire("", "Fail to join the guild", "error");
 			},
 			wait: true
 		});
@@ -586,16 +586,19 @@ var GuildView = Backbone.View.extend({
 		});
 		var self = this;
 		this.collection.create(guild, {
-			success: function(model, response) {
+			success: function(response) {
 				if (response.is_msg){
-					alert(response.msg)
+					Swal.fire("", response.msg, "success");
 				}
-				else{
-					self.render();
-				}
+				self.render();
 			},
 			error: function(model, response) {
-				alert("Guild creation failed")
+				if (response.status == 422){
+					Swal.fire("", response.responseJSON.msg, "error");
+				}
+				else{
+					Swal.fire("", "error: " + response.status, "error");
+				}
 			},
 			wait: true
 		});
@@ -615,7 +618,12 @@ var GuildView = Backbone.View.extend({
 				self.render();
 			},
 			error: function(model, response) {
-				alert("Fail to guit the guild, be sure you are not in war.");
+				if (response.status == 422){
+					Swal.fire("", response.responseJSON.msg, "error");
+				}
+				else{
+					Swal.fire("", "error: " + response.status, "error");
+				}
 			},
 			wait: true
 		});
@@ -994,7 +1002,7 @@ var Profil2View = Backbone.View.extend({
 		await friendshipcollection.fetch();
 		if (friendshipcollection.findWhere({id: user_cible}))
 		{
-			alert("You are already friend !");
+			Swal.fire("", "You are already friend !", "error");
 		}
 		else
 		{
@@ -1026,11 +1034,14 @@ var Profil2View = Backbone.View.extend({
 			contentType: 'application/json',
 			success: function(response) {
 				if (response.is_msg){
-					Swal.fire("", response.msg, "info");
+					Swal.fire("", response.msg, "success");
 				}
 			},
-			error: function(){
-				alert("error");
+			error: function(response){
+				if (response.status == 422)
+					Swal.fire("", response.responseJSON.msg, "error");
+				else
+					Swal.fire("", "error: " + response.status, "error");
 			}
 		});
 	},
@@ -1077,6 +1088,10 @@ var WarView = Backbone.View.extend({
 			data: {},
 			type: 'GET',
 			success: function(response){
+				if (response.ask_for_war_id == null){
+					Swal.fire("", "To late to quit the request is already accept.", "error");
+					self.render();
+				}
 				console.log("succes", response);
 				Backbone.ajax({
 					url: '/ask_for_wars/' + response.ask_for_war_id,
@@ -1093,7 +1108,7 @@ var WarView = Backbone.View.extend({
 				});
 			},
 			error: function(){
-				alert("error2");
+				Swal.fire("", "error: " + response.status, "error");
 			}
 		});
 	},
@@ -1115,13 +1130,21 @@ var WarView = Backbone.View.extend({
 			dataType: 'json',
 			contentType: 'application/json',
 			success: function(response) {
+				response = response.toJSON();
 				if (response.is_msg){
-					alert(response.msg);
+					Swal.fire("", response.msg, "success");
 				}
 			},
-			error: function(){
-				alert("error");
-			}
+			error: function(model, response) {
+				if (response.status == 422){
+					if (response.responseJSON.is_msg){
+						Swal.fire("", response.responseJSON.msg, "error");
+					}
+				}
+				else{
+					Swal.fire("", "error: "+response.status, "error");
+				}
+			},
 		});
 	},
 	radom_match: function(){
@@ -1139,20 +1162,28 @@ var WarView = Backbone.View.extend({
 			dataType: 'json',
 			contentType: 'application/json',
 			success: function(response) {
+				response = response.toJSON();
 				if (response.is_msg){
-					alert(response.msg);
+					Swal.fire("", response.msg, "success");
 				}
 			},
-			error: function(){
-				alert("error");
-			}
+			error: function(model, response) {
+				if (response.status == 422){
+					if (response.responseJSON.is_msg){
+						Swal.fire("", response.responseJSON.msg, "error");
+					}
+				}
+				else{
+					Swal.fire("", "error: "+response.status, "error");
+				}
+			},
 		});
 	},
 	add: async function(evt) {
 		evt.preventDefault();
 
 		if (guildcollection.length == 0){
-			alert("The is no guild to declare war.");
+			Swal.fire("", "The is no guild to declare war.", "error");
 			return;
 		}
 
@@ -1164,7 +1195,7 @@ var WarView = Backbone.View.extend({
 		range_time = range_time.split(" to ");
 		console.log("RangeTime", range_time[0], range_time[1]);
 		if (isEmpty(range_time[0]) || isEmpty(range_time[1])){
-			alert("Need range date to declare war")
+			Swal.fire("", "Need range date to declare war", "error");
 			return
 		}
 
@@ -1192,19 +1223,20 @@ var WarView = Backbone.View.extend({
 		self = this;
 		ask_for_war.save(ask_for_war, {
 			success: function(response) {
-				if (response.toJSON().is_msg){
-					alert(response.toJSON().msg);
+				response = response.toJSON();
+				if (response.is_msg){
+					Swal.fire("", response.msg, "success");
 					self.render();
 				}
 			},
 			error: function(model, response) {
-				if (response.status){
+				if (response.status == 422){
 					if (response.responseJSON.is_msg){
-						alert(response.responseJSON.msg);
+						Swal.fire("", response.responseJSON.msg, "error");
 					}
 				}
 				else{
-					alert("War declaration fail. (error= "+response.status+")");
+					Swal.fire("", "War declaration fail. (error= "+response.status+")", "error");
 				}
 			},
 			wait: true
@@ -1290,7 +1322,7 @@ var WarView = Backbone.View.extend({
 								self.render_guild_info();
 							},
 							error: function(){
-								alert("error");
+								Swal.fire("", "error: "+response.status, "error");
 							}
 						});
 					}					
@@ -1351,7 +1383,6 @@ async function ft_refuse_notif(notif) {
 			type: 'DELETE',
 			dataType: 'json',
 			success: function(response) {
-				console.log("Inside success");
 				delete_notif(notif);
 			},
 			error: function(){
@@ -1394,19 +1425,26 @@ function ft_accept_notif(notif) {
 			type: 'PUT',
 			dataType: 'json',
 			success: function(response){
-				if (response.is_msg){
-					alert(response.msg)
+				delete_notif(notif);
+				Swal.fire("", response.msg, "success")
+				.then((value) => {
+					warview.render();
+				});
+			},
+			error: function(){
+				response = response.responseJSON;
+				if (response.status == 422){
+					if (response.is_msg){
+						Swal.fire("", response.msg, "error");
+					}
 					if (response.status != "keep_alive"){
 						delete_notif(notif);
 					}
 				}
 				else{
+					Swal.fire("", "Request expired", "error");
 					delete_notif(notif);
 				}
-			},
-			error: function(){
-				alert("Request expired");
-				delete_notif(notif);
 			}
 		});
 	}
@@ -1423,19 +1461,24 @@ function ft_accept_notif(notif) {
 			dataType: 'json',
 			success: function(response){
 				if (response.is_msg){
-					alert(response.msg)
+					Swal.fire("", response.msg, "success");
 				}
-				console.log("askforgame: ", response.ask_for_game);
 				launch_game(response.ask_for_game);
 				delete_notif(notif);
 			},
 			error: function(response){
-				response = response.responseJSON;
-				if (response.delete_notif){
-					ft_refuse_notif(notif);
+				if (response.status == 422){
+					response = response.responseJSON;
+					if (response.delete_notif){
+						ft_refuse_notif(notif);
+					}
+					if (response.is_msg){
+						Swal.fire("", response.msg, "error");
+					}
 				}
-				if (response.is_msg){
-					alert(response.msg)
+				else{
+					Swal.fire("", "error: " + response.status, "error");
+					//maybe delete notif...
 				}
 			}
 		});
@@ -1543,7 +1586,10 @@ var Router = Backbone.Router.extend({
 });
 
 $( "#logo" ).on( "click", function() {
+	var last_url = Backbone.history.getFragment();
 	Backbone.history.navigate("/", {trigger: true});
+	if (last_url == "")
+		Backbone.history.loadUrl();
 });
 $( "#nav_to_live" ).on( "click", function() {
 	var last_url = Backbone.history.getFragment();
@@ -1552,36 +1598,52 @@ $( "#nav_to_live" ).on( "click", function() {
 		Backbone.history.loadUrl();
 });
 $( "#nav_to_play" ).on( "click", function() {
+	var last_url = Backbone.history.getFragment();
 	Backbone.history.navigate("/play", {trigger: true});
-	Backbone.history.loadUrl();
+	if (last_url == "play")
+		Backbone.history.loadUrl();
 });
 $( "#nav_to_ladder" ).on( "click", function() {
+	var last_url = Backbone.history.getFragment();
 	Backbone.history.navigate("/ladder", {trigger: true});
-	Backbone.history.loadUrl();
+	if (last_url == "ladder")
+		Backbone.history.loadUrl();
 });
 $( "#nav_to_guild" ).on( "click", function() {
+	var last_url = Backbone.history.getFragment();
 	Backbone.history.navigate("/guild", {trigger: true});
-	//Backbone.history.loadUrl(); 							//problem: Double call to function render in guild
+	if (last_url == "guild")
+		Backbone.history.loadUrl();
 });
 $( "#nav_to_option" ).on( "click", function() {
+	var last_url = Backbone.history.getFragment();
 	Backbone.history.navigate("/option", {trigger: true});
-	Backbone.history.loadUrl();
+	if (last_url == "option")
+		Backbone.history.loadUrl();
 });
 $("#nav_to_admin").on("click", function(){
+	var last_url = Backbone.history.getFragment();
 	Backbone.history.navigate("/admin", {trigger: true});
-	Backbone.history.loadUrl();
+	if (last_url == "admin")
+		Backbone.history.loadUrl();
 });
 $( "#nav_to_profil" ).on( "click", function() {
+	var last_url = Backbone.history.getFragment();
 	Backbone.history.navigate("/profil", {trigger: true});
-	Backbone.history.loadUrl();
+	if (last_url == "profil")
+		Backbone.history.loadUrl();
 });
 $( "#nav_to_tournament" ).on( "click", function() {
+	var last_url = Backbone.history.getFragment();
 	Backbone.history.navigate("/tournament", {trigger: true});
-	Backbone.history.loadUrl();
+	if (last_url == "tournament")
+		Backbone.history.loadUrl();
 });
 $( "#nav_to_war" ).on( "click", function() {
+	var last_url = Backbone.history.getFragment();
 	Backbone.history.navigate("/war", {trigger: true});
-	//Backbone.history.loadUrl(); 						//problem: Double call to function render in guild
+	if (last_url == "war")
+		Backbone.history.loadUrl();
 });
 
 function closeIt()
@@ -1598,15 +1660,15 @@ function closeIt()
         success: function(response) {
         },
         error: function(){
-          alert("error: closeIt");
+			Swal.fire("", "error:", "error");
         }
       });	
 }
 
-window.onbeforeunload = closeIt;
+window.onunload = closeIt;
 
 var router = new Router();
-playview.render();
+playview.render();//#enlever
 notifview.render();
 Backbone.history.start();
 

@@ -1,0 +1,74 @@
+<script type="text/template" id="profile-template">
+<%= stylesheet_link_tag "style-profile.css" %>
+
+    <body>
+
+        <div class="profile-container">
+            
+            <div class="user-actions">
+                <div class="user">
+                    <div class="avatar">
+                        <img src="<%%= target_user.avatar %>" style="width: 300px;"></img>
+                    </div>
+                    <div class="info">
+                        <p class="name">Nom: <%%= target_user.name %></p>
+                        <p class="points">Score: <%%= target_user.points %></p>
+                        <%% if (guild) { %>
+                            <p class="guild-name">Guilde: <%%= guild.name %></p>
+                        <%% } else { %>
+                            <p class="guild-name">Guilde: aucune</p>
+                        <%% } %>
+                    </div>
+                </div>
+                <div class="actions">
+                    <%% if (current_user.id == target_user.id) { %>
+                        <div class="ask-for-friendship">Can't Add to Friends</div>
+                        <div class="ask-for-game">Can't Ask for Game</div>
+                    <%% } else { %>
+                        <div class="ask-for-friendship">Add to Friends</div>
+                        <div class="ask-for-game">Ask for Game</div>
+                    <%% } %>
+                </div>
+            </div>
+
+            <div class="match-history-friends">
+                <div class="match-history">
+                    <p class="title">Match History</p>
+                    <div class="match-history-cards">
+                        <%% for(let i = 0; i < match_history.games.length; i++) { %>
+                            <div class="match-card">
+                                <%% let game = match_history.games[i] %>
+                                <%% let game_parts = Object.values(match_history.games_participations).filter(p => { return p.game_id == game.id }) %>
+                                <%% let sender_part = game_parts[0] %>
+                                <%% let recipient_part = game_parts[1] %>
+                                <%% let sender = match_history.users[sender_part.user_id] %>
+                                <%% let recipient = match_history.users[recipient_part.user_id] %>
+                                <p class="sender-name"><%%= sender.name %></p>
+                                <p class="score"><%%= sender_part.score %>-<%%= recipient_part.score %></p>
+                                <p class="recipient-name"><%%= recipient.name %></p>
+                                <p class="sender-name">Duration: <%%= "5 min" %></p>
+                                <p class="sender-name"><%%= game.created_at %></p>
+                            </div>
+                        <%% } %>
+                    </div>
+                </div>
+                <div class="friends">
+                    <p class="title">Friends</p>
+                    <div class="friends-cards">
+                        <%% for(let i = 0; i < friends.friendships.length; i++) { %>
+                            <div class="match-card">
+                                <%% let friend_id = (current_user.id == friends.friendships.sender_id ? friends.friendships[i].sender_id : friends.friendships[i].recipient_id ) %>
+                                <img src="<%%= friends.users[friend_id].avatar %>" style="width: 80px;"> </img>
+                                <p class="target-name"><%%= friends.users[friend_id].name %></p>
+                                <p class="target-name"><%%= friends.users[friend_id].points %></p>
+                                <p class="target-name"><%%= friends.users[friend_id].current_status %></p>
+                            </div>
+                        <%% } %>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+    </body>
+</script>

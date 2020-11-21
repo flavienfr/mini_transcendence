@@ -75,7 +75,7 @@
 		<%= render "pages/guild" %>
 		<%= render "pages/option" %>
 		<%= render "pages/admin" %>
-		<%= render "pages/profil" %>
+		<%= render "pages/profile" %>
 		<%= render "pages/tournament" %>
 		<%= render "pages/war" %>
 		<%= render "pages/all_guild" %>
@@ -911,8 +911,8 @@ var PlayView = Backbone.View.extend({
 
 })
 
-//_____________________________________ ProfilView _____________________________________
-var ProfilView = Backbone.View.extend({
+//_____________________________________ ProfileView _____________________________________
+var ProfileView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#profile-template').html()),
   
@@ -925,11 +925,12 @@ var ProfilView = Backbone.View.extend({
 
 	render : async function() {
 		console.log("Render Profile");
-		var formData = new FormData();
+		// var formData = new FormData();
+		// formData.append('target_user_id', 6)
 		var self = this;
 		$.ajax({
-			url: 'users/6/profile', // >
-			data: formData,
+			url: 'users/6/profile?target_user_id=6', // >
+			data: false,
 			cache: false,
         	contentType: false,
         	processData: false,
@@ -938,7 +939,9 @@ var ProfilView = Backbone.View.extend({
 				console.log("ok res: ", res);
 				console.log("res.data: ", res.data);
 				self.$el.html(self.template({
-						user: res.data["user"],
+						current_user: res.data["current_user"],
+						target_user: res.data["target_user"],
+						guild: res.data["guild"],
 						match_history: res.data["match_history"],
 						friends: res.data["friends"]
 					})
@@ -954,7 +957,9 @@ var ProfilView = Backbone.View.extend({
 					footer: "---"
 				})
 				self.$el.html(self.template({
-						user: "",
+						current_user: "",
+						target_user: "",
+						guild: "",
 						match_history: "",
 						friends: ""
 					})
@@ -1349,8 +1354,7 @@ var playview = new PlayView();
 var guildview = new GuildView();
 var optionview = new OptionView();
 var adminview = new AdminView();
-var profilview = new ProfilView();
-// var profil2view = new Profil2View();
+var profileview = new ProfileView();
 var tournamentview = new TournamentView();
 var warview = new WarView();
 var ladderview = new LadderView();
@@ -1370,7 +1374,7 @@ var Router = Backbone.Router.extend({
 		'guild/:id_guild': "ft_guild_param",
 		'option': "ft_option",
 		'admin': "ft_admin",
-		'profil': "ft_profil",
+		'profile': "ft_profile",
 		'tournament': "ft_tournament",
 		'war/:id_guild': "ft_war_param",
 		'war': "ft_war",
@@ -1400,8 +1404,8 @@ var Router = Backbone.Router.extend({
 	ft_admin: function(){
 		adminview.render();
 	},
-	ft_profil: function() {
-		profilview.render();
+	ft_profile: function() {
+		profileview.render();
 	},
 	ft_tournament: function() {
 		tournamentview.render();
@@ -1443,8 +1447,8 @@ $("#nav_to_admin").on("click", function(){
 	Backbone.history.navigate("/admin", {trigger: true});
 	Backbone.history.loadUrl();
 });
-$( "#nav_to_profil" ).on( "click", function() {
-	Backbone.history.navigate("/profil", {trigger: true});
+$( "#nav_to_profile" ).on( "click", function() {
+	Backbone.history.navigate("/profile", {trigger: true});
 	Backbone.history.loadUrl();
 });
 $( "#nav_to_tournament" ).on( "click", function() {

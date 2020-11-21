@@ -63,14 +63,21 @@ class UsersController < ApplicationController
   def profile
     puts 'inside GET /users/:id/profile'
     puts 'params: ', params
-
-    render json: {
-      "data": {
-        "user": @user.as_json,
-        "match_history": @user.get_match_history("played").as_json,
-        "friends": @user.get_friendships("active").as_json  
-      }
-    }, status: :ok and return
+    @target_user = User.find(params[:target_user_id])
+    
+    if (@target_user)
+      render json: {
+        "data": {
+          "current_user": @user.as_json,
+          "target_user": @target_user.as_json,
+          "guild": @target_user.guilds.last.as_json,
+          "match_history": @target_user.get_match_history("played").as_json,
+          "friends": @target_user.get_friendships("active").as_json  
+        }
+      }, status: :ok and return
+    else
+      render json: { data: { "error": "target user not found" } }, status: :unprocessable_entity and return
+    end
   end
 
   # GET /users/google_authenticator_qr_code

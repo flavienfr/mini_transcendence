@@ -130,7 +130,7 @@ puts "----- Guilds created"
 
 ## guild participations
 # the Assemblee
-ap1 = GuildParticipation.create(user_id: francis.id, guild_id: assemblee.id, is_admin: true, is_officer: false)
+ap1 = GuildParticipation.create(user_id: fberger.id, guild_id: assemblee.id, is_admin: true, is_officer: false)
 francis.guild_participation_id = ap1.id
 francis.save
 ap2 = GuildParticipation.create(user_id: flavien.id, guild_id: assemblee.id, is_admin: false, is_officer: true)
@@ -150,20 +150,20 @@ puts "----- Guild Participations created"
 
 
 ## games
-gm1 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "ladder", winner_id: francis.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
-gm2 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "ladder", winner_id: francis.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
-gm3 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "ladder", winner_id: francis.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm1 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm2 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm3 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
 puts "----- Games created"
 
 ## game participations
 gm1p = GameParticipation.create(game_id: gm1.id, user_id: flavien.id, score: 1, status: "played", is_winner: false)
-gm2p = GameParticipation.create(game_id: gm1.id, user_id: francis.id, score: 2, status: "played", is_winner: true)
+gm2p = GameParticipation.create(game_id: gm1.id, user_id: fberger.id, score: 2, status: "played", is_winner: true)
 #
 gm3p = GameParticipation.create(game_id: gm2.id, user_id: flavien.id, score: 3, status: "played", is_winner: false)
-gm4p = GameParticipation.create(game_id: gm2.id, user_id: francis.id, score: 4, status: "played", is_winner: true)
+gm4p = GameParticipation.create(game_id: gm2.id, user_id: fberger.id, score: 4, status: "played", is_winner: true)
 #
 gm5p = GameParticipation.create(game_id: gm3.id, user_id: flavien.id, score: 5, status: "ongoing", is_winner: false)
-gm6p = GameParticipation.create(game_id: gm3.id, user_id: francis.id, score: 6, status: "ongoing", is_winner: false)
+gm6p = GameParticipation.create(game_id: gm3.id, user_id: fberger.id, score: 6, status: "ongoing", is_winner: false)
 puts "----- Game Participations created"
 
 

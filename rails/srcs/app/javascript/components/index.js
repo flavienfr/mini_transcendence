@@ -69,7 +69,7 @@ $( "#nav_to_guild" ).on( "click", function() {
 $( "#nav_to_option" ).on( "click", function() {
 	Backbone.history.navigate("/option", {trigger: true});
 });
-$( "#nav_to_profil" ).on( "click", function() {
+$( "#nav_to_profile" ).on( "click", function() {
 	Backbone.history.navigate("/profil", {trigger: true});
 });
 $( "#nav_to_tournament" ).on( "click", function() {

@@ -10,7 +10,7 @@
         var time_pause = 10; // pause before excit game
         var limit_guest = 0;
         var timer = 6; // second before launch the game
-        var speed_ball = 4;
+        var speed_ball = 10;
         var pause_guest = false;
         var own_score = 0;
         
@@ -52,6 +52,25 @@
         context.fill();
     }
 
+    function endText(txt)
+    {
+        context.fillStyle = "GREY";
+        context.font = '48px serif';
+        context.beginPath();
+        context.fillText(txt, canvas.width/2 * 0.7, canvas.height / 2);
+        context.closePath();
+    }
+
+    
+    function fpsText(txt)
+    {
+        context.fillStyle = "GREY";
+        context.font = '38px serif';
+        context.beginPath();
+        context.fillText(txt, canvas.width * 0.02, canvas.height * 0.05);
+        context.closePath();
+    }
+
 //-------------------------------part 2 object guest host padlle and ball--------------------------------------//
 
     //guest
@@ -77,7 +96,7 @@
         //deplacement
         velocityX : speed_ball,
         velocityY : speed_ball,
-        speed : 5 // a voir si pas assez rapide ou trop
+        speed : speed_ball // a voir si pas assez rapide ou trop
 
     }
     //line
@@ -99,6 +118,7 @@
         drawMiddleLine(line);
         drawScore(canvas.width/4, canvas.height/5, own_score, "WHITE");
         drawScore(3 * canvas.width/4, canvas.height/5, guest.score, "WHITE");
+        fpsText(medium_fps + " FPS");
         // move part
         drawRect(gamer.x, gamer.y, gamer.width, gamer.height, gamer.color);
         drawRect(guest.x, guest.y, guest.width, guest.height, guest.color);
@@ -121,23 +141,16 @@
         context.closePath();
     }
 
-    function endText(txt)
-    {
-        context.fillStyle = "GREY";
-        context.font = '48px serif';
-        context.beginPath();
-        context.fillText(txt, canvas.width/2 * 0.7, canvas.height / 2);
-        context.closePath();
-    }
 //-------------------------------part 4 pause function --------------------------------------//
-    // function triggerMouseOut(event) {
-    //     pause = 1;
-    // }
 
-    function ft_pause(){
-        if (pause != 0)
+    function ft_pause()
+    {
+        if (pause == 1)
+        {
             pause++;
-        if (pause == frame * 2)
+            time_pause = Date.now();
+        }
+        if (pause > 1 && Date.now() - time_pause > 2000)
             pause_gamer = true;
     }
 
@@ -145,8 +158,7 @@
     {
         if (pause_gamer == true)
         {
-            limit_gamer++;
-            if (limit_gamer == frame * time_pause)
+            if (Date.now() - time_pause  > 12000) // 10 secondes de pauses
             {
                 guest.score = 11;
                 ft_send_score(host_id);
@@ -154,8 +166,7 @@
         }
         if (pause_guest == true)
         {
-            limit_guest++;
-            if (limit_guest == frame * time_pause)
+            if (Date.now() - limit_guest  > 10000) // 10 secondes de pauses
             {
                 own_score = 11;
                 ft_send_score(host_id);
@@ -228,8 +239,8 @@
                 guest.y = msg.message.data.guesty;
             if (msg.message.data.pause_guest == false || msg.message.data.pause_guest == true)
             {
-                if (pause_guest = true && msg.message.data.pause_guest == false)
-                    limit_guest = 0;
+                if (msg.message.data.pause_guest == true && pause_guest != true)
+                    limit_guest = Date.now();
                 pause_guest = msg.message.data.pause_guest;
             }
         };
@@ -260,25 +271,43 @@
             ball.x = (ball.x < canvas.width/2) ? gamer.x : guest.x;
         ball.y += ball.velocityY;
 
-        if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height){ // collision to the top and the bottom
-            ball.velocityY =  -ball.velocityY;  
+        if (ball.y - ball.radius < 0)
+        { // collision to the top and the bottom
+            ball.velocityY =  -(ball.velocityY); 
+            ball.y += ball.radius; 
+        }
+        if (ball.y + ball.radius > canvas.height)
+        { // collision to the top and the bottom
+            ball.velocityY =  -(ball.velocityY);
+            ball.y -= ball.radius;  
         }
         let player = (ball.x < canvas.width/2) ? gamer : guest; // determine if the ball is on the right or the left
 
         if (get_collision(ball, player) == true)
         {
+            let angle = 0;
+            if (ball.y < (player.y + player.height /2))
+            {
+                angle = -1 * Math.PI / 4;
+            }
+            else if (ball.y > (player.y + player.height / 2))
+            {
+                angle = Math.PI / 4;
+            }
+
             let direction = (player == gamer) ? 1 : -1; // set if the ball should go to the right or left
-
-            let col = ball.y - (player.y + player.height/2); // set the colision point
-            col = col/(player.height/2); // normalize the colision point 
-            
-            let angleRad = col * Math.PI/4; // determine the angle to return 
-
-            ball.velocityY = direction * ball.speed * Math.sin(angleRad); // calculate the y deplacement + speed 
-            ball.velocityX = direction * ball.speed * Math.cos(angleRad); // calculate the x deplacement + speed
-
-            if (ball.speed < 40)
-                ball.speed += 1; // increase the speed at each contact with the paddle
+            var lastX = -ball.velocityX;
+            var lastY = -ball.velocityY
+            ball.velocityY = ball.speed * Math.sin(angle); // calculate the y deplacement + speed 
+            ball.velocityX = direction * ball.speed * Math.cos(angle); // calculate the x deplacement + speed
+            if (ball.velocityX > 0 && lastX > ball.velocityX)
+                ball.velocityX = lastX;
+            if (ball.velocityX < 0 && lastX < ball.velocityX)
+                ball.velocityX = lastX;
+            console.log("velocity  = " + ball.velocityY);
+            console.log("velocityX = " + ball.velocityX);
+            if (ball.speed < 50)
+                ball.speed += 1.5; // increase the speed at each contact with the paddle
         }
         isFinish(host_id);
     }
@@ -335,27 +364,44 @@
             {
                setTimeout(clearInterval(ret),200);
             }
+            pause = 0;
         }, 1000);
     }
 //-------------------------------part 10 save state in database--------------------------------------//
 
-        function archive_askForGame_table(host_score, guest_score)
+        function archive_askForGame_table(host_score, guest_score, is_tournament)
         {
             var AskForGame = Backbone.Model.extend({
                 urlRoot: '/ask_for_games'
             })
             var ask_for_game = new AskForGame();
-            ask_for_game.fetch({data: {from_user_id: current_user_id, status: "playing"}, success: function(data) {
+            ask_for_game.fetch({data: {from_user_id: current_user_id, status: "playing"}, success: function(data) 
+            {
                 if (ask_for_game.get("status") == "playing")
+                {
+                    if (host_score > guest_score)
+                        saveScore(ask_for_game.get("game_id"), ask_for_game.get("from_user_id"),host_score, guest_score)
+                        else
+                        saveScore(ask_for_game.get("game_id"), ask_for_game.get("to_user_id"), guest_score, host_score);
+                    
+                    var Games = Backbone.Model.extend({
+                        urlRoot: 'games'
+                    })
+                    if (is_tournament == true)
                     {
-						if (host_score == 11)
-                            saveScore(ask_for_game.get("game_id"), ask_for_game.get("from_user_id"),host_score, guest_score)
-                         else
-                            saveScore(ask_for_game.get("game_id"), ask_for_game.get("to_user_id"), guest_score, host_score);
-                        ask_for_game.save({status: "ending"});
+                        var game = new Games({id: ask_for_game.get("game_id")});
+                        game.fetch({ success: function(data)
+                        {
+                            console.log(game.toJSON());
+                            if (host_score > guest_score)
+                                SaveTournament(game.get("tournament_id"), ask_for_game.get("from_user_id"), ask_for_game.get("to_user_id"), host_score, guest_score)
+                            else 
+                                SaveTournament(game.get("tournament_id"), ask_for_game.get("to_user_id"), ask_for_game.get("from_user_id"), guest_score, host_score)
+                        }}) 
                     }
+                    ask_for_game.save({status: "ending"});
                 }
-            });
+            }});
         }
 
         function saveScore(game_id, winner_id, winner_score, loser_score)
@@ -378,50 +424,134 @@
 				}
 			});
         }
+        //faire une save du gagnant et une save du perdant
+        function winnerTournament(tournamentId, winner_id, winner_score)
+        {
+            var TournamentParticipation = Backbone.Model.extend({
+                urlRoot: "/tournament_participations"
+            });
+            var participation = new TournamentParticipation();
+            participation.fetch({data: {type: "user_participation", user_id: winner_id, tournament_id: tournamentId}, success: function()
+            {
+                var win = participation.get("nb_won_game");
+                win++;
+                participation.set({nb_won_game: win});
+                participation.save({type: "update_tournament_win"});
+            }})
+        }
+        function looserTournament(tournamentId, looser_id, looser_score)
+        {
+            var TournamentParticipation = Backbone.Model.extend({
+                urlRoot: "/tournament_participations"
+            });
+            var participation = new TournamentParticipation();
+            participation.fetch({data: {type: "user_participation",user_id: looser_id, tournament_id: tournamentId}, success: function(){
+                var lose = participation.get("nb_lose_game");
+                lose++;
+                participation.set({nb_lose_game: lose})
+                participation.save({type: "update_tournament_lose"});
+            }})
+        }
+        function SaveTournament(tournamentId, winner_id, looser_id, winner_score, looser_score)
+        {
+            winnerTournament(tournamentId, winner_id, winner_score);
+            looserTournament(tournamentId, looser_id, looser_score);
+        }
 
+//-------------------------------part 11 Tournament--------------------------------------//
 
-//-------------------------------part 11 playing game center--------------------------------------//
+    function endTournament(host_id)
+    {
+        if (own_score > guest.score)
+            {
+                endText("You win !!!");
+                archive_askForGame_table(own_score, guest.score, true);
+                timer = 0;
+                own_score = 11;
+                ft_send_score(host_id);
+                clearInterval(stop);
+                setTimeout(() => {
+                    socket.close();
+                    playview.render();
+                }, 2000);
+            }
+            else if (own_score < guest.score)
+            {
+                endText("You loose ...");
+                archive_askForGame_table(own_score, guest.score, true);
+                timer = 0;
+                guest.score = 11;
+                clearInterval(stop);
+                ft_send_score(host_id);
+                setTimeout(() => {
+                    socket.close();
+                    playview.render();
+                }, 2000);
+            }
+    }
+
+//-------------------------------part 12 playing game center--------------------------------------//
 
     function playing(host_id)
     {
-        //ft_pause();
+        // if (timer <= -1)
+        //     ft_pause();
         limitPause(host_id) // a remettre plus tard quand le site sera fini
-        gamer.x = 0;
-        if (timer <= -1 && pause_gamer == false && pause_guest == false )
+        if (timer <= -1 && pause_gamer == false && pause_guest == false)
         {
             sync(host_id);
             ft_send(host_id);
             show();
         }
-        if (own_score == 11 || guest.score == 11)
+        if (tournament == 0 && (own_score == 11 || guest.score == 11))
         {
             drawRect(0,0, canvas.width, canvas.height,"BLACK");
             if (own_score == 11)
                 endText("You win !!!");
             else
                 endText("You loose ...");
-            archive_askForGame_table(own_score, guest.score);
-            socket.close();
+            archive_askForGame_table(own_score, guest.score, false);
             clearInterval(stop);
+            socket.close();
             setTimeout(() => {playview.render();}, 2000);
         }
+        if (tournament != 0 && Date.now() - tournament  >= 10000) // 3 minutes
+            endTournament(host_id);
+        if (document.hidden == true)
+            guest.score = 11;  
+        get_fps();  
+        fps++;  
     }
     countdown();
-    var stop = setInterval(playing, 1000/frame, host_id); 
+    var stop = setInterval(playing, 1000/(frame * 0.8), host_id); 
 }
 
-
+function get_fps()
+{
+    if (Date.now() - start > 1000)
+    {
+        medium_fps = fps;
+        fps = 0;
+        start = Date.now();
+    }
+}
 
 //-------------------------------MAIN--------------------------------------//
-
-var socket = new WebSocket("ws://localhost:3000/cable");
-
 window.onbeforeunload = function() {
     clearInterval(stop);
-    socket.onclose = function () {socket.close();
+    socket.onclose = function () {
+    socket.close();
     canvas.close();
     console.log("socket pongchannel close")}; // disable onclose handler first
 };
+
+var socket = new WebSocket("ws://localhost:3000/cable");
+var fps  = 0;
+var medium_fps = 0;
+gamer.x  = 0;
+var time_pause = Date.now();
+var start = Date.now();
+
 socket.onopen = function()
 {    
     socket.send(JSON.stringify({

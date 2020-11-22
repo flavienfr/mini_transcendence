@@ -248,7 +248,6 @@ class AskForGamesController < ApplicationController
 
 	# Global check
 	#	Ne pas accepté si en tournois (si le tournois lance des match automatique)
-	#	Test si le joueur est connecté hor war time
 	if (AskForGame.where('status=? and (from_user_id=? or to_user_id=?)', "playing", from_user.id, from_user.id).size >= 1)
 		json_render["msg"] = "Your opponent is currently in a duel.\nYou can try again after the end of the duel."
 		json_render["is_msg"] = true
@@ -260,6 +259,16 @@ class AskForGamesController < ApplicationController
 		json_render["is_msg"] = true
 		json_render["delete_notif"] = false
 		render json: json_render, status: :unprocessable_entity and return
+	end
+	# Is online check
+	if (from_user.current_status != "logged in")
+		if (@ask_for_game.game_type == "war_random_match")
+		else
+			json_render["msg"] = from_user.name + " is currently offline.\n You can retry later."
+			json_render["is_msg"] = true
+			json_render["delete_notif"] = false
+			render json: json_render, status: :unprocessable_entity and return
+		end
 	end
 	# War match check
 	if (the_war != nil && (@ask_for_game.game_type == "war_duel" || @ask_for_game.game_type == "war_random_match"))

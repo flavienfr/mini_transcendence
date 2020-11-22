@@ -30,7 +30,7 @@
 	<div class="main_chat_footer">
 	<%% if (receiver.scope) {%>
 	<div class="form-group">
-		<textarea id="text_to_send" class="form-control" aria-label="With textarea"></textarea>
+		<textarea autofocus id="text_to_send" onkeydown="if(event.keyCode == 13) ft_send();" class="form-control" aria-label="With textarea"></textarea>
 	</div>
 	<div class="main_chat_footer_btn">
 		<a id="main_chat_to_param" data-channel=<%%= receiver.id %>>

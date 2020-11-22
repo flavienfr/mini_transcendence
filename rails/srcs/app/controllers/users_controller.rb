@@ -58,12 +58,20 @@ class UsersController < ApplicationController
 
     render json: @user
   end
+  # GET /users/ladder
+  def ladder
+    @user = User.all.order(points: :desc)
+    puts @user
+    render json: @user
+  end
 
   # GET /users/google_authenticator_qr_code
   def google_authenticator
     app_name = "Transcendence"
     @qr = RQRCode::QRCode.new(current_user.provisioning_uri(app_name), :size => app_name.size, :level => :h )
   end
+
+
 
   # GET /users/new
   def new

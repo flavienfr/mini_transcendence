@@ -18,6 +18,10 @@
 
 	border: 4px solid #333333;
 	background: white;
+
+	overflow:auto;
+	direction:ltr;
+	scrollbar-color: #333333 white;
 }
 
 .war_pannel_header{
@@ -79,7 +83,7 @@
 	justify-content: center;
 	align-items: center;
 	width: 350px;
-	height: 60%;
+	height: 150px;
 	border: 4px solid #333333;
 	max-width: 500px;
 }
@@ -99,13 +103,6 @@
 	}
 	.war_pannel_header{
 		font-size: medium;
-	}
-	.war_pannel_body{
-		justify-content: space-evenly;
-		flex-direction: row;
-	}
-	.war_time{
-		border: none;
 	}
 }
 

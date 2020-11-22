@@ -25,11 +25,6 @@
 							<img src="<%%= user.avatar %>" width="80" height="80" alt="" class="profil profil-photo">
 							<p><%%= user.name %></p>
 						</div>
-						<div class="officer">
-							<h3>Officer</h3>
-							<img src="<%= image_url('profil-photo.png') %>" width="40" height="40" alt="" class="profil profil-photo">
-							<p>pseudo</p>
-						</div>
 						<div class="btn_war">
 							<button type="button" onclick="Backbone.history.navigate('/war/<%%= guilds[i].id %>', {trigger: true});" class="btn btn-primary btn-md btn-block btn-dark">Declare war</button>
 						</div>

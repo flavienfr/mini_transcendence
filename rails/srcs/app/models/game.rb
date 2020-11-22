@@ -16,15 +16,12 @@ class Game < ApplicationRecord
 		gamep_winner = GameParticipation.where('game_id=? AND user_id=?', self.id, params[:winner_id]).first
 		gamep_loser = GameParticipation.where('game_id=? AND user_id!=?', self.id, params[:winner_id]).first
 		player_winner = User.find(params[:winner_id])
-
 		if (self.war_id != nil)
 			war = War.find(self.war_id)
 			guild_winner = player_winner.guild_participations.first.guild
 			warp_winner = WarParticipation.where('war_id=? AND guild_id=?', war.id, guild_winner.id).first
 		end
-
 		#--------------
-
 		# Score and winner attribution
 		gamep_winner.is_winner = true
 		gamep_loser.is_winner = false
@@ -41,12 +38,10 @@ class Game < ApplicationRecord
 		gamep_winner.save
 		gamep_loser.save
 		#------------------------------
-
 		# Game type management
 		if (self.context == "war_duel")
 			if (war.status != "ending")
 				warp_winner.war_points += war_duel_points
-				puts "-------------------i'm in"
 			end
 		elsif (self.context == "war_random_match")
 			if (war.status != "ending")
@@ -56,7 +51,9 @@ class Game < ApplicationRecord
 			if (war != nil && war.count_all_matchs_for_war && war.status != "ending")
 				warp_winner.war_points += war_duel_points
 			end
-
+			lad = gamep_winner.score - gamep_loser.score
+			player_winner.points = player_winner.points + lad * 10
+			player_winner.save
 			# ICI gestion du scorring ladder style
 
 		else

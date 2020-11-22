@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 	
   resources :players
   resources :block_users
+	get '/users/ladder' => 'users#ladder'
 	get '/users/:id', to: 'users#show'
 	resources :users
 
@@ -19,6 +20,7 @@ Rails.application.routes.draw do
 	get 'ask_for_wars/is_in_request' => 'ask_for_wars#is_in_request'
 	resources :ask_for_wars
 	resources :wars
+
 
 	get 'war_participations/war_info' => 'war_participations#war_info'
 	resources :war_participations

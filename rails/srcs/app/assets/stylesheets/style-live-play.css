@@ -142,3 +142,20 @@
 	display: none; 
   } 
 }
+
+
+/****************/
+
+.user_list{
+	display: flex;
+	flex-direction: column;
+
+	height: 80%;
+
+	overflow:auto;
+	direction:ltr;
+	scrollbar-color: #333333 white;
+
+	background-color: white;
+	border: 4px solid #454d55;
+}

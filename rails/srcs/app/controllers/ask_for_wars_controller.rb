@@ -14,6 +14,7 @@ class AskForWarsController < ApplicationController
 			render json: json_render, status: :ok and return
 		end
 	end
+	json_render["ask_for_war_id"] = nil
 	json_render["is_in_request"] = false
 	render json: json_render, status: :ok and return
   end
@@ -211,84 +212,80 @@ class AskForWarsController < ApplicationController
 		json_render["msg"] = from_guild.name + " is in war.\nYou cannot accept several wars at the time."
 		json_render["is_msg"] = 1
 		json_render["status"] = "keep_alive"
-		render json: json_render, status: :ok and return
+		render json: json_render, status: :unprocessable_entity and return
 	end
 	if (from_guild.war_participation_id != nil)
 		json_render["msg"] = "Your guild has already accepted a war.\nYou cannot accept several wars at the time."
 		json_render["is_msg"] = 1
 		json_render['status'] = "keep_alive"
-		render json: json_render, status: :ok and return
+		render json: json_render, status: :unprocessable_entity and return
 	end
 	if (the_war.prize_in_points > from_guild.points)
 		json_render["msg"] =  from_guild.name + " has no enough points, only " + from_guild.points.to_s + " points for a prize pool of " + the_war.prize_in_points + "."
 		json_render["is_msg"] = 1
 		json_render['status'] = "delete"
 		delete_ask_war(@ask_for_war)
-		render json: json_render, status: :ok and return
+		render json: json_render, status: :unprocessable_entity and return
 	end
 	if (the_war.prize_in_points > to_guild.points)
 		json_render["msg"] = to_guild.name + " has no enough points, only " + to_guild.points.to_s + " points for a prize pool of " + the_war.prize_in_points + "."
 		json_render["is_msg"] = 1
 		json_render['status'] = "delete"
 		delete_ask_war(@ask_for_war)
-		render json: json_render, status: :ok and return
+		render json: json_render, status: :unprocessable_entity and return
 	end
 	if (the_war.start_date.to_s < Time.zone.now.to_s)
 		json_render["msg"] = "The declaration of war has expired."
 		json_render["is_msg"] = 1
 		json_render['status'] = "delete"
 		delete_ask_war(@ask_for_war)
-		render json: json_render, status: :ok and return
+		render json: json_render, status: :unprocessable_entity and return
 	end
 
-	if (@ask_for_war.status == "pending")
-		# Cron on the end of war
-		puts "----------------------- cron"
-		HandleWarEndingJob.set(wait: 10.seconds).perform_later(the_war.id)#wait_until: the_war.end_date
-		puts "----------------------- cron"
+	# Cron on the end of war
+	puts "----------------------- cron"
+	HandleWarEndingJob.set(wait_until: the_war.end_date.to_datetime).perform_later(the_war.id)#wait_until: the_war.end_date
+	puts "----------------------- cron"
+	@wpp_from_guild = WarParticipation.new(
+		guild_id: @ask_for_war.from_guild_id,
+		war_id: @ask_for_war.war_id,
+		war_points: 0,
+		has_declared_war: true,
+		nb_unanswered_call: 0,
+		is_winner: nil,
+		status: "ongoing"
+	)
+	@wpp_from_guild.save
+	from_guild.war_participation_id = @wpp_from_guild.id
+	from_guild.is_making_war = true
+	from_guild.save
+	puts "----- wpp_from_guild ----"
+	puts @wpp_from_guild.to_json
+	puts "-----------------------"
+	@wpp_to_guild = WarParticipation.new(
+		guild_id: @ask_for_war.to_guild_id,
+		war_id: @ask_for_war.war_id,
+		war_points: 0,
+		has_declared_war: false,
+		nb_unanswered_call: 0,
+		is_winner: nil,
+		status: "ongoing"
+	)
+	@wpp_to_guild.save
+	to_guild.war_participation_id = @wpp_to_guild.id
+	to_guild.is_making_war = true
+	to_guild.save
+	puts "----- wpp_to_guild ----"
+	puts @wpp_to_guild.to_json
+	puts "-----------------------"
+	@ask_for_war.war.status = "ongoing"
+	@ask_for_war.war.save
+	@ask_for_war.destroy
 
-		@wpp_from_guild = WarParticipation.new(
-			guild_id: @ask_for_war.from_guild_id,
-			war_id: @ask_for_war.war_id,
-			war_points: 0,
-			has_declared_war: true,
-			nb_unanswered_call: 0,
-			is_winner: nil,
-			status: "ongoing"
-		)
-		@wpp_from_guild.save
-		from_guild.war_participation_id = @wpp_from_guild.id
-		from_guild.is_making_war = true
-		from_guild.save
-		puts "----- wpp_from_guild ----"
-		puts @wpp_from_guild.to_json
-		puts "-----------------------"
-
-		@wpp_to_guild = WarParticipation.new(
-			guild_id: @ask_for_war.to_guild_id,
-			war_id: @ask_for_war.war_id,
-			war_points: 0,
-			has_declared_war: false,
-			nb_unanswered_call: 0,
-			is_winner: nil,
-			status: "ongoing"
-		)
-		@wpp_to_guild.save
-		to_guild.war_participation_id = @wpp_to_guild.id
-		to_guild.is_making_war = true
-		to_guild.save
-		puts "----- wpp_to_guild ----"
-		puts @wpp_to_guild.to_json
-		puts "-----------------------"
-
-		@ask_for_war.war.status = "ongoing"
-		@ask_for_war.war.save
-		@ask_for_war.destroy
-	end
-
-	respond_to do |format|
-        format.json { render :show, status: :ok, location: @ask_for_war }
-	end
+	json_render["msg"] = "War declaration accepted."
+	json_render["is_msg"] = 1
+	json_render['status'] = "delete"
+	render json: json_render, status: :ok and return
   end
 
   # DELETE /ask_for_wars/1

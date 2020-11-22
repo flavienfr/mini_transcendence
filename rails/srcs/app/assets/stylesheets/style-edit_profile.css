@@ -91,8 +91,6 @@
     width: 100vw;
     height: 100vh;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
 }
 
 .edit_profile_view-container .form-container {
@@ -103,3 +101,6 @@
 	padding: 20px;
 }
 
+#logout {
+	margin-top: 5px;
+}

@@ -973,8 +973,7 @@ var ProfileView = Backbone.View.extend({
 
 	events: {
 		"click #add_to_friend": "add_friend",
-		"click #ask_a_duel": "ask_duel",
-		"click .target_profile": "render",
+		"click #ask_a_duel": "ask_duel"
 	},
 
 	add_friend : async function() {
@@ -1031,13 +1030,24 @@ var ProfileView = Backbone.View.extend({
 		});
 	},
 
-	render : async function(e) {
-		console.log("Render Profile, e:", e);
-		let target_user_id = current_user_id;
-		if (e) {
-			e.preventDefault(); 
-			target_user_id = e.target.href.split("/").pop();
-		}
+	render: async function(target_user_id) {
+		console.log("une fois");
+		target_user_id = parseInt(target_user_id);
+		//if (user_id == null){
+		//	console.log("undefined")
+		//	let target_user_id = current_user_id;
+		//}
+		//else{
+		//	let target_user_id = user_id;
+		//}
+
+		//console.log("Render Profile, e:", e);
+		//let target_user_id = current_user_id;
+		//if (e) {
+		//	e.preventDefault(); 
+		//	target_user_id = e.target.href.split("/").pop();
+		//}
+
 		var self = this;
 		console.log("target_user_id:", target_user_id);
 		$.ajax({
@@ -1169,7 +1179,7 @@ var WarView = Backbone.View.extend({
 					Swal.fire("", response.msg, "success");
 				}
 			},
-			error: function(model, response) {
+			error: function(response) {
 				if (response.status == 422){
 					if (response.responseJSON.is_msg){
 						Swal.fire("", response.responseJSON.msg, "error");
@@ -1201,7 +1211,7 @@ var WarView = Backbone.View.extend({
 					Swal.fire("", response.msg, "success");
 				}
 			},
-			error: function(model, response) {
+			error: function(response) {
 				if (response.status == 422){
 					if (response.responseJSON.is_msg){
 						Swal.fire("", response.responseJSON.msg, "error");
@@ -1312,7 +1322,7 @@ var WarView = Backbone.View.extend({
 	render : async function() {
 		await this.collection.fetch();
 
-		//# To do: mieux gérer 0 guilds
+		
 		if (this.collection.length == 0){
 			var usr = new User();
 			var the_guild = new Guild();
@@ -1608,7 +1618,7 @@ var Router = Backbone.Router.extend({
 		'guild': "ft_guild",
 		'guild/:id_guild': "ft_guild_param",
 		'admin': "ft_admin",
-		'profile': "ft_profile",
+		'profile/:id_user': "ft_profile_param",
 		'tournament': "ft_tournament",
 		'war/:id_guild': "ft_war_param",
 		'war': "ft_war",
@@ -1635,8 +1645,8 @@ var Router = Backbone.Router.extend({
 	ft_admin: function(){
 		adminview.render();
 	},
-	ft_profile: function() {
-		profileview.render();
+	ft_profile_param: function(id_user) {
+		profileview.render(id_user);
 	},
 	ft_tournament: function() {
 		tournamentview.render();
@@ -1687,7 +1697,8 @@ $("#nav_to_admin").on("click", function(){
 });
 $( "#nav_to_profile" ).on( "click", function() {
 	var last_url = Backbone.history.getFragment();
-	Backbone.history.navigate("/profile", {trigger: true});
+	Backbone.history.navigate("/profile/" + current_user_id, {trigger: true});
+	console.log("NAT TO PROGIL");
 	if (last_url == "profile")
 		Backbone.history.loadUrl();
 });

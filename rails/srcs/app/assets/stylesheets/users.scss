@@ -31,12 +31,15 @@
             .avatar {
                 height: 100%;
                 width: 300px;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
             }
             
             .info {
                 margin-left: 20px;
                 text-align: left;
-                
+
                 height: 100%;
                 flex-direction: column;
                 display: flex;
@@ -61,7 +64,6 @@
         .match-history {
             height: 100%;
             width: 50%;
-            overflow: auto;
 
             .title-action {
                 margin-top: 20px;
@@ -82,7 +84,7 @@
                 font-weight: bold;
 
                 display: flex;
-                margin: 10px;
+                margin: 10px 10px 0px 10px;
                 p {
                     margin: 0px;
                 }
@@ -117,14 +119,19 @@
             }
             
             .match-cards {
-                margin: 10px;
+                margin: 0px 10px 10px 10px;
                 border: 4px solid #333333;
+                
+                overflow:auto;
+                direction:ltr;
+                scrollbar-color: #333333 white;
+                height: 350px;
+                background-color: white;
 
                 .match-card {
                     height: $card-high;
                     display: flex;
-                    border-top: 1px solid #dee2e6;
-                    background-color: white;
+                    border-bottom: 1px solid #dee2e6;
 
                     div {
                         display: flex;
@@ -168,7 +175,6 @@
         .friends {
             height: 100%;
             width: 50%;     
-            overflow: auto;
 
             .title-action {
                 margin-top: 20px;
@@ -190,6 +196,7 @@
                 border-color: #454d55;
                 padding: 10px;
                 font-weight: bold;
+                margin: 10px 10px 0px 10px;
                 
                 p {
                     margin: 0px;
@@ -212,14 +219,20 @@
             }
 
             .friends-cards {
-                margin: 10px;
+                margin: 0px 10px 10px 10px;
                 border: 4px solid #333333;
+
+                overflow:auto;
+                direction:ltr;
+                scrollbar-color: #333333 white;
+                height: 350px;
+                background-color: white;
 
                 .friend-card {
                     height: $card-high;
                     display: flex;
-                    border-top: 1px solid #dee2e6;
-                    background-color: white;
+                    border-bottom: 1px solid #dee2e6;
+                    
 
                     div {
                         display: flex;

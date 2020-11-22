@@ -919,12 +919,11 @@ var ProfileView = Backbone.View.extend({
 	initialize : function() {
 		console.log("Profile View initialized");
 	},
-    
+
 	events: {
 		"click #add_to_friend": "add_friend",
 		"click #ask_a_duel": "ask_duel",
-		"click .target_profile": "load_target_profile",
-		// click sur un user: re render avec le bon target id
+		"click .target_profile": "render",
 	},
 
 	add_friend : async function() {
@@ -968,7 +967,7 @@ var ProfileView = Backbone.View.extend({
 			dataType: 'json',
 			contentType: 'application/json',
 			success: function(response) {
-				if (response.is_msg){
+				if (response.is_msg) {
 					Swal.fire("", response.msg, "info");
 				}
 			},
@@ -978,19 +977,17 @@ var ProfileView = Backbone.View.extend({
 		});
 	},
 
-	target_profile : async function() {
-		console.log("load target profile");
-	},
-
-	get_profile_data : async function() {
-		// todo tomorrow
-	},
-	
-	render : async function() {
-		console.log("Render Profile");
+	render : async function(e) {
+		console.log("Render Profile, e:", e);
+		let target_user_id = current_user_id;
+		if (e) {
+			e.preventDefault(); 
+			target_user_id = e.target.href.split("/").pop();
+		}
 		var self = this;
+		console.log("target_user_id:", target_user_id);
 		$.ajax({
-			url: 'users/' + current_user_id + '/profile?target_user_id=6', // >
+			url: 'users/' + current_user_id + '/profile?target_user_id=' + target_user_id, // >
 			data: false,
 			cache: false,
         	contentType: false,
@@ -998,7 +995,6 @@ var ProfileView = Backbone.View.extend({
 			type: 'GET',
 			success: function(res) {
 				console.log("ok res: ", res);
-				console.log("res.data: ", res.data);
 				self.$el.html(self.template({
 						current_user: res.data["current_user"],
 						target_user: res.data["target_user"],
@@ -1016,7 +1012,7 @@ var ProfileView = Backbone.View.extend({
 					title: 'Oops...',
 					text: 'Something went wrong!',
 					footer: "---"
-				})
+				});
 				self.$el.html(self.template({
 						current_user: "",
 						target_user: "",
@@ -1524,7 +1520,7 @@ $( "#nav_to_war" ).on( "click", function() {
 function closeIt()
 {
 	var data = {
-		current_status: "logged out",	
+		current_status: "offline",	
 	}
 	Backbone.ajax({
         url: '/users/' + current_user_id,

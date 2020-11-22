@@ -54,7 +54,9 @@
                                 <%% let recipient_part = game_parts[1] %>
                                 <%% let sender = match_history.users[sender_part.user_id] %>
                                 <%% let recipient = match_history.users[recipient_part.user_id] %>
-                                <p class="initiator-name"><%%= sender.name %></p>
+                                <div class="initiator-name">
+                                    <a class="target_profile" href="/<%%= sender.id %>" ><%%= sender.name %></a>
+                                </div>
                                 <div class="initiator-avatar">
                                     <img src="<%%= sender.avatar %>" style="width: 50px;"> </img>
                                 </div>
@@ -62,9 +64,11 @@
                                 <div class="opponent-avatar">
                                     <img src="<%%= recipient.avatar %>" style="width: 50px;"> </img>
                                 </div>
-                                <p class="opponent-name"><%%= recipient.name %></p>
+                                <div class="opponent-name">
+                                    <a class="target_profile" href="/<%%= recipient.id %>" ><%%= recipient.name %></a>
+                                </div>
                                 <p class="duration"><%%= "5 min" %></p>
-                                <p class="date"><%%= timeAgo.format(Date.now() - new Date(game.created_at)) %></p>
+                                <p class="date"><%%= timeAgo.format(Date.now() - (Date.now() - Date.parse(game.created_at))) %></p>
                             </div>
                         <%% } %>
                     </div>
@@ -74,7 +78,7 @@
                 <div class="friends">
                     <p class="title">Friends</p>
                     <div class="headers">
-                        <p class="avatar">Name</p>
+                        <p class="avatar">Avatar</p>
                         <p class="name">Name</p>
                         <p class="score">Points</p>
                         <p class="status">Status</p>
@@ -82,11 +86,13 @@
                     <div class="friends-cards">
                         <%% for(let i = 0; i < friends.friendships.length; i++) { %>
                             <div class="friend-card">
-                                <%% let friend_id = (current_user.id == friends.friendships.sender_id ? friends.friendships[i].sender_id : friends.friendships[i].recipient_id ) %>
+                                <%% let friend_id = (target_user.id != friends.friendships[i].sender_id) ? friends.friendships[i].sender_id : friends.friendships[i].recipient_id %>
                                 <div class="avatar">
                                     <img src="<%%= friends.users[friend_id].avatar %>" style="width: 50px;"> </img>
                                 </div>
-                                <p class="name"><%%= friends.users[friend_id].name %></p>
+                                <div class="name">
+                                    <a class="target_profile" href="/<%%= friend_id %>"><%%= friends.users[friend_id].name %></a>
+                                </div>
                                 <p class="score"><%%= friends.users[friend_id].points %></p>
                                 <p class="status"><%%= friends.users[friend_id].current_status %></p>
                             </div>

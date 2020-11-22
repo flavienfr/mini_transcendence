@@ -9,15 +9,15 @@
             <div class="user-actions">
                 <div class="user">
                     <div class="avatar">
-                        <img src="<%%= target_user.avatar %>" style="width: 300px;"></img>
+                        <img src="<%%= target_user.avatar %>" style="width: 200px;"></img>
                     </div>
                     <div class="info">
-                        <h1 class="name">Name: <%%= target_user.name %></h1>
-                        <h1 class="points">Points: <%%= target_user.points %></h1>
+                        <h2 class="name">Name: <%%= target_user.name %></h2>
+                        <h2 class="points">Points: <%%= target_user.points %></h2>
                         <%% if (guild) { %>
-                            <h1 class="guild-name">Guild: [<%%= guild.anagram %>]<%%= guild.name %></h1>
+                            <h2 class="guild-name">Guild: [<%%= guild.anagram %>]<%%= guild.name %></h2>
                         <%% } else { %>
-                            <h1 class="guild-name">Guild: -</h1>
+                            <h2 class="guild-name">Guild: -</h2>
                         <%% } %>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                 <div class="match-history">
 
                     <div class="title-action">
-                        <h1 class="title">Match history of <%%= target_user.name %></h1>
+                        <h2 class="title">Match history</h2>
                         <%% if (current_user.id != target_user.id) { %>
                             <%% if (target_user.status == "playing") { %>
                                 <button type="button" class="ask-for-game btn btn-secondary">Already playing</button>
@@ -82,7 +82,7 @@
                 <!-- 3 -->
                 <div class="friends">
                     <div class="title-action">
-                        <h1 class="title">Friends of <%%= target_user.name %></h1>
+                        <h2 class="title">Friends</h2>
                         <%% if (current_user.id != target_user.id) { %>
                             <%% if (friends.users && friends.users.hasOwnProperty(current_user.id)) { %>
                                 <button type="button" class="ask-for-friendship btn btn-secondary">Already friend</button>

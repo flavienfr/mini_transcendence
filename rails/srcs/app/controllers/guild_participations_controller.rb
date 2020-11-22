@@ -26,7 +26,12 @@ class GuildParticipationsController < ApplicationController
   # POST /guild_participations
   # POST /guild_participations.json
   def create
-	#To Do : send notification to the owner of the guild before joining the guild
+	json_render = {}
+	if (GuildParticipation.where('user_id=?', params[:user_id]).size >= 1)
+		json_render["msg"] = "The user is already in a guild."
+		json_render["is_msg"] = 1
+		render json: json_render, status: :unprocessable_entity and return
+	end
 
     @guild_participation = GuildParticipation.new(
 		user_id: params[:user_id],
@@ -46,7 +51,7 @@ class GuildParticipationsController < ApplicationController
   # PATCH/PUT /guild_participations/1
   # PATCH/PUT /guild_participations/1.json
   def update
-    if (params[:type] == "new_owner")
+	if (params[:type] == "new_owner")
       params["guild_participation"][:is_admin] = true;
       params["guild_participation"][:is_officer] = false;
       guild = Guild.find_by(id: params[:guild_id]);
@@ -78,7 +83,7 @@ class GuildParticipationsController < ApplicationController
 	is_admin = @guild_participation.is_admin
 
 	if (guild.is_making_war)#test with admin to quit somewone in war
-		json_render["msg"] = "You can't leave your guild is in war."
+		json_render["msg"] = "You can't leave your guild during war."
 		json_render["is_msg"] = 1
 		render json: json_render, status: :ok and return
 	end
@@ -86,6 +91,8 @@ class GuildParticipationsController < ApplicationController
 	user.guild_participation_id = nil
 	user.save
 	@guild_participation.destroy
+
+	#if destroy drom join end
 
 	if (guild_size == 1)
 		guild.destroy

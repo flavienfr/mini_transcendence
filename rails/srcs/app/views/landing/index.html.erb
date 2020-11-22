@@ -565,7 +565,7 @@ var GuildView = Backbone.View.extend({
 		"submit #create_guild": "add",
 		"submit #join_a_guild": "join",
 	},
-	join: function(evt) { //#join isisi
+	join: async function(evt) {
 		evt.preventDefault();
 		console.log("Join guild");
 
@@ -575,30 +575,27 @@ var GuildView = Backbone.View.extend({
 		var the_guild = this.collection.findWhere({name: guild_name});
 		the_guild = the_guild.toJSON();
 
-		guildparticip = new GuildParticipation({
-			user_id: current_user_id,
-			guild_id: the_guild.id,
-		});
-		console.log("guildparticip", guildparticip.toJSON());
+		var user = new User();
+		user.urlRoot = "/users/" + current_user_id 
+		await user.fetch();
+		user = user.toJSON();
 
-		var self = this;
-		this.collection.create(guildparticip, {
-			success: function(model, response) {
-				console.log('success');
-				self.render();
-			},
-			error: function(model, response) {
-				Swal.fire("", "Fail to join the guild", "error");
-			},
-			wait: true
+		msg = user.name + " want to joing " + the_guild.name + "."
+		notif = new Notification({
+			from_user_id: current_user_id,
+			user_id: the_guild.owner_id,
+			table_type: "guild_create",
+			table_id: the_guild.id,
+			message: msg
 		});
+		await notif.save();
 	},
 	add: async function(evt) {
 		evt.preventDefault();
 
 		var guild = new Guild({
 			name : $('#inputGuildName').val(),
-			anagram: $('#inputGuildAnagram').val(),
+			anagram: $('#inputGuildAnagram').val().toUpperCase(),
 			owner_id : current_user_id,
 			user_id: current_user_id,
 		});
@@ -1529,6 +1526,33 @@ function ft_accept_notif(notif) {
 					//maybe delete notif...
 				}
 			}
+		});
+	}
+	else if (notif.table_type == "guild_create"){
+		guildparticip = new GuildParticipation({
+			user_id: notif.from_user_id,
+			guild_id: notif.table_id,
+		});
+		console.log("guildparticip", guildparticip.toJSON());
+
+		guildparticip.save(guildparticip, {
+			success: function(model, response) {
+				Swal.fire("", "You have a new member in the guild.", "success");
+				delete_notif(notif);
+			},
+			error: function(model, response) {
+				if (response.status == 422){
+					response = response.responseJSON;
+					if (response.is_msg){
+						Swal.fire("", response.msg, "error");
+					}
+					delete_notif(notif);
+				}
+				else{
+					Swal.fire("", "error: " + response.status, "error");
+				}
+			},
+			wait: true
 		});
 	}
 };

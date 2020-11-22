@@ -27,7 +27,8 @@ class NotificationsController < ApplicationController
   # POST /notifications.json
   def create
     puts "________________________________"
-    @notification = Notification.new(notification_params)
+	@notification = Notification.new(notification_params)
+	puts
     puts "________________________________"
 
     # ------->  A changer (mettre la ligne commenter a la place de l'autre)
@@ -37,6 +38,7 @@ class NotificationsController < ApplicationController
     ActionCable.server.broadcast(notif_channel, {notification: "On"})
     puts @notification.message
     puts @notification.table_type
+    puts @notification.table_id
     # respond_to do |format|
     @notification.save
       # if @notification.save
@@ -81,6 +83,6 @@ class NotificationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def notification_params
-      params.require(:notification).permit(:from_user_id, :user_id, :to_channel_id, :to_guild_id, :table_type, :message, :status)
+      params.require(:notification).permit(:from_user_id, :user_id, :to_channel_id, :to_guild_id, :table_type, :table_id, :message, :status)
     end
 end

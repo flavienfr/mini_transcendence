@@ -9,15 +9,6 @@
 			<p> <%%= user.name  %> </p>
 		<%% } %>
 	</div>
-	<div class="name_img_officer">
-		<p>OFFICER</p>
-		<%% if ("" == ""){ %> <!-- replace "" by officer -->
-			<p> None </p>
-		<%% } else {%>
-			<img src="<%= image_url('profil-photo.png') %>" width="80" height="80" alt="" class="profil profil-photo">
-			<p> <%%= officer %> </p>
-		<%% } %>
-	</div>
 </script>
 
 <script type="text/template" id="war-template">
@@ -70,11 +61,9 @@
 					</div>
 				</div>
 				<div class="war_pannel_footer">
-
 					<div class="allGuild">
 						<button id="declare_war" type="submit" class="btn btn-primary btn-md btn-block btn-dark">Declare war</button>
 					</div>
-
 				</div>
 			<%% } %>
 		</form>

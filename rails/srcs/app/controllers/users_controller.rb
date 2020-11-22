@@ -58,6 +58,12 @@ class UsersController < ApplicationController
 
     render json: @user
   end
+  # GET /users/ladder
+  def ladder
+    @user = User.all.order(points: :desc)
+    puts @user
+    render json: @user
+  end
 
   # GET /users/1/profile
   def profile
@@ -85,6 +91,8 @@ class UsersController < ApplicationController
     app_name = "Transcendence"
     @qr = RQRCode::QRCode.new(current_user.provisioning_uri(app_name), :size => app_name.size, :level => :h )
   end
+
+
 
   # GET /users/new
   def new
@@ -124,7 +132,6 @@ class UsersController < ApplicationController
       return;
     end
 
-    
     render json: { }, status: :unauthorized and return if User.find(params[:id]).id != current_user.id
 
     # parse params: name / photo / enabled_two_factor_auth

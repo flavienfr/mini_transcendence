@@ -15,11 +15,6 @@
 				<img src="<%%= owner.avatar %>" width="80" height="80" alt="" class="profil profil-photo">
 				<p><%%= owner.name %></p>
 			</div>
-			<div class="officer">
-				<h3>Officer</h3>
-				<img src="<%= image_url('profil-photo.png') %>" width="80" height="80" alt="" class="profil profil-photo">
-				<p>pseudo</p>
-			</div>
 			<%% if (is_current_user_guild){ %>
 				<div class="leave_guild">
 					<button type="button" id="leave_guild_btn" class="btn btn-primary btn-lg btn-block btn-light border border-light">Leave the guild</button>
@@ -27,54 +22,55 @@
 			<%% } %>
 		</div>
 
-		<div style="display: flex;">
-			<div style="width: 100vh;"class="gl_body">
-				<h2>Guild War history</h2>
-				<div class="history">
-					<table class="table">
-						<thead class="thead-dark">
-							<tr>
-								<th scope="col">#</th>
-								<th scope="col">Winner</th>
-								<th scope="col">Prize points</th>
-								<th scope="col">Start</th>
-								<th scope="col">End</th>
-							</tr>
-						</thead>
-						<tbody>
-							<%%	for (let i = 0; i < wars.length; i++) { %>
-								<%% if (wars[i].winner_id == guild.id) {%>
-									<tr style="background: green;">
-								<%% }else if (wars[i].winner_id == null) {%>
-									<tr style="background: blue;">
-								<%% }else { %>
-									<tr style="background: red;">
-								<%% } %>
-									<%% var start_date = new Date(wars[i].start_date) %>
-									<%% var end_date = new Date(wars[i].end_date) %>
-									<%% const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' } %>
-									<th scope="row"><%%= i + 1 %></th>
 
-									<%% if (wars[i].winner_id == null) {%>
-										<td>equality</td>
-										<td>(<%%= wars[i].prize_in_points %>)</td>
-									<%% }else if (wars[i].winner_id == guild.id) {%>
-										<td><%%= guilds.findWhere({id: wars[i].winner_id}).toJSON().name %></td>
-										<td>+<%%= wars[i].prize_in_points %></td>
-									<%% }else { %>
-										<td><%%= guilds.findWhere({id: wars[i].winner_id}).toJSON().name %></td>
-										<td>-<%%= wars[i].prize_in_points %></td>
-									<%% } %>
-									<td><%%= start_date.toLocaleDateString('fr-FR', options) %></td>
-									<td><%%= end_date.toLocaleDateString('fr-FR', options) %></td>
-								</tr>
+		<div class="gl_body">
+			<div class="history">
+				<!--<h2>Guild War history</h2>-->
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Winner</th>
+							<th scope="col">Prize points</th>
+							<th scope="col">Start</th>
+							<th scope="col">End</th>
+						</tr>
+					</thead>
+					<tbody>
+						<%%	for (let i = 0; i < wars.length; i++) { %>
+							<%% if (wars[i].winner_id == guild.id) {%>
+								<tr style="background: green;">
+							<%% }else if (wars[i].winner_id == null) {%>
+								<tr style="background: blue;">
+							<%% }else { %>
+								<tr style="background: red;">
 							<%% } %>
-						</tbody>
-					</table>
-				</div>
+								<%% var start_date = new Date(wars[i].start_date) %>
+								<%% var end_date = new Date(wars[i].end_date) %>
+								<%% const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' } %>
+								<th scope="row"><%%= i + 1 %></th>
+
+								<%% if (wars[i].winner_id == null) {%>
+									<td>equality</td>
+									<td>(<%%= wars[i].prize_in_points %>)</td>
+								<%% }else if (wars[i].winner_id == guild.id) {%>
+									<td><%%= guilds.findWhere({id: wars[i].winner_id}).toJSON().name %></td>
+									<td>+<%%= wars[i].prize_in_points %></td>
+								<%% }else { %>
+									<td><%%= guilds.findWhere({id: wars[i].winner_id}).toJSON().name %></td>
+									<td>-<%%= wars[i].prize_in_points %></td>
+								<%% } %>
+								<td><%%= start_date.toLocaleDateString('fr-FR', options) %></td>
+								<td><%%= end_date.toLocaleDateString('fr-FR', options) %></td>
+							</tr>
+						<%% } %>
+					</tbody>
+				</table>
 			</div>
+
 			<div id="show_guild_users_id">
 			</div>
+
 		</div>
 	</div>
 

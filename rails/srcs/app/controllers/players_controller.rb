@@ -25,9 +25,11 @@ class PlayersController < ApplicationController
   # POST /players.json
   def create
     @player = Player.new(player_params)
-
     respond_to do |format|
-      if @player.save
+      if (AskForGame.where('status=? and (from_user_id=? or to_user_id=?)', "playing", params[:user_id], params[:user_id]).size >= 1)
+        format.html { render :new }
+        format.json { render json: @player.errors, status: :unprocessable_entity }
+      elsif @player.save
         format.html { redirect_to @player, notice: 'Player was successfully created.' }
         format.json { render :show, status: :created, location: @player }
       else
@@ -70,6 +72,6 @@ class PlayersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def player_params
-      params.require(:player).permit(:user_id)
+      params.require(:player).permit(:user_id, :game_type)
     end
 end

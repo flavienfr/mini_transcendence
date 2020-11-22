@@ -49,26 +49,20 @@ class GuildsController < ApplicationController
 	if (Guild.where("name=?", params[:name]).size != 0)
 		json_render["msg"] = "This guild name is already token"
 		json_render["is_msg"] = 1
-		respond_to do |format|
-			format.html
-			format.json {render json: json_render}
-		end
+		render json: json_render, status: :unprocessable_entity and return
 		return
 	end
 	if (Guild.where("anagram=?", params[:anagram]).size != 0)
 		json_render["msg"] = "This guild anagram is already token"
 		json_render["is_msg"] = 1
-		respond_to do |format|
-			format.html
-			format.json {render json: json_render}
-		end
+		render json: json_render, status: :unprocessable_entity and return
 		return
 	end
 
 	@guild = Guild.new(
 		name: params[:name],
 		anagram: params[:anagram],
-		points: 0,
+		points: 100,
 		is_making_war: false,
 		owner_id: params[:owner_id],
 		war_participation_id: nil
@@ -87,10 +81,9 @@ class GuildsController < ApplicationController
 	user.guild_participation_id = @guild_participation.id;
 	user.save
 
-	respond_to do |format|
-		  format.html { redirect_to @guild, notice: 'Guild was successfully updated.' }
-		  format.json { render :show, status: :ok, location: @guild }
-	end
+	json_render["msg"] = "Guild was successfully updated."
+	json_render["is_msg"] = 1
+	render json: json_render, status: :ok and return
   end
 
   # PATCH/PUT /guilds/1

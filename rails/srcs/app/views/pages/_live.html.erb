@@ -110,7 +110,6 @@ function save_watch(host_id)
 			closescript = true; //async
 		
 		time++;
-		
 		setTimeout(() => {pongWatch.setElement("#pong-area").render();}, 1200);
 	}
     watch.fetch({data: {user_id: current}, success: modify});

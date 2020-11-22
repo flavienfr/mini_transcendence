@@ -5,7 +5,6 @@ body {
 
 
 #text-menu {
-    float: right;
     display: inline-block;
     background: #333333;
     list-style: none;
@@ -14,7 +13,6 @@ body {
     margin: 5px 8px 0 0;
     border-radius: 8px;
     
-    /*opacity: .4;*/
     text-align: center;
 }
 
@@ -29,16 +27,7 @@ body {
 
 #text-menu:hover{
     background: #666666;
-
-    /*opacity: 1;
-    cursor: pointer;*/
 }
-
-/*#text-menu .active {
-    background: blue !important;
-    color: white !important;
-    opacity: 1  !important;
-}*/
 
 .dropdown-menu{
     width: 400px;
@@ -54,15 +43,11 @@ body {
 	z-index: 1;
 }
 
-.navbar-brand{
-    margin-left: 15px;
-}
-
 .body-page {
     background: #CCCCCC;
 	position: absolute;
 
-	top: 80px;
+	top: 70px;
 	bottom:0px; 
 	left: 0px;
 	right: 0px;

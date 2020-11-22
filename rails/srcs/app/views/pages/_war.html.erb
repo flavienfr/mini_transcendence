@@ -9,21 +9,13 @@
 			<p> <%%= user.name  %> </p>
 		<%% } %>
 	</div>
-	<div class="name_img_officer">
-		<p>OFFICER</p>
-		<%% if ("" == ""){ %> <!-- replace "" by officer -->
-			<p> None </p>
-		<%% } else {%>
-			<img src="<%= image_url('profil-photo.png') %>" width="80" height="80" alt="" class="profil profil-photo">
-			<p> <%%= officer %> </p>
-		<%% } %>
-	</div>
 </script>
 
 <script type="text/template" id="war-template">
 	<%= stylesheet_link_tag "style-war.css" %>
-	
+
 	<div class="war_container">
+		
 		<form id="create_war" class="war_pannel">
 			<div class="selector">
 				<select id="guild_drop_down" class="form-control form-control-md">
@@ -36,43 +28,44 @@
 				<!-- Insertion of script war-guild-template -->
 			</div>
 			<div class="war_pannel_body">
-
-				<div class="body_1">
-					<div class="time_picker">
-						<label for="RangeTime">Range date</label>
-						<input type="text" class="form-control" id="RangeTime" required>
-					</div>
-					<div class="custom-control custom-switch">
-						<input type="checkbox" class="custom-control-input" id="counted_match">
-						<label class="custom-control-label" for="counted_match">Ladder and tournament matches included</label>
-					</div>
-					<div class="box_prize_match">
-						<div class="unanswered-match">
-							<label for="MaxUnansweredMatch">Max unanswered match</label>
-							<input type="number" class="form-control" id="MaxUnansweredMatch" required min="0" max="2147483647" value="0" onFocus="this.value='';">
+				<%% if(is_in_request){ %>
+					<button id="quit_request" type="button" class="btn btn-primary btn-md btn-block btn-dark">Quit current request</button>
+				<%% }else{%>
+					<div class="body_1">
+						<div class="time_picker">
+							<label for="RangeTime">Range date</label>
+							<input type="text" class="form-control" id="RangeTime" required>
 						</div>
-						<div class="PrizePool">
-							<label for="PrizePool">Point engaged</label>
-							<input type="number" class="form-control" id="PrizePool" required min="0" max="2147483647">
+						<div class="custom-control custom-switch">
+							<input type="checkbox" class="custom-control-input" id="counted_match">
+							<label class="custom-control-label" for="counted_match">Ladder and tournament matches included</label>
+						</div>
+						<div class="box_prize_match">
+							<div class="unanswered-match">
+								<label for="MaxUnansweredMatch">Max unanswered match</label>
+								<input type="number" class="form-control" id="MaxUnansweredMatch" required min="0" max="2147483647" value="0" onFocus="this.value='';">
+							</div>
+							<div class="PrizePool">
+								<label for="PrizePool">Point engaged</label>
+								<input type="number" class="form-control" id="PrizePool" required min="0" max="2147483647">
+							</div>
+						</div>
+					</div>
+
+					<div class="war_time">
+						<h2>War Time</h2>
+						<div class="time_picker">
+							<label for="RangeTime">Range date</label>
+							<input type="text" class="form-control" id="WarRangeTime">
 						</div>
 					</div>
 				</div>
-
-				<div class="war_time">
-					<h2>War Time</h2>
-					<div class="time_picker">
-						<label for="RangeTime">Range date</label>
-						<input type="text" class="form-control" id="WarRangeTime">
+				<div class="war_pannel_footer">
+					<div class="allGuild">
+						<button id="declare_war" type="submit" class="btn btn-primary btn-md btn-block btn-dark">Declare war</button>
 					</div>
 				</div>
-			</div>
-			<div class="war_pannel_footer">
-
-				<div class="allGuild">
-					<button id="declare_war" type="submit" class="btn btn-primary btn-md btn-block btn-dark">Declare war</button>
-				</div>
-
-			</div>
+			<%% } %>
 		</form>
 	</div>
 

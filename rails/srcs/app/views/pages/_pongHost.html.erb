@@ -161,7 +161,6 @@
             if (Date.now() - time_pause  > 12000) // 10 secondes de pauses
             {
                 guest.score = 11;
-                ft_send_score(host_id);
             }
         }
         if (pause_guest == true)
@@ -169,7 +168,6 @@
             if (Date.now() - limit_guest  > 10000) // 10 secondes de pauses
             {
                 own_score = 11;
-                ft_send_score(host_id);
             }
         }
     }
@@ -212,7 +210,7 @@
     }
 
     function ft_send_score(host_id)
-    {
+    { 
         socket.send(JSON.stringify({
                 command: "message",
                 identifier: JSON.stringify({
@@ -369,7 +367,7 @@
     }
 //-------------------------------part 10 save state in database--------------------------------------//
 
-        function archive_askForGame_table(host_score, guest_score, is_tournament)
+       function archive_askForGame_table(host_score, guest_score, is_tournament)
         {
             var AskForGame = Backbone.Model.extend({
                 urlRoot: '/ask_for_games'
@@ -460,12 +458,12 @@
 
 //-------------------------------part 11 Tournament--------------------------------------//
 
-    function endTournament(host_id)
+    async function endTournament(host_id)
     {
         if (own_score > guest.score)
             {
                 endText("You win !!!");
-                archive_askForGame_table(own_score, guest.score, true);
+                await archive_askForGame_table(own_score, guest.score, true);
                 timer = 0;
                 own_score = 11;
                 ft_send_score(host_id);
@@ -478,7 +476,7 @@
             else if (own_score < guest.score)
             {
                 endText("You loose ...");
-                archive_askForGame_table(own_score, guest.score, true);
+                await archive_askForGame_table(own_score, guest.score, true);
                 timer = 0;
                 guest.score = 11;
                 clearInterval(stop);
@@ -492,7 +490,7 @@
 
 //-------------------------------part 12 playing game center--------------------------------------//
 
-    function playing(host_id)
+    async function playing(host_id)
     {
         // if (timer <= -1)
         //     ft_pause();
@@ -503,6 +501,8 @@
             ft_send(host_id);
             show();
         }
+        if (document.hidden == true)
+            guest.score = 11;
         if (tournament == 0 && (own_score == 11 || guest.score == 11))
         {
             drawRect(0,0, canvas.width, canvas.height,"BLACK");
@@ -510,15 +510,14 @@
                 endText("You win !!!");
             else
                 endText("You loose ...");
-            archive_askForGame_table(own_score, guest.score, false);
+            await archive_askForGame_table(own_score, guest.score, false);
+            ft_send_score();
             clearInterval(stop);
             socket.close();
             setTimeout(() => {playview.render();}, 2000);
         }
         if (tournament != 0 && Date.now() - tournament  >= 10000) // 3 minutes
             endTournament(host_id);
-        if (document.hidden == true)
-            guest.score = 11;  
         get_fps();  
         fps++;  
     }

@@ -1,6 +1,6 @@
 export var ProfilView = Backbone.View.extend({
 	el : '#inside-page',
-	template: _.template($('#profil-template').html()),
+	template: _.template($('#profile-template').html()),
   
 	initialize : function() {
 		console.log("ProfilView created");

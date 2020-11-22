@@ -60,13 +60,13 @@ body {
     margin: 0 5px 5px 5px;
 }
 
-#nav_to_profil,
+#nav_to_profile,
 #nav_to_notif,
 #nav_to_option {
     color: #333333;
 }
 
-#nav_to_profil:hover,
+#nav_to_profile:hover,
 #nav_to_option:hover,
 #nav_to_notif:hover {
     color: #666666;

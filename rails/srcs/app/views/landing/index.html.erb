@@ -94,8 +94,7 @@
 		<%= render "pages/guild" %>
 		<%= render "pages/option" %>
 		<%= render "pages/admin" %>
-		<%= render "pages/profil" %>
-		<%= render "pages/profil2" %>
+		<%= render "pages/profile" %>
 		<%= render "pages/tournament" %>
 		<%= render "pages/war" %>
 		<%= render "pages/all_guild" %>
@@ -963,75 +962,19 @@ var PlayView = Backbone.View.extend({
 
 })
 
-//_____________________________________ ProfilView _____________________________________
-var ProfilView = Backbone.View.extend({
+//_____________________________________ ProfileView _____________________________________
+var ProfileView = Backbone.View.extend({
 	el : '#inside-page',
-	template: _.template($('#profil-template').html()),
-	collection: usercollection,
+	template: _.template($('#profile-template').html()),
   
 	initialize : function() {
-		console.log("ProfilView created");
+		console.log("Profile View initialized");
 	},
-  
-	render : async function() {
-		console.log("Render Profil");
-		var current_id = current_user_id;
-		//var current_id = 4;
-		await this.collection.fetch();
-		current_user = this.collection.findWhere({id: current_id});
-	
-		//guild = new Guild();
-		//guild.url = "/guild_participations/" + current_id + ".json"
-		//await guild.fetch();
-
-		friendshipcollection.url = "/friendships/?id=" + current_id; 
-		await friendshipcollection.fetch();
-
-		//gamecollection.url = "/games" + current_id;
-		//await gamecollection.fetch();
-		//console.log(gamecollection.toJSON())
-	
-		//this.$el.html(this.template({user: current_user.toJSON(), guild: guild.toJSON(), friend: friendshipcollection.toJSON()}));
-		this.$el.html(this.template({user: current_user.toJSON(), friend: friendshipcollection.toJSON()}));
-		return this;
-	}
-});
-
-//_____________________________________ Profil2View _____________________________________
-var Profil2View = Backbone.View.extend({
-	el : '#inside-page',
-	template: _.template($('#profil2-template').html()),
-	collection: usercollection,
-	user_cible: 0,
 
 	events: {
-		"click #return": "return_profil",
 		"click #add_to_friend": "add_friend",
-		"click #ask_a_duel": "ask_duel"
-
-	},
-  
-	initialize : function() {
-		console.log("Profil2View created");
-	},
-  
-	render : async function(id_user) {
-		console.log("Render Profil2");
-		user_cible = parseInt(id_user);
-		await this.collection.fetch();
-		user = this.collection.findWhere({id: parseInt(id_user)});
-		//guild = new Guild();
-		//guild.url = "/guild_participations/" + id_user + ".json"
-		//await guild.fetch();
-
-		this.$el.html(this.template({user: user.toJSON()}));
-		//this.$el.html(this.template({user: user.toJSON(), guild: guild.toJSON()}));
-		return this;
-	},
-
-	return_profil : function() {
-		Backbone.history.navigate("/profil", {trigger: true});
-		Backbone.history.loadUrl();	
+		"click #ask_a_duel": "ask_duel",
+		"click .target_profile": "render",
 	},
 
 	add_friend : async function() {
@@ -1049,7 +992,12 @@ var Profil2View = Backbone.View.extend({
 			user = user.toJSON();
 			message = user.name + " send you a friend request";
 			type = "add_friend";
-			notif = new Notification({from_user_id: current_id, user_id: user_cible, table_type: type, message: message});
+			notif = new Notification({
+				from_user_id: current_id,
+				user_id: user_cible,
+				table_type: type,
+				message: message
+			});
 			await notif.save();
 		}
 	},
@@ -1082,6 +1030,55 @@ var Profil2View = Backbone.View.extend({
 			}
 		});
 	},
+
+	render : async function(e) {
+		console.log("Render Profile, e:", e);
+		let target_user_id = current_user_id;
+		if (e) {
+			e.preventDefault(); 
+			target_user_id = e.target.href.split("/").pop();
+		}
+		var self = this;
+		console.log("target_user_id:", target_user_id);
+		$.ajax({
+			url: 'users/' + current_user_id + '/profile?target_user_id=' + target_user_id, // >
+			data: false,
+			cache: false,
+        	contentType: false,
+        	processData: false,
+			type: 'GET',
+			success: function(res) {
+				console.log("ok res: ", res);
+				self.$el.html(self.template({
+						current_user: res.data["current_user"],
+						target_user: res.data["target_user"],
+						guild: res.data["guild"],
+						match_history: res.data["match_history"],
+						friends: res.data["friends"]
+					})
+				);
+				return self;
+			},
+			error: function (err) {
+				console.log("ko err:", err);
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: 'Something went wrong!',
+					footer: "---"
+				});
+				self.$el.html(self.template({
+						current_user: "",
+						target_user: "",
+						guild: "",
+						match_history: "",
+						friends: ""
+					})
+				);
+				return self;		
+			}
+		})
+	}
 });
 
 //_____________________________________ TournamentView _____________________________________
@@ -1590,8 +1587,7 @@ var playview = new PlayView();
 var guildview = new GuildView();
 var optionview = new OptionView();
 var adminview = new AdminView();
-var profilview = new ProfilView();
-var profil2view = new Profil2View();
+var profileview = new ProfileView();
 var tournamentview = new TournamentView();
 var warview = new WarView();
 var ladderview = new LadderView();
@@ -1612,11 +1608,10 @@ var Router = Backbone.Router.extend({
 		'guild': "ft_guild",
 		'guild/:id_guild': "ft_guild_param",
 		'admin': "ft_admin",
-		'profil': "ft_profil",
+		'profile': "ft_profile",
 		'tournament': "ft_tournament",
 		'war/:id_guild': "ft_war_param",
 		'war': "ft_war",
-		'profil/:id_user': "ft_profil_param",
 		'ladder': "ft_ladder"
 	},
 	ft_log: function() {
@@ -1640,8 +1635,8 @@ var Router = Backbone.Router.extend({
 	ft_admin: function(){
 		adminview.render();
 	},
-	ft_profil: function() {
-		profilview.render();
+	ft_profile: function() {
+		profileview.render();
 	},
 	ft_tournament: function() {
 		tournamentview.render();
@@ -1652,9 +1647,6 @@ var Router = Backbone.Router.extend({
 	ft_war_param: function(id_guild) {
 		warview.render_param_guild(id_guild);
 	},
-	ft_profil_param: function(id_user) {
-		profil2view.render(id_user);	
-	}
 });
 
 $( "#logo" ).on( "click", function() {
@@ -1693,10 +1685,10 @@ $("#nav_to_admin").on("click", function(){
 	if (last_url == "admin")
 		Backbone.history.loadUrl();
 });
-$( "#nav_to_profil" ).on( "click", function() {
+$( "#nav_to_profile" ).on( "click", function() {
 	var last_url = Backbone.history.getFragment();
-	Backbone.history.navigate("/profil", {trigger: true});
-	if (last_url == "profil")
+	Backbone.history.navigate("/profile", {trigger: true});
+	if (last_url == "profile")
 		Backbone.history.loadUrl();
 });
 $( "#nav_to_tournament" ).on( "click", function() {
@@ -1715,7 +1707,7 @@ $( "#nav_to_war" ).on( "click", function() {
 async function closeIt()
 {
 	var data = {
-		current_status: "logged out",	
+		current_status: "offline",	
 	}
 	await Backbone.ajax({
         url: '/users/' + current_user_id,

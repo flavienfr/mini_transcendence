@@ -14,7 +14,8 @@ RUN    yarn add jquery \
     && yarn add underscore \
     && yarn add backbone \
     && yarn add cloudinary-core \
-    && yarn add sweetalert2
+    && yarn add sweetalert2 \
+    && yarn add javascript-time-ago
 
 # Add a script to be executed every time the container starts.
 COPY ./srcs/entrypoint.sh /usr/bin/

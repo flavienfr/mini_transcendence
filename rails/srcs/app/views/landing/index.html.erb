@@ -1686,6 +1686,7 @@ $("#nav_to_admin").on("click", function(){
 		Backbone.history.loadUrl();
 });
 $( "#nav_to_profile" ).on( "click", function() {
+	var last_url = Backbone.history.getFragment();
 	Backbone.history.navigate("/profile", {trigger: true});
 	if (last_url == "profile")
 		Backbone.history.loadUrl();

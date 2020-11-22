@@ -39,4 +39,12 @@ window.cl = cl;
 // https://sweetalert2.github.io/#examples
 var Swal = require("sweetalert2");
 window.Swal = Swal;
-console.log("window.Swal", window.Swal);
+// console.log("window.Swal", window.Swal);
+
+// timeago
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
+TimeAgo.addDefaultLocale(en);
+const timeAgo = new TimeAgo('en-US');
+window.timeAgo = timeAgo;
+console.log("window.TimeAgo", window.timeAgo);

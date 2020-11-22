@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :profile, :edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
@@ -63,6 +63,27 @@ class UsersController < ApplicationController
     @user = User.all.order(points: :desc)
     puts @user
     render json: @user
+  end
+
+  # GET /users/1/profile
+  def profile
+    puts 'inside GET /users/:id/profile'
+    puts 'params: ', params
+    @target_user = User.find(params[:target_user_id])
+    
+    if (@target_user)
+      render json: {
+        "data": {
+          "current_user": @user.as_json,
+          "target_user": @target_user.as_json,
+          "guild": @target_user.guilds.last.as_json,
+          "match_history": @target_user.get_match_history("played").as_json,
+          "friends": @target_user.get_friendships("active").as_json  
+        }
+      }, status: :ok and return
+    else
+      render json: { data: { "error": "target user not found" } }, status: :unprocessable_entity and return
+    end
   end
 
   # GET /users/google_authenticator_qr_code

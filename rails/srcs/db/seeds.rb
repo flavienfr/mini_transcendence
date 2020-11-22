@@ -69,6 +69,10 @@ puts "----- Friendship.destroy_all"
 Friendship.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('friendships') # to reset id back to 1
 
+puts "----- AskForFriendship.destroy_all"
+AskForFriendship.destroy_all
+ActiveRecord::Base.connection.reset_pk_sequence!('ask_for_friendships') # to reset id back to 1
+
 puts "----- Session.destroy_all"
 Session.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('sessions') # to reset id back to 1
@@ -82,38 +86,51 @@ User.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('users') # to reset id back to 1
 end
 
-# users
-francis = User.create(name: "francis", avatar: "https://cdn.intra.42.fr/users/fberger.jpg", current_status: "", points: 255, is_admin: false, guild_participation_id: nil, enabled_two_factor_auth: true) 
-yamin = User.create(name: "yamin", avatar: "https://cdn.intra.42.fr/users/ylegzoul.jpg", current_status: "", points: 31, is_admin: false, guild_participation_id: nil)
-flavien = User.create(name: "flavien", avatar: "https://cdn.intra.42.fr/users/froussel.jpg", current_status: "", points: 665, is_admin: false, guild_participation_id: nil)
-luc = User.create(name: "luc", avatar: "https://cdn.intra.42.fr/users/lhuang.jpg", current_status: "", points: 52, is_admin: false, guild_participation_id: nil) 
-maxime = User.create(name: "maxime", avatar: "https://cdn.intra.42.fr/users/mpouzol.jpg", current_status: "", points: 99, is_admin: false, guild_participation_id: nil) 
-#froussel = User.create(name: "Flavien Roussel", avatar: "https://cdn.intra.42.fr/users/froussel.jpg", current_status: "", points: 2000, is_admin: false, guild_participation_id: nil)
-
+## users
+francis = User.create(name: "francis", avatar: "https://cdn.intra.42.fr/users/fberger.jpg", current_status: "offline", points: 255, is_admin: false, guild_participation_id: nil, enabled_two_factor_auth: true) 
+yamin = User.create(name: "yamin", avatar: "https://cdn.intra.42.fr/users/ylegzoul.jpg", current_status: "offline", points: 31, is_admin: false, guild_participation_id: nil)
+flavien = User.create(name: "flavien", avatar: "https://cdn.intra.42.fr/users/froussel.jpg", current_status: "offline", points: 665, is_admin: false, guild_participation_id: nil)
+luc = User.create(name: "luc", avatar: "https://cdn.intra.42.fr/users/lhuang.jpg", current_status: "offline", points: 52, is_admin: false, guild_participation_id: nil) 
+maxime = User.create(name: "maxime", avatar: "https://cdn.intra.42.fr/users/mpouzol.jpg", current_status: "offline", points: 99, is_admin: false, guild_participation_id: nil) 
+#froussel = User.create(name: "Flavien Roussel", avatar: "https://cdn.intra.42.fr/users/froussel.jpg", current_status: "offline", points: 2000, is_admin: false, guild_participation_id: nil)
+fberger = User.create(student_id: 37271, name: "Francis Berger", avatar: "http://res.cloudinary.com/dwcxgy6qt/image/upload/q7jfqa4cd4q8xpnxmoz55sbmi1py", current_status: "offline", points: 36, is_admin: false, guild_participation_id: nil)
 puts "----- Users created"
 
-# sessions
-# can't seed session because access_token expires 2 hours after generation
-# => cliquer se logger
+## sessions
+# 
 
-# friendship
-f1 = Friendship.create(user1_id: francis.id, user2_id: yamin.id, status: "active")
-f2 = Friendship.create(user1_id: francis.id, user2_id: flavien.id, status: "active")
-f3 = Friendship.create(user1_id: francis.id, user2_id: luc.id, status: "active")
-f4 = Friendship.create(user1_id: francis.id, user2_id: maxime.id, status: "active")
-f5 = Friendship.create(user1_id: yamin.id, user2_id: flavien.id, status: "active")
-f6 = Friendship.create(user1_id: yamin.id, user2_id: luc.id, status: "active")
-f7 = Friendship.create(user1_id: yamin.id, user2_id: maxime.id, status: "active")
+
+## ask_for_friendship
+aff1 = AskForFriendship.new(sender_id: fberger.id, recipient_id: yamin.id,   status: "active")
+aff2 = AskForFriendship.new(sender_id: fberger.id, recipient_id: flavien.id, status: "active")
+aff3 = AskForFriendship.new(sender_id: fberger.id, recipient_id: luc.id,     status: "active")
+aff4 = AskForFriendship.new(sender_id: fberger.id, recipient_id: maxime.id,  status: "active")
+puts "----- AskForFriendship initialized"
+
+## friendship
+f1 = Friendship.create(sender_id: fberger.id, recipient_id: yamin.id,   status: "active")
+aff1.friendship_id = f1.id
+aff1.save
+f2 = Friendship.create(sender_id: fberger.id, recipient_id: flavien.id, status: "active")
+aff2.friendship_id = f2.id
+aff2.save
+f3 = Friendship.create(sender_id: fberger.id, recipient_id: luc.id,     status: "active")
+aff3.friendship_id = f3.id
+aff3.save
+f4 = Friendship.create(sender_id: fberger.id, recipient_id: maxime.id,  status: "active")
+aff4.friendship_id = f4.id
+aff4.save
 puts "----- Friendship created"
 
-# guilds
+
+## guilds
 assemblee = Guild.create(name: "The Assemblee", anagram: "42", points: 5412, is_making_war: false ,owner_id: francis.id)
-order = Guild.create(name: "The Order", anagram: "42", points: 1235, is_making_war: false, owner_id: yamin.id)
+order     = Guild.create(name: "The Order",     anagram: "42", points: 1235, is_making_war: false, owner_id: yamin.id  )
 puts "----- Guilds created"
 
-# guild participations
+## guild participations
 # the Assemblee
-ap1 = GuildParticipation.create(user_id: francis.id, guild_id: assemblee.id, is_admin: true, is_officer: false)
+ap1 = GuildParticipation.create(user_id: fberger.id, guild_id: assemblee.id, is_admin: true, is_officer: false)
 francis.guild_participation_id = ap1.id
 francis.save
 ap2 = GuildParticipation.create(user_id: flavien.id, guild_id: assemblee.id, is_admin: false, is_officer: true)
@@ -131,14 +148,48 @@ maxime.guild_participation_id = op3.id
 maxime.save
 puts "----- Guild Participations created"
 
+
 ## games
-#gm1 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "war", winner_id: luc.id, war_id: nil, tournament_id: nil, channel_id: nil)
-#gm2 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "tournament", winner_id: flavien.id, war_id: nil, tournament_id: nil, channel_id: nil)
-#gm3 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "ladder", winner_id: francis.id, war_id: nil, tournament_id: nil, channel_id: nil)
-#
+gm1 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm2 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm3 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm4 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm5 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm6 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm7 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+puts "----- Games created"
+
 ## game participations
-#gm1p = GameParticipation.create(user_id: yamin.id, game_id: gm1.id, score: 15, is_winner: false)
-#gm2p = GameParticipation.create(user_id: yamin.id, game_id: gm2.id, score: 11, is_winner: false)
+gm1p = GameParticipation.create(game_id: gm1.id, user_id: flavien.id, score: 1, status: "played", is_winner: false)
+gm2p = GameParticipation.create(game_id: gm1.id, user_id: fberger.id, score: 2, status: "played", is_winner: true)
+#
+gm3p = GameParticipation.create(game_id: gm2.id, user_id: flavien.id, score: 3, status: "played", is_winner: false)
+gm4p = GameParticipation.create(game_id: gm2.id, user_id: fberger.id, score: 4, status: "played", is_winner: true)
+#
+gm5p = GameParticipation.create(game_id: gm3.id, user_id: flavien.id, score: 5, status: "ongoing", is_winner: false)
+gm6p = GameParticipation.create(game_id: gm3.id, user_id: fberger.id, score: 6, status: "ongoing", is_winner: false)
+#
+gm7p = GameParticipation.create(game_id: gm4.id, user_id: flavien.id, score: 7, status: "ongoing", is_winner: false)
+gm8p = GameParticipation.create(game_id: gm4.id, user_id: fberger.id, score: 8, status: "ongoing", is_winner: false)
+#
+gm9p = GameParticipation.create(game_id: gm5.id, user_id: flavien.id, score: 9, status: "ongoing", is_winner: false)
+gm10p = GameParticipation.create(game_id: gm5.id, user_id: fberger.id, score: 10, status: "ongoing", is_winner: false)
+#
+gm11p = GameParticipation.create(game_id: gm6.id, user_id: flavien.id, score: 11, status: "ongoing", is_winner: false)
+gm12p = GameParticipation.create(game_id: gm6.id, user_id: fberger.id, score: 12, status: "ongoing", is_winner: false)
+puts "----- Game Participations created"
+
+
+
+
+
+
+
+
+
+
+
+
 
 # War
 #war1 = War.create(start_date: DateTime.new(2010,2,3,4,5,6,'+03:00') ,end_date: DateTime.new(2010,2,3,4,5,6,'+03:00'), prize_in_points: 500, max_unanswered_call: 10, winner_id: assemblee.id, status: "ending")
@@ -156,8 +207,6 @@ puts "----- Guild Participations created"
 ##
 #warp7 = WarParticipation.create(guild_id: assemblee.id, war_id: war4.id, war_points: 350, has_declared_war: true, nb_unanswered_call: nil, is_winner: false, status: "ending")
 #warp8 = WarParticipation.create(guild_id: order.id, war_id: war4.id, war_points: 4253, has_declared_war: false, nb_unanswered_call: nil, is_winner: true, status: "ending")
-#
-#
 #
 ## test ongoing war qui se termine 
 #warp9 = WarParticipation.create(guild_id: assemblee.id, war_id: war6.id, war_points: 100, has_declared_war: true, nb_unanswered_call: 0, is_winner: nil, status: "ongoing")

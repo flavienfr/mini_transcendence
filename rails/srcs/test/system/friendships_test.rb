@@ -15,8 +15,6 @@ class FriendshipsTest < ApplicationSystemTestCase
     click_on "New Friendship"
 
     fill_in "Status", with: @friendship.status
-    fill_in "User1", with: @friendship.user1_id
-    fill_in "User2", with: @friendship.user2_id
     click_on "Create Friendship"
 
     assert_text "Friendship was successfully created"
@@ -28,8 +26,6 @@ class FriendshipsTest < ApplicationSystemTestCase
     click_on "Edit", match: :first
 
     fill_in "Status", with: @friendship.status
-    fill_in "User1", with: @friendship.user1_id
-    fill_in "User2", with: @friendship.user2_id
     click_on "Update Friendship"
 
     assert_text "Friendship was successfully updated"

@@ -150,9 +150,13 @@ puts "----- Guild Participations created"
 
 
 ## games
-gm1 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
-gm2 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
-gm3 = Game.create(start_date: DateTime.now, end_date: DateTime.new(2020,2,3,4,5,6,'+03:00'), context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm1 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm2 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm3 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm4 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm5 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm6 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm7 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
 puts "----- Games created"
 
 ## game participations
@@ -164,6 +168,15 @@ gm4p = GameParticipation.create(game_id: gm2.id, user_id: fberger.id, score: 4, 
 #
 gm5p = GameParticipation.create(game_id: gm3.id, user_id: flavien.id, score: 5, status: "ongoing", is_winner: false)
 gm6p = GameParticipation.create(game_id: gm3.id, user_id: fberger.id, score: 6, status: "ongoing", is_winner: false)
+#
+gm7p = GameParticipation.create(game_id: gm4.id, user_id: flavien.id, score: 7, status: "ongoing", is_winner: false)
+gm8p = GameParticipation.create(game_id: gm4.id, user_id: fberger.id, score: 8, status: "ongoing", is_winner: false)
+#
+gm9p = GameParticipation.create(game_id: gm5.id, user_id: flavien.id, score: 9, status: "ongoing", is_winner: false)
+gm10p = GameParticipation.create(game_id: gm5.id, user_id: fberger.id, score: 10, status: "ongoing", is_winner: false)
+#
+gm11p = GameParticipation.create(game_id: gm6.id, user_id: flavien.id, score: 11, status: "ongoing", is_winner: false)
+gm12p = GameParticipation.create(game_id: gm6.id, user_id: fberger.id, score: 12, status: "ongoing", is_winner: false)
 puts "----- Game Participations created"
 
 

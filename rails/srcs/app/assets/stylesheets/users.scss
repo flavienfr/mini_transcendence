@@ -3,9 +3,9 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 /* view */
-div {
-    border: 1px solid red;
-}
+// div {
+//     border: 1px solid red;
+// }
 
 .profile-container {
     height: 100vh;
@@ -24,7 +24,7 @@ div {
         /* user */
         .user {
             height: 100%;
-            width: 600px;
+            width: 100%;
             display: flex;
             justify-content: stretch;
 
@@ -34,32 +34,20 @@ div {
             }
             
             .info {
+                margin-left: 20px;
+                text-align: left;
+                
                 height: 100%;
-                width: 300px;
-            }
-        }
-        
-        /* actions */
-        .actions {
-            height: 100%;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            
-            .ask-for-friendship {
-                height: 150px;
-                width: 100%;
-            }
-            .ask-for-game {
-                height: 150px;
-                width: 100%;
+                flex-direction: column;
+                display: flex;
+                justify-content: space-evenly;
             }
         }
     }
 
     /* 2 */
 
-    $card-high: 50px;
+    $card-high: 70px;
 
     .match-history-friends {
         height: 100%;
@@ -73,19 +61,42 @@ div {
         .match-history {
             height: 100%;
             width: 50%;
-            overflow: scroll;
+            overflow: auto;
+
+            .title-action {
+                margin-top: 20px;
+                display: flex;
+                // justify-content: space-between;
+                align-items: center;
+                margin: 10px;
+                .title {
+                    margin-right: 20px;
+                }
+            }    
 
             .headers {
+                color: #fff;
+                background-color: #343a40;
+                border-color: #454d55;
+                padding: 10px;
+                font-weight: bold;
+
                 display: flex;
                 margin: 10px;
                 p {
                     margin: 0px;
                 }
+                .index {
+                    flex: 0 0 5%;
+                }
+                .initiator-name {
+                    flex: 0 0 15%;
+                }
                 .initiator-name {
                     flex: 0 0 15%;
                 }
                 .initiator-avatar {
-                    flex: 0 0 15%;
+                    flex: 0 0 10%;
                     // img { width: $card-high; } // doesn't work
                 }
                 .score {
@@ -95,7 +106,7 @@ div {
                     flex: 0 0 15%;
                 }
                 .opponent-avatar {
-                    flex: 0 0 15%;
+                    flex: 0 0 10%;
                 }
                 .duration {
                     flex: 0 0 15%;
@@ -106,11 +117,15 @@ div {
             }
             
             .match-cards {
+                margin: 10px;
+                border: 4px solid #333333;
 
                 .match-card {
                     height: $card-high;
                     display: flex;
-                    margin: 10px;
+                    border-top: 1px solid #dee2e6;
+                    background-color: white;
+
                     div {
                         display: flex;
                         align-items: center;
@@ -120,11 +135,14 @@ div {
                         margin: 0px;
                         line-height: $card-high;
                     }
+                    .index {
+                        flex: 0 0 5%;
+                    }
                     .initiator-name {
                         flex: 0 0 15%;
                     }
                     .initiator-avatar {
-                        flex: 0 0 15%;
+                        flex: 0 0 10%;
                     }
                     .score {
                         flex: 1;
@@ -133,7 +151,7 @@ div {
                         flex: 0 0 15%;
                     }
                     .opponent-avatar {
-                        flex: 0 0 15%;
+                        flex: 0 0 10%;
                     }
                     .duration {
                         flex: 0 0 15%;
@@ -150,19 +168,40 @@ div {
         .friends {
             height: 100%;
             width: 50%;     
-            overflow: scroll;
+            overflow: auto;
+
+            .title-action {
+                margin-top: 20px;
+                display: flex;
+                // justify-content: space-between;
+                align-items: center;
+                margin: 10px;
+                .title {
+                    margin-right: 20px;
+                }
+            }    
 
             .headers {
                 display: flex;
                 margin: 10px;
+                
+                color: #fff;
+                background-color: #343a40;
+                border-color: #454d55;
+                padding: 10px;
+                font-weight: bold;
+                
                 p {
                     margin: 0px;
                 }
+                .index {
+                    flex: 0 0 5%;
+                }                        
                 .name {
                     flex: 0 0 20%;
                 }
                 .avatar {
-                    flex: 0 0 20%;
+                    flex: 0 0 15%;
                 }
                 .score {
                     flex: 1;
@@ -173,11 +212,15 @@ div {
             }
 
             .friends-cards {
+                margin: 10px;
+                border: 4px solid #333333;
 
                 .friend-card {
                     height: $card-high;
                     display: flex;
-                    margin: 10px;
+                    border-top: 1px solid #dee2e6;
+                    background-color: white;
+
                     div {
                         display: flex;
                         align-items: center;
@@ -187,11 +230,14 @@ div {
                         margin: 0px;
                         line-height: $card-high;
                     }
+                    .index {
+                        flex: 0 0 5%;
+                    }                        
                     .name {
                         flex: 0 0 20%;
                     }
                     .avatar {
-                        flex: 0 0 20%;
+                        flex: 0 0 15%;
                     }                    
                     .score {
                         flex: 1;

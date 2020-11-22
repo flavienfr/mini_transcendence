@@ -1,11 +1,26 @@
 <script type="text/template" id="admin-template">
-    <%= stylesheet_link_tag "style-live-play.css" %>
+	<%= stylesheet_link_tag "style-live-play.css" %>
+	
     <div class="container-fluid container-live-play">
-        <div class="row">
-            <div style="overflow-y:auto;height: auto;max-height: 60vh;" class="col">
-                <h1>Users</h1>
-                <div id="list_of_users_id"></div>
-            </div>
+		<div class="row">
+		
+            <div class="col">				
+				<div class="user_list">
+					<table class="table">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">Users</th>
+								<th scope="col"></th>
+								<th scope="col"></th>
+							</tr>
+						</thead>
+						<tbody id="list_of_users_id">
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+			
             <div class="col">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" onclick="ft_show_guilds()" type="button" id="dropdownGuildMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Guilds</button>
@@ -15,11 +30,14 @@
                     </div>
                     <div id="show_guild_users_id"></div>
                 </div>
-            </div>
+			</div>
+			
             <div class="col chat" id="chat_area">
-            </div>
+			</div>
+			
         </div>
-    </div>
+	</div>
+	
     <script>
         var User = Backbone.Model.extend({
             urlRoot: '/users'
@@ -34,12 +52,12 @@
                 users_div.empty();
                 while (i < size)
                 {
-                    users_div.append("<div>" + data[i].name +
-                    ((<%== current_user.is_owner %>|| <%== current_user.is_admin %>) && !data[i].is_owner && <%== current_user.id %> != data[i].id && data[i].current_status != 'banned' ? "<button onclick='ft_ban_general(" + data[i].id + ")'>Ban</button>" : "") +
-                    ((<%== current_user.is_owner %>|| <%== current_user.is_admin %>) && data[i].current_status == 'banned' ? "<button onclick='ft_unban_general(" + data[i].id + ")'>Unban</button>" : "") +
-                    (<%== current_user.is_owner %> && !data[i].is_admin ? "<button onclick='ft_adminize_general(" + data[i].id + ")'>Adminize</button>" : "") +
-                    (<%== current_user.is_owner %> && !data[i].is_owner && data[i].is_admin ? "<button onclick='ft_unadminize_general(" + data[i].id + ")'>Unadminize</button>" : "") +
-                    "</div>");
+                    users_div.append("<tr> <td>" + data[i].name + "</td>" +
+                    ((<%== current_user.is_owner %>|| <%== current_user.is_admin %>) && !data[i].is_owner && <%== current_user.id %> != data[i].id && data[i].current_status != 'banned' ? "<td><button onclick='ft_ban_general(" + data[i].id + ")'>Ban</button></td>" : "") +
+                    ((<%== current_user.is_owner %>|| <%== current_user.is_admin %>) && data[i].current_status == 'banned' ? "<td><button onclick='ft_unban_general(" + data[i].id + ")'>Unban</button></td>" : "") +
+                    (<%== current_user.is_owner %> && !data[i].is_admin ? "<td><button onclick='ft_adminize_general(" + data[i].id + ")'>Adminize</button></td>" : "") +
+                    (<%== current_user.is_owner %> && !data[i].is_owner && data[i].is_admin ? "<td><button onclick='ft_unadminize_general(" + data[i].id + ")'>Unadminize</button></td>" : "") +
+                    "</tr>");
                     i++;
                 }
             }

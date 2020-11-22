@@ -1172,7 +1172,7 @@ var WarView = Backbone.View.extend({
 					Swal.fire("", response.msg, "success");
 				}
 			},
-			error: function(model, response) {
+			error: function(response) {
 				if (response.status == 422){
 					if (response.responseJSON.is_msg){
 						Swal.fire("", response.responseJSON.msg, "error");
@@ -1204,7 +1204,7 @@ var WarView = Backbone.View.extend({
 					Swal.fire("", response.msg, "success");
 				}
 			},
-			error: function(model, response) {
+			error: function(response) {
 				if (response.status == 422){
 					if (response.responseJSON.is_msg){
 						Swal.fire("", response.responseJSON.msg, "error");

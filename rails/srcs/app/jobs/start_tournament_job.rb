@@ -6,9 +6,10 @@ class StartTournamentJob < ApplicationJob
     puts "STARTING TOURNAMENT";
     puts args[0].to_json;
     puts "--------------------";
-    participations = TournamentParticipation.where("tournament_id = ?", args[0].id);
+    participations = TournamentParticipation.where("tournament_id = ?", args[0].id).order("created_at");
     puts participations.to_json;
     if (participations.size < 2 || participations.size > args[0].max_nb_player)
+      Tournament.find_by(id: args[0].id).update(status: "ended");#gagne incentive par default ?
       return;#rajouter un table quand le tournoi demarre ? et mettre un affichage d erreur quand on peut pas demarrer ?
     end
     current_nb_of_player = participations.size;
@@ -43,11 +44,11 @@ class StartTournamentJob < ApplicationJob
       participations[j].update(nb_won_game: 1);
       j = j + 1;
     end
-    args[0].update(max_nb_player: cleaned_nb_of_player);
-    args[0].update(step: 1);
+    args[0].update(max_nb_player: cleaned_nb_of_player, step: 1, status: "started");
+    #args[0].update(step: 1);
     if (nb_match_need == 0)
       tournament = args[0];
-      participations = TournamentParticipation.where("nb_won_game = ? AND tournament_id = ?", tournament.step, tournament.id);
+      participations = TournamentParticipation.where("nb_won_game = ? AND tournament_id = ?", tournament.step, tournament.id).order("created_at");
       puts participations.to_json;
       if (participations.size == tournament.max_nb_player)
         i = 0;

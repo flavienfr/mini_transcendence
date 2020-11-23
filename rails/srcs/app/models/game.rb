@@ -51,10 +51,6 @@ class Game < ApplicationRecord
 			if (war != nil && war.count_all_matchs_for_war && war.status != "ending")
 				warp_winner.war_points += war_duel_points
 			end
-			puts "---------------------------------"
-			puts gamep_winner.score
-			puts gamep_loser.score
-			puts "---------------------------------"
 			if (gamep_winner.score != nil && gamep_loser.score != nil)
 				lad = gamep_winner.score - gamep_loser.score
 			elsif

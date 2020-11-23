@@ -1743,7 +1743,7 @@ $("#nav_to_admin").on("click", function(){
 $( "#nav_to_profile" ).on( "click", function() {
 	var last_url = Backbone.history.getFragment();
 	Backbone.history.navigate("/profile/" + current_user_id, {trigger: true});
-	if (last_url == "profile")
+	if (last_url == "profile/" + current_user_id)
 		Backbone.history.loadUrl();
 });
 $( "#nav_to_tournament" ).on( "click", function() {

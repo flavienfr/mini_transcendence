@@ -17,6 +17,7 @@
 			console.log(event.detail);
 			if (event.detail.data.content == "host_user")
 			{
+				console.log("host");
 				setTimeout(() => {
 					playview.render(true);
 					pongview.setElement("#pong-area").render();
@@ -24,6 +25,7 @@
 			}
 			else
 			{
+				console.log("guest");
 				var host_id = event.detail.data.host_id
 					setTimeout(() => {
 				playview.render(true);
@@ -63,6 +65,17 @@
 					chatview.setElement("#chat_area").render_admin_chat_view();
 				if (val_hidden == "admin_detail_" + data)
 					chatview.setElement("#chat_area").render_admin_chat_view();
+			}
+			if (event.detail.data.refresh_tournament_details_id)
+			{
+				var tournament_id = event.detail.data.refresh_tournament_details_id;
+				var val_hidden = $("#tournament_details_hidden_id").val();
+				console.log("tournament_id" + tournament_id);
+				console.log("val" + val_hidden);
+				if (val_hidden == "tournament_details_" + tournament_id)
+				{
+					tournamentview.render_details(tournament_id);
+				}
 			}
 		});
 		// set the socket for having notification 
@@ -110,6 +123,7 @@
 		<%= render "pages/ladder" %>
 		<%= render "pages/chat/admin_chat_view" %>
 		<%= render "pages/guild_users" %>
+		<%= render "pages/tournament_details" %>
 	</div>
 
 <script>
@@ -790,7 +804,7 @@ var LiveView = Backbone.View.extend({
 
 //_____________________________________ OptionView _____________________________________
 var OptionView = Backbone.View.extend({
-	el : '#option_wiew',
+	el : '#inside-page',
 	template: _.template($('#option-template').html()),
   
 	initialize : function() {
@@ -901,6 +915,8 @@ var OptionView = Backbone.View.extend({
 
 	render : async function() {
 		
+		console.log("Render Option");
+
 		var user = new User({ id: current_user_id });
 		user.urlRoot = "/users";
 		await user.fetch();
@@ -912,16 +928,22 @@ var OptionView = Backbone.View.extend({
 		// avatar
 		$('#edit_profile_avatar_input').on('change', function() { });
 
+		console.log(user);
+
 		// checkbox
-		if ($(".form-check-input").checked) { $( "div.edit-profile-modal-btn" ).show() }
-		else { $( "div.edit-profile-modal-btn" ).hide(); }
+		if (user.enabled_two_factor_auth == "true") {
+			console.log("enabled");
+			$( "div.edit-profile-modal-btn" ).show();
+		}
+		else {
+			$( "div.edit-profile-modal-btn" ).hide();
+		}
 		
 		$(".form-check-input").change(function() {
-			if(this.checked) { $( "div.edit-profile-modal-btn" ).show('slow') }
+			if (this.checked) { $( "div.edit-profile-modal-btn" ).show('slow') }
 			else { $( "div.edit-profile-modal-btn" ).hide('slow'); }
 		});
 		
-		console.log("Render Option");
 		return this;
 	}
 });
@@ -966,6 +988,8 @@ var PlayView = Backbone.View.extend({
 var ProfileView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#profile-template').html()),
+	user_cible: "",
+	collection: usercollection,
   
 	initialize : function() {
 		console.log("Profile View initialized");
@@ -991,6 +1015,10 @@ var ProfileView = Backbone.View.extend({
 			user = user.toJSON();
 			message = user.name + " send you a friend request";
 			type = "add_friend";
+			if (current_id == user_cible)
+			{
+				Swal.fire("", "you can't be your own friend !", "error");	
+			}
 			notif = new Notification({
 				from_user_id: current_id,
 				user_id: user_cible,
@@ -998,6 +1026,7 @@ var ProfileView = Backbone.View.extend({
 				message: message
 			});
 			await notif.save();
+			// check du retour + mettre une alert en cas d erreur
 		}
 	},
 
@@ -1032,7 +1061,9 @@ var ProfileView = Backbone.View.extend({
 
 	render: async function(target_user_id) {
 		console.log("une fois");
+		await this.collection.fetch();
 		target_user_id = parseInt(target_user_id);
+		user_cible = target_user_id;
 		//if (user_id == null){
 		//	console.log("undefined")
 		//	let target_user_id = current_user_id;
@@ -1095,6 +1126,7 @@ var ProfileView = Backbone.View.extend({
 var TournamentView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#tournament-template').html()),
+	template_tournament_details: _.template($("#tournament_details-template").html()),
   
 	initialize : function() {
 		console.log("TournamentView created");
@@ -1103,6 +1135,11 @@ var TournamentView = Backbone.View.extend({
 	render : function() {
 		this.$el.html(this.template);
 		console.log("Render Tournament");
+		return this;
+	},
+
+	render_details: function(tournament_id){
+		this.$el.html(this.template_tournament_details({tournament_id: tournament_id}));
 		return this;
 	}
 });
@@ -1462,12 +1499,12 @@ async function ft_refuse_notif(notif) {
 	}
 };
 
-function ft_accept_notif(notif) {
+async function ft_accept_notif(notif) {
 	console.log("Acceptnotif");
 	if (notif.table_type == "add_friend"){			
 		console.log("add friend");
-		friend = new Friendship({user1_id: notif.from_user_id, user2_id: notif.user_id});
-		friend.save();
+		friend = new Friendship({sender_id: notif.from_user_id, recipient_id: notif.user_id, status: "active"});
+		await friend.save();
 		delete_notif(notif);
 	}
 	else if (notif.table_type == "ask_for_war") {
@@ -1603,8 +1640,6 @@ var warview = new WarView();
 var ladderview = new LadderView();
 var notifview = new NotifView();
 
-optionview.render();
-
 document.addEventListener("notif2", function(event){
 			notifview.render();
 });
@@ -1619,6 +1654,7 @@ var Router = Backbone.Router.extend({
 		'guild/:id_guild': "ft_guild_param",
 		'admin': "ft_admin",
 		'profile/:id_user': "ft_profile_param",
+		'option': "ft_option",
 		'tournament': "ft_tournament",
 		'war/:id_guild': "ft_war_param",
 		'war': "ft_war",
@@ -1647,6 +1683,9 @@ var Router = Backbone.Router.extend({
 	},
 	ft_profile_param: function(id_user) {
 		profileview.render(id_user);
+	},
+	ft_option: function() {
+		optionview.render();
 	},
 	ft_tournament: function() {
 		tournamentview.render();
@@ -1689,6 +1728,12 @@ $( "#nav_to_guild" ).on( "click", function() {
 	if (last_url == "guild")
 		Backbone.history.loadUrl();
 });
+$("#nav_to_option").on("click", function(){
+	var last_url = Backbone.history.getFragment();
+	Backbone.history.navigate("/option", {trigger: true});
+	if (last_url == "option")
+		Backbone.history.loadUrl();
+});
 $("#nav_to_admin").on("click", function(){
 	var last_url = Backbone.history.getFragment();
 	Backbone.history.navigate("/admin", {trigger: true});
@@ -1698,8 +1743,7 @@ $("#nav_to_admin").on("click", function(){
 $( "#nav_to_profile" ).on( "click", function() {
 	var last_url = Backbone.history.getFragment();
 	Backbone.history.navigate("/profile/" + current_user_id, {trigger: true});
-	console.log("NAT TO PROGIL");
-	if (last_url == "profile")
+	if (last_url == "profile/" + current_user_id)
 		Backbone.history.loadUrl();
 });
 $( "#nav_to_tournament" ).on( "click", function() {

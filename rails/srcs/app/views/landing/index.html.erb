@@ -843,6 +843,7 @@ var OptionView = Backbone.View.extend({
 
 		// récupération des inputs
 		let pseudo = $('#edit_profile_pseudo_input').val();
+		let title_name = $("#title_drop_down option:selected").text();
 		let fileInput = document.getElementById('edit_profile_avatar_input');
 		let attachment = fileInput.files[0];
 		let enabled_two_factor_auth = $("#edit_profile_two_factor_checkbox").is(':checked');
@@ -850,6 +851,7 @@ var OptionView = Backbone.View.extend({
 		// création du form
 		var formData = new FormData();
 		formData.append("name", pseudo);
+		formData.append("title_name", title_name);
 		if (attachment != null) { formData.append("photo", attachment, "not_important.jpg"); }
 		formData.append("enabled_two_factor_auth", enabled_two_factor_auth);
 
@@ -914,15 +916,37 @@ var OptionView = Backbone.View.extend({
 	},
 
 	render : async function() {
-		
+		let self = this;
 		// console.log("Render Option");
 
 		var user = new User({ id: current_user_id });
 		user.urlRoot = "/users";
 		await user.fetch();
 		
+		let titles;
+
+		await $.ajax({
+			url: 'users/' + current_user_id + '/titles',
+			data: false,
+			cache: false,
+        	contentType: false,
+        	processData: false,
+			type: 'GET',
+			success: function(res) {
+				console.log("ok res: ", res);
+				titles = res.data["titles"];
+			},
+			error: function (err) {
+				console.log("ko err:", err);
+				titles = [];
+			}
+		})
+
+		console.log("titles:", titles);
+
 		this.$el.html(this.template({
-            user: user.toJSON()
+			user: user.toJSON(),
+			titles: titles,
 		}));
 
 		// avatar
@@ -1079,7 +1103,7 @@ var ProfileView = Backbone.View.extend({
 						guild: res.data["guild"],
 						match_history: res.data["match_history"],
 						friends: res.data["friends"],
-						user_title: res.data["user_title"]
+						title: res.data["title"]
 					})
 				);
 				return self;
@@ -1098,7 +1122,7 @@ var ProfileView = Backbone.View.extend({
 						guild: "",
 						match_history: "",
 						friends: "",
-						user_title: ""
+						title: ""
 					})
 				);
 				return self;		

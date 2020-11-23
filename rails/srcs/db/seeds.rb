@@ -13,9 +13,9 @@ ActiveRecord::Base.connection.disable_referential_integrity do
     TournamentParticipation.destroy_all
     ActiveRecord::Base.connection.reset_pk_sequence!('tournament_participations') # to reset id back to 1
 
-    puts "----- UserTitle.destroy_all"
-    UserTitle.destroy_all
-    ActiveRecord::Base.connection.reset_pk_sequence!('user_titles') # to reset id back to 1
+    puts "----- Title.destroy_all"
+    Title.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('titles') # to reset id back to 1
 
     puts "----- Tournament.destroy_all"
     Tournament.destroy_all
@@ -187,7 +187,29 @@ puts "----- Game Participations created"
 
 
 
+## Tournaments
+t1 = Tournament.create(rules: "to define later", incentives: "gain a title", deadline: (DateTime.now + 10.seconds), status: "ended", max_nb_player: 10)
+t2 = Tournament.create(rules: "to define later", incentives: "gain a title", deadline: (DateTime.now + 10.seconds), status: "ended", max_nb_player: 10)
+puts "----- Tournaments created"
 
+## Tournaments participations
+t1p1 = TournamentParticipation.create(tournament_id: t1.id, user_id: flavien.id, score: 1, nb_won_game: 1, nb_lose_game: 10, status: "played")
+t1p2 = TournamentParticipation.create(tournament_id: t1.id, user_id: luc.id, score: 2, nb_won_game: 2, nb_lose_game: 3, status: "played")
+t1p3 = TournamentParticipation.create(tournament_id: t1.id, user_id: maxime.id, score: 3, nb_won_game: 3, nb_lose_game: 2, status: "played")
+t1p4 = TournamentParticipation.create(tournament_id: t1.id, user_id: fberger.id, score: 10, nb_won_game: 10, nb_lose_game: 1, status: "played")
+
+t2p1 = TournamentParticipation.create(tournament_id: t2.id, user_id: flavien.id, score: 1, nb_won_game: 1, nb_lose_game: 10, status: "played")
+t2p2 = TournamentParticipation.create(tournament_id: t2.id, user_id: luc.id, score: 2, nb_won_game: 2, nb_lose_game: 3, status: "played")
+t2p3 = TournamentParticipation.create(tournament_id: t2.id, user_id: maxime.id, score: 3, nb_won_game: 3, nb_lose_game: 2, status: "played")
+t2p4 = TournamentParticipation.create(tournament_id: t2.id, user_id: fberger.id, score: 10, nb_won_game: 10, nb_lose_game: 1, status: "played")
+puts "----- Tournaments participations created"
+
+## User Title for the winner
+t1ut1 = Title.create(tournament_id: t1.id, user_id: fberger.id, name: "title 1", status: "")
+t2ut1 = Title.create(tournament_id: t2.id, user_id: fberger.id, name: "title 2", status: "")
+fberger.title_id = t2ut1.id
+fberger.save
+# puts "----- User Titles created"
 
 
 

@@ -26,29 +26,14 @@ class NotificationsController < ApplicationController
   # POST /notifications
   # POST /notifications.json
   def create
-    puts "________________________________"
 	@notification = Notification.new(notification_params)
-	puts
-    puts "________________________________"
-
-    # ------->  A changer (mettre la ligne commenter a la place de l'autre)
-    # notif_channel = "notification_channel_" + @notification.from_user_id.to_s;
-    notif_channel = "notification_channel_" + @notification.user_id.to_s;
-
-    ActionCable.server.broadcast(notif_channel, {notification: "On"})
-    puts @notification.message
-    puts @notification.table_type
-    puts @notification.table_id
-    # respond_to do |format|
-    @notification.save
-      # if @notification.save
-        # format.html { redirect_to @notification, notice: 'Notification was successfully created.' }
-        # format.json { render :show, status: :created, location: @notification }
-      # else
-        # format.html { render :new }
-        # format.json { render json: @notification.errors, status: :unprocessable_entity }
-      # end
-      # end
+    if (Notification.where('table_type=? AND user_id=? AND from_user_id=?', "add_friend", @notification.user_id, @notification.from_user_id).size > 0)
+      render json: @notification.errors, status: :unprocessable_entity
+    else
+      notif_channel = "notification_channel_" + @notification.user_id.to_s;
+      ActionCable.server.broadcast(notif_channel, {notification: "On"})
+      @notification.save
+    end
   end
 
   # PATCH/PUT /notifications/1

@@ -966,6 +966,8 @@ var PlayView = Backbone.View.extend({
 var ProfileView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#profile-template').html()),
+	user_cible: "",
+	collection: usercollection,
   
 	initialize : function() {
 		console.log("Profile View initialized");
@@ -991,6 +993,10 @@ var ProfileView = Backbone.View.extend({
 			user = user.toJSON();
 			message = user.name + " send you a friend request";
 			type = "add_friend";
+			if (current_id == user_cible)
+			{
+				Swal.fire("", "you can't be your own friend !", "error");	
+			}
 			notif = new Notification({
 				from_user_id: current_id,
 				user_id: user_cible,
@@ -998,6 +1004,7 @@ var ProfileView = Backbone.View.extend({
 				message: message
 			});
 			await notif.save();
+			// check du retour + mettre une alert en cas d erreur
 		}
 	},
 
@@ -1032,7 +1039,9 @@ var ProfileView = Backbone.View.extend({
 
 	render: async function(target_user_id) {
 		console.log("une fois");
+		await this.collection.fetch();
 		target_user_id = parseInt(target_user_id);
+		user_cible = target_user_id;
 		//if (user_id == null){
 		//	console.log("undefined")
 		//	let target_user_id = current_user_id;
@@ -1462,12 +1471,12 @@ async function ft_refuse_notif(notif) {
 	}
 };
 
-function ft_accept_notif(notif) {
+async function ft_accept_notif(notif) {
 	console.log("Acceptnotif");
 	if (notif.table_type == "add_friend"){			
 		console.log("add friend");
-		friend = new Friendship({user1_id: notif.from_user_id, user2_id: notif.user_id});
-		friend.save();
+		friend = new Friendship({sender_id: notif.from_user_id, recipient_id: notif.user_id, status: "active"});
+		await friend.save();
 		delete_notif(notif);
 	}
 	else if (notif.table_type == "ask_for_war") {

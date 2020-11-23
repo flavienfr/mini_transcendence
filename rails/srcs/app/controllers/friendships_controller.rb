@@ -4,7 +4,15 @@ class FriendshipsController < ApplicationController
   # GET /friendships
   # GET /friendships.json
   def index
-    @friendships = Friendship.all
+    @friendships = Friendship.all 
+    # friendships_ids = Friendship.all
+    # .where('sender_id = ? or recipient_id = ?', params[:id].to_i, params[:id].to_i)
+    # .pluck(:sender_id, :recipient_id)
+    # .uniq().flatten()
+
+    # friendships_ids.delete(params[:id].to_i) 
+    # @users = User.where("id IN (?)", friendships_ids)
+    render json: User.find(params[:id].to_i).get_friendships("active").as_json
   end
 
   # GET /friendships/1
@@ -69,6 +77,6 @@ class FriendshipsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def friendship_params
-      params.require(:friendship).permit(:status)
+      params.require(:friendship).permit(:status, :sender_id, :recipient_id)
     end
 end

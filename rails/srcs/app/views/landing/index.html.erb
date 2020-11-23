@@ -17,6 +17,7 @@
 			console.log(event.detail);
 			if (event.detail.data.content == "host_user")
 			{
+				console.log("++++++++++++++++++++++host+++++++++++++++++++++++")
 				setTimeout(() => {
 					playview.render(true);
 					pongview.setElement("#pong-area").render();
@@ -24,6 +25,7 @@
 			}
 			else
 			{
+				console.log("--------------------guest------------------")
 				var host_id = event.detail.data.host_id
 					setTimeout(() => {
 				playview.render(true);

@@ -9,6 +9,7 @@ class Game < ApplicationRecord
 	def set_end_game(params)
 		puts "----------------- GameId: " + self.id.to_s
 		puts "----------------- parmas: " + params.to_json
+		puts "----------------------iiiiiiiiiiiiiiiiiiiiciciic-"
 
 		# Utils variables
 		war_duel_points = 100
@@ -18,7 +19,6 @@ class Game < ApplicationRecord
 		player_winner = User.find(params[:winner_id])
 		if (self.war_id != nil)
 			war = War.find(self.war_id)
-			guild_winner = player_winner.guild_participations.first.guild
 			warp_winner = WarParticipation.where('war_id=? AND guild_id=?', war.id, guild_winner.id).first
 		end
 		#--------------
@@ -37,6 +37,12 @@ class Game < ApplicationRecord
 		)
 		gamep_winner.save
 		gamep_loser.save
+
+		if (player_winner.guild_participations.first)
+			guild_winner = player_winner.guild_participations.first.guild
+			guild_winner.point += 10
+			guild_winner.save
+		end
 		#------------------------------
 		# Game type management
 		if (self.context == "war_duel")
@@ -54,8 +60,6 @@ class Game < ApplicationRecord
 			lad = gamep_winner.score - gamep_loser.score
 			player_winner.points = player_winner.points + lad * 10
 			player_winner.save
-			# ICI gestion du scorring ladder style
-
 		else
 			return
 		end

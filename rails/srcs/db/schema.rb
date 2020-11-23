@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_23_180510) do
+ActiveRecord::Schema.define(version: 2020_11_23_183424) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -281,6 +281,7 @@ ActiveRecord::Schema.define(version: 2020_11_23_180510) do
     t.boolean "is_owner", default: false
     t.integer "nb_won_tournaments", default: 0
     t.integer "ladder_level", default: 0
+    t.integer "user_title_id"
     t.index ["guild_participation_id"], name: "index_users_on_guild_participation_id"
   end
 

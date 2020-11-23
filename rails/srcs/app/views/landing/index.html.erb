@@ -1000,8 +1000,7 @@ var ProfileView = Backbone.View.extend({
 	add_friend : async function() {
 		friendshipcollection.url = "/friendships/?id=" + current_user_id; 
 		await friendshipcollection.fetch();
-		if (friendshipcollection.findWhere({id: user_cible}))
-		{
+		if (friendshipcollection.findWhere({id: user_cible})) {
 			Swal.fire("", "You are already friend !", "error");
 		}
 		else
@@ -1057,24 +1056,11 @@ var ProfileView = Backbone.View.extend({
 	},
 
 	render: async function(target_user_id) {
-		console.log("une fois");
+		
 		await this.collection.fetch();
+		
 		target_user_id = parseInt(target_user_id);
 		user_cible = target_user_id;
-		//if (user_id == null){
-		//	console.log("undefined")
-		//	let target_user_id = current_user_id;
-		//}
-		//else{
-		//	let target_user_id = user_id;
-		//}
-
-		//console.log("Render Profile, e:", e);
-		//let target_user_id = current_user_id;
-		//if (e) {
-		//	e.preventDefault(); 
-		//	target_user_id = e.target.href.split("/").pop();
-		//}
 
 		var self = this;
 		console.log("target_user_id:", target_user_id);
@@ -1092,7 +1078,8 @@ var ProfileView = Backbone.View.extend({
 						target_user: res.data["target_user"],
 						guild: res.data["guild"],
 						match_history: res.data["match_history"],
-						friends: res.data["friends"]
+						friends: res.data["friends"],
+						user_title: res.data["user_title"]
 					})
 				);
 				return self;
@@ -1110,7 +1097,8 @@ var ProfileView = Backbone.View.extend({
 						target_user: "",
 						guild: "",
 						match_history: "",
-						friends: ""
+						friends: "",
+						user_title: ""
 					})
 				);
 				return self;		

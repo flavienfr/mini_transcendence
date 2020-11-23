@@ -78,7 +78,8 @@ class UsersController < ApplicationController
           "target_user": @target_user.as_json,
           "guild": @target_user.guilds.last.as_json,
           "match_history": @target_user.get_match_history("played").as_json,
-          "friends": @target_user.get_friendships("active").as_json  
+          "friends": @target_user.get_friendships("active").as_json,
+          "user_title": @target_user.get_title().as_json  
         }
       }, status: :ok and return
     else

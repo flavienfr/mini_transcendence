@@ -70,4 +70,11 @@ class User < ApplicationRecord
         return data
     end
 
+    def get_title()
+        if (self.user_title_id)
+            return UserTitle.find(self.user_title_id)
+        else
+            return ""
+    end
+
 end

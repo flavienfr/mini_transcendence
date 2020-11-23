@@ -39,4 +39,4 @@ rails g scaffold user_title user_id:references tournament_id:references title:st
 # rails g migration ChangeAskForFriendships
 # rails generate migration add_fieldname_to_tablename fieldname:string
 # rails g migration add_count_all_matchs_for_war_to_war count_all_matchs_for_war:boolean
-
+# rails generate migration add_user_title_id_to_users user_title_id:integer

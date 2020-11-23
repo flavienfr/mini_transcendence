@@ -8,9 +8,7 @@ rails g scaffold guild_participation user:references guild:references is_admin:b
 rails g scaffold achievement name:string description:string points:integer status:string
 rails g scaffold user_achievement user:references achievement:references status:string
 
-# rails g scaffold friendship user1_id:integer user2_id:integer status:string
 rails g scaffold friendship status:string
-# rails g scaffold ask_for_friendship from_user_id:integer to_user_id:integer friendship:references status:string
 rails g scaffold ask_for_friendship friendship:references status:string
 
 rails g scaffold channel name:string scope:string password:string owner_id:integer status:string
@@ -32,6 +30,8 @@ rails g scaffold ask_for_game from_user_id:integer to_user_id:integer game:refer
 rails g scaffold notification from_user_id:integer user:references to_channel_id:integer to_guild_id:integer table_type:string message:string status:string table_id:integer
 
 rails g scaffold block_user user_id:references block_user_id:integer status:string
+
+rails g scaffold user_title user_id:references tournament_id:references title:string status:string
 
 # rails generate migration add_fieldname_to_tablename fieldname:string
 # rails generate migration add_is_owner_to_user is_owner:boolean

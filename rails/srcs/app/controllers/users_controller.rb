@@ -152,6 +152,7 @@ class UsersController < ApplicationController
     # - enabled_two_factor_auth
     if (params.has_key?(:enabled_two_factor_auth))
       two_factor_auth = (params[:enabled_two_factor_auth] == "true" ? true : false)
+      puts "two_factor_auth:", two_factor_auth
       update_params["enabled_two_factor_auth"] = two_factor_auth
     end
     # - current_status

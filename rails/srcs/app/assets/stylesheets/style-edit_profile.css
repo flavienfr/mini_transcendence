@@ -90,14 +90,15 @@
 .edit_profile_view-container {
     width: 100vw;
     height: 100vh;
-    display: flex;
+	display: flex;
+    justify-content: space-evenly;
 }
 
 .edit_profile_view-container .form-container {
     width: 35%;
     min-width: 350px;
 	max-width: 500px;
-	background-color: white;
+	/* background-color: white; */
 	padding: 20px;
 }
 

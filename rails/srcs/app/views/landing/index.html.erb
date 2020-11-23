@@ -790,7 +790,7 @@ var LiveView = Backbone.View.extend({
 
 //_____________________________________ OptionView _____________________________________
 var OptionView = Backbone.View.extend({
-	el : '#option_wiew',
+	el : '#inside-page',
 	template: _.template($('#option-template').html()),
   
 	initialize : function() {
@@ -901,6 +901,8 @@ var OptionView = Backbone.View.extend({
 
 	render : async function() {
 		
+		console.log("Render Option");
+
 		var user = new User({ id: current_user_id });
 		user.urlRoot = "/users";
 		await user.fetch();
@@ -912,16 +914,22 @@ var OptionView = Backbone.View.extend({
 		// avatar
 		$('#edit_profile_avatar_input').on('change', function() { });
 
+		console.log(user);
+
 		// checkbox
-		if ($(".form-check-input").checked) { $( "div.edit-profile-modal-btn" ).show() }
-		else { $( "div.edit-profile-modal-btn" ).hide(); }
+		if (user.enabled_two_factor_auth == "true") {
+			console.log("enabled");
+			$( "div.edit-profile-modal-btn" ).show();
+		}
+		else {
+			$( "div.edit-profile-modal-btn" ).hide();
+		}
 		
 		$(".form-check-input").change(function() {
-			if(this.checked) { $( "div.edit-profile-modal-btn" ).show('slow') }
+			if (this.checked) { $( "div.edit-profile-modal-btn" ).show('slow') }
 			else { $( "div.edit-profile-modal-btn" ).hide('slow'); }
 		});
 		
-		console.log("Render Option");
 		return this;
 	}
 });
@@ -1603,8 +1611,6 @@ var warview = new WarView();
 var ladderview = new LadderView();
 var notifview = new NotifView();
 
-optionview.render();
-
 document.addEventListener("notif2", function(event){
 			notifview.render();
 });
@@ -1619,6 +1625,7 @@ var Router = Backbone.Router.extend({
 		'guild/:id_guild': "ft_guild_param",
 		'admin': "ft_admin",
 		'profile/:id_user': "ft_profile_param",
+		'option': "ft_option",
 		'tournament': "ft_tournament",
 		'war/:id_guild': "ft_war_param",
 		'war': "ft_war",
@@ -1647,6 +1654,9 @@ var Router = Backbone.Router.extend({
 	},
 	ft_profile_param: function(id_user) {
 		profileview.render(id_user);
+	},
+	ft_option: function() {
+		optionview.render();
 	},
 	ft_tournament: function() {
 		tournamentview.render();
@@ -1689,6 +1699,12 @@ $( "#nav_to_guild" ).on( "click", function() {
 	if (last_url == "guild")
 		Backbone.history.loadUrl();
 });
+$("#nav_to_option").on("click", function(){
+	var last_url = Backbone.history.getFragment();
+	Backbone.history.navigate("/option", {trigger: true});
+	if (last_url == "option")
+		Backbone.history.loadUrl();
+});
 $("#nav_to_admin").on("click", function(){
 	var last_url = Backbone.history.getFragment();
 	Backbone.history.navigate("/admin", {trigger: true});
@@ -1698,7 +1714,6 @@ $("#nav_to_admin").on("click", function(){
 $( "#nav_to_profile" ).on( "click", function() {
 	var last_url = Backbone.history.getFragment();
 	Backbone.history.navigate("/profile/" + current_user_id, {trigger: true});
-	console.log("NAT TO PROGIL");
 	if (last_url == "profile")
 		Backbone.history.loadUrl();
 });

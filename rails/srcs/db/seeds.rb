@@ -9,81 +9,85 @@
 # destroy all objects
 
 ActiveRecord::Base.connection.disable_referential_integrity do
-puts "----- TournamentParticipation.destroy_all"
-TournamentParticipation.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('tournament_participations') # to reset id back to 1
+    puts "----- TournamentParticipation.destroy_all"
+    TournamentParticipation.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('tournament_participations') # to reset id back to 1
 
-puts "----- Tournament.destroy_all"
-Tournament.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('tournaments') # to reset id back to 1
+    puts "----- UserTitle.destroy_all"
+    UserTitle.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('user_titles') # to reset id back to 1
 
-puts "----- AskForWar.destroy_all"
-AskForWar.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('ask_for_wars') # to reset id back to 1
+    puts "----- Tournament.destroy_all"
+    Tournament.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('tournaments') # to reset id back to 1
 
-puts "----- WarParticipation.destroy_all"
-WarParticipation.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('war_participations') # to reset id back to 1
+    puts "----- AskForWar.destroy_all"
+    AskForWar.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('ask_for_wars') # to reset id back to 1
 
-puts "----- WarTime.destroy_all"
-WarTime.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('war_times') # to reset id back to 1
+    puts "----- WarParticipation.destroy_all"
+    WarParticipation.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('war_participations') # to reset id back to 1
 
-puts "----- War.destroy_all"
-War.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('wars') # to reset id back to 1
+    puts "----- WarTime.destroy_all"
+    WarTime.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('war_times') # to reset id back to 1
 
-puts "----- Message.destroy_all"
-Message.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('messages') # to reset id back to 1
+    puts "----- War.destroy_all"
+    War.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('wars') # to reset id back to 1
 
-puts "----- ChannelParticipation.destroy_all"
-ChannelParticipation.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('channel_participations') # to reset id back to 1
+    puts "----- Message.destroy_all"
+    Message.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('messages') # to reset id back to 1
 
-puts "----- Channel.destroy_all"
-Channel.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('channels') # to reset id back to 1
+    puts "----- ChannelParticipation.destroy_all"
+    ChannelParticipation.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('channel_participations') # to reset id back to 1
 
-puts "----- GuildParticipation.destroy_all"
-GuildParticipation.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('guild_participations') # to reset id back to 1
+    puts "----- Channel.destroy_all"
+    Channel.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('channels') # to reset id back to 1
 
-puts "----- Guild.destroy_all"
-Guild.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('guilds') # to reset id back to 1
+    puts "----- GuildParticipation.destroy_all"
+    GuildParticipation.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('guild_participations') # to reset id back to 1
 
-puts "----- AskForGame.destroy_all"
-AskForGame.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('ask_for_games') # to reset id back to 1
+    puts "----- Guild.destroy_all"
+    Guild.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('guilds') # to reset id back to 1
 
-puts "----- GameParticipation.destroy_all"
-GameParticipation.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('game_participations') # to reset id back to 1
+    puts "----- AskForGame.destroy_all"
+    AskForGame.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('ask_for_games') # to reset id back to 1
 
-puts "----- game.destroy_all"
-Game.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('games') # to reset id back to 1
+    puts "----- GameParticipation.destroy_all"
+    GameParticipation.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('game_participations') # to reset id back to 1
 
-puts "----- Friendship.destroy_all"
-Friendship.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('friendships') # to reset id back to 1
+    puts "----- game.destroy_all"
+    Game.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('games') # to reset id back to 1
 
-puts "----- AskForFriendship.destroy_all"
-AskForFriendship.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('ask_for_friendships') # to reset id back to 1
+    puts "----- Friendship.destroy_all"
+    Friendship.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('friendships') # to reset id back to 1
 
-puts "----- Session.destroy_all"
-Session.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('sessions') # to reset id back to 1
+    puts "----- AskForFriendship.destroy_all"
+    AskForFriendship.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('ask_for_friendships') # to reset id back to 1
 
-puts "----- Notification.destroy_all"
-Notification.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('notifications') # to reset id back to 1
+    puts "----- Session.destroy_all"
+    Session.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('sessions') # to reset id back to 1
 
-puts "----- User.destroy_all"
-User.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('users') # to reset id back to 1
+    puts "----- Notification.destroy_all"
+    Notification.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('notifications') # to reset id back to 1
+
+    puts "----- User.destroy_all"
+    User.destroy_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('users') # to reset id back to 1
 end
 
 ## users
@@ -131,8 +135,8 @@ puts "----- Guilds created"
 ## guild participations
 # the Assemblee
 ap1 = GuildParticipation.create(user_id: fberger.id, guild_id: assemblee.id, is_admin: true, is_officer: false)
-francis.guild_participation_id = ap1.id
-francis.save
+fberger.guild_participation_id = ap1.id
+fberger.save
 ap2 = GuildParticipation.create(user_id: flavien.id, guild_id: assemblee.id, is_admin: false, is_officer: true)
 flavien.guild_participation_id = ap2.id
 flavien.save

@@ -75,6 +75,7 @@ class User < ApplicationRecord
             return UserTitle.find(self.user_title_id)
         else
             return ""
+        end
     end
 
 end

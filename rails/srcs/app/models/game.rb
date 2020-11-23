@@ -53,7 +53,7 @@ class Game < ApplicationRecord
 			end
 			if (gamep_winner.score != nil && gamep_loser.score != nil)
 				lad = gamep_winner.score - gamep_loser.score
-			elsif
+			else
 				lad = 1
 			end	
 			player_winner.points = player_winner.points + lad * 10

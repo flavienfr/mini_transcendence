@@ -18,6 +18,7 @@
                 <th scope="col">Start Time</th>
                 <th scope="col">Number of Players</th>
                 <th scope="col">Register</th>
+                <th scope="col">Status</th>
             </tr>
         </thead>
     </table>
@@ -60,11 +61,12 @@
                         var limit_to_register_time = new Date(start_time - 15 * 60000);
                         tournaments_table_show.append("<tr>" +
                             "<td>" + data1[i].rules + "</td>" +
-                            "<td>" + data1[i].incentive +  "</td>"+
+                            "<td>" + data1[i].incentives +  "</td>"+
                             "<td>" + limit_to_register_time + "</div>" +
                             "<td>" + start_time + "</td>" +
-                            "<td>" + all_tournament_nb_player[data1[i].id] + "/" + data1[i].max_nb_player + "</td>" +
+                            "<td>" + all_tournament_nb_player[data1[i].id] + ((Date.now() > limit_to_register_time) ? "" : ("/" + data1[i].max_nb_player)) + "</td>" +
                             "<td>" + (data2[data1[i].id] ? "<button onclick='ft_unregister_tournament(" + data2[data1[i].id].id + ")'>unregister</button>" : "<button onclick='ft_register_tournament(" + data1[i].id + ")'>register</button>") + "</td>" +
+                            "<td>" + ((data1[i].status == 'created' || !data1[i].status) ? ("<p>" + data1[i].status + "</p>") : ("<button onclick='ft_see_tournament(" + data1[i].id + ")'>" + data1[i].status + "</button>"))+ "</td>" +
                             "</tr>");
                         i++;
                     }
@@ -78,6 +80,7 @@
             "<div><label>Name</label><input id='tournament_name' type='text' required></div>" +
             "<div class='time_picker'><label for='start_time'>Start Time</label><input id='start_time' required></div>" +
             "<div><label for='nb_of_players_selected'>Number of Players</label><select id='nb_of_players_selected'><option>2</option><option>4</option><option>8</option><option>16</option></select></div>" +
+            "<div><label>Incentives</label><input id='incentives_id' type='text'></div>" +
             "<div><button onclick='ft_create_tournament()'>Create Tournament</button></div>" +
             "</div>");
             flatpickr("#start_time", {
@@ -87,10 +90,11 @@
                 minDate: "today"
             });
     <% end %>
-    function ft_create_tournament(){
+    function ft_create_tournament(){//need to add validation models in rails
         var name = $("#tournament_name").val();
         var start_time = $("#start_time").val();
         var nb_of_players = $("#nb_of_players_selected").val();
+        var incentives = $("#incentives_id").val();
         var game_type = "single_round";
         if (name.length == 0)
         {
@@ -102,20 +106,44 @@
             alert("Start Time cannot be empty !");
             return;
         }
+        console.log(start_time);
+        console.log(new Date(start_time));
+        console.log(Date.now());
+        var date = new Date(start_time);
+        console.log(date);
+        console.log((Date.now() > date));
+        if (Date.now() > new Date(start_time))
+        {
+            alert("Start Time passed !");
+            return;
+        }
         var Tournament = Backbone.Model.extend({
             urlRoot: '/tournaments'
         });
         var tournament = new Tournament();
-        tournament.save(
+        //tournament.save(
+        var data =
         {
             rules: name,
             deadline: start_time,
             max_nb_player: nb_of_players * 1,
             type: game_type,
-        },
+        };
+        if (incentives.length > 0)
+            data["incentives"] = incentives;
+        tournament.save(data,
         {
             success: function(){
                 tournamentview.render();
+            },
+            error: function(data, xhr){
+                console.log("eee");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ooops...',
+                    text: xhr.responseJSON["error_text"],
+                    footer: xhr.statusText
+                })
             }
         });
     }
@@ -165,6 +193,11 @@
                 tournamentview.render();
             }
         });
+    }
+    function ft_see_tournament(tournament_id)
+    {
+        console.log(tournament_id);
+        tournamentview.render_details(tournament_id);
     }
 </script>
 </script>

@@ -14,6 +14,10 @@ class TournamentsController < ApplicationController
   # GET /tournaments/1
   # GET /tournaments/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.json {render json: Tournament.find_by(id: params[:id])}
+    end
   end
 
   # GET /tournaments/new
@@ -29,6 +33,17 @@ class TournamentsController < ApplicationController
   # POST /tournaments.json
   def create
     #puts params[:deadline].to_datetime - 15.minute;
+
+    #a decommenter
+    #if (Time.now > (params[:deadline].in_time_zone(Time.zone) - 15.minute))
+    #  respond_to do |format|
+    #    format.html
+    #    format.json {render json: {error_text: "start_time_not_correct"}, status: :unprocessable_entity}
+    #  end
+    #  return;
+    #end
+
+    params[:tournament]["status"] = "created";
     @tournament = Tournament.new(tournament_params)
 
     #StartTournamentJob.set(wait: 1.minute).perform_later("hey");
@@ -36,6 +51,9 @@ class TournamentsController < ApplicationController
     respond_to do |format|
       if @tournament.save
         StartTournamentJob.set(wait_until: @tournament.deadline).perform_later(@tournament);
+        User.all.each do |user|
+          send_notification(current_user.id, user.id, "information", nil, "new tournament available", nil);
+        end
         format.html { redirect_to @tournament, notice: 'Tournament was successfully created.' }
         format.json { render :show, status: :created, location: @tournament }
       else

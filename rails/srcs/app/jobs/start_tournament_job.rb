@@ -62,7 +62,10 @@ class StartTournamentJob < ApplicationJob
       if (participations.size == tournament.max_nb_player)
         i = 0;
         j = 0;
-        while ( i < (tournament.max_nb_player / 2))
+        nb_player = tournament.max_nb_player
+        tournament.update(max_nb_player: tournament.max_nb_player / 2);
+        tournament.update(step: tournament.step + 1);
+        while ( i < (nb_player / 2))
           game = Game.create(tournament_id:  tournament.id);
           gameP1 = GameParticipation.create(user_id: participations[j].user_id, game_id: game.id);
           gameP2 = GameParticipation.create(user_id: participations[j + 1].user_id, game_id: game.id);
@@ -74,8 +77,8 @@ class StartTournamentJob < ApplicationJob
           j = j + 2;  
           i = i + 1;
         end
-        tournament.update(max_nb_player: tournament.max_nb_player / 2);
-        tournament.update(step: tournament.step + 1);
+        # tournament.update(max_nb_player: tournament.max_nb_player / 2);
+        # tournament.update(step: tournament.step + 1);
       end 
     end
   end
@@ -100,7 +103,10 @@ def update_tournament(participation_id)
     puts  "dans la condition"
     i = 0;
     j = 0;
-    while ( i < (tournament.max_nb_player / 2))
+    nb_player = tournament.max_nb_player
+    tournament.update(max_nb_player: tournament.max_nb_player / 2);
+    tournament.update(step: tournament.step + 1);
+    while ( i < (nb_player / 2))
       game = Game.create(tournament_id:  tournament.id);
       gameP1 = GameParticipation.create(user_id: participations[j].user_id, game_id: game.id);
       gameP2 = GameParticipation.create(user_id: participations[j + 1].user_id, game_id: game.id);
@@ -112,8 +118,8 @@ def update_tournament(participation_id)
       j = j + 2;  
       i = i + 1;
     end
-    tournament.update(max_nb_player: tournament.max_nb_player / 2);
-    tournament.update(step: tournament.step + 1);
+    # tournament.update(max_nb_player: tournament.max_nb_player / 2);
+    # tournament.update(step: tournament.step + 1);
   end
 end
 

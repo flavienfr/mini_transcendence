@@ -379,7 +379,7 @@
                 {
                     if (host_score > guest_score)
                         saveScore(ask_for_game.get("game_id"), ask_for_game.get("from_user_id"),host_score, guest_score)
-                        else
+                    else
                         saveScore(ask_for_game.get("game_id"), ask_for_game.get("to_user_id"), guest_score, host_score);
                     
                     var Games = Backbone.Model.extend({
@@ -494,6 +494,7 @@
     {
         // if (timer <= -1)
         //     ft_pause();
+        gamer.x  = 0;
         limitPause(host_id) // a remettre plus tard quand le site sera fini
         if (timer <= -1 && pause_gamer == false && pause_guest == false)
         {
@@ -547,7 +548,7 @@ window.onbeforeunload = function() {
 var socket = new WebSocket("ws://localhost:3000/cable");
 var fps  = 0;
 var medium_fps = 0;
-gamer.x  = 0;
+
 var time_pause = Date.now();
 var start = Date.now();
 

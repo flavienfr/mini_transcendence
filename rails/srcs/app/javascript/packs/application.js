@@ -47,4 +47,4 @@ import en from 'javascript-time-ago/locale/en';
 TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo('en-US');
 window.timeAgo = timeAgo;
-console.log("window.TimeAgo", window.timeAgo);
+// console.log("window.TimeAgo", window.timeAgo);

@@ -17,6 +17,7 @@
 			console.log(event.detail);
 			if (event.detail.data.content == "host_user")
 			{
+				console.log("host");
 				setTimeout(() => {
 					playview.render(true);
 					pongview.setElement("#pong-area").render();
@@ -24,6 +25,7 @@
 			}
 			else
 			{
+				console.log("guest");
 				var host_id = event.detail.data.host_id
 					setTimeout(() => {
 				playview.render(true);
@@ -63,6 +65,17 @@
 					chatview.setElement("#chat_area").render_admin_chat_view();
 				if (val_hidden == "admin_detail_" + data)
 					chatview.setElement("#chat_area").render_admin_chat_view();
+			}
+			if (event.detail.data.refresh_tournament_details_id)
+			{
+				var tournament_id = event.detail.data.refresh_tournament_details_id;
+				var val_hidden = $("#tournament_details_hidden_id").val();
+				console.log("tournament_id" + tournament_id);
+				console.log("val" + val_hidden);
+				if (val_hidden == "tournament_details_" + tournament_id)
+				{
+					tournamentview.render_details(tournament_id);
+				}
 			}
 		});
 		// set the socket for having notification 
@@ -111,6 +124,7 @@
 		<%= render "pages/ladder" %>
 		<%= render "pages/chat/admin_chat_view" %>
 		<%= render "pages/guild_users" %>
+		<%= render "pages/tournament_details" %>
 	</div>
 
 <script>
@@ -1088,6 +1102,7 @@ var Profil2View = Backbone.View.extend({
 var TournamentView = Backbone.View.extend({
 	el : '#inside-page',
 	template: _.template($('#tournament-template').html()),
+	template_tournament_details: _.template($("#tournament_details-template").html()),
   
 	initialize : function() {
 		console.log("TournamentView created");
@@ -1096,6 +1111,11 @@ var TournamentView = Backbone.View.extend({
 	render : function() {
 		this.$el.html(this.template);
 		console.log("Render Tournament");
+		return this;
+	},
+
+	render_details: function(tournament_id){
+		this.$el.html(this.template_tournament_details({tournament_id: tournament_id}));
 		return this;
 	}
 });

@@ -21,10 +21,33 @@
 
 			<br>
 
+			<%% if (titles) { %>
+				<!-- Title -->
+				<div class="form-title selector">
+					<label for="title_input">Title</label>					
+					<%%	let current_title = titles.find(t => { return t.id === user.title_id }); %>
+					<select id="title_drop_down" class="form-control form-control-md">
+						<%% if (titles.find(t => { return t.id === user.title_id })) { %>
+							<option value="" hidden><%%= current_title.name %></option>
+							<option value="">No title</option>
+						<%% } else { %>
+							<option value="" hidden>No title</option>
+							<option value="" >No title</option>
+						<%% } %>
+						<%%	for (let i = 0; i < titles.length; i++) { %>
+							<option><%%= titles[i].name %></option>
+						<%% } %>
+					</select>
+				</div>
+			<%% } %>
+
+			<br>
+
 			<!-- Current Avatar -->
 			<p>Current Avatar</p>
 			<img src="<%%= user.avatar %>" style="width: 100px;" id="edit_profile_current_avatar"> </img>
 
+			<br>
 			<br>
 
 			<!-- Avatar Upload -->
@@ -37,11 +60,11 @@
 
 			<!-- Double Factor Auth Checkbox -->
 			<div class="form-check">
-			<%% if (user.enabled_two_factor_auth == true) { %>
-				<input type="checkbox" class="form-check-input" id="edit_profile_two_factor_checkbox" checked="checked">
-			<%% } else { %>
-				<input type="checkbox" class="form-check-input" id="edit_profile_two_factor_checkbox">
-			<%% } %>
+				<%% if (user.enabled_two_factor_auth == true) { %>
+					<input type="checkbox" class="form-check-input" id="edit_profile_two_factor_checkbox" checked="checked">
+				<%% } else { %>
+					<input type="checkbox" class="form-check-input" id="edit_profile_two_factor_checkbox">
+				<%% } %>
 				<label class="form-check-label" for="google_authenticator_checkbox">Two factor authentication</label>
 			</div>
 				
@@ -51,16 +74,15 @@
 			<button type="submit" id="edit_profile_form_submit" class="btn btn-primary">Save profile</button>
 
 		</form>
-		<button id="logout" class="btn btn-primary">Log out</button>
+		<button id="logout" class="btn btn-secondary">Log out</button>
 
 	</div>
 
 	<br>
-	<br>
 
 	<!-- Double Factor Auth Modal -->
 	<div class="edit-profile-modal-btn">
-		<p>Do not forget to scan this QR code on your Google Authenticator app</p>
+		<p>Scan this QR code on Google Authenticator</p>
 		<div class="box-auth">
 			<button type="button" class="btn btn-primary btn-dark" data-toggle="modal" data-target="#modalGoogle">
 				<img src="<%= image_url('google.png') %>" width="60em" height="60em" alt="" class="profil profil-photo">

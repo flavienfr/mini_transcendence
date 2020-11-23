@@ -159,3 +159,15 @@ $.ajax({
 		return self;		
 	}
 })
+
+
+
+
+
+
+<!-- title -->
+<%% if (target_user.title_id) { %>
+	<h3 class="title">Title: <%%= title.name %></h3>
+<%% } else { %>
+	<h3 class="title">Title: -</h3>
+<%% } %>

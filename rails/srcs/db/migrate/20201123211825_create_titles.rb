@@ -1,9 +1,9 @@
-class CreateUserTitles < ActiveRecord::Migration[6.0]
+class CreateTitles < ActiveRecord::Migration[6.0]
   def change
-    create_table :user_titles do |t|
+    create_table :titles do |t|
       t.references :user, null: false, foreign_key: true
       t.references :tournament, null: false, foreign_key: true
-      t.string :title
+      t.string :name
       t.string :status
 
       t.timestamps

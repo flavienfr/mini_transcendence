@@ -8,8 +8,8 @@ rails g scaffold guild_participation user:references guild:references is_admin:b
 rails g scaffold achievement name:string description:string points:integer status:string
 rails g scaffold user_achievement user:references achievement:references status:string
 
-rails g scaffold friendship user1_id:integer user2_id:integer status:string
-rails g scaffold ask_for_friendship from_user_id:integer to_user_id:integer friendship:references status:string
+rails g scaffold friendship status:string
+rails g scaffold ask_for_friendship friendship:references status:string
 
 rails g scaffold channel name:string scope:string password:string owner_id:integer status:string
 rails g scaffold channel_participation user:references channel:references is_owner:boolean is_winner:boolean status:string
@@ -31,10 +31,12 @@ rails g scaffold notification from_user_id:integer user:references to_channel_id
 
 rails g scaffold block_user user_id:references block_user_id:integer status:string
 
+rails g scaffold user_title user_id:references tournament_id:references title:string status:string
+
 # rails generate migration add_fieldname_to_tablename fieldname:string
 # rails generate migration add_is_owner_to_user is_owner:boolean
-# rails g migration ChangeProductPopularity
-
+# rails generate migration add_status_to_game_participations status:string
+# rails g migration ChangeAskForFriendships
 # rails generate migration add_fieldname_to_tablename fieldname:string
-
 # rails g migration add_count_all_matchs_for_war_to_war count_all_matchs_for_war:boolean
+

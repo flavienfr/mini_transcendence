@@ -5,20 +5,19 @@ class FriendshipsController < ApplicationController
   # GET /friendships.json
   def index
     @friendships = Friendship.all 
-    friendships_ids = Friendship.all
-    .where('user1_id = ? or user2_id = ?', params[:id].to_i, params[:id].to_i)
-    .pluck(:user1_id, :user2_id)
-    .uniq().flatten()
+    # friendships_ids = Friendship.all
+    # .where('sender_id = ? or recipient_id = ?', params[:id].to_i, params[:id].to_i)
+    # .pluck(:sender_id, :recipient_id)
+    # .uniq().flatten()
 
-    friendships_ids.delete(params[:id].to_i) 
-    @users = User.where("id IN (?)", friendships_ids)
-    render json: @users
+    # friendships_ids.delete(params[:id].to_i) 
+    # @users = User.where("id IN (?)", friendships_ids)
+    render json: User.find(params[:id].to_i).get_friendships("active").as_json
   end
 
   # GET /friendships/1
   # GET /friendships/1.json
   def show
-    
   end
 
   # GET /friendships/new
@@ -78,6 +77,6 @@ class FriendshipsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def friendship_params
-      params.require(:friendship).permit(:user1_id, :user2_id, :status)
+      params.require(:friendship).permit(:status, :sender_id, :recipient_id)
     end
 end

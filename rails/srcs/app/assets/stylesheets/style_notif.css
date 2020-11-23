@@ -1,0 +1,18 @@
+.show .notif_dop{
+	display: flex;
+	flex-direction: column;
+}
+
+.notif_dop .drop-it{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-bottom: 1px solid #333333;
+}
+
+.accept_deny{
+	display: flex;
+	justify-content: center;
+	width: 250px;
+}

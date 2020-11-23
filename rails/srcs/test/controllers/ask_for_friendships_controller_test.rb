@@ -17,7 +17,7 @@ class AskForFriendshipsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create ask_for_friendship" do
     assert_difference('AskForFriendship.count') do
-      post ask_for_friendships_url, params: { ask_for_friendship: { friendship_id: @ask_for_friendship.friendship_id, from_user_id: @ask_for_friendship.from_user_id, status: @ask_for_friendship.status, to_user_id: @ask_for_friendship.to_user_id } }
+      post ask_for_friendships_url, params: { ask_for_friendship: { friendship_id: @ask_for_friendship.friendship_id, status: @ask_for_friendship.status } }
     end
 
     assert_redirected_to ask_for_friendship_url(AskForFriendship.last)
@@ -34,7 +34,7 @@ class AskForFriendshipsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update ask_for_friendship" do
-    patch ask_for_friendship_url(@ask_for_friendship), params: { ask_for_friendship: { friendship_id: @ask_for_friendship.friendship_id, from_user_id: @ask_for_friendship.from_user_id, status: @ask_for_friendship.status, to_user_id: @ask_for_friendship.to_user_id } }
+    patch ask_for_friendship_url(@ask_for_friendship), params: { ask_for_friendship: { friendship_id: @ask_for_friendship.friendship_id, status: @ask_for_friendship.status } }
     assert_redirected_to ask_for_friendship_url(@ask_for_friendship)
   end
 

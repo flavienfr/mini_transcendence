@@ -143,7 +143,6 @@
   } 
 }
 
-
 /****************/
 
 .user_list{
@@ -158,4 +157,16 @@
 
 	background-color: white;
 	border: 4px solid #454d55;
+}
+
+.user_list{
+	max-width: 350px;
+}
+
+.user_list, .dropdown-user{
+	margin-top: 5%;
+}
+
+.dropdown-user button{
+	width: 80%;
 }

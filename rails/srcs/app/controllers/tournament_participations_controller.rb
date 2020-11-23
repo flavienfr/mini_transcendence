@@ -34,6 +34,19 @@ class TournamentParticipationsController < ApplicationController
         format.html
         format.json {render json: to_return_json}
       end
+    elsif (params[:type] == "all_participants")
+      users_in_order = {};
+      User.all.each do |user|
+        users_in_order[user.id] = user.name;
+      end
+      participations = TournamentParticipation.where("tournament_id = ?", params[:tournament_id]).order("created_at");
+      to_return_json = {};
+      to_return_json["participations"] = participations;
+      to_return_json["users"] = users_in_order;
+      respond_to do |format|
+        format.html
+        format.json {render json: to_return_json}
+      end
     end
   end
 
@@ -56,10 +69,21 @@ class TournamentParticipationsController < ApplicationController
   def create
     puts "????????????????????"
     puts params;
+    tournament_participations = TournamentParticipation.where("user_id = ?", params[:user_id]);
+    puts params;
+    tournament_participations.each do |participation|
+      if (participation.tournament.status == 'created' || participation.tournament.status == 'started')
+        respond_to do |format|
+          format.html
+          format.json {render json: {error_text: "you_cant_be_subscribed_in_2_tournaments"}, status: :unprocessable_entity}
+        end
+        return;
+      end
+    end
     # @tournament_participation = TournamentParticipation.new(tournament_participation_params)
     tournament = Tournament.find_by(id: params[:tournament_id]);
     start_time = tournament.deadline;
-    #if (Time.now > start_time - 15.minute)
+    #if (Time.now > start_time - 15.minute)#a decommenter
     #  respond_to do |format|
     #    format.html
     #    format.json {render json: {error_text: "too_late_to_register"}, status: :unprocessable_entity}
@@ -81,6 +105,7 @@ class TournamentParticipationsController < ApplicationController
 
     respond_to do |format|
       if @tournament_participation.save
+        send_notification(params[:user_id], params[:user_id], "information", nil, "you registered in a tournament", nil);
         format.html { redirect_to @tournament_participation, notice: 'Tournament participation was successfully created.' }
         format.json { render :show, status: :created, location: @tournament_participation }
       else
@@ -107,14 +132,21 @@ class TournamentParticipationsController < ApplicationController
       tournament = TournamentParticipation.find(params[:id]).tournament;
       puts tournament.to_json;
       if (tournament.max_nb_player == 1)
+        User.all.each do |user|
+          ActionCable.server.broadcast("notification_channel_" + user.id.to_s, {refresh_tournament_details_id: tournament.id});
+        end
+        tournament.update(status: "ended");
         winner = TournamentParticipation.where("nb_won_game = ? AND tournament_id = ?", tournament.step, tournament.id).first;
         puts "winner = " + User.find(winner.user_id).name.to_s;
         puts "end of tournament !"
         return ;
       end
-      participations = TournamentParticipation.where("nb_won_game = ? AND tournament_id = ?", tournament.step, tournament.id);
+      participations = TournamentParticipation.where("nb_won_game = ? AND tournament_id = ?", tournament.step, tournament.id).order("created_at");
       puts participations.to_json;
       if (participations.size == tournament.max_nb_player)
+        User.all.each do |user|
+          ActionCable.server.broadcast("notification_channel_" + user.id.to_s, {refresh_tournament_details_id: tournament.id});
+        end
         i = 0;
         j = 0;
         nb_player = tournament.max_nb_player
@@ -161,6 +193,7 @@ class TournamentParticipationsController < ApplicationController
       return;
     end
     @tournament_participation.destroy
+    send_notification(current_user.id, current_user.id, "information", nil, "you unregistered from a tournament", nil);
     respond_to do |format|
       format.html { redirect_to tournament_participations_url, notice: 'Tournament participation was successfully destroyed.' }
       format.json { head :no_content }

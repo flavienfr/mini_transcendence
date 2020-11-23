@@ -74,7 +74,7 @@
                                 var i = 0;
                                 while (i < Object.keys(data1).length)
                                 {
-                                    show_div.append("<div style='display: flex;'><a href='/#profil/"+ data1[i].id +"'>" + data1[i].name + "</a>" +
+                                    show_div.append("<div style='display: flex;'><a href='/#profile/"+ data1[i].id +"'>" + data1[i].name + "</a>" +
                                                     (<%%= as_admin %> && !data3[data1[i].id].is_owner ? "<button onclick='ft_ownerize(" + data1[i].id + ")'>Ownerize</button>" : "") +//a finir ownerize
                                                     ((<%%= as_admin %> || user_participation.is_owner) && !data3[data1[i].id].is_admin ? "<button onclick='ft_adminize(" + data1[i].id + ", <%%= as_admin %>)'>Adminize</button>" : "") +
                                                     ((<%%= as_admin %> || user_participation.is_owner) && !data3[data1[i].id].is_owner && data3[data1[i].id].is_admin ? "<button onclick='ft_unadminize(" + data1[i].id + ", <%%= as_admin %>)'>Unadminize</button>" : "") +

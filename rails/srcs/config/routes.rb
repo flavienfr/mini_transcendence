@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :user_titles
 	resources :friendships
 	resources :ask_for_friendships
   	#get 'guilds/get_guild_owner' => 'guilds#get_guild_owner'

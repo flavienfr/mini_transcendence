@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_20_122643) do
+ActiveRecord::Schema.define(version: 2020_11_23_180510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -255,6 +255,17 @@ ActiveRecord::Schema.define(version: 2020_11_20_122643) do
     t.index ["user_id"], name: "index_user_achievements_on_user_id"
   end
 
+  create_table "user_titles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "tournament_id", null: false
+    t.string "title"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tournament_id"], name: "index_user_titles_on_tournament_id"
+    t.index ["user_id"], name: "index_user_titles_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "avatar"
@@ -348,6 +359,8 @@ ActiveRecord::Schema.define(version: 2020_11_20_122643) do
   add_foreign_key "tournament_participations", "users"
   add_foreign_key "user_achievements", "achievements"
   add_foreign_key "user_achievements", "users"
+  add_foreign_key "user_titles", "tournaments"
+  add_foreign_key "user_titles", "users"
   add_foreign_key "users", "guild_participations"
   add_foreign_key "war_participations", "guilds"
   add_foreign_key "war_participations", "wars"

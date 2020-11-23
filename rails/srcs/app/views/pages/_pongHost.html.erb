@@ -221,7 +221,12 @@
                 data: JSON.stringify({
                     data: {score_host: own_score, score_guest: guest.score}
                 })
-            }));
+            }),
+            function ()
+            {
+                if (own_score == 11 || guest.score == 11)
+                    socket.close();
+            });
     }
 
  
@@ -377,27 +382,38 @@
             {
                 if (ask_for_game.get("status") == "playing")
                 {
-                    if (host_score > guest_score)
-                        saveScore(ask_for_game.get("game_id"), ask_for_game.get("from_user_id"),host_score, guest_score)
-                        else
-                        saveScore(ask_for_game.get("game_id"), ask_for_game.get("to_user_id"), guest_score, host_score);
-                    
-                    var Games = Backbone.Model.extend({
-                        urlRoot: 'games'
-                    })
-                    if (is_tournament == true)
+                    ask_for_game.save({status: "ending"},
                     {
-                        var game = new Games({id: ask_for_game.get("game_id")});
-                        game.fetch({ success: function(data)
-                        {
-                            console.log(game.toJSON());
-                            if (host_score > guest_score)
-                                SaveTournament(game.get("tournament_id"), ask_for_game.get("from_user_id"), ask_for_game.get("to_user_id"), host_score, guest_score)
-                            else 
-                                SaveTournament(game.get("tournament_id"), ask_for_game.get("to_user_id"), ask_for_game.get("from_user_id"), guest_score, host_score)
-                        }}) 
-                    }
-                    ask_for_game.save({status: "ending"});
+                         success: function ()
+                         {
+                             console.log("save ending ok")
+                            if (own_score > guest.score)
+                                own_score = 11;
+                            else
+                                guest.score = 11;
+                            ft_send_score(host_id);
+                        }
+                    });
+                }
+                if (host_score > guest_score)
+                    saveScore(ask_for_game.get("game_id"), ask_for_game.get("from_user_id"),host_score, guest_score)
+                else
+                    saveScore(ask_for_game.get("game_id"), ask_for_game.get("to_user_id"), guest_score, host_score);
+                
+                var Games = Backbone.Model.extend({
+                    urlRoot: 'games'
+                })
+                if (is_tournament == true)
+                {
+                    var game = new Games({id: ask_for_game.get("game_id")});
+                    game.fetch({ success: function(data)
+                    {
+                        console.log(game.toJSON());
+                        if (host_score > guest_score)
+                            SaveTournament(game.get("tournament_id"), ask_for_game.get("from_user_id"), ask_for_game.get("to_user_id"), host_score, guest_score)
+                        else 
+                            SaveTournament(game.get("tournament_id"), ask_for_game.get("to_user_id"), ask_for_game.get("from_user_id"), guest_score, host_score)
+                    }}) 
                 }
             }});
         }
@@ -458,31 +474,25 @@
 
 //-------------------------------part 11 Tournament--------------------------------------//
 
-    async function endTournament(host_id)
+    function endTournament(host_id)
     {
         if (own_score > guest.score)
             {
                 endText("You win !!!");
-                await archive_askForGame_table(own_score, guest.score, true);
+                archive_askForGame_table(own_score, guest.score, true);
                 timer = 0;
-                own_score = 11;
-                ft_send_score(host_id);
                 clearInterval(stop);
                 setTimeout(() => {
-                    socket.close();
                     playview.render();
                 }, 2000);
             }
             else if (own_score < guest.score)
             {
                 endText("You loose ...");
-                await archive_askForGame_table(own_score, guest.score, true);
+                archive_askForGame_table(own_score, guest.score, true);
                 timer = 0;
-                guest.score = 11;
                 clearInterval(stop);
-                ft_send_score(host_id);
                 setTimeout(() => {
-                    socket.close();
                     playview.render();
                 }, 2000);
             }
@@ -490,10 +500,11 @@
 
 //-------------------------------part 12 playing game center--------------------------------------//
 
-    async function playing(host_id)
+    function playing(host_id)
     {
         // if (timer <= -1)
         //     ft_pause();
+        gamer.x  = 0;
         limitPause(host_id) // a remettre plus tard quand le site sera fini
         if (timer <= -1 && pause_gamer == false && pause_guest == false)
         {
@@ -510,10 +521,8 @@
                 endText("You win !!!");
             else
                 endText("You loose ...");
-            await archive_askForGame_table(own_score, guest.score, false);
-            ft_send_score();
+            archive_askForGame_table(own_score, guest.score, false);
             clearInterval(stop);
-            socket.close();
             setTimeout(() => {playview.render();}, 2000);
         }
         if (tournament != 0 && Date.now() - tournament  >= 10000) // 3 minutes
@@ -547,7 +556,7 @@ window.onbeforeunload = function() {
 var socket = new WebSocket("ws://localhost:3000/cable");
 var fps  = 0;
 var medium_fps = 0;
-gamer.x  = 0;
+
 var time_pause = Date.now();
 var start = Date.now();
 

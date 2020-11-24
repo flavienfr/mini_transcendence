@@ -1347,7 +1347,8 @@ var WarView = Backbone.View.extend({
 	render_param_guild : async function(id_guild) {
 		await this.collection.fetch();
 		this.$el.html(this.template({
-				guilds: this.collection.toJSON()
+				guilds: this.collection.toJSON(),
+				is_in_request: null
 		}));
 
 		var the_guild = this.collection.findWhere({id: parseInt(id_guild, 10)});
@@ -1372,7 +1373,8 @@ var WarView = Backbone.View.extend({
 			var the_guild = new Guild();
 
 			this.$el.html(this.template({
-				guilds: this.collection.toJSON()
+				guilds: this.collection.toJSON(),
+				is_in_request: null
 			}));
 			this.$('.war_pannel_header').html(this.template_guilds({
 				user: usr.toJSON(),

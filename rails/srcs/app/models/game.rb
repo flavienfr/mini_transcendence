@@ -47,7 +47,6 @@ class Game < ApplicationRecord
 		end
 		#------------------------------
 		# Game type management
-		puts "some info ------------ war,   war.count_all_matchs_for_war,  war.status",war!=nil,   war.count_all_matchs_for_war,  war.status
 		if (self.context == "war_duel")
 			if (war.status != "ending")
 				warp_winner.war_points += war_duel_points

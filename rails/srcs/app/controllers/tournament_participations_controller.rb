@@ -83,13 +83,13 @@ class TournamentParticipationsController < ApplicationController
     # @tournament_participation = TournamentParticipation.new(tournament_participation_params)
     tournament = Tournament.find_by(id: params[:tournament_id]);
     start_time = tournament.deadline;
-    #if (Time.now > start_time - 15.minute)#a decommenter
-    #  respond_to do |format|
-    #    format.html
-    #    format.json {render json: {error_text: "too_late_to_register"}, status: :unprocessable_entity}
-    #  end
-    #  return;
-    #end
+    if (Time.now > start_time - 0.minute)# change time a decommenter
+     respond_to do |format|
+       format.html
+       format.json {render json: {error_text: "too_late_to_register"}, status: :unprocessable_entity}
+     end
+     return;
+    end
 
     @tournament_participation = TournamentParticipation.where("tournament_id = ?", params[:tournament_id]);
 

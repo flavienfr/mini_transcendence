@@ -93,7 +93,12 @@ class AskForGamesController < ApplicationController
 			json_render["msg"] = "War duel sent to " + to_user.name + "."
 			json_render["is_msg"] = 1
 			render json: json_render, status: :ok and return
-		else#elsif (params[:game_type] == "duel")
+		else
+			if (params[:game_type] == "war_duel")
+				json_render["msg"] = "Wait for war schedule."
+				json_render["is_msg"] = 1
+				render json: json_render, status: :unprocessable_entity and return
+			end
 			puts "------ friendly_duel --------"
 
 			@ask_for_game = AskForGame.new(
@@ -158,7 +163,7 @@ class AskForGamesController < ApplicationController
 		# Send notif to all opponent guild
 		for to_user in guild_b.users do
 			puts "--- Notification sent to user: " + user.name
-			msg = "War Random match by " + user.name + " from " + guild_a.name + ".\n You have 5 minutes to accept."
+			msg = "War Random match by " + user.name + " from " + guild_a.name + ".<br> You have 5 minutes to accept."
 			send_notification(user.id, to_user.id, "ask_for_game", @ask_for_game.id, msg, "pending")
 		end
 
@@ -178,7 +183,7 @@ class AskForGamesController < ApplicationController
 			end_date: nil,
 			context: params[:game_type],
 			winner_id: nil,
-			war_id: nil,
+			war_id: war_a.id,
 			war_time_id: nil,
 			tournament_id: nil,
 			channel_id: nil

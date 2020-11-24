@@ -1220,7 +1220,6 @@ var WarView = Backbone.View.extend({
 			dataType: 'json',
 			contentType: 'application/json',
 			success: function(response) {
-				response = response.toJSON();
 				if (response.is_msg){
 					Swal.fire("", response.msg, "success");
 				}
@@ -1252,7 +1251,6 @@ var WarView = Backbone.View.extend({
 			dataType: 'json',
 			contentType: 'application/json',
 			success: function(response) {
-				response = response.toJSON();
 				if (response.is_msg){
 					Swal.fire("", response.msg, "success");
 				}
@@ -1349,7 +1347,8 @@ var WarView = Backbone.View.extend({
 	render_param_guild : async function(id_guild) {
 		await this.collection.fetch();
 		this.$el.html(this.template({
-				guilds: this.collection.toJSON()
+				guilds: this.collection.toJSON(),
+				is_in_request: null
 		}));
 
 		var the_guild = this.collection.findWhere({id: parseInt(id_guild, 10)});
@@ -1374,7 +1373,8 @@ var WarView = Backbone.View.extend({
 			var the_guild = new Guild();
 
 			this.$el.html(this.template({
-				guilds: this.collection.toJSON()
+				guilds: this.collection.toJSON(),
+				is_in_request: null
 			}));
 			this.$('.war_pannel_header').html(this.template_guilds({
 				user: usr.toJSON(),
@@ -1530,9 +1530,9 @@ async function ft_accept_notif(notif) {
 					warview.render();
 				});
 			},
-			error: function(){
-				response = response.responseJSON;
+			error: function(response){
 				if (response.status == 422){
+					response = response.responseJSON;
 					if (response.is_msg){
 						Swal.fire("", response.msg, "error");
 					}
@@ -1790,7 +1790,7 @@ async function closeIt()
 window.onunload = closeIt;
 
 var router = new Router();
-playview.render();//#enlever
+playview.render();
 notifview.render();
 Backbone.history.start();
 

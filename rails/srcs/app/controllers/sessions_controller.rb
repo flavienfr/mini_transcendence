@@ -30,14 +30,11 @@ class SessionsController < ApplicationController
   def oauth
     # see https://profile.intra.42.fr/oauth/applications
     
-    if ENV["logs_filter_sessions_controller"].to_i >= 2
-      puts "sessions/oauth params: ", params
-    end
+    puts "sessions/oauth params: ", params
 
     # --- Exchange your code for an access token
-    if ENV["logs_filter_sessions_controller"].to_i >= 2
-      puts "--- Exchange your code for an access token"
-    end
+    puts "--- Exchange your code for an access token"
+
     header = {
         "grant_type" => ENV["oauth_grant_type"],
         "client_id" => ENV["oauth_client_id"],
@@ -50,9 +47,9 @@ class SessionsController < ApplicationController
     begin
       res_access_token = Net::HTTP.post_form(URI.parse("https://api.intra.42.fr/oauth/token"), header)
       parsed_res_access_token = JSON.parse(res_access_token.body)
-      if ENV["logs_filter_sessions_controller"].to_i >= 2
-        puts "parsed_res_access_token: -", parsed_res_access_token, "-"
-      end
+
+      puts "parsed_res_access_token: -", parsed_res_access_token, "-"
+
     rescue => e
       puts "error in 'Exchange your code for an access token':", e
       render json: e, status: :unprocessable_entity and return
@@ -60,9 +57,7 @@ class SessionsController < ApplicationController
 
     # --- Create session
     # https://api.intra.42.fr/apidoc/guides/web_application_flow
-    if ENV["logs_filter_sessions_controller"].to_i >= 2
-      puts "--- Create session"
-    end
+    puts "--- Create session"
     session = Session.new(
       access_token: parsed_res_access_token["access_token"],
       token_type: parsed_res_access_token["token_type"],
@@ -71,15 +66,11 @@ class SessionsController < ApplicationController
       scope: parsed_res_access_token["scope"],
       created_at: parsed_res_access_token["created_at"]
     )
-    if ENV["logs_filter_sessions_controller"].to_i >= 2
-      puts "session:", session
-    end
+    puts "session:", session
 
     # --- Make API requests with token
     # https://stackoverflow.com/questions/34332901/rails-http-get-request-with-no-ssl-verification-and-basic-auth
-    if ENV["logs_filter_sessions_controller"].to_i >= 2
-      puts "--- Make API requests with token"
-    end
+    puts "--- Make API requests with token"
     begin
       uri = URI.parse("https://api.intra.42.fr/v2/me/")
       req_api = Net::HTTP::Get.new(uri)
@@ -88,9 +79,7 @@ class SessionsController < ApplicationController
       sock.use_ssl = true
       res_api = sock.start { |http| http.request(req_api) }
       parsed_res_api = JSON.parse(res_api.body)
-      if ENV["logs_filter_sessions_controller"].to_i >= 2
-        puts "parsed_res_api:", parsed_res_api
-      end
+      puts "parsed_res_api:", parsed_res_api
     rescue => e
       puts "error in 'Make API requests with your token':", e
       render json: e, status: :unprocessable_entity and return
@@ -135,9 +124,7 @@ class SessionsController < ApplicationController
       end
     end
     user.save
-    if ENV["logs_filter_sessions_controller"].to_i >= 2
-      puts "user:", user.inspect
-    end
+    puts "user:", user.inspect
 
     # --- 2 factor auth
     if user.enabled_two_factor_auth == true
@@ -210,14 +197,10 @@ class SessionsController < ApplicationController
     Session.find(params[:id]).destroy    
     # 2. supprimer le cookie
     hashed_cookies = cookies.to_hash
-    if ENV["logs_filter_sessions_controller"].to_i >= 2
-      puts "DELETE /sessions/", params[:id].to_s, " -> hashed_cookies AVANT supprimer de l'id:", hashed_cookies    
-    end
+    puts "DELETE /sessions/", params[:id].to_s, " -> hashed_cookies AVANT supprimer de l'id:", hashed_cookies    
     cookies.delete :id
     hashed_cookies = cookies.to_hash
-    if ENV["logs_filter_sessions_controller"].to_i >= 2
-      puts "DELETE /sessions/", params[:id].to_s, " -> hashed_cookies APRES supprimer de l'id:", hashed_cookies
-    end
+    puts "DELETE /sessions/", params[:id].to_s, " -> hashed_cookies APRES supprimer de l'id:", hashed_cookies
     # 3. render ok 200
     render json: {}, status: :ok and return
   end

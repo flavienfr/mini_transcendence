@@ -80,7 +80,7 @@
 			}
 		});
 		// set the socket for having notification 
-		socket_notif = new WebSocket("ws://localhost:3000/cable"); 
+		socket_notif = new WebSocket('<%= ENV["action_cable_url"] %>'); 
 		socket_notif.onopen=  function()
 		{
 			socket_notif.send(JSON.stringify({
@@ -385,7 +385,7 @@ var LogView = Backbone.View.extend({
 			type: 'DELETE',
 			success: function(){
 				console.log("DELETE sent !");
-				window.location.href = "http://localhost:3000";
+				window.location.href = '<%= ENV["site_url"] %>';
 			}
 		})
 	},
@@ -843,7 +843,7 @@ var OptionView = Backbone.View.extend({
 			type: 'DELETE',
 			success: function(){
 				console.log("DELETE sent !");
-				window.location.href = "http://localhost:3000";
+				window.location.href = '<%= ENV["site_url"] %>';
 			}
 		})
 	},
@@ -1055,14 +1055,24 @@ var ProfileView = Backbone.View.extend({
 			{
 				Swal.fire("", "you can't be your own friend !", "error");	
 			}
-			notif = new Notification({
+			var data = {
 				from_user_id: current_id,
 				user_id: user_cible,
 				table_type: type,
-				message: message
-			});
-			await notif.save();
-			// check du retour + mettre une alert en cas d erreur
+				message: message,	
+			}
+			self = this
+			Backbone.ajax({
+				url: '/notifications/',
+				data: JSON.stringify(data),
+				type: 'post',
+				dataType: 'json',
+				contentType: 'application/json',
+				error: function(response){
+					if (response.status == 422)
+						Swal.fire("", response.responseJSON.msg, "error");
+				}
+			});	
 		}
 	},
 
@@ -1528,6 +1538,13 @@ async function ft_accept_notif(notif) {
 	console.log("Acceptnotif");
 	if (notif.table_type == "add_friend"){			
 		console.log("add friend");
+		await friendshipcollection.fetch();
+		if (friendshipcollection.findWhere({id: notif.from_user_id}))
+		{
+			Swal.fire("", "you are already friend", "success")
+			delete_notif(notif);
+			return ;
+		}
 		friend = new Friendship({sender_id: notif.from_user_id, recipient_id: notif.user_id, status: "active"});
 		await friend.save();
 		delete_notif(notif);
@@ -1650,6 +1667,37 @@ function launch_game(ask_for_game) {
 	}));
 	playview.render();
 	pongguest.setElement("#pong-area").render(ask_for_game.from_user_id);
+}
+
+async function ft_duel(target_id)
+{
+	console.log("Ask a duel");
+	console.log(target_id)
+
+		var data = {
+			from_user_id: current_user_id,
+			to_user_id: target_id,
+            game_type: "duel",
+        }
+		self = this
+		Backbone.ajax({
+			url: '/ask_for_games/',
+			data: JSON.stringify(data),
+			type: 'post',
+			dataType: 'json',
+			contentType: 'application/json',
+			success: function(response) {
+				if (response.is_msg){
+					Swal.fire("", response.msg, "success");
+				}
+			},
+			error: function(response){
+				if (response.status == 422)
+					Swal.fire("", response.responseJSON.msg, "error");
+				else
+					Swal.fire("", "error: " + response.status, "error");
+			}
+		});
 }
 
 //******************************************** ROUTER ********************************************
@@ -1784,9 +1832,11 @@ $( "#nav_to_war" ).on( "click", function() {
 		Backbone.history.loadUrl();
 });
 
-async function closeIt()
-{
-	var data = {
+
+window.addEventListener("beforeunload", async function (e) {
+  var confirmationMessage = "\o/";
+
+  var data = {
 		current_status: "offline",	
 	}
 	await Backbone.ajax({
@@ -1800,8 +1850,13 @@ async function closeIt()
         error: function(){
 			Swal.fire("", "error:", "error");
         }
-      });	
-}
+    });	
+
+  e.returnValue = confirmationMessage;
+  return confirmationMessage;
+});
+
+
 
 // window.onunload = closeIt;
 

@@ -209,8 +209,8 @@
             clearInterval(stop);
             sock.close();
         };       
-        sock = new WebSocket("ws://localhost:3000/cable");
-        closescript = false; 
+        closescript = false;
+        sock = new WebSocket('<%= ENV["action_cable_url"] %>');
         sock.onopen = function()
         {   
             console.log(sock);

@@ -165,7 +165,7 @@ function ft_send()
 
 
 //main
-socket = new WebSocket("ws://localhost:3000/cable");
+socket = new WebSocket('<%= ENV["action_cable_url"] %>');
 
 socket.onopen=  function()
 {

@@ -70,7 +70,7 @@ function refresh()
 }
 
 
-var socket = new WebSocket("ws://localhost:3000/cable");
+var socket = new WebSocket('<%= ENV["action_cable_url"] %>');
 socket.onopen = function()
 {    
     socket.send(JSON.stringify({

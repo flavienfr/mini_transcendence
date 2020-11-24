@@ -1,13 +1,19 @@
-# oauth
+# 42api signin.html.erb
+http: "https://api.intra.42.fr/oauth/authorize?"
+client: "client_id=235a071025e8e19cdd302e0cff45e29c2b7c2a8b1fd37bc7cdbf4e2edc452729&"
+# redirect_dev: "redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fsessions%2Foauth&"
+# redirect_prod: "redirect_uri%3Dhttps%3A%2F%2Fvast-tundra-52780.herokuapp.com%2Fsessions%2Foauth%26"
+response_type: "response_type=code&"
+scope: "scope=public&"
+state: "state=a_very_long_random_string_witchmust_be_unguessable"
+
+# oauth sessions_controller.rb
 oauth_grant_type: "authorization_code"
 oauth_client_id: "235a071025e8e19cdd302e0cff45e29c2b7c2a8b1fd37bc7cdbf4e2edc452729"
 oauth_client_secret: "bd247fc761561f68598d981c4c151e43905690f9a8f99039631e5a6b1098a2dc"
-oauth_redirect_uri: "http://localhost:3000/sessions/oauth"
+# oauth_redirect_uri_dev: "http://localhost:3000/sessions/oauth"
+# oauth_redirect_uri_prod: "https://vast-tundra-52780.herokuapp.com/sessions/oauth"
 oauth_state: "a_very_long_random_string_witchmust_be_unguessable"
-
-# logs
-# 1:CLEAN=1 / 2:INFO=1+2 / 3:DEBUG=1+2+3
-logs_filter_sessions_controller: "3"
 
 # cloudinary
 # https://cloudinary.com/console/c-f2cacdfa6f35c0e331c720a8b64871/media_library/folders/home
@@ -17,3 +23,15 @@ cloudinary_Cloud_name: "dwcxgy6qt"
 cloudinary_API_Key: "439763265978211"
 cloudinary_API_Secret: "lKJWSNjqFSqgBxLlyLuXSpORYX4"
 cloudinary_API_Environment_variable: "CLOUDINARY_URL=cloudinary://439763265978211:lKJWSNjqFSqgBxLlyLuXSpORYX4@dwcxgy6qt"
+
+development:
+  site_url: "http://localhost:3000"
+  redirect: "redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fsessions%2Foauth&"
+  oauth_redirect_uri: "http://localhost:3000/sessions/oauth"
+  action_cable_url: "ws://localhost:3000/cable"
+
+production:
+  site_url: "https://vast-tundra-52780.herokuapp.com"
+  redirect: "redirect_uri%3Dhttps%3A%2F%2Fvast-tundra-52780.herokuapp.com%2Fsessions%2Foauth%26"
+  oauth_redirect_uri: "https://vast-tundra-52780.herokuapp.com/sessions/oauth"
+  action_cable_url: "ws://vast-tundra-52780.herokuapp.com/cable"

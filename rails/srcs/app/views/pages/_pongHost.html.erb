@@ -553,7 +553,7 @@ window.onbeforeunload = function() {
     console.log("socket pongchannel close")}; // disable onclose handler first
 };
 
-var socket = new WebSocket("ws://localhost:3000/cable");
+var socket = new WebSocket('<%= ENV["action_cable_url"] %>');
 var fps  = 0;
 var medium_fps = 0;
 

@@ -51,7 +51,7 @@
                 // affiche le spinner
                 var spinner = document.getElementById("spinner");
                 spinner.classList.add("active");
-                window.location.href = "http://localhost:3000";
+                window.location.href = '<%= ENV["site_url"] %>';
                 // cache le spinner:
 				spinner.classList.remove("active");
                 Swal.fire({

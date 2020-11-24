@@ -47,7 +47,7 @@ class MessagesController < ApplicationController
       users_guild_with_id = {};
       users.each do |user|
         users_with_id[user.id] = user.name;
-        if (user.guild_participation_id)
+        if (user.guilds.first)
           users_guild_with_id[user.id] = user.guilds.first.anagram;
         else
           users_guild_with_id[user.id] = "";

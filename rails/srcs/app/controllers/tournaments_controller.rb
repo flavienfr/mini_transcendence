@@ -14,6 +14,24 @@ class TournamentsController < ApplicationController
   # GET /tournaments/1
   # GET /tournaments/1.json
   def show
+    if (params[:type] == "games_tournament_live")
+      all_playing_ask_for_game = AskForGame.where("game_id IN (?) AND status = 'playing'", Tournament.find_by(id: params[:id]).games.pluck(:id));
+      puts "-----"
+      puts all_playing_ask_for_game.to_json;
+      puts "-----"
+      users_in_order = {};
+      User.all.each do |user|
+        users_in_order[user.id] = user.name;
+      end
+      to_return_json = {};
+      to_return_json["ask_for_games"] = all_playing_ask_for_game;
+      to_return_json["users"] = users_in_order;
+      respond_to do |format|
+        format.html
+        format.json {render json: to_return_json}
+      end
+      return;
+    end
     respond_to do |format|
       format.html
       format.json {render json: Tournament.find_by(id: params[:id])}

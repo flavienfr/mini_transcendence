@@ -224,7 +224,7 @@
             }),
             function ()
             {
-                if (own_score == 11 || guest.score == 11)
+                if (own_score >= 11 || guest.score >= 11)
                     socket.close();
             });
     }
@@ -395,6 +395,12 @@
                         }
                     });
                 }
+                else if (!ask_for_game.get("id"))
+                {
+                    socket.close();
+                    return ;
+                }    
+                console.log("askforgame = " + ask_for_game.id)
                 if (host_score > guest_score)
                     saveScore(ask_for_game.get("game_id"), ask_for_game.get("from_user_id"),host_score, guest_score)
                 else
@@ -420,6 +426,9 @@
 
         function saveScore(game_id, winner_id, winner_score, loser_score)
         {
+            console.log("winner_id = " + winner_id);
+            console.log("winner_score = " + winner_score);
+            console.log("looser_score = " + loser_score);
 			data = {
 				winner_id: winner_id,
 				winner_score: winner_score,
@@ -514,10 +523,10 @@
         }
         if (document.hidden == true)
             guest.score = 11;
-        if (tournament == 0 && (own_score == 11 || guest.score == 11))
+        if (tournament == 0 && (own_score >= 11 || guest.score >= 11))
         {
             drawRect(0,0, canvas.width, canvas.height,"BLACK");
-            if (own_score == 11)
+            if (own_score >= 11)
                 endText("You win !!!");
             else
                 endText("You loose ...");
@@ -526,7 +535,7 @@
             setTimeout(() => {playview.render();}, 2000);
         }
         if (tournament != 0)
-            if (Date.now() - tournament >= 1800000 || (own_score == 11 || guest.score == 11)) // 3 minutes
+            if (Date.now() - tournament >= 1800000 || (own_score >= 11 || guest.score >= 11)) // 3 minutes
                 endTournament(host_id);
         get_fps();  
         fps++;  

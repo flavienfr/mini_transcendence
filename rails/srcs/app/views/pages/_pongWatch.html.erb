@@ -186,10 +186,10 @@
                     clearInterval(stop);
                     liveview.render();
                 }
-                if (host.score == 11 || guest.score == 11)
+                if (host.score >= 11 || guest.score >= 11)
                 {
                     clearInterval(stop);
-                    if (guest.score == 11)
+                    if (guest.score >= 11)
                         endText("Guest win !!!");
                     else
                         endText("Host loose ... ");

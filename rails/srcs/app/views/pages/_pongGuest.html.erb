@@ -206,7 +206,7 @@ const msg = JSON.parse(response);
                 ft_timer((timer == 0) ? "GO !" : timer);
                 pause = 0;
             }
-            if (host.score == 11 || own_score == 11)
+            if (host.score >= 11 || own_score >= 11)
             {
                 clearInterval(stop);
                 drawRect(0,0, canvas.width, canvas.height,"BLACK");

@@ -1803,7 +1803,28 @@ async function closeIt()
       });	
 }
 
-window.onunload = closeIt;
+// window.onunload = closeIt;
+
+window.addEventListener("beforeunload", async function (e) {
+  var confirmationMessage = "\o/";
+  var data = {
+        current_status: "offline",    
+    }
+    await Backbone.ajax({
+        url: '/users/' + current_user_id,
+        data: JSON.stringify(data),
+        type: 'put',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response) {
+        },
+        error: function(){
+            Swal.fire("", "error:", "error");
+        }
+    }); 
+  e.returnValue = confirmationMessage;
+  return confirmationMessage;
+});
 
 var router = new Router();
 playview.render();

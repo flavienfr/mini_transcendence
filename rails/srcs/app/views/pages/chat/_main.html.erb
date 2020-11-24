@@ -47,40 +47,7 @@
 	</div>
 	<script type="text/javascript">
 		<%% if (receiver && receiver.name) {%>
-			var Message = Backbone.Model.extend({
-				urlRoot: '/messages'
-			});
-			var message = new Message();
-			message.fetch({
-				data: {user_id: <%== current_user.id %>, receiver_id: <%%= receiver.scope == "direct" ? target.id : receiver.id %>, scope: '<%%= receiver.scope ? receiver.scope : "direct" %>'},
-				success: function(data)
-				{
-					data = data.toJSON();
-					var BlockUser = Backbone.Model.extend({
-						urlRoot: '/block_users'
-					});
-					var block_user = new BlockUser();
-					block_user.fetch({
-						data: {user_id: <%== current_user.id %>},
-						success: function(data2){
-							data2 = data2.toJSON();
-							if (data && data.messages && data.messages.length > 0)
-							{
-								var i = 0;
-								$("#conversation_window").html("");
-								while (i < data.messages.length)
-								{
-									if (data2[data.messages[i].user_id] != "blocked")
-										$("#conversation_window").append("<div>[" + (data.guilds[data.messages[i].user_id] != "" ? data.guilds[data.messages[i].user_id] : "") + "]" + data.users[data.messages[i].user_id] + ":" + data.messages[i].text + "</div>");
-									i++;
-								}
-							}
-							else
-								$("#conversation_window").html("");
-						}
-					});
-				}
-			});
+			msgview.setElement("#conversation_window").render(<%%= JSON.stringify(receiver) %>);
 		<%% } %>
 		function ft_show_conversation(channel_or_user_selected)
 		{

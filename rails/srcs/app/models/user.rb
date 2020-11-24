@@ -70,4 +70,17 @@ class User < ApplicationRecord
         return data
     end
 
+    def get_all_titles()
+        titles = Title.where("user_id = ?", self.id)
+        return titles
+    end
+
+    def get_title()
+        if (self.title_id)
+            return Title.find(self.title_id)
+        else
+            return nil
+        end
+    end
+
 end

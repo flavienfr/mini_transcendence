@@ -1,92 +1,26 @@
-/* .param_form label, .param_form p{
-	font-size: 30px;
-}
-
-.param_form{
-	height: 100%;
+.edit_profile_view-container {
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	height: 100%;
 }
-.param_form form{
+
+.form-container{
 	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	align-items: center;
-
-	width: 75%;
-	height: 75%;
-	max-width: 1000px;
-	max-height: 1000px;
-	min-height: 300px;
-	padding: 0 15% 0 15%;
-
-	background-color: white;
-	border: 4px solid #333333;
+	justify-content: center;
+	width: 80%;
+	max-width: 700px;
+	padding-top: 15px;
+	margin-top: 3vh;
+	margin-bottom: 3vh;
 
 	overflow:auto;
 	direction:ltr;
 	scrollbar-color: #333333 white;
+
+	border: 4px solid #333333;
+	background-color: white;
 }
-
-.param_form .form-group{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	max-width: 400px;
-}
-
-.box_upload{
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
-	align-items: center;
-	width: 150%;
-	height: 200px;
-	padding: 0 15% 0 15%;
-
-	border: 4px dashed #333333;
-	background-color: #e9e4e4;
-}
-.box_upload input{
-	width: 60%;
-}
-
-.box-auth{
-	display: flex;
-	flex-direction: row;
-	justify-content:space-around;
-	align-items: center;
-	width: 200px;
-}
-
-.param_form .validate-btn button{
-	width: 300px;
-	margin-bottom: 20px;
-}
-
-@media (max-height: 900px) {
-
-	.box_upload{
-		height: 60px;
-	}
-	.box_upload svg{
-		display: none;
-	}
-	.param_form label, .param_form p{
-		font-size: 20px;
-	}
-}
-
-@media (max-width: 700px) {
-	.param_form label, .param_form p{
-		font-size: 20px;
-	}
-	.param_form .validate-btn button{
-		width: 190px;
-	}
-} */
-
+/*
 .edit_profile_view-container {
     width: 100vw;
     height: 100vh;
@@ -97,11 +31,12 @@
 .edit_profile_view-container .form-container {
     width: 35%;
     min-width: 350px;
-	max-width: 500px;
+	max-width: 500px;*/
 	/* background-color: white; */
-	padding: 20px;
+	/*padding: 20px;
 }
 
 #logout {
 	margin-top: 5px;
 }
+*/

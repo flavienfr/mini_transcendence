@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @title.user_id %>
+</p>
+
+<p>
+  <strong>Tournament:</strong>
+  <%= @title.tournament_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @title.name %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @title.status %>
+</p>
+
+<%= link_to 'Edit', edit_title_path(@title) %> |
+<%= link_to 'Back', titles_path %>

@@ -83,16 +83,11 @@
 		function go_watch(host_id)
 		{
 			liveview.render();
+			closescript = true;
 			save_watch(host_id);
 		}
-
-
 		create_watch();
 		<%% } %>
-
-
-
-
 		<%% if (receiver && receiver.name) {%>
 			var Message = Backbone.Model.extend({
 				urlRoot: '/messages'

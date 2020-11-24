@@ -31,21 +31,17 @@
 var clic = 0;
 var current = <%== current_user.id%>;
 
-function ft_getNames(data)
+function ft_getNames(ask)
 {
 	var Users = Backbone.Model.extend({
 		url: '/users'
 	})
 	var user = new Users();
-	user.fetch({data: {user_id: data.from_user_id, type: "viewer"}, success: function(){		
-		var user2 = new Users();
-		user2.fetch({data: {user_id: data.to_user_id, type: "viewer"}, success: function ()
-		{
-			var show_div = $("#game_room");
-			var name1 = user.get('name');
-			var name2 = user2.get('name');
-			show_div.append("<a class='dropdown-item' onclick='save_watch("+ data.from_user_id +")'>"+ name1 + " VS " + name2 +"</a>");
-		}});
+	user.fetch({data: {}, success: function (data) {
+		var show_div = $("#game_room");
+		var name1 = data.attributes[ask.from_user_id].name;
+		var name2 = data.attributes[ask.to_user_id].name;
+		show_div.append("<a class='dropdown-item' onclick='save_watch("+ data.from_user_id +")'>"+ name1 + " VS " + name2 +"</a>");
 	}});
 }
 

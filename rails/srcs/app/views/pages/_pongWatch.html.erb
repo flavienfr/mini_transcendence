@@ -184,7 +184,7 @@
                     endText("player disco..")
                     sock.close();
                     clearInterval(stop);
-                    liveview.render();
+                    // liveview.render();
                 }
                 if (host.score >= 11 || guest.score >= 11)
                 {
@@ -194,7 +194,7 @@
                     else
                         endText("Host loose ... ");
                     sock.close();
-                    setTimeout(() => {liveview.render();}, 1000);
+                    // setTimeout(() => {liveview.render();}, 1000);
                 } 
             }
         ft_recieve();

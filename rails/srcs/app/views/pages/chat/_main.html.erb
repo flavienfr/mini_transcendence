@@ -70,7 +70,7 @@
 					{
 						if (data[i].from_user_id != <%= current_user.id %> && data[i].to_user_id != <%= current_user.id %> )
 						{
-							show_div.append("<img src= <%= image_url('canwatch.svg') %> +  width='40' height='40' onclick='go_watch("+ data[i].from_user_id +")'>");
+							show_div.append("<a href='/#live'> <img src= <%= image_url('canwatch.svg') %> +  width='40' height='40' onclick='go_watch("+ data[i].from_user_id +")'> </a>");
 							find = true;
 						}
 					}
@@ -82,7 +82,7 @@
 		}
 		function go_watch(host_id)
 		{
-			liveview.render();
+			// liveview.render();
 			closescript = true;
 			save_watch(host_id);
 		}

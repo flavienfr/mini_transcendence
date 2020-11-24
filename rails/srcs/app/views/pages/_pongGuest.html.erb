@@ -238,7 +238,7 @@ const msg = JSON.parse(response);
 window.onbeforeunload = function() {
     clearInterval(stop);
     socket.onclose = function () {socket.close();
-    canvas.close();
+    //canvas.close();
     console.log("socket pongchannel close")}; // disable onclose handler first
 };
 

@@ -1211,7 +1211,6 @@ var WarView = Backbone.View.extend({
 			dataType: 'json',
 			contentType: 'application/json',
 			success: function(response) {
-				response = response.toJSON();
 				if (response.is_msg){
 					Swal.fire("", response.msg, "success");
 				}
@@ -1243,7 +1242,6 @@ var WarView = Backbone.View.extend({
 			dataType: 'json',
 			contentType: 'application/json',
 			success: function(response) {
-				response = response.toJSON();
 				if (response.is_msg){
 					Swal.fire("", response.msg, "success");
 				}
@@ -1521,9 +1519,9 @@ async function ft_accept_notif(notif) {
 					warview.render();
 				});
 			},
-			error: function(){
-				response = response.responseJSON;
+			error: function(response){
 				if (response.status == 422){
+					response = response.responseJSON;
 					if (response.is_msg){
 						Swal.fire("", response.msg, "error");
 					}
@@ -1781,7 +1779,7 @@ async function closeIt()
 window.onunload = closeIt;
 
 var router = new Router();
-playview.render();//#enlever
+playview.render();
 notifview.render();
 Backbone.history.start();
 

@@ -17,6 +17,9 @@ class Game < ApplicationRecord
 		gamep_winner = GameParticipation.where('game_id=? AND user_id=?', self.id, params[:winner_id]).first
 		gamep_loser = GameParticipation.where('game_id=? AND user_id!=?', self.id, params[:winner_id]).first
 		player_winner = User.find(params[:winner_id])
+		if (player_winner.guild_participations.first)
+			guild_winner = player_winner.guild_participations.first.guild
+		end
 		if (self.war_id != nil)
 			war = War.find(self.war_id)
 			warp_winner = WarParticipation.where('war_id=? AND guild_id=?', war.id, guild_winner.id).first
@@ -39,12 +42,12 @@ class Game < ApplicationRecord
 		gamep_loser.save
 
 		if (player_winner.guild_participations.first)
-			guild_winner = player_winner.guild_participations.first.guild
-			guild_winner.point += 10
+			guild_winner.points += 10
 			guild_winner.save
 		end
 		#------------------------------
 		# Game type management
+		puts "some info ------------ war,   war.count_all_matchs_for_war,  war.status",war!=nil,   war.count_all_matchs_for_war,  war.status
 		if (self.context == "war_duel")
 			if (war.status != "ending")
 				warp_winner.war_points += war_duel_points
@@ -64,6 +67,14 @@ class Game < ApplicationRecord
 			end	
 			player_winner.points = player_winner.points + lad * 10
 			player_winner.save
+		elsif (self.context == "casual_match_making")
+			if (war != nil && war.count_all_matchs_for_war && war.status != "ending")
+				warp_winner.war_points += war_duel_points
+			end
+		elsif (self.context == "tournament")#a tester
+			if (war != nil && war.count_all_matchs_for_war && war.status != "ending")
+				warp_winner.war_points += war_duel_points
+			end
 		else
 			return
 		end

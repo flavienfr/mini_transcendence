@@ -144,7 +144,7 @@ class MessagesController < ApplicationController
       channelP.each do |participant|
         ActionCable.server.broadcast("notification_channel_" + participant.user_id.to_s, {sender: Channel.find_by(id: params[:receiver_id])});
       end
-      User.where("is_admin = ?", true).each do |admin|
+      User.where("is_admin = ? OR is_owner = ?", true, true).each do |admin|
         ActionCable.server.broadcast("notification_channel_" + admin.id.to_s, {sender: Channel.find_by(id: params[:receiver_id])})
       end
     end

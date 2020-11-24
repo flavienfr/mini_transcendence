@@ -78,6 +78,30 @@
                 });
             }
         })
-        var show_live_div = $("#tournament_live");
+        var Tournament = Backbone.Model.extend({
+            urlRoot: '/tournaments'
+        });
+        var tournament = new Tournament({id: <%%= tournament_id %>});
+        tournament.fetch({
+            data: {type: "games_tournament_live"},
+            success: function(data){
+                data = data.toJSON();
+                var users_name = data["users"];
+                data = data["ask_for_games"];
+                var show_live_div = $("#tournament_live");
+                var size = Object.keys(data).length;
+                var i = 0;
+                while (i < size)
+                {
+                    show_live_div.append("<div>" + "<a href='/#live' onclick='ft_go_to_live(" + data[i].from_user_id + ")'>" + users_name[data[i].from_user_id] + "vs" + users_name[data[i].to_user_id] + "</a>" + "</div>");
+                    i++;
+                }
+            }
+        });
+        function ft_go_to_live(host_id)
+        {
+            console.log("host+" + host_id);
+            save_watch(host_id);
+        }
     </script>
 </script>

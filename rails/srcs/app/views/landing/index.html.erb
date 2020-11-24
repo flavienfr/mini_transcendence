@@ -17,11 +17,12 @@
 			console.log(event.detail);
 			if (event.detail.data.content == "host_user")
 			{
+				refresh_live_match();
 				console.log("++++++++++++++++++++++host+++++++++++++++++++++++")
 				setTimeout(() => {
 					playview.render(true);
 					pongview.setElement("#pong-area").render();
-				}, 5000);
+				}, 4000);
 			}
 			else
 			{
@@ -37,7 +38,7 @@
 			if (event.detail.data.sender)
 			{
 				if ($("#main_chat_in").val() == event.detail.data.sender.id)
-					chatview.setElement("#chat_area").render_chat_main(event.detail.data.sender);
+					msgview.setElement("#conversation_window").render(event.detail.data.sender);
 				if ($("#admin_chat_view_in").val() == event.detail.data.sender.id)
 					chatview.render_admin_chat_view(event.detail.data.sender);
 			}
@@ -90,6 +91,21 @@
 				})
 			}));
 		};
+		function refresh_live_match()
+		{
+			socket_notif.send(JSON.stringify({
+				command: "message",
+				identifier: JSON.stringify({
+				channel: "PongnotChannel",
+				pong_id: 0
+				}),
+				data: JSON.stringify({
+					data: {
+						play: "true"
+					}
+				})
+			}));
+		}
 		window.onbeforeunload = function() {
     	socket.onclose = function () {socket_notif.close();
     	console.log("socket pongnotchannel close")};
@@ -113,7 +129,8 @@
 		<%= render "pages/all_guild" %>
 		<%= render "pages/chat/param" %>
 		<%= render "pages/chat/create" %>
-		<%= render "pages/chat/main" %>		
+		<%= render "pages/chat/main" %>	
+		<%= render "pages/chat/msg" %>	
 		<%= render "pages/pongHost" %>
 		<%= render "pages/pongGuest"%>
 		<%= render "pages/pongWatch"%>		
@@ -559,6 +576,63 @@ var ChatView = Backbone.View.extend({
 });
 
 var chatview = new ChatView();
+
+var MsgView = Backbone.View.extend({
+	el: '#conversation_window',
+	template: _.template($("#msg-template").html()),
+
+	render: function(channel){
+		console.log("-->");
+		console.log(channel);
+		if (channel && channel.name)
+		{
+			if (channel.scope == "direct")
+			{
+				var el = this.$el;
+				var temp = this.template;
+				var ChannelParticipation = Backbone.Model.extend({
+					urlRoot: '/channel_participations'
+				});
+				var channel_participation = new ChannelParticipation();
+				channel_participation.fetch(
+				{
+					data:
+					{
+						type: "direct",
+						name: channel.name
+					},
+					success: function(data)
+					{
+						var i = 0;
+						var target;
+						data = data.toJSON();
+						var size = Object.keys(data).length;
+						while (i < size)
+						{
+							if (data[i].id != current_user_id)
+							{
+								target = data[i];
+								break;
+							}
+							i++;
+						}
+						console.log(channel);
+						console.log(target);
+						el.html(temp({receiver: channel, target: target}));
+					}
+				});
+			}
+			else
+			{
+				this.$el.html(this.template({receiver: channel}));
+			}
+		}
+		else
+			this.$el.html(this.template({receiver: {id: 0}}));
+	}
+})
+
+var msgview = new MsgView();
 
 //_____________________________________ GuildView _____________________________________
 var GuildView = Backbone.View.extend({
@@ -1842,6 +1916,28 @@ window.addEventListener("beforeunload", async function (e) {
 
 
 
+// window.onunload = closeIt;
+
+window.addEventListener("beforeunload", async function (e) {
+  var confirmationMessage = "\o/";
+  var data = {
+        current_status: "offline",    
+    }
+    await Backbone.ajax({
+        url: '/users/' + current_user_id,
+        data: JSON.stringify(data),
+        type: 'put',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response) {
+        },
+        error: function(){
+            Swal.fire("", "error:", "error");
+        }
+    }); 
+  e.returnValue = confirmationMessage;
+  return confirmationMessage;
+});
 
 var router = new Router();
 playview.render();

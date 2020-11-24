@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_20_122643) do
+ActiveRecord::Schema.define(version: 2020_11_23_212006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -220,6 +220,17 @@ ActiveRecord::Schema.define(version: 2020_11_20_122643) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "titles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "tournament_id", null: false
+    t.string "name"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tournament_id"], name: "index_titles_on_tournament_id"
+    t.index ["user_id"], name: "index_titles_on_user_id"
+  end
+
   create_table "tournament_participations", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "tournament_id", null: false
@@ -255,6 +266,17 @@ ActiveRecord::Schema.define(version: 2020_11_20_122643) do
     t.index ["user_id"], name: "index_user_achievements_on_user_id"
   end
 
+  create_table "user_titles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "tournament_id", null: false
+    t.string "title"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tournament_id"], name: "index_user_titles_on_tournament_id"
+    t.index ["user_id"], name: "index_user_titles_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "avatar"
@@ -270,7 +292,9 @@ ActiveRecord::Schema.define(version: 2020_11_20_122643) do
     t.boolean "is_owner", default: false
     t.integer "nb_won_tournaments", default: 0
     t.integer "ladder_level", default: 0
+    t.bigint "title_id"
     t.index ["guild_participation_id"], name: "index_users_on_guild_participation_id"
+    t.index ["title_id"], name: "index_users_on_title_id"
   end
 
   create_table "war_participations", force: :cascade do |t|
@@ -344,11 +368,16 @@ ActiveRecord::Schema.define(version: 2020_11_20_122643) do
   add_foreign_key "messages", "channels"
   add_foreign_key "messages", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "titles", "tournaments"
+  add_foreign_key "titles", "users"
   add_foreign_key "tournament_participations", "tournaments"
   add_foreign_key "tournament_participations", "users"
   add_foreign_key "user_achievements", "achievements"
   add_foreign_key "user_achievements", "users"
+  add_foreign_key "user_titles", "tournaments"
+  add_foreign_key "user_titles", "users"
   add_foreign_key "users", "guild_participations"
+  add_foreign_key "users", "titles"
   add_foreign_key "war_participations", "guilds"
   add_foreign_key "war_participations", "wars"
   add_foreign_key "war_times", "wars"

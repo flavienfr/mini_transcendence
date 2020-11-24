@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :titles
 	resources :friendships
 	resources :ask_for_friendships
   	#get 'guilds/get_guild_owner' => 'guilds#get_guild_owner'
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
 	get '/users/ladder' => 'users#ladder'
 	get '/users/:id', to: 'users#show'
 	get '/users/:id/profile', to: 'users#profile'
+	get '/users/:id/titles', to: 'users#titles'
 	resources :users
 
 	resources :user_achievements

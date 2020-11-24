@@ -78,13 +78,33 @@ class UsersController < ApplicationController
           "target_user": @target_user.as_json,
           "guild": @target_user.guilds.last.as_json,
           "match_history": @target_user.get_match_history("played").as_json,
-          "friends": @target_user.get_friendships("active").as_json  
+          "friends": @target_user.get_friendships("active").as_json,
+          "title": @target_user.get_title().as_json  
         }
       }, status: :ok and return
     else
       render json: { data: { "error": "target user not found" } }, status: :unprocessable_entity and return
     end
   end
+
+
+  # GET /users/1/titles
+  def titles
+    puts 'inside GET /users/:id/titles'
+    puts 'params: ', params
+    target_user = User.find(params[:id])
+    
+    if (target_user)
+      render json: {
+        "data": {
+          "titles": target_user.get_all_titles().as_json  
+        }
+      }, status: :ok and return
+    else
+      render json: { data: { "error": "target user not found" } }, status: :unprocessable_entity and return
+    end
+  end
+
 
   # GET /users/google_authenticator_qr_code
   def google_authenticator
@@ -140,6 +160,17 @@ class UsersController < ApplicationController
     if (params.has_key?(:name))
       update_params["name"] = params[:name]
     end
+    # - title_name
+    if (params.has_key?(:title_name))
+      if (params[:title_name] == "No title")
+        update_params["title_id"] = nil
+      else
+        title = Title.find_by(name: params[:title_name]);
+        if (title)
+          update_params["title_id"] = title.id
+        end        
+      end
+    end
     # - photo
     if (params.has_key?(:photo))
       file = params[:photo].open
@@ -152,13 +183,13 @@ class UsersController < ApplicationController
     # - enabled_two_factor_auth
     if (params.has_key?(:enabled_two_factor_auth))
       two_factor_auth = (params[:enabled_two_factor_auth] == "true" ? true : false)
+      puts "two_factor_auth:", two_factor_auth
       update_params["enabled_two_factor_auth"] = two_factor_auth
     end
     # - current_status
     if (params.has_key?(:current_status))
       update_params["current_status"] = params[:current_status]
     end
-
     # - current_status
     if (params.has_key?(:current_status))
       update_params["current_status"] = params[:current_status]

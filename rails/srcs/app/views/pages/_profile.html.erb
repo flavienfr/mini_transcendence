@@ -12,12 +12,24 @@
                         <img src="<%%= target_user.avatar %>" style="width: 200px;"></img>
                     </div>
                     <div class="info">
-                        <h2 class="name">Name: <%%= target_user.name %></h2>
-                        <h2 class="points">Points: <%%= target_user.points %></h2>
+                        <!-- name -->
+                        <h3 class="name">Name: <%%= target_user.name %></h3>
+                        
+                        <!-- points -->
+                        <h3 class="points">Points: <%%= target_user.points %></h3>
+                        
+                        <!-- guild -->
                         <%% if (guild) { %>
-                            <h2 class="guild-name">Guild: [<%%= guild.anagram %>]<%%= guild.name %></h2>
+                            <h3 class="guild-name">Guild: [<%%= guild.anagram %>]<%%= guild.name %></h3>
                         <%% } else { %>
-                            <h2 class="guild-name">Guild: -</h2>
+                            <h3 class="guild-name">Guild: -</h3>
+                        <%% } %>
+                        
+                        <!-- title -->
+                        <%% if (target_user.title_id) { %>
+                            <h3 class="title">Title: <%%= title.name %></h3>
+                        <%% } else { %>
+                            <h3 class="title">Title: -</h3>
                         <%% } %>
                     </div>
                 </div>

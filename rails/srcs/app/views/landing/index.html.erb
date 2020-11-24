@@ -17,6 +17,7 @@
 			console.log(event.detail);
 			if (event.detail.data.content == "host_user")
 			{
+				refresh_live_match();
 				console.log("++++++++++++++++++++++host+++++++++++++++++++++++")
 				setTimeout(() => {
 					playview.render(true);
@@ -90,6 +91,21 @@
 				})
 			}));
 		};
+		function refresh_live_match()
+		{
+			socket_notif.send(JSON.stringify({
+				command: "message",
+				identifier: JSON.stringify({
+				channel: "PongnotChannel",
+				pong_id: 0
+				}),
+				data: JSON.stringify({
+					data: {
+						play: "true"
+					}
+				})
+			}));
+		}
 		window.onbeforeunload = function() {
     	socket.onclose = function () {socket_notif.close();
     	console.log("socket pongnotchannel close")};

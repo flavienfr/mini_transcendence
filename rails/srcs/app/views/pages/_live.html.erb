@@ -62,10 +62,9 @@ function refresh()
 		while (i < size)
 		{
 			if (data[i].status == "playing" && data[i].from_user_id != current && data[i].to_user_id != current)
-			ft_getNames(data[i]);
+				ft_getNames(data[i]);
 			i++;
 		}
-		console.log("i = " + i );
 		}});
 }
 
@@ -97,6 +96,7 @@ socket.onmessage = function(event)
 
 function save_watch(host_id)
 {
+	closescript = true; 
     var Watch = Backbone.Model.extend({
         urlRoot: '/watches'
     })
@@ -105,16 +105,12 @@ function save_watch(host_id)
 	{
 		watch.set({hostId: host_id});
 		watch.save();
-		console.log("modifié");
-		if (time != 0)
-			closescript = true; //async
-		
-		time++;
-		setTimeout(() => {pongWatch.setElement("#pong-area").render();}, 1200);
+		setTimeout(() => {
+			pongWatch.setElement("#pong-area").render();}
+		, 1200);
 	}
     watch.fetch({data: {user_id: current}, success: modify});
 }
-var time = 0;
 var closescript = false;
 
 </script>

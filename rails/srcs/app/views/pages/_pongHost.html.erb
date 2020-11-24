@@ -525,8 +525,9 @@
             clearInterval(stop);
             setTimeout(() => {playview.render();}, 2000);
         }
-        if (tournament != 0 && Date.now() - tournament  >= 10000) // 3 minutes
-            endTournament(host_id);
+        if (tournament != 0)
+            if (Date.now() - tournament >= 1800000 || (own_score == 11 || guest.score == 11)) // 3 minutes
+                endTournament(host_id);
         get_fps();  
         fps++;  
     }
@@ -549,7 +550,6 @@ window.onbeforeunload = function() {
     clearInterval(stop);
     socket.onclose = function () {
     socket.close();
-    canvas.close();
     console.log("socket pongchannel close")}; // disable onclose handler first
 };
 

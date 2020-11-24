@@ -220,7 +220,7 @@ class TournamentParticipationsController < ApplicationController
         tournament.update(max_nb_player: tournament.max_nb_player / 2);
         tournament.update(step: tournament.step + 1);
         while ( i < (nb_player / 2))
-          game = Game.create(tournament_id:  tournament.id);
+          game = Game.create(tournament_id:  tournament.id, context: "tournament");
           gameP1 = GameParticipation.create(user_id: participations[j].user_id, game_id: game.id);
           gameP2 = GameParticipation.create(user_id: participations[j + 1].user_id, game_id: game.id);
           if (is_already_playing(participations[j].user_id,participations[j + 1].user_id, game) == false)

@@ -14,9 +14,9 @@ class PongChannel < ApplicationCable::Channel
     @state = AskForGame.find_by(from_user_id: params[:pong_id], status: "playing")
     if (@state != nil)
       if (params[:user_id] == @state.from_user_id || params[:user_id] == @state.to_user_id)
-        ActionCable.server.broadcast("pongnot_channel_#{0}", {data: "refresh"})
-        ActionCable.server.broadcast("pong_channel_#{params[:pong_id]}", {data: "stop"});
         if (@state.status == "playing")
+            ActionCable.server.broadcast("pong_channel_#{params[:pong_id]}", {data: "stop"});
+            ActionCable.server.broadcast("pongnot_channel_#{0}", {data: "refresh"})
           puts "+++++++++++++++++++++++++++++++++++++++++++++++"
           puts params
           @state.status = "ending";
@@ -36,21 +36,22 @@ class PongChannel < ApplicationCable::Channel
           })
           puts "-------------- set_end_game ---------------"
           if (@game.tournament_id != nil)
-            @participant = TournamentParticipation.find_by(user_id: winner_id, tournament_id: @game.tournament_id)
-            puts  @participant.nb_won_game
-            if (@participant.nb_won_game == nil)
-              @participant.nb_won_game = 1;
+            @participant1 = TournamentParticipation.find_by(user_id: winner_id, tournament_id: @game.tournament_id)
+            puts  @participant1.nb_won_game
+            if (@participant1.nb_won_game == nil)
+              @participant1.nb_won_game = 1;
             else
-              @participant.nb_won_game =   @participant.nb_won_game + 1;
+              @participant1.nb_won_game =   @participant1.nb_won_game + 1;
             end
-            @participant.save();
-            @participant =  TournamentParticipation.find_by(user_id: looser_id, tournament_id: @game.tournament_id)
-            if (@participant.nb_lose_game == nil)
-              @participant.nb_lose_game = 1;
+            @participant1.save();
+            @participant2 =  TournamentParticipation.find_by(user_id: looser_id, tournament_id: @game.tournament_id)
+            if (@participant2.nb_lose_game == nil)
+              @participant2.nb_lose_game = 1;
             else
-              @participant.nb_lose_game = @participant.nb_lose_game + 1;
+              @participant2.nb_lose_game = @participant2.nb_lose_game + 1;
             end
-            @participant.save();
+            @participant2.save();
+            state_of_tournament(@game.tournament_id, @participant1.id)
           end
         end
       end 

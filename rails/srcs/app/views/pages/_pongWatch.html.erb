@@ -7,7 +7,7 @@
     <script>      
     function lets() {
         var current = <%== current_user.id%>
-        var frame = 50;
+        var frame = 25;
         var time_pause = 10
         function play(host_id)
         {
@@ -178,25 +178,24 @@
             {
                 ft_recieve()
                 show();
-                console.log("host score = " + host.score);
                 if (host.score == -1 || closescript == true)
                 {
+                    console.log("je sors par la")
                     endText("player disco..")
                     sock.close();
                     clearInterval(stop);
-                    setTimeout(() => {liveview.render();}, 2000);
+                    liveview.render();
                 }
                 if (host.score == 11 || guest.score == 11)
                 {
+                    clearInterval(stop);
                     if (guest.score == 11)
                         endText("Guest win !!!");
                     else
                         endText("Host loose ... ");
                     sock.close();
-                    setTimeout(() => {liveview.render();}, 2000);
-                    clearInterval(stop);
-                }
-                
+                    setTimeout(() => {liveview.render();}, 1000);
+                } 
             }
         ft_recieve();
         var stop = setInterval(playing, 1000/frame, host_id);
@@ -207,10 +206,11 @@
         window.onbeforeunload = function() {
             sock.onclose = function () {}; // disable onclose handler first
             closescript = true;
+            clearInterval(stop);
             sock.close();
         };       
-        closescript = false;
         sock = new WebSocket("ws://localhost:3000/cable");
+        closescript = false; 
         sock.onopen = function()
         {   
             console.log(sock);

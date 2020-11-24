@@ -218,7 +218,7 @@ class ChannelParticipationsController < ApplicationController
     channel.channel_participations.each do |participation|
       ActionCable.server.broadcast("notification_channel_" + participation.user_id.to_s, {refresh: channel});
     end
-    admin_users = User.where("is_admin = ? ", true);
+    admin_users = User.where("is_admin = ? OR is_owner = ?", true, true);
     if (channel.channel_participations.size > 0)
       admin_users = admin_users.where.not("id IN (?)", channel.channel_participations.pluck(:user_id));
     end

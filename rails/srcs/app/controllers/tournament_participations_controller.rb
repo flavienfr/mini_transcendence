@@ -83,13 +83,13 @@ class TournamentParticipationsController < ApplicationController
     # @tournament_participation = TournamentParticipation.new(tournament_participation_params)
     tournament = Tournament.find_by(id: params[:tournament_id]);
     start_time = tournament.deadline;
-    #if (Time.now > start_time - 15.minute)#a decommenter
-    #  respond_to do |format|
-    #    format.html
-    #    format.json {render json: {error_text: "too_late_to_register"}, status: :unprocessable_entity}
-    #  end
-    #  return;
-    #end
+    if (Time.now > start_time - 0.minute)# change time a decommenter
+     respond_to do |format|
+       format.html
+       format.json {render json: {error_text: "too_late_to_register"}, status: :unprocessable_entity}
+     end
+     return;
+    end
 
     @tournament_participation = TournamentParticipation.where("tournament_id = ?", params[:tournament_id]);
 
@@ -220,7 +220,7 @@ class TournamentParticipationsController < ApplicationController
         tournament.update(max_nb_player: tournament.max_nb_player / 2);
         tournament.update(step: tournament.step + 1);
         while ( i < (nb_player / 2))
-          game = Game.create(tournament_id:  tournament.id);
+          game = Game.create(tournament_id:  tournament.id, context: "tournament");
           gameP1 = GameParticipation.create(user_id: participations[j].user_id, game_id: game.id);
           gameP2 = GameParticipation.create(user_id: participations[j + 1].user_id, game_id: game.id);
           if (is_already_playing(participations[j].user_id,participations[j + 1].user_id, game) == false)

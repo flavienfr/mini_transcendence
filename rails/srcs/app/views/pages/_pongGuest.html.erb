@@ -196,7 +196,7 @@ const msg = JSON.parse(response);
             fps++;
             // if (timer < 0)
             //     ft_pause(); // uncomment to put the pause rules
-            if (timer < 0 && document.hidden == false)
+            if (timer < 0 && document.hidden == false && host.score < 11 && own_score < 11)
             {
                 ft_send(host_id);
                 show();
@@ -206,14 +206,14 @@ const msg = JSON.parse(response);
                 ft_timer((timer == 0) ? "GO !" : timer);
                 pause = 0;
             }
-            if (host.score == 11 || own_score == 11)
+            if (host.score >= 11 || own_score >= 11)
             {
+                clearInterval(stop);
                 drawRect(0,0, canvas.width, canvas.height,"BLACK");
                 if (host.score != 11)
                     endText("You win !!!");
                 else
                     endText("You loose ... ");
-                clearInterval(stop);
                 socket.close();
                 setTimeout(() => {playview.render();}, 2000); // permet au joueur de voir s'il a gagné ou perdu
             }
@@ -238,7 +238,6 @@ const msg = JSON.parse(response);
 window.onbeforeunload = function() {
     clearInterval(stop);
     socket.onclose = function () {socket.close();
-    //canvas.close();
     console.log("socket pongchannel close")}; // disable onclose handler first
 };
 

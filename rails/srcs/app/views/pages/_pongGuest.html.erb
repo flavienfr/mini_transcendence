@@ -230,6 +230,8 @@ const msg = JSON.parse(response);
             else
             {
                 ft_timer((timer == 0) ? "GO !" : timer);
+                if (timer == 1)
+                    tournament = Date.now();
                 pause = 0;
             }
             if (host.score >= 11 || own_score >= 11)

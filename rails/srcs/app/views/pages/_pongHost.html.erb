@@ -383,7 +383,11 @@
             if (timer >= 0 && own_score == 0)
             {
                 if (timer <= 1)
+                {
                     ft_timer("GO !");
+                    if (timer == 1)
+                        tournament = Date.now();
+                }
                 else
                     ft_timer(timer - 1);
                 timer--;

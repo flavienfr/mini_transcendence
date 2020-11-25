@@ -83,7 +83,7 @@ class TournamentParticipationsController < ApplicationController
     # @tournament_participation = TournamentParticipation.new(tournament_participation_params)
     tournament = Tournament.find_by(id: params[:tournament_id]);
     start_time = tournament.deadline;
-    if (Time.now > start_time - 0.minute)# change time a decommenter
+    if (Time.now > start_time - 30.seconds)# change time a decommenter
      respond_to do |format|
        format.html
        format.json {render json: {error_text: "too_late_to_register"}, status: :unprocessable_entity}
@@ -105,7 +105,7 @@ class TournamentParticipationsController < ApplicationController
 
     respond_to do |format|
       if @tournament_participation.save
-        send_notification(params[:user_id], params[:user_id], "information", nil, "you registered in a tournament", nil);
+        #send_notification(params[:user_id], params[:user_id], "information", nil, "you registered in a tournament", nil);
         format.html { redirect_to @tournament_participation, notice: 'Tournament participation was successfully created.' }
         format.json { render :show, status: :created, location: @tournament_participation }
       else
@@ -189,7 +189,7 @@ class TournamentParticipationsController < ApplicationController
   def destroy
     tournament = Tournament.find_by(id: TournamentParticipation.find_by(id: params[:id]).tournament_id);
     start_time = tournament.deadline;
-    if (Time.now > start_time - 15.minute)
+    if (Time.now > start_time - 30.seconds)
       respond_to do |format|
         format.html
         format.json {render json: {error_text: "too_late_to_unregister"}, status: :unprocessable_entity}
@@ -197,7 +197,7 @@ class TournamentParticipationsController < ApplicationController
       return;
     end
     @tournament_participation.destroy
-    send_notification(current_user.id, current_user.id, "information", nil, "you unregistered from a tournament", nil);
+    #send_notification(current_user.id, current_user.id, "information", nil, "you unregistered from a tournament", nil);
     respond_to do |format|
       format.html { redirect_to tournament_participations_url, notice: 'Tournament participation was successfully destroyed.' }
       format.json { head :no_content }

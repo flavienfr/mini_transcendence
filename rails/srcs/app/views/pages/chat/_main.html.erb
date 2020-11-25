@@ -124,7 +124,13 @@
 									if (data.res)
 										chatview.setElement("#chat_area").render_chat_main(channel_or_user_selected);
 									else
-										alert("wrong password");
+									{
+										Swal.fire({
+											icon: "error",
+											title: "Ooopsss",
+											text: "wrong password"
+										});
+									}
 								}
 							})
 						}

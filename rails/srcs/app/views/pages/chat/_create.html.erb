@@ -49,7 +49,11 @@
 			var pwd = $("#inputCreatePassword").val();
 			if (channel_scope == "protected" && pwd.length == 0)
 			{
-				alert("A password is needed for protected scope")
+				Swal.fire({
+					icon: "error",
+					title: "Ooopsss",
+					text: "A password is needed for protected scope"
+				});
 				return;
 			}
 			var Channel = Backbone.Model.extend({
@@ -65,7 +69,13 @@
 			channel.save(data,
 			{
 				success: function(){
-					alert("group created !");
+					Swal.fire({
+						icon: "success",
+						title: "Great !",
+						showConfirmButton: false,
+						timer: 2000,
+						text: "group created !"
+					});
 					var notification = new Notification({
 						from_user_id: <%== current_user.id %>,
 						user_id: <%== current_user.id %>,
@@ -82,6 +92,14 @@
 					notification.save();
 					$("#inputChannelName").val('');
 					$("#inputCreatePassword").val('');
+				},
+				error: function(data, xhr){
+					Swal.fire({
+						icon: "error",
+						title: "Ooopsss",
+						text: xhr.responseText,
+						footer: xhr.statusText
+					});
 				}
 			});
 		}

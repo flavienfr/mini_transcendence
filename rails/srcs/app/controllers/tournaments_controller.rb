@@ -53,13 +53,13 @@ class TournamentsController < ApplicationController
     #puts params[:deadline].to_datetime - 15.minute;
 
     #a decommenter
-    #if (Time.now > (params[:deadline].in_time_zone(Time.zone) - 15.minute))
-    #  respond_to do |format|
-    #    format.html
-    #    format.json {render json: {error_text: "start_time_not_correct"}, status: :unprocessable_entity}
-    #  end
-    #  return;
-    #end
+    if (Time.now > (params[:deadline].in_time_zone(Time.zone) - 2.minute))
+     respond_to do |format|
+       format.html
+       format.json {render json: {error_text: "start_time_not_correct"}, status: :unprocessable_entity}
+     end
+     return;
+    end
 
     params[:tournament]["status"] = "created";
     @tournament = Tournament.new(tournament_params)

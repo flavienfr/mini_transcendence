@@ -6,4 +6,5 @@ class Channel < ApplicationRecord
 
     validates :name, presence: true, length: {minimum: 1}
     validates :scope, presence: true, inclusion: { in: ["protected-group", "private-group", "public-group", "direct"] }
+    validates :password, presence: true, length: {minimum: 1}, if: Proc.new{|channel| channel.scope == "protected-group"}
 end

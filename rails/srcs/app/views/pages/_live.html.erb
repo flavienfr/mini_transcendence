@@ -41,7 +41,7 @@ function ft_getNames(ask)
 		var show_div = $("#game_room");
 		var name1 = data.attributes[ask.from_user_id].name;
 		var name2 = data.attributes[ask.to_user_id].name;
-		show_div.append("<a class='dropdown-item' onclick='save_watch("+ data.from_user_id +")'>"+ name1 + " VS " + name2 +"</a>");
+		show_div.append("<a class='dropdown-item' onclick='save_watch("+ ask.from_user_id +")'>"+ name1 + " VS " + name2 +"</a>");
 	}});
 }
 

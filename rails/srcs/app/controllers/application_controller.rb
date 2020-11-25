@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
             # ?
             puts "no cookies.signed[:id]"
             @current_user = nil
+            # redirect_to root_path
         end
 	end
 

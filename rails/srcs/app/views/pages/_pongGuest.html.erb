@@ -58,6 +58,30 @@
             context.closePath();
         }
 
+        function draw_timer()
+        {
+            var d1 = new Date(); //"now"
+            var d2 = tournament // some date
+            var time = Math.abs(d1-d2);  // difference in milliseconds
+            console.log("time");
+            console.log(time)
+            var min =  Math.floor((time / (1000 * 60)) % 60);
+            var sec = Math.floor((time / 1000) % 60);
+            console.log("sec = " + sec);
+            console.log(sec);
+            console.log("min = " + min)
+            console.log(min);
+            if (sec < 10)
+                var format =  min + ":0" + sec;
+            else
+            var format =  min + ":" + sec;
+            context.fillStyle = "GREY";
+            context.font = '38px serif';
+            context.beginPath();
+            context.fillText(format, canvas.width * 0.02, canvas.height * 0.06);
+            context.closePath();
+        }
+
         function fpsText(txt)
         {
             context.fillStyle = "GREY";
@@ -111,6 +135,8 @@
             // move part
             drawRect(host.x, host.y, host.width, host.height, host.color);
             drawRect(gamer.x, gamer.y, gamer.width, gamer.height, gamer.color);
+            if (tournament != 0)
+                draw_timer();
             if (pause < frame * 2 - 4)
                 drawBall(ball.x, ball.y, ball.radius, ball.color);
             else
@@ -204,6 +230,8 @@ const msg = JSON.parse(response);
             else
             {
                 ft_timer((timer == 0) ? "GO !" : timer);
+                if (timer == 1)
+                    tournament = Date.now();
                 pause = 0;
             }
             if (host.score >= 11 || own_score >= 11)
@@ -240,8 +268,6 @@ window.onbeforeunload = function() {
     socket.onclose = function () {socket.close();
     console.log("socket pongchannel close")}; // disable onclose handler first
 };
-
-
 
 var socket = new WebSocket('<%= ENV["action_cable_url"] %>');
 var fps  = 0;

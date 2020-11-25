@@ -178,12 +178,16 @@ class AskForGamesController < ApplicationController
 		puts "------ match_making ---------"
 		# FAIRE DES CHECK ICI !!!!!
 
+		if (war_a)
+			war_id = war_a.id
+		end
+
 		@game = Game.new(
 			start_date: Time.zone.now,
 			end_date: nil,
 			context: params[:game_type],
 			winner_id: nil,
-			war_id: war_a.id,
+			war_id: war_id,
 			war_time_id: nil,
 			tournament_id: nil,
 			channel_id: nil

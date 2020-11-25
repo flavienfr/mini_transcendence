@@ -335,7 +335,7 @@ var LogView = Backbone.View.extend({
 	events: {
     	"click #add-user": "add",
     	"click #delete-user": "delete",
-    	"click #logout ": "logout",
+    	"click #logout-main ": "logout_main",
     	"click #user_status ": "status",
   	},
 
@@ -376,8 +376,9 @@ var LogView = Backbone.View.extend({
 		}	
 	 },
 	  
-	logout: function() { 
+	 logout_main: function() { 
 		var session_id = <%== current_user.sessions.last.id %>; // anti jaune >
+		console.log("inside logout_main");
 		$.ajax({
 			url: "/sessions/" + session_id,
 			data: false,
@@ -385,7 +386,7 @@ var LogView = Backbone.View.extend({
 			contentType: false,
 			type: 'DELETE',
 			success: function(){
-				console.log("DELETE sent !");
+				console.log("inside logout_main: DELETE sent ! -> go to ", '<%= ENV["site_url"] %>');
 				window.location.href = '<%= ENV["site_url"] %>';
 			}
 		})
@@ -890,9 +891,10 @@ var OptionView = Backbone.View.extend({
 		"click #logout ": "logout",
 	},
 
-	logout: function() {
+	logout: async function() {
 		console.log("LOG OUT") 
 		var session_id = <%== current_user.sessions.last.id %>; // anti jaune >
+		console.log("inside logout");
 		$.ajax({
 			url: "/sessions/" + session_id,
 			data: false,
@@ -900,7 +902,7 @@ var OptionView = Backbone.View.extend({
 			contentType: false,
 			type: 'DELETE',
 			success: function(){
-				console.log("DELETE sent !");
+				console.log("inside logout: DELETE sent ! -> go to ", '<%= ENV["site_url"] %>');
 				window.location.href = '<%= ENV["site_url"] %>';
 			}
 		})
@@ -1596,15 +1598,22 @@ async function ft_accept_notif(notif) {
 	console.log("Acceptnotif");
 	if (notif.table_type == "add_friend"){			
 		console.log("add friend");
-		await friendshipcollection.fetch();
-		if (friendshipcollection.findWhere({id: notif.from_user_id}))
-		{
-			Swal.fire("", "you are already friend", "success")
-			delete_notif(notif);
-			return ;
+		var data = {
+			sender_id: notif.from_user_id, 
+			recipient_id: notif.user_id, 
+			status: "active"
 		}
-		friend = new Friendship({sender_id: notif.from_user_id, recipient_id: notif.user_id, status: "active"});
-		await friend.save();
+		await Backbone.ajax({
+			url: '/friendships/',
+			data: JSON.stringify(data),
+			contentType: 'application/json',
+			type: 'POST',
+			dataType: 'json',
+			error: function(){
+				Swal.fire("", "you are already friend", "error")
+				delete_notif(notif);
+			}		
+		});
 		delete_notif(notif);
 	}
 	else if (notif.table_type == "ask_for_war") {
@@ -1890,54 +1899,32 @@ $( "#nav_to_war" ).on( "click", function() {
 		Backbone.history.loadUrl();
 });
 
-
-window.addEventListener("beforeunload", async function (e) {
-  var confirmationMessage = "\o/";
-
-  var data = {
-		current_status: "offline",	
+var myEvent = window.attachEvent || window.addEventListener; var chkevent = window.attachEvent ? 'onbeforeunload' : 'beforeunload'; 
+myEvent(chkevent, async function(e) {
+	await usercollection.fetch();
+	var test = usercollection.findWhere({id: current_user_id}); 
+	if (test.get("current_status") == "Logged in")
+	{	
+		var data = {
+		        current_status: "offline",    
+		    }
+		    await Backbone.ajax({
+		        url: '/users/' + current_user_id,
+		        data: JSON.stringify(data),
+		        type: 'put',
+		        dataType: 'json',
+		        contentType: 'application/json',
+		        success: function(response) {
+		        },
+		        error: function(){
+		            Swal.fire("", "error:", "error");
+		        }
+			}); 
 	}
-	await Backbone.ajax({
-        url: '/users/' + current_user_id,
-        data: JSON.stringify(data),
-        type: 'put',
-        dataType: 'json',
-        contentType: 'application/json',
-        success: function(response) {
-        },
-        error: function(){
-			Swal.fire("", "error:", "error");
-        }
-    });	
-
-  e.returnValue = confirmationMessage;
-  return confirmationMessage;
+	var confirmationMessage = 'Are you sure to leave the page?'; 
+	(e || window.event).returnValue = confirmationMessage; return confirmationMessage; 
 });
 
-
-
-// window.onunload = closeIt;
-
-window.addEventListener("beforeunload", async function (e) {
-  var confirmationMessage = "\o/";
-  var data = {
-        current_status: "offline",    
-    }
-    await Backbone.ajax({
-        url: '/users/' + current_user_id,
-        data: JSON.stringify(data),
-        type: 'put',
-        dataType: 'json',
-        contentType: 'application/json',
-        success: function(response) {
-        },
-        error: function(){
-            Swal.fire("", "error:", "error");
-        }
-    }); 
-  e.returnValue = confirmationMessage;
-  return confirmationMessage;
-});
 
 var router = new Router();
 playview.render();

@@ -32,6 +32,6 @@ development:
 
 production:
   site_url: "https://vast-tundra-52780.herokuapp.com"
-  redirect: "redirect_uri%3Dhttps%3A%2F%2Fvast-tundra-52780.herokuapp.com%2Fsessions%2Foauth%26"
+  redirect: "redirect_uri%3Dhttps%3A%2F%2Fvast-tundra-52780.herokuapp.com%2Fsessions%2Foauth&"
   oauth_redirect_uri: "https://vast-tundra-52780.herokuapp.com/sessions/oauth"
   action_cable_url: "ws://vast-tundra-52780.herokuapp.com/cable"

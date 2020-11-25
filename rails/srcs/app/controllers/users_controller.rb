@@ -149,9 +149,14 @@ class UsersController < ApplicationController
 
     if (params[:type] == "admin_update")
       @user.update(user_params)
+      if (params[:ban] == "on")
+        notif_channel = "notification_channel_" + params[:id].to_s;
+        ActionCable.server.broadcast(notif_channel, {ban: "On"})
+      end
       return;
     end
 
+    redirect_to root_path and return if !current_user
     render json: { }, status: :unauthorized and return if User.find(params[:id]).id != current_user.id
 
     # parse params: name / photo / enabled_two_factor_auth
@@ -197,7 +202,7 @@ class UsersController < ApplicationController
     end
 
     if @user.update(update_params)
-      render json: { data: @user.as_json }, status: :ok and return
+      render json: { }, status: :unauthorized and return if params[:id] and User.find(params[:id]).id != current_user.id
     else
       render json: { data: @user.errors.as_json }, status: :unprocessable_entity and return
     end

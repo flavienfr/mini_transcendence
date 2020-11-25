@@ -96,7 +96,8 @@
             user.set("current_status", "banned");
             user.save(
             {
-                type: "admin_update"
+                type: "admin_update",
+                ban: "on"
             },
             {
                 success: function()

@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 	
     def current_user
 
-        puts "ApplicationController::current_user()"
+        puts "inside applicationController#current_user"
         if cookies.signed[:id]
             # find current_user
             puts "existing cookies.signed[:id]"

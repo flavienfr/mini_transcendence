@@ -206,6 +206,7 @@ class TournamentParticipationsController < ApplicationController
       tournament = TournamentParticipation.find(participation_id).tournament;
       puts tournament.to_json;
       if (tournament.max_nb_player == 1)
+        tournament.update(status: "ended");
         winner = TournamentParticipation.where("nb_won_game = ? AND tournament_id = ?", tournament.step, tournament.id).first;
         puts "winner = " + User.find(winner.user_id).name.to_s;
         puts "end of tournament !"
@@ -261,15 +262,6 @@ class TournamentParticipationsController < ApplicationController
         part.update(nb_won_game: part.nb_won_game + 1)
       end
       update_tournament(part.id);
-      tournament = Tournament.find(game.tournament_id);
-      puts "tournament ending"
-      puts tournament.to_json
-      if (tournament.max_nb_player == 1)
-        winner = TournamentParticipation.where("nb_won_game = ? AND tournament_id = ?", tournament.step, tournament.id).first;
-        puts "winner = " + User.find(winner.user_id).name.to_s;
-        puts "end of tournament !"
-        return ;
-      end
     end
 
     def is_already_playing(user1, user2, game)

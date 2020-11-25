@@ -62,7 +62,7 @@ class ChannelsController < ApplicationController
   # POST /channels
   # POST /channels.json
   def create
-    if (params[:password])
+    if (params[:password] && params[:password].length > 0)
       params["channel"]["password"] = BCrypt::Password.create(params[:password]);
     end
     @channel = Channel.new(channel_params);
@@ -100,7 +100,7 @@ class ChannelsController < ApplicationController
   # PATCH/PUT /channels/1
   # PATCH/PUT /channels/1.json
   def update
-    if (params["channel"][:password])
+    if (params["channel"][:password] && params["channel"][:password].length > 0)
       params["channel"][:password] = BCrypt::Password.create(params["channel"][:password]);
     end
     if (params["channel"][:scope] != "protected-group")

@@ -58,7 +58,7 @@
                     while (i < size)
                     {
                         var start_time = new Date(data1[i].deadline);
-                        var limit_to_register_time = new Date(start_time - 15 * 60000);
+                        var limit_to_register_time = new Date(start_time - 0.5 * 60000);
                         tournaments_table_show.append("<tr>" +
                             "<td>" + data1[i].rules + "</td>" +
                             "<td>" + data1[i].incentives +  "</td>"+
@@ -79,7 +79,7 @@
         admin_button_div.append("<div style='display: flex; flex-direction: column; width: 50vh;'>" +
             "<div><label>Name</label><input id='tournament_name' type='text' required></div>" +
             "<div class='time_picker'><label for='start_time'>Start Time</label><input id='start_time' required></div>" +
-            "<div><label for='nb_of_players_selected'>Number of Players</label><select id='nb_of_players_selected'><option>2</option><option>4</option><option>8</option><option>16</option></select></div>" +
+            "<div><label for='nb_of_players_selected'>Number of Players</label><select id='nb_of_players_selected'><option>2</option><option>4</option><option>8</option></select></div>" +
             "<div><label>Incentives</label><input id='incentives_id' type='text'></div>" +
             "<div><button onclick='ft_create_tournament()'>Create Tournament</button></div>" +
             "</div>");
@@ -98,12 +98,20 @@
         var game_type = "single_round";
         if (name.length == 0)
         {
-            alert("Name cannot be empty !");
+            Swal.fire({
+                icon: "error",
+                title: "Ooopsss",
+                text: "Name cannot be empty !"
+            });
             return;
         }
         if (start_time.length == 0)
         {
-            alert("Start Time cannot be empty !");
+            Swal.fire({
+                icon: "error",
+                title: "Ooopsss",
+                text: "Start Time cannot be empty !"
+            });
             return;
         }
         console.log(start_time);
@@ -114,7 +122,11 @@
         console.log((Date.now() > date));
         if (Date.now() > new Date(start_time))
         {
-            alert("Start Time passed !");
+            Swal.fire({
+                icon: "error",
+                title: "Ooopsss",
+                text: "Start Time passed !"
+            });
             return;
         }
         var Tournament = Backbone.Model.extend({
@@ -134,16 +146,24 @@
         tournament.save(data,
         {
             success: function(){
+                Swal.fire({
+                    icon: "success",
+                    title: "Great !",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    text: "tournament created !"
+                });
                 tournamentview.render();
             },
             error: function(data, xhr){
                 console.log("eee");
+                console.log(xhr);
                 Swal.fire({
                     icon: 'error',
                     title: 'Ooops...',
-                    text: xhr.responseJSON["error_text"],
+                    text: xhr.responseJSON["error_text"] ? xhr.responseJSON["error_text"] : xhr.responseText,
                     footer: xhr.statusText
-                })
+                });
             }
         });
     }
@@ -158,6 +178,13 @@
         });
         tournament_participation.save({}, {
             success: function(){
+                Swal.fire({
+                    icon: "success",
+                    title: "Great !",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    text: "you registered in a tournament !"
+                });
                 tournamentview.render();
             },
             error: function(data, xhr){
@@ -180,6 +207,13 @@
         var tournament_participation = new TournamentParticipation({id: tournament_participation_id});
         tournament_participation.destroy({
             success: function(){
+                Swal.fire({
+                    icon: "success",
+                    title: "OK !",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    text: "you unregistered from tournament !"
+                });
                 tournamentview.render();
             },
             error: function(data, xhr){

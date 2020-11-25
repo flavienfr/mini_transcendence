@@ -40,12 +40,10 @@ class FriendshipsController < ApplicationController
 
       if (Friendship.where('sender_id=? AND recipient_id=?', 
        @friendship.sender_id, @friendship.recipient_id).size > 0)
-        puts "ICICICICICI"
         format.html { render :new }
         format.json { render json: @friendship.errors, status: :unprocessable_entity }
       elsif (Friendship.where('sender_id=? AND recipient_id=?', 
        @friendship.recipient_id, @friendship.sender_id).size > 0)
-        puts "LALALALALA"
         format.html { render :new }
         format.json { render json: @friendship.errors, status: :unprocessable_entity }
       elsif @friendship.save

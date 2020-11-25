@@ -890,9 +890,25 @@ var OptionView = Backbone.View.extend({
 		"click #logout ": "logout",
 	},
 
-	logout: function() {
+	logout: async function() {
 		console.log("LOG OUT") 
 		var session_id = <%== current_user.sessions.last.id %>; // anti jaune >
+		var data = {
+		        current_status: "offline",    
+		    }
+		    await Backbone.ajax({
+		        url: '/users/' + current_user_id,
+		        data: JSON.stringify(data),
+		        type: 'put',
+		        dataType: 'json',
+		        contentType: 'application/json',
+		        success: function(response) {
+		        },
+		        error: function(){
+		            Swal.fire("", "error:", "error");
+		        }
+		    }); 
+
 		$.ajax({
 			url: "/sessions/" + session_id,
 			data: false,
@@ -1596,15 +1612,22 @@ async function ft_accept_notif(notif) {
 	console.log("Acceptnotif");
 	if (notif.table_type == "add_friend"){			
 		console.log("add friend");
-		await friendshipcollection.fetch();
-		if (friendshipcollection.findWhere({id: notif.from_user_id}))
-		{
-			Swal.fire("", "you are already friend", "success")
-			delete_notif(notif);
-			return ;
+		var data = {
+			sender_id: notif.from_user_id, 
+			recipient_id: notif.user_id, 
+			status: "active"
 		}
-		friend = new Friendship({sender_id: notif.from_user_id, recipient_id: notif.user_id, status: "active"});
-		await friend.save();
+		await Backbone.ajax({
+			url: '/friendships/',
+			data: JSON.stringify(data),
+			contentType: 'application/json',
+			type: 'POST',
+			dataType: 'json',
+			error: function(){
+				Swal.fire("", "you are already friend", "error")
+				delete_notif(notif);
+			}		
+		});
 		delete_notif(notif);
 	}
 	else if (notif.table_type == "ask_for_war") {
@@ -1892,7 +1915,11 @@ $( "#nav_to_war" ).on( "click", function() {
 
 var myEvent = window.attachEvent || window.addEventListener; var chkevent = window.attachEvent ? 'onbeforeunload' : 'beforeunload'; 
 myEvent(chkevent, async function(e) {
-	var data = {
+	await usercollection.fetch();
+	var test = usercollection.findWhere({id: current_user_id}); 
+	if (test.get("current_status") != "banned")
+	{	
+		var data = {
 		        current_status: "offline",    
 		    }
 		    await Backbone.ajax({
@@ -1906,7 +1933,8 @@ myEvent(chkevent, async function(e) {
 		        error: function(){
 		            Swal.fire("", "error:", "error");
 		        }
-		    }); 
+			}); 
+	}
 	var confirmationMessage = 'Are you sure to leave the page?'; 
 	(e || window.event).returnValue = confirmationMessage; return confirmationMessage; 
 });

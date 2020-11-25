@@ -130,13 +130,20 @@ class TournamentParticipationsController < ApplicationController
     end
     if (params[:type] == "update_tournament_win")
       tournament = TournamentParticipation.find(params[:id]).tournament;
+      User.all.each do |user|
+        ActionCable.server.broadcast("notification_channel_" + user.id.to_s, {refresh_tournament_details_id: tournament.id});
+      end
       puts tournament.to_json;
       if (tournament.max_nb_player == 1)
-        User.all.each do |user|
-          ActionCable.server.broadcast("notification_channel_" + user.id.to_s, {refresh_tournament_details_id: tournament.id});
-        end
         tournament.update(status: "ended");
         winner = TournamentParticipation.where("nb_won_game = ? AND tournament_id = ?", tournament.step, tournament.id).first;
+        title = tournament.incentives;
+        puts "+++"
+        puts title
+        puts "==="
+        if (title && title != "")
+          Title.create(user_id: winner.user_id, tournament_id: tournament.id, name: title);
+        end
         puts "winner = " + User.find(winner.user_id).name.to_s;
         puts "end of tournament !"
         return ;
@@ -144,19 +151,16 @@ class TournamentParticipationsController < ApplicationController
       participations = TournamentParticipation.where("nb_won_game = ? AND tournament_id = ?", tournament.step, tournament.id).order("created_at");
       puts participations.to_json;
       if (participations.size == tournament.max_nb_player)
-        User.all.each do |user|
-          ActionCable.server.broadcast("notification_channel_" + user.id.to_s, {refresh_tournament_details_id: tournament.id});
-        end
         i = 0;
         j = 0;
         nb_player = tournament.max_nb_player
         tournament.update(max_nb_player: tournament.max_nb_player / 2);
         tournament.update(step: tournament.step + 1);
         while ( i < (nb_player / 2))
-          game = Game.create(tournament_id:  tournament.id);
+          game = Game.create(tournament_id:  tournament.id, context: "tournament");
           gameP1 = GameParticipation.create(user_id: participations[j].user_id, game_id: game.id);
           gameP2 = GameParticipation.create(user_id: participations[j + 1].user_id, game_id: game.id);
-          if (is_already_playing(participations[j].user_id,participations[j + 1].user_id, game) == false)
+          if (participations.first.is_already_playing(participations.first, participations[j].user_id,participations[j + 1].user_id, game) == false)
             AskForGame.create(from_user_id: participations[j].user_id, to_user_id: participations[j + 1].user_id, status: "playing", game_type: "Tournament", game_id: game.id);
             ActionCable.server.broadcast("notification_channel_" + participations[j].user_id.to_s, {game: "on", content: "host_user"});
             ActionCable.server.broadcast("notification_channel_" + participations[j + 1].user_id.to_s, {game: "on", content: "guest_user", host_id: participations[j].user_id});
@@ -202,40 +206,6 @@ class TournamentParticipationsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def update_tournament(participation_id)
-      tournament = TournamentParticipation.find(participation_id).tournament;
-      puts tournament.to_json;
-      if (tournament.max_nb_player == 1)
-        winner = TournamentParticipation.where("nb_won_game = ? AND tournament_id = ?", tournament.step, tournament.id).first;
-        puts "winner = " + User.find(winner.user_id).name.to_s;
-        puts "end of tournament !"
-        return ;
-      end
-      participations = TournamentParticipation.where("nb_won_game = ? AND tournament_id = ?", tournament.step, tournament.id);
-      puts participations.to_json;
-      if (participations.size == tournament.max_nb_player)
-        i = 0;
-        j = 0;
-        nb_player = tournament.max_nb_player
-        tournament.update(max_nb_player: tournament.max_nb_player / 2);
-        tournament.update(step: tournament.step + 1);
-        while ( i < (nb_player / 2))
-          game = Game.create(tournament_id:  tournament.id, context: "tournament");
-          gameP1 = GameParticipation.create(user_id: participations[j].user_id, game_id: game.id);
-          gameP2 = GameParticipation.create(user_id: participations[j + 1].user_id, game_id: game.id);
-          if (is_already_playing(participations[j].user_id,participations[j + 1].user_id, game) == false)
-            AskForGame.create(from_user_id: participations[j].user_id, to_user_id: participations[j + 1].user_id, status: "playing", game_type: "Tournament", game_id: game.id);
-            ActionCable.server.broadcast("notification_channel_" + participations[j].user_id.to_s, {game: "on", content: "host_user"});
-            ActionCable.server.broadcast("notification_channel_" + participations[j + 1].user_id.to_s, {game: "on", content: "guest_user", host_id: participations[j].user_id});
-          end
-          j = j + 2;  
-          i = i + 1;
-        end
-        # tournament.update(max_nb_player: tournament.max_nb_player / 2);
-        # tournament.update(step: tournament.step + 1);
-      end
-    end
-
     def set_tournament_participation
       @tournament_participation = TournamentParticipation.find(params[:id])
     end
@@ -245,58 +215,4 @@ class TournamentParticipationsController < ApplicationController
       params.require(:tournament_participation).permit(:user_id, :tournament_id, :status, :score, :nb_won_game, :nb_lose_game)
     end
 
-    def end_tournament(user1, user2, game)
-      part = TournamentParticipation.find_by(tournament_id: game.tournament_id, user_id: user1)
-      puts "part2"
-      puts part.to_json
-      if (part.nb_lose_game == nil)
-        part.update(nb_lose_game: 1);
-      else
-        part.update(nb_lose_game: part.nb_lose_game + 1)
-      end
-      part = TournamentParticipation.find_by(tournament_id: game.tournament_id, user_id: user2)
-      if (part.nb_won_game == nil)
-        part.update(nb_won_game: 1)
-      else
-        part.update(nb_won_game: part.nb_won_game + 1)
-      end
-      update_tournament(part.id);
-      tournament = Tournament.find(game.tournament_id);
-      puts "tournament ending"
-      puts tournament.to_json
-      if (tournament.max_nb_player == 1)
-        winner = TournamentParticipation.where("nb_won_game = ? AND tournament_id = ?", tournament.step, tournament.id).first;
-        puts "winner = " + User.find(winner.user_id).name.to_s;
-        puts "end of tournament !"
-        return ;
-      end
-    end
-
-    def is_already_playing(user1, user2, game)
-      puts "here smith !"
-      ask1 = AskForGame.find_by(from_user_id: user1, status: "playing");
-      ask2 = AskForGame.find_by(from_user_id: user2, status: "playing");
-      if (ask1 != nil)
-        end_tournament(user1,user2, game)
-        game.set_end_game({winner_id: user2, is_forfeit: true})
-        return (true)
-      elsif (ask2 != nil)
-        end_tournament(user2, user1, game)
-        game.set_end_game({winner_id: user1, is_forfeit: true})
-        return (true)        
-      end 
-      ask1 = AskForGame.find_by(to_user_id: user1, status: "playing");
-      ask2 = AskForGame.find_by(to_user_id: user2, status: "playing");
-      if (ask1 != nil)
-        end_tournament(user1,user2, game)
-        game.set_end_game({winner_id: user2, is_forfeit: true})
-        return (true)
-      elsif (ask2 != nil)
-        end_tournament(user2, user1, game)
-        game.set_end_game({winner_id: user1, is_forfeit: true})
-        return (true)        
-      end 
-      puts "return encore false"
-      return false
-    end
 end

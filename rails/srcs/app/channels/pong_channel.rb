@@ -51,7 +51,8 @@ class PongChannel < ApplicationCable::Channel
               @participant2.nb_lose_game = @participant2.nb_lose_game + 1;
             end
             @participant2.save();
-            @participant1.state_of_tournament(@game.tournament_id, @participant1.id)
+            puts "-----------------------------------BBBBBBBBBBBBBBB_________________"
+            @participant1.state_of_tournament(@participant1, @game.tournament_id, @participant1.id)
           end
         end
       end 

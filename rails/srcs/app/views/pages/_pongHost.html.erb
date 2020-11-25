@@ -344,7 +344,8 @@
             let y = (getRandomInt(3)%2) ? -1 : 1; 
             restartBall(i, y);
         }
-        ft_send_score(host_id);
+        if (own_score < 11 && guest.score < 11)
+            ft_send_score(host_id);
     }
   
 

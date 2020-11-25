@@ -155,7 +155,15 @@ class UsersController < ApplicationController
       end
       return;
     end
-
+    if (params[:type] == "log out")
+      if (@user.current_status == "Logged in")
+        if @user.update(update_params)
+          render json: { }, status: :unauthorized and return if params[:id] and User.find(params[:id]).id != current_user.id
+        else
+          render json: { data: @user.errors.as_json }, status: :unprocessable_entity and return
+        end
+      end
+    end
     redirect_to root_path and return if !current_user
     render json: { }, status: :unauthorized and return if User.find(params[:id]).id != current_user.id
 

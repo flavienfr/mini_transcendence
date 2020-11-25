@@ -1899,31 +1899,30 @@ $( "#nav_to_war" ).on( "click", function() {
 		Backbone.history.loadUrl();
 });
 
-var myEvent = window.attachEvent || window.addEventListener; var chkevent = window.attachEvent ? 'onbeforeunload' : 'beforeunload'; 
-myEvent(chkevent, async function(e) {
-	await usercollection.fetch();
-	var test = usercollection.findWhere({id: current_user_id}); 
-	if (test.get("current_status") == "Logged in")
-	{	
+var myEvent = window.attachEvent || window.addEventListener; 
+var chkevent = window.attachEvent ? 'onbeforeunload' : 'beforeunload'; 
+myEvent(chkevent, function(e) {
 		var data = {
-		        current_status: "offline",    
+				current_status: "offline",
+				type: "log out"    
 		    }
-		    await Backbone.ajax({
+		    Backbone.ajax({
 		        url: '/users/' + current_user_id,
 		        data: JSON.stringify(data),
 		        type: 'put',
 		        dataType: 'json',
 		        contentType: 'application/json',
 		        success: function(response) {
+					Swal.fire("", "success", "error");
+					(e || window.event).returnValue = "log_out"; 
 		        },
 		        error: function(){
-		            Swal.fire("", "error:", "error");
 		        }
-			}); 
-	}
-	var confirmationMessage = 'Are you sure to leave the page?'; 
-	(e || window.event).returnValue = confirmationMessage; return confirmationMessage; 
+			});
 });
+
+
+
 
 
 var router = new Router();

@@ -130,13 +130,20 @@ class TournamentParticipationsController < ApplicationController
     end
     if (params[:type] == "update_tournament_win")
       tournament = TournamentParticipation.find(params[:id]).tournament;
+      User.all.each do |user|
+        ActionCable.server.broadcast("notification_channel_" + user.id.to_s, {refresh_tournament_details_id: tournament.id});
+      end
       puts tournament.to_json;
       if (tournament.max_nb_player == 1)
-        User.all.each do |user|
-          ActionCable.server.broadcast("notification_channel_" + user.id.to_s, {refresh_tournament_details_id: tournament.id});
-        end
         tournament.update(status: "ended");
         winner = TournamentParticipation.where("nb_won_game = ? AND tournament_id = ?", tournament.step, tournament.id).first;
+        title = tournament.incentives;
+        puts "+++"
+        puts title
+        puts "==="
+        if (title && title != "")
+          Title.create(user_id: winner.user_id, tournament_id: tournament.id, name: title);
+        end
         puts "winner = " + User.find(winner.user_id).name.to_s;
         puts "end of tournament !"
         return ;
@@ -144,16 +151,13 @@ class TournamentParticipationsController < ApplicationController
       participations = TournamentParticipation.where("nb_won_game = ? AND tournament_id = ?", tournament.step, tournament.id).order("created_at");
       puts participations.to_json;
       if (participations.size == tournament.max_nb_player)
-        User.all.each do |user|
-          ActionCable.server.broadcast("notification_channel_" + user.id.to_s, {refresh_tournament_details_id: tournament.id});
-        end
         i = 0;
         j = 0;
         nb_player = tournament.max_nb_player
         tournament.update(max_nb_player: tournament.max_nb_player / 2);
         tournament.update(step: tournament.step + 1);
         while ( i < (nb_player / 2))
-          game = Game.create(tournament_id:  tournament.id);
+          game = Game.create(tournament_id:  tournament.id, context: "tournament");
           gameP1 = GameParticipation.create(user_id: participations[j].user_id, game_id: game.id);
           gameP2 = GameParticipation.create(user_id: participations[j + 1].user_id, game_id: game.id);
           if (participations.first.is_already_playing(participations.first, participations[j].user_id,participations[j + 1].user_id, game) == false)

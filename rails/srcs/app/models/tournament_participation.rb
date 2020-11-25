@@ -10,10 +10,20 @@ class TournamentParticipation < ApplicationRecord
   def update_tournament(participation_id)
     puts "-----------------------AAAAAAAAAAAAAAAAAAAAAAAAAAAA_____________"
     tournament = TournamentParticipation.find(participation_id).tournament;
+    User.all.each do |user|
+      ActionCable.server.broadcast("notification_channel_" + user.id.to_s, {refresh_tournament_details_id: tournament.id});
+    end
     puts tournament.to_json;
     if (tournament.max_nb_player == 1)
       tournament.update(status: "ended");
       winner = TournamentParticipation.where("nb_won_game = ? AND tournament_id = ?", tournament.step, tournament.id).first;
+      title = tournament.incentives;
+      puts "-------"
+      puts title;
+      puts "====="
+      if (title && title != "")
+        Title.create(user_id: winner.user_id, tournament_id: tournament.id, name: title);
+      end
       puts "winner = " + User.find(winner.user_id).name.to_s;
       puts "end of tournament !"
       return ;

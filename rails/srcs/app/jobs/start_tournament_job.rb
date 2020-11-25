@@ -38,7 +38,7 @@ class StartTournamentJob < ApplicationJob
       k = k + 1;
     end
     while (i < nb_match_need)
-      game = Game.create(tournament_id:  args[0].id);
+      game = Game.create(tournament_id:  args[0].id, context: "tournament");
       gameP1 = GameParticipation.create(user_id: participations[j].user_id, game_id: game.id);
       gameP2 = GameParticipation.create(user_id: participations[j + 1].user_id, game_id: game.id);
       if (participations.first.is_already_playing(participations.first, participations[j].user_id,participations[j + 1].user_id, game) == false)
@@ -66,7 +66,7 @@ class StartTournamentJob < ApplicationJob
         tournament.update(max_nb_player: tournament.max_nb_player / 2);
         tournament.update(step: tournament.step + 1);
         while ( i < (nb_player / 2))
-          game = Game.create(tournament_id:  tournament.id);
+          game = Game.create(tournament_id:  tournament.id, context: "tournament");
           gameP1 = GameParticipation.create(user_id: participations[j].user_id, game_id: game.id);
           gameP2 = GameParticipation.create(user_id: participations[j + 1].user_id, game_id: game.id);
           if (participations.first.is_already_playing(participations.first, participations[j].user_id,participations[j + 1].user_id, game) == false)

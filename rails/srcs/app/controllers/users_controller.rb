@@ -149,6 +149,10 @@ class UsersController < ApplicationController
 
     if (params[:type] == "admin_update")
       @user.update(user_params)
+      if (params[:ban] == "on")
+        notif_channel = "notification_channel_" + params[:id].to_s;
+        ActionCable.server.broadcast(notif_channel, {ban: "On"})
+      end
       return;
     end
 

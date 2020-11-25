@@ -201,7 +201,7 @@ class UsersController < ApplicationController
     end
 
     if @user.update(update_params)
-      render json: { data: @user.as_json }, status: :ok and return
+      render json: { }, status: :unauthorized and return if params[:id] and User.find(params[:id]).id != current_user.id
     else
       render json: { data: @user.errors.as_json }, status: :unprocessable_entity and return
     end

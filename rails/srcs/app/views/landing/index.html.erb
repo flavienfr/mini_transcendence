@@ -1917,7 +1917,7 @@ var myEvent = window.attachEvent || window.addEventListener; var chkevent = wind
 myEvent(chkevent, async function(e) {
 	await usercollection.fetch();
 	var test = usercollection.findWhere({id: current_user_id}); 
-	if (test.get("current_status") != "banned")
+	if (test.get("current_status") == "Logged in")
 	{	
 		var data = {
 		        current_status: "offline",    

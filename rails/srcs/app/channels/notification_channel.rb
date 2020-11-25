@@ -6,6 +6,11 @@ class NotificationChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
+    user = User.find(params[:room_id].to_i)
+    if (user.current_status == "logged in")
+      user.current_status = "offline"
+      user.save
+    end
     # Any cleanup needed when channel is unsubscribed
   end
 end

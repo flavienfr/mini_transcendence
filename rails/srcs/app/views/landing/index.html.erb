@@ -1899,31 +1899,6 @@ $( "#nav_to_war" ).on( "click", function() {
 		Backbone.history.loadUrl();
 });
 
-var myEvent = window.attachEvent || window.addEventListener; 
-var chkevent = window.attachEvent ? 'onbeforeunload' : 'beforeunload'; 
-myEvent(chkevent, function(e) {
-		var data = {
-				current_status: "offline",
-				type: "log out"    
-		    }
-		    Backbone.ajax({
-		        url: '/users/' + current_user_id,
-		        data: JSON.stringify(data),
-		        type: 'put',
-		        dataType: 'json',
-		        contentType: 'application/json',
-		        success: function(response) {
-					Swal.fire("", "success", "error");
-					(e || window.event).returnValue = "log_out"; 
-		        },
-		        error: function(){
-		        }
-			});
-});
-
-
-
-
 
 var router = new Router();
 playview.render();

@@ -193,15 +193,21 @@ class SessionsController < ApplicationController
   # DELETE /sessions/1
   # DELETE /sessions/1.json
   def destroy
-    # 1. récupérer la session du user et la supprimer
-    Session.find(params[:id]).destroy    
-    # 2. supprimer le cookie
+    # récupérer la session du user
+    session = Session.find(params[:id])
+    # mettre le status du user en offline
+    user = session.user
+    user.current_status = "offline"
+    user.save
+    # supprimer la session
+    session.destroy    
+    # supprimer le cookie
     hashed_cookies = cookies.to_hash
     puts "DELETE /sessions/", params[:id].to_s, " -> hashed_cookies AVANT supprimer de l'id:", hashed_cookies    
     cookies.delete :id
     hashed_cookies = cookies.to_hash
     puts "DELETE /sessions/", params[:id].to_s, " -> hashed_cookies APRES supprimer de l'id:", hashed_cookies
-    # 3. render ok 200
+    # render ok 200
     render json: {}, status: :ok and return
   end
 

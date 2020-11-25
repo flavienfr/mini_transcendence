@@ -156,6 +156,7 @@ class UsersController < ApplicationController
       return;
     end
 
+    redirect_to root_path and return if !current_user
     render json: { }, status: :unauthorized and return if User.find(params[:id]).id != current_user.id
 
     # parse params: name / photo / enabled_two_factor_auth

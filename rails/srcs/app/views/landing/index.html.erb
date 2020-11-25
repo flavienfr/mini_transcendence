@@ -335,7 +335,7 @@ var LogView = Backbone.View.extend({
 	events: {
     	"click #add-user": "add",
     	"click #delete-user": "delete",
-    	"click #logout ": "logout",
+    	"click #logout-main ": "logout_main",
     	"click #user_status ": "status",
   	},
 
@@ -376,8 +376,9 @@ var LogView = Backbone.View.extend({
 		}	
 	 },
 	  
-	logout: function() { 
+	 logout_main: function() { 
 		var session_id = <%== current_user.sessions.last.id %>; // anti jaune >
+		console.log("inside logout_main");
 		$.ajax({
 			url: "/sessions/" + session_id,
 			data: false,
@@ -385,7 +386,7 @@ var LogView = Backbone.View.extend({
 			contentType: false,
 			type: 'DELETE',
 			success: function(){
-				console.log("DELETE sent !");
+				console.log("inside logout_main: DELETE sent ! -> go to ", '<%= ENV["site_url"] %>');
 				window.location.href = '<%= ENV["site_url"] %>';
 			}
 		})
@@ -893,22 +894,7 @@ var OptionView = Backbone.View.extend({
 	logout: async function() {
 		console.log("LOG OUT") 
 		var session_id = <%== current_user.sessions.last.id %>; // anti jaune >
-		var data = {
-		        current_status: "offline",    
-		    }
-		    await Backbone.ajax({
-		        url: '/users/' + current_user_id,
-		        data: JSON.stringify(data),
-		        type: 'put',
-		        dataType: 'json',
-		        contentType: 'application/json',
-		        success: function(response) {
-		        },
-		        error: function(){
-		            Swal.fire("", "error:", "error");
-		        }
-		    }); 
-
+		console.log("inside logout");
 		$.ajax({
 			url: "/sessions/" + session_id,
 			data: false,
@@ -916,7 +902,7 @@ var OptionView = Backbone.View.extend({
 			contentType: false,
 			type: 'DELETE',
 			success: function(){
-				console.log("DELETE sent !");
+				console.log("inside logout: DELETE sent ! -> go to ", '<%= ENV["site_url"] %>');
 				window.location.href = '<%= ENV["site_url"] %>';
 			}
 		})

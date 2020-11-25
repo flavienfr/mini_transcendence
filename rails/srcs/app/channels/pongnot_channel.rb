@@ -10,7 +10,10 @@ class PongnotChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    puts "JE SORS !"
+    # user = User.find(current_user.id)
+    # user.current_status = "offline"
+    # user.save
+    # puts "JE SORS !"
     # Any cleanup needed when channel is unsubscribed
   end
 end

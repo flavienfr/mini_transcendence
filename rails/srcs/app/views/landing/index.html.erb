@@ -1890,54 +1890,27 @@ $( "#nav_to_war" ).on( "click", function() {
 		Backbone.history.loadUrl();
 });
 
-
-window.addEventListener("onunload", async function (e) {
-  var confirmationMessage = "\o/";
-
-  var data = {
-		current_status: "offline",	
-	}
-	await Backbone.ajax({
-        url: '/users/' + current_user_id,
-        data: JSON.stringify(data),
-        type: 'put',
-        dataType: 'json',
-        contentType: 'application/json',
-        success: function(response) {
-        },
-        error: function(){
-			Swal.fire("", "error:", "error");
-        }
-    });	
-
-  e.returnValue = confirmationMessage;
-  return confirmationMessage;
+var myEvent = window.attachEvent || window.addEventListener; var chkevent = window.attachEvent ? 'onbeforeunload' : 'beforeunload'; 
+myEvent(chkevent, async function(e) {
+	var data = {
+		        current_status: "offline",    
+		    }
+		    await Backbone.ajax({
+		        url: '/users/' + current_user_id,
+		        data: JSON.stringify(data),
+		        type: 'put',
+		        dataType: 'json',
+		        contentType: 'application/json',
+		        success: function(response) {
+		        },
+		        error: function(){
+		            Swal.fire("", "error:", "error");
+		        }
+		    }); 
+	var confirmationMessage = 'Are you sure to leave the page?'; 
+	(e || window.event).returnValue = confirmationMessage; return confirmationMessage; 
 });
 
-
-
-// window.onunload = closeIt;
-
-window.addEventListener("beforeunload", async function (e) {
-  var confirmationMessage = "\o/";
-  var data = {
-        current_status: "offline",    
-    }
-    await Backbone.ajax({
-        url: '/users/' + current_user_id,
-        data: JSON.stringify(data),
-        type: 'put',
-        dataType: 'json',
-        contentType: 'application/json',
-        success: function(response) {
-        },
-        error: function(){
-            Swal.fire("", "error:", "error");
-        }
-    }); 
-  e.returnValue = confirmationMessage;
-  return confirmationMessage;
-});
 
 var router = new Router();
 playview.render();

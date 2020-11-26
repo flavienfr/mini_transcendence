@@ -189,7 +189,7 @@ puts "----- Game Participations created"
 
 ## Tournaments
 t1 = Tournament.create(rules: "to define later", incentives: "gain a title", deadline: (DateTime.now + 10.seconds), status: "ended", max_nb_player: 10)
-t2 = Tournament.create(rules: "to define later", incentives: "gain a title", deadline: (DateTime.now + 10.seconds), status: "ended", max_nb_player: 10)
+t2 = Tournament.create(rules: "to define later", incentives: "gain a title2", deadline: (DateTime.now + 10.seconds), status: "ended", max_nb_player: 10)
 puts "----- Tournaments created"
 
 ## Tournaments participations

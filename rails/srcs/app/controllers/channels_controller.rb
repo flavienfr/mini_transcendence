@@ -100,19 +100,26 @@ class ChannelsController < ApplicationController
   # PATCH/PUT /channels/1
   # PATCH/PUT /channels/1.json
   def update
-    if (params["channel"][:password] && params["channel"][:password].length > 0)
-      params["channel"][:password] = BCrypt::Password.create(params["channel"][:password]);
-    end
-    if (params["channel"][:scope] != "protected-group")
-      params["channel"][:password] = nil;
-    end
-    respond_to do |format|
-      if @channel.update(channel_params)
-        format.html { redirect_to @channel, notice: 'Channel was successfully updated.' }
-        format.json { render :show, status: :ok, location: @channel }
-      else
-        format.html { render :edit }
-        format.json { render json: @channel.errors, status: :unprocessable_entity }
+    if (user_is_channel_owner?(params[:id]))
+      if (params["channel"][:password] && params["channel"][:password].length > 0)
+        params["channel"][:password] = BCrypt::Password.create(params["channel"][:password]);
+      end
+      if (params["channel"][:scope] != "protected-group")
+        params["channel"][:password] = nil;
+      end
+      respond_to do |format|
+        if @channel.update(channel_params)
+          format.html { redirect_to @channel, notice: 'Channel was successfully updated.' }
+          format.json { render :show, status: :ok, location: @channel }
+        else
+          format.html { render :edit }
+          format.json { render json: @channel.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      respond_to do |format|
+        format.html
+        format.json {render json: {error_text: "not_authorized"}, status: :unauthorized}
       end
     end
   end
@@ -120,20 +127,27 @@ class ChannelsController < ApplicationController
   # DELETE /channels/1
   # DELETE /channels/1.json
   def destroy
-    channel = Channel.find_by(id: params[:id]);
-    channel_participations = channel.channel_participations;
-    channel_participations.each do |participant|
-      ActionCable.server.broadcast("notification_channel_" + participant.user_id.to_s, {kicked_from: channel});
-    end
-    Channel.find_by(id: params[:id]).messages.destroy_all;
-    Channel.find_by(id: params[:id]).channel_participations.destroy_all;
-    @channel.destroy;
-    User.all.where("is_admin = ?", true).each do |admin|
-      ActionCable.server.broadcast("notification_channel_" + admin.id.to_s, {channel_destroyed: params[:id]});
-    end
-    respond_to do |format|
-      format.html { redirect_to channels_url, notice: 'Channel was successfully destroyed.' }
-      format.json { head :no_content }
+    if (user_is_admin_owner?)
+      channel = Channel.find_by(id: params[:id]);
+      channel_participations = channel.channel_participations;
+      channel_participations.each do |participant|
+        ActionCable.server.broadcast("notification_channel_" + participant.user_id.to_s, {kicked_from: channel});
+      end
+      Channel.find_by(id: params[:id]).messages.destroy_all;
+      Channel.find_by(id: params[:id]).channel_participations.destroy_all;
+      @channel.destroy;
+      User.all.where("is_admin = ?", true).each do |admin|
+        ActionCable.server.broadcast("notification_channel_" + admin.id.to_s, {channel_destroyed: params[:id]});
+      end
+      respond_to do |format|
+        format.html { redirect_to channels_url, notice: 'Channel was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html
+        format.json {render json: {error_text: "not_authorized"}, status: :unauthorized}
+      end
     end
   end
 

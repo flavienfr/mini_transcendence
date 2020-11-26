@@ -148,10 +148,17 @@ class UsersController < ApplicationController
     puts '---'
 
     if (params[:type] == "admin_update")
-      @user.update(user_params)
-      if (params[:ban] == "on")
-        notif_channel = "notification_channel_" + params[:id].to_s;
-        ActionCable.server.broadcast(notif_channel, {ban: "On"})
+      if (user_is_admin_owner? && !User.find_by(id: params[:id]).is_owner)
+        @user.update(user_params)
+        if (params[:ban] == "on")
+          notif_channel = "notification_channel_" + params[:id].to_s;
+          ActionCable.server.broadcast(notif_channel, {ban: "On"})
+        end
+      else
+        respond_to do |format|
+          format.html
+          format.json {render json: {error_text: "not_authorized"}, status: :unauthorized}
+        end
       end
       return;
     end

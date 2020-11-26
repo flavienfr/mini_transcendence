@@ -51,27 +51,51 @@ class GuildParticipationsController < ApplicationController
   # PATCH/PUT /guild_participations/1
   # PATCH/PUT /guild_participations/1.json
   def update
-	if (params[:type] == "new_owner")
-      params["guild_participation"][:is_admin] = true;
-      params["guild_participation"][:is_officer] = false;
-      guild = Guild.find_by(id: params[:guild_id]);
-      old_admin_id = guild.owner_id;
-      old_admin_guild_participation = guild.guild_participations.find_by(user_id: old_admin_id);
-      if (old_admin_guild_participation)
-        old_admin_guild_participation.update(is_admin: nil, is_officer: nil);
+    if (params[:type] == "new_owner" && !user_is_admin_owner?)
+      respond_to do |format|
+        format.html
+        format.json {render json: {error_text: "not_authorized"}, status: :unauthorized}
       end
-      guild.update(owner_id: params[:user_id]);
+      return;
     end
-    respond_to do |format|
-      if @guild_participation.update(guild_participation_params)
-        format.html { redirect_to @guild_participation, notice: 'Guild participation was successfully updated.' }
-        format.json { render :show, status: :ok, location: @guild_participation }
-      else
-        format.html { render :edit }
-        format.json { render json: @guild_participation.errors, status: :unprocessable_entity }
+    guild_id = @guild_participation.guild.id;
+
+    if (@guild_participation.is_admin && !user_is_admin_owner? && !user_is_current_guild_participant?(params[:id]))
+      respond_to do |format|
+        format.html
+        format.json {render json: {error_text: "not_authorized"}, status: :unauthorized}
+      end
+      return;
+    end
+
+    if (user_is_admin_owner? || user_is_guild_admin?(guild_id) || user_is_guild_officer?(guild_id))
+      if (params[:type] == "new_owner")
+        params["guild_participation"][:is_admin] = true;
+        params["guild_participation"][:is_officer] = false;
+        guild = Guild.find_by(id: params[:guild_id]);
+        old_admin_id = guild.owner_id;
+        old_admin_guild_participation = guild.guild_participations.find_by(user_id: old_admin_id);
+        if (old_admin_guild_participation)
+          old_admin_guild_participation.update(is_admin: nil, is_officer: nil);
+        end
+        guild.update(owner_id: params[:user_id]);
+      end
+      respond_to do |format|
+        if @guild_participation.update(guild_participation_params)
+          format.html { redirect_to @guild_participation, notice: 'Guild participation was successfully updated.' }
+          format.json { render :show, status: :ok, location: @guild_participation }
+        else
+          format.html { render :edit }
+          format.json { render json: @guild_participation.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      respond_to do |format|
+        format.html
+        format.json {render json: {error_text: "not_authorized"}, status: :unauthorized}
       end
     end
-  end
+end
 
   # DELETE /guild_participations/1
   # DELETE /guild_participations/1.json
@@ -86,32 +110,51 @@ class GuildParticipationsController < ApplicationController
 		json_render["msg"] = "You can't leave your guild during war."
 		json_render["is_msg"] = 1
 		render json: json_render, status: :ok and return
-	end
+  end
+  
+  guild_id = @guild_participation.guild.id;
 
-	user.guild_participation_id = nil
-	user.save
-	@guild_participation.destroy
+  if (@guild_participation.is_admin && !user_is_admin_owner? && !user_is_current_guild_participant?(params[:id]))
+    respond_to do |format|
+      format.html
+      format.json {render json: {error_text: "not_authorized"}, status: :unauthorized}
+    end
+    return;
+  end
 
-	#if destroy drom join end
+  if (user_is_current_guild_participant?(params[:id]) || user_is_admin_owner? || user_is_guild_admin?(guild_id) || user_is_guild_officer?(guild_id))
 
-	if (guild_size == 1)
-		guild.destroy
-		return
-	end
+    user.guild_participation_id = nil
+    user.save
+    @guild_participation.destroy
 
-	if (is_admin)
-		puts "--------------is adm"
-		new_owner = guild.users.order(points: :desc).first
-		guild.owner_id = new_owner.id
-		new_guild_p = new_owner.guild_participations.first
-		new_guild_p.is_admin = true
-		guild.owner_id = new_owner.id
-		new_owner.save
-		new_guild_p.save
-		guild.save
-	end
+    #if destroy drom join end
+
+    if (guild_size == 1)
+      guild.destroy
+      return
+    end
+
+    if (is_admin)
+      puts "--------------is adm"
+      new_owner = guild.users.order(points: :desc).first
+      guild.owner_id = new_owner.id
+      new_guild_p = new_owner.guild_participations.first
+      new_guild_p.is_admin = true
+      guild.owner_id = new_owner.id
+      new_owner.save
+      new_guild_p.save
+      guild.save
+    end
+  
+  else
+    respond_to do |format|
+      format.html
+      format.json {render json: {error_text: "not_authorized"}, status: :unauthorized}
+    end
 	
   end
+end
 
   private
     # Use callbacks to share common setup or constraints between actions.

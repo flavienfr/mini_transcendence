@@ -161,7 +161,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Ooops...',
-                    text: xhr.responseJSON["error_text"] ? xhr.responseJSON["error_text"] : xhr.responseText,
+                    text: xhr.responseJSON && xhr.responseJSON["error_text"] ? xhr.responseJSON["error_text"] : xhr.responseText,
                     footer: xhr.statusText
                 });
             }
@@ -192,7 +192,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: xhr.responseJSON["error_text"],
+                    text: xhr.responseJSON && xhr.responseJSON["error_text"] ? xhr.responseJSON["error_text"] : "",
                     footer: xhr.statusText
                 });
                 tournamentview.render();
@@ -221,7 +221,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Ooops...',
-                    text: xhr.responseJSON["error_text"],
+                    text: xhr.responseJSON && xhr.responseJSON["error_text"] ? xhr.responseJSON["error_text"] : "",
                     footer: xhr.statusText
                 });
                 tournamentview.render();

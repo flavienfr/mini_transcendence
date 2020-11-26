@@ -52,6 +52,14 @@ class TournamentsController < ApplicationController
   def create
     #puts params[:deadline].to_datetime - 15.minute;
 
+    if (!user_is_admin_owner?)
+      respond_to do |format|
+        format.html
+        format.json {render json: {error_text: "not_authorized"}, status: :unauthorized}
+      end
+      return;
+    end
+
     #a decommenter
     if (Time.now > (params[:deadline].in_time_zone(Time.zone) - 2.minute))
      respond_to do |format|

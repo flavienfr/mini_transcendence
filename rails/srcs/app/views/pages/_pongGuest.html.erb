@@ -230,7 +230,7 @@ const msg = JSON.parse(response);
             else
             {
                 ft_timer((timer == 0) ? "GO !" : timer);
-                if (timer == 1)
+                if (timer == 1 && tournament != 0)
                     tournament = Date.now();
                 pause = 0;
             }

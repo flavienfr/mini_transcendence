@@ -179,7 +179,7 @@ var LogView = Backbone.View.extend({
 			type: 'DELETE',
 			success: function(){
 				console.log("DELETE sent !");
-				window.location.href = "http://localhost:3000";
+				window.location.href = "https://localhost:3000";
 			}
 		})
 	},

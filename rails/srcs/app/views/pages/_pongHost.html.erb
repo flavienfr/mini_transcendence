@@ -386,7 +386,7 @@
                 if (timer <= 1)
                 {
                     ft_timer("GO !");
-                    if (timer == 1)
+                    if (timer == 1 && tournament != 0)
                         tournament = Date.now();
                 }
                 else
@@ -566,7 +566,7 @@
             setTimeout(() => {playview.render();}, 2000);
         }
         if (tournament != 0)
-            if (Date.now() - tournament >= 1800000 || (own_score >= 11 || guest.score >= 11)) // 3 minutes
+            if (Date.now() - tournament >= 180000 || (own_score >= 11 || guest.score >= 11)) // 3 minutes
                 endTournament(host_id);
         get_fps();  
         fps++;  

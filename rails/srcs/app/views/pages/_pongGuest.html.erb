@@ -63,14 +63,8 @@
             var d1 = new Date(); //"now"
             var d2 = tournament // some date
             var time = Math.abs(d1-d2);  // difference in milliseconds
-            console.log("time");
-            console.log(time)
             var min =  Math.floor((time / (1000 * 60)) % 60);
             var sec = Math.floor((time / 1000) % 60);
-            console.log("sec = " + sec);
-            console.log(sec);
-            console.log("min = " + min)
-            console.log(min);
             if (sec < 10)
                 var format =  min + ":0" + sec;
             else

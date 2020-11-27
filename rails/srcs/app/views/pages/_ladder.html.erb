@@ -27,7 +27,7 @@
 					<%%	for (let i = 0; i < ladder.length; i++) { %>
 						<tr>
 							<th scope="row"><%%= i + 1 %></th>
-							<td><%%= ladder[i].name %></td>
+							<td><a class="" onclick="Backbone.history.navigate('/profile/<%%= ladder[i].id %>', {trigger: true});" ><%%= ladder[i].name %></a></td>
 							<td><%%= ladder[i].points %></td>
 						</tr>
 					<%% } %>

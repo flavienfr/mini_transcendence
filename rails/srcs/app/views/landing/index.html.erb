@@ -925,7 +925,7 @@ var OptionView = Backbone.View.extend({
 			Swal.fire({
 				icon: 'warning',
 				title: 'Are you sure?',
-				text: 'Uploaded file format must be image jpg / jpeg / png',
+				text: 'File format must be .jpg, .jpeg or .png',
 			})
 			run_ajax = false;
 			self.render();
@@ -1068,9 +1068,23 @@ var AdminView = Backbone.View.extend({
 	template: _.template($('#admin-template').html()),
 
 	render: function(){
+		var el = this.$el;
+		var temp = this.template;
 		console.log("ADMIN !!!!!!!");
-		this.$el.html(this.template());
-		chatview.setElement("#chat_area").render_admin_chat_view();
+		var User = Backbone.Model.extend({
+			urlRoot: "/users"
+		});
+		var user = new User({id: <%== current_user.id %>});
+		user.fetch({
+			success: function(data){
+				data = data.toJSON();
+				if (data.is_owner || data.is_admin)
+				{
+					el.html(temp());
+					chatview.setElement("#chat_area").render_admin_chat_view();
+				}
+			}
+		});
 	}
 
 });

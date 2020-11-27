@@ -32,6 +32,12 @@ class SessionsController < ApplicationController
     
     puts "sessions/oauth params: ", params
 
+    # if clicked on "nope"
+    if (params.has_key?(:error))
+      redirect_to root_path and return
+    end
+
+    # else if clicked on "nope"
     # --- Exchange your code for an access token
     puts "--- Exchange your code for an access token"
 

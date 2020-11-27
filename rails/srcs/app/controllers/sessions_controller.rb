@@ -109,7 +109,8 @@ class SessionsController < ApplicationController
         name: parsed_res_api["displayname"],
         current_status: "logged in",
         enabled_two_factor_auth: false,
-        is_admin: true
+        is_admin: false,
+        is_owner: false
       )
       # --- Upload user image to cloudinary
       # https://github.com/cloudinary/cloudinary_gem

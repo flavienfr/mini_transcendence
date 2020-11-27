@@ -99,6 +99,9 @@ class SessionsController < ApplicationController
       render json: e, status: :unprocessable_entity and return
     elsif nb_user == 1
       user = User.where("student_id = ?", parsed_res_api["id"].to_i).first
+      if user.current_status == "logged in"
+        redirect_to root_path
+      end
       user.update(
         current_status: "logged in",
         is_admin: true

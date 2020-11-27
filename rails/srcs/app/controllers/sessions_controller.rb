@@ -100,7 +100,7 @@ class SessionsController < ApplicationController
     elsif nb_user == 1
       user = User.where("student_id = ?", parsed_res_api["id"].to_i).first
       if user.current_status == "logged in"
-        redirect_to root_path
+        redirect_to root_path and return
       end
       user.update(
         current_status: "logged in",

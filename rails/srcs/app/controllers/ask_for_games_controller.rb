@@ -182,6 +182,26 @@ class AskForGamesController < ApplicationController
 			war_id = war_a.id
 		end
 
+		if (AskForGame.where('status=? and (from_user_id=? or to_user_id=?)', "playing", user.id, user.id).size >= 1)
+			json_render["msg"] = "Your opponent is currently in a duel.\nYou can try again after the end of the duel."
+			json_render["is_msg"] = true
+			json_render["delete_notif"] = false
+			render json: json_render, status: :unprocessable_entity and return
+		end
+		if (AskForGame.where('status=? and (from_user_id=? or to_user_id=?)', "playing", to_user.id, to_user.id).size >= 1)
+			json_render["msg"] = "You are in a duel.\nWait until the end to accept."
+			json_render["is_msg"] = true
+			json_render["delete_notif"] = false
+			render json: json_render, status: :unprocessable_entity and return
+		end
+		# Is online check
+		if (user.current_status != "logged in")
+			json_render["msg"] = user.name + " is currently offline.\n You can retry later."
+			json_render["is_msg"] = true
+			json_render["delete_notif"] = false
+			render json: json_render, status: :unprocessable_entity and return
+		end
+
 		@game = Game.new(
 			start_date: Time.zone.now,
 			end_date: nil,
@@ -256,7 +276,6 @@ class AskForGamesController < ApplicationController
 	#---------------------------------------------
 
 	# Global check
-	#	Ne pas accepté si en tournois (si le tournois lance des match automatique)
 	if (AskForGame.where('status=? and (from_user_id=? or to_user_id=?)', "playing", from_user.id, from_user.id).size >= 1)
 		json_render["msg"] = "Your opponent is currently in a duel.\nYou can try again after the end of the duel."
 		json_render["is_msg"] = true

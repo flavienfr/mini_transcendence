@@ -96,7 +96,7 @@ async function add_to_list(id)
             listbtnview.setElement("#btn_match_making").render(); 
         },
         error: function(){
-            alert("you cannot subscribe while you're playing another game");
+			alert("you cannot subscribe while you're playing another game");
         }
     }); 
 
@@ -107,7 +107,9 @@ async function  quit_list(id)
     console.log("quit list");
     await playercollection.fetch();
     var player = playercollection.findWhere({user_id: id});
-    await Backbone.ajax({
+    if (player)
+    { 
+        await Backbone.ajax({
 			url: '/players/' + player.id + ".json",
 			data: {},
 			type: 'DELETE',
@@ -118,7 +120,8 @@ async function  quit_list(id)
 			error: function(){
 				alert("error");
 			}
-		});
+        });
+    }
 }
 
 //-------------------------------MAIN--------------------------------------//

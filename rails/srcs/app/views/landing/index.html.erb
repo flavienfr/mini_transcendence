@@ -149,6 +149,7 @@
 var current_user_id = <%= current_user.id %>; // >
 var current_session_id = <%= current_user.sessions.last.id %>; // >
 
+
 // ******************************************** MODELS/COLLECTIONS ********************************************
 //_____________________________________ User _____________________________________
 var User = Backbone.Model.extend({
@@ -1100,6 +1101,7 @@ var PlayView = Backbone.View.extend({
 
 	render : function(is_tournament) {
 		tournament = is_tournament == true ? Date.now() : 0;
+		notifview.render();
 		this.$el.html(this.template);
 		chatview.setElement("#chat_area").render_chat_main(); // https://solvemprobler.com/blog/2013/04/07/backbone-tips-rendering-views-and-their-childviews/
 		console.log("Render Play");
@@ -1814,6 +1816,11 @@ var notifview = new NotifView();
 document.addEventListener("notif2", function(event){
 			notifview.render();
 });
+
+
+async function refresh_notif() {
+	await notificationcollection.fetch();
+}
 
 var Router = Backbone.Router.extend({
 	routes: {

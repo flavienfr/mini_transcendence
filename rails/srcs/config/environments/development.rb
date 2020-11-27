@@ -53,7 +53,7 @@ Rails.application.configure do
 
   config.log_level = :error ## ---------------------------------------------------------- dismiss log in console suppressed it for show all !!!!!
 
-  config.force_ssl = true
+  # config.force_ssl = false
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true

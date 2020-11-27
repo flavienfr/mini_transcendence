@@ -17,9 +17,9 @@
 
 <script>
 
+console.log("Rails.env: " + '<%= Rails.env %>');
 $( "#sign_in" ).on( "click", function() {
 	console.log("SIGN IN");
-	console.log("Rails.env: " + '<%= Rails.env %>');
 	let http 			= '<%= ENV["http"] %>';
 	let client 			= '<%= ENV["client"] %>';
 	let redirect 		= '<%= ENV["redirect"] %>';

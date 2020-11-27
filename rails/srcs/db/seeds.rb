@@ -97,7 +97,7 @@ flavien = User.create(name: "flavien", avatar: "https://cdn.intra.42.fr/users/fr
 luc = User.create(name: "luc", avatar: "https://cdn.intra.42.fr/users/lhuang.jpg", current_status: "offline", points: 52, is_admin: false, guild_participation_id: nil) 
 maxime = User.create(name: "maxime", avatar: "https://cdn.intra.42.fr/users/mpouzol.jpg", current_status: "offline", points: 99, is_admin: false, guild_participation_id: nil) 
 #froussel = User.create(name: "Flavien Roussel", avatar: "https://cdn.intra.42.fr/users/froussel.jpg", current_status: "offline", points: 2000, is_admin: false, guild_participation_id: nil)
-fberger = User.create(student_id: 37271, name: "Francis Berger", avatar: "http://res.cloudinary.com/dwcxgy6qt/image/upload/q7jfqa4cd4q8xpnxmoz55sbmi1py", current_status: "offline", points: 36, is_admin: false, guild_participation_id: nil)
+fberger = User.create(student_id: 37271, name: "Francis Berger", avatar: "https://res.cloudinary.com/dwcxgy6qt/image/upload/q7jfqa4cd4q8xpnxmoz55sbmi1py", current_status: "offline", points: 36, is_admin: false, guild_participation_id: nil)
 puts "----- Users created"
 
 ## sessions

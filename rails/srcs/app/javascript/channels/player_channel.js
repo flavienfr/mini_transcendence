@@ -26,7 +26,7 @@ consumer.subscriptions.create("PlayerChannel", {
     for(let i = 0; i < list_ranked.length; i++)
     {
       player = usercollection.get({id: list_ranked[i].toJSON().user_id}).toJSON();
-      if (player.current_status == "logged out") 
+      if (player && (player.current_status == "logged out" || player.current_status == "banned")) 
       {
         await list_ranked[i].destroy();
       }
@@ -49,8 +49,17 @@ consumer.subscriptions.create("PlayerChannel", {
             console.log("LAUNCH GAME");
             launch_game(response.ask_for_game); 
         },
-        error: function(){
-          alert("error");
+        error: async function(){
+          console.log("erreur 88");
+          for(let i = 0; i < list_ranked.length; i++)
+          {
+            player = usercollection.get({id: list_ranked[i].toJSON().user_id}).toJSON();
+            if (player && (player.current_status == "logged out" || player.current_status == "banned")) 
+            {
+              await list_ranked[i].destroy();
+            }
+          } 
+          alert("you can't start a matchmaking match if you're in game");
         }
       });
       await list_ranked[0].destroy();

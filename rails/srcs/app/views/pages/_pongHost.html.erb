@@ -66,14 +66,8 @@
         var d1 = new Date(); //"now"
         var d2 = tournament // some date
         var time = Math.abs(d1-d2);  // difference in milliseconds
-        console.log("time");
-        console.log(time)
         var min =  Math.floor((time / (1000 * 60)) % 60);
         var sec = Math.floor((time / 1000) % 60);
-        console.log("sec = " + sec);
-        console.log(sec);
-        console.log("min = " + min)
-        console.log(min);
         if (sec < 10)
             var format =  min + ":0" + sec;
         else
@@ -141,11 +135,10 @@
         drawMiddleLine(line);
         drawScore(canvas.width/4, canvas.height/5, own_score, "WHITE");
         drawScore(3 * canvas.width/4, canvas.height/5, guest.score, "WHITE");
-        fpsText(medium_fps + " FPS");
+        //fpsText(medium_fps + " FPS");
         // move part
         drawRect(gamer.x, gamer.y, gamer.width, gamer.height, gamer.color);
         drawRect(guest.x, guest.y, guest.width, guest.height, guest.color);
-        console.log(tournament);
         if (tournament != 0)
             draw_timer();
         if (pause < frame * 2 - 4)
@@ -333,8 +326,6 @@
                 ball.velocityX = lastX;
             if (ball.velocityX < 0 && lastX < ball.velocityX)
                 ball.velocityX = lastX;
-            console.log("velocity  = " + ball.velocityY);
-            console.log("velocityX = " + ball.velocityX);
             if (ball.speed < 50)
                 ball.speed += 1.5; // increase the speed at each contact with the paddle
         }

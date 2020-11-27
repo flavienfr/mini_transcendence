@@ -37,16 +37,21 @@ function ft_getNames(ask)
 		url: '/users'
 	})
 	var user = new Users();
-	user.fetch({data: {}, success: function (data) {
-		var show_div = $("#game_room");
-		var name1 = data.attributes[ask.from_user_id].name;
-		var name2 = data.attributes[ask.to_user_id].name;
-		show_div.append("<a class='dropdown-item' onclick='save_watch("+ ask.from_user_id +")'>"+ name1 + " VS " + name2 +"</a>");
+	user.fetch({data: {user_id: ask.from_user_id, type: "viewer"}, success: function(){		
+		var user2 = new Users();
+		user2.fetch({data: {user_id: ask.to_user_id, type: "viewer"}, success: function ()
+		{
+			var show_div = $("#game_room");
+			var name1 = user.get('name');
+			var name2 = user2.get('name');
+			show_div.append("<a class='dropdown-item' onclick='save_watch("+ ask.from_user_id +")'>"+ name1 + " VS " + name2 +"</a>");;
+		}});
 	}});
 }
 
 function refresh()
 {
+	$("#game_room").empty();
 	var AskForGame = Backbone.Model.extend({
         urlRoot: '/ask_for_games'
 	})
@@ -86,7 +91,7 @@ socket.onmessage = function(event)
 	if (msg.message.data == "refresh" || msg.message.data.play == "true")
 	{
 		$('.dropdown-item').remove();
-		setTimeout(() => {refresh();}, 500);
+		setTimeout(() => {refresh();}, 1200);
 	}
 }
 

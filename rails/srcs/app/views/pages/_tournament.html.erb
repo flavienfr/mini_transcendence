@@ -5,7 +5,7 @@
 </div>
 <div class="body-tournament">
 <div id="admin_create_button"></div>
-<div class="title">
+<div class="title" style="margin-top: 30px;">
     <h1>Tournaments</h1>
 </div>
 <div class="container-tableau2">
@@ -76,12 +76,12 @@
     })
     <% if(current_user.is_owner || current_user.is_admin) %>
         var admin_button_div = $("#admin_create_button");
-        admin_button_div.append("<div style='display: flex; flex-direction: column; width: 50vh;'>" +
-            "<div><label>Name</label><input id='tournament_name' type='text' required></div>" +
-            "<div class='time_picker'><label for='start_time'>Start Time</label><input id='start_time' required></div>" +
-            "<div><label for='nb_of_players_selected'>Number of Players</label><select id='nb_of_players_selected'><option>2</option><option>4</option><option>8</option></select></div>" +
-            "<div><label>Incentives</label><input id='incentives_id' type='text'></div>" +
-            "<div><button onclick='ft_create_tournament()'>Create Tournament</button></div>" +
+        admin_button_div.append("<div style='display: flex; justify-content: space-between; margin: auto; width: 83%; align-items: center; padding: 10px; border: 4px solid #333333; background: #333333; color: #d0d0d0; font-weight: bold;'>" +
+                "<div style='display: flex; flex-direction: column; width: 20%;'><label>Name</label><input id='tournament_name' type='text' required placeholder='Enter a tournament name'></div>" +
+                "<div style='display: flex; flex-direction: column;' class='time_picker'><label for='start_time'>Start Time</label><input placeholder='Date' id='start_time' required></div>" +
+                "<div style='display: flex; flex-direction: column;'><label for='nb_of_players_selected'>Number of Players</label><select id='nb_of_players_selected'><option>2</option><option>4</option><option>8</option></select></div>" +
+                "<div style='display: flex; flex-direction: column; width: 20%;'><label>Incentives</label><input id='incentives_id' type='text' placeholder='Give some incentives'></div>" +
+                "<div><button class='btn btn-secondary' onclick='ft_create_tournament()'>Create Tournament</button></div>" +
             "</div>");
             flatpickr("#start_time", {
                 enableTime: true,

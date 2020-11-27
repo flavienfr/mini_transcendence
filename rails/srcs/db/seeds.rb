@@ -92,7 +92,7 @@ end
 
 ## users
 # fake
-donald_trump = User.create(name: "Donald Trump", avatar: "https://img.lemde.fr/2020/07/31/0/0/5568/3712/688/0/60/0/6e022fa_205767458-769282.jpg", current_status: "offline", points: 45, is_admin: false, is_owner: false, guild_participation_id: nil, enabled_two_factor_auth: true) 
+angela_merkel = User.create(name: "Angela Merkel", avatar: "https://cdn.radiofrance.fr/s3/cruiser-production/2016/11/8214f25e-188a-4b11-a7eb-fd255ebe08aa/838_000_i965n.jpg", current_status: "offline", points: 45, is_admin: false, is_owner: false, guild_participation_id: nil, enabled_two_factor_auth: true) 
 elon_musk = User.create(name: "Elon Musk", avatar: "https://cdn.futura-sciences.com/buildsv6/images/largeoriginal/d/9/a/d9a1058910_50163142_elon-musk1.jpg", current_status: "offline", points: 99, is_admin: false, is_owner: false, guild_participation_id: nil)
 xavier_niel = User.create(name: "Xavier Niel", avatar: "https://www.challenges.fr/assets/img/2018/05/23/cover-r4x3w1000-5b572372b44c2-xavier-niel-transfere-l-essentiel-de-ses-parts-d-iliad-a.jpg", current_status: "offline", points: 100, is_admin: false, is_owner: false, guild_participation_id: nil)
 pape_francois = User.create(name: "Pape Francois", avatar: "https://lh3.googleusercontent.com/proxy/1eXJICKSIFdmsut7AyvLNcb1ycbeDpCirtu7vAg1NCqkP7jHfuz5AkWqO4xqB7yhmBwuz3kw8FSu7B8eKOwKOP5ws1rGdyJtSPcc71nBD7w4oBkrYh9sfXID3dKle7YWyOVhXymXb6ScUrUe", current_status: "offline", points: 33, is_admin: false, is_owner: false, guild_participation_id: nil) 
@@ -109,35 +109,35 @@ puts "----- Users created"
 
 
 ## ask_for_friendship
-# donald_trump
-aff_dt_1 = AskForFriendship.new(sender_id: donald_trump.id, recipient_id: elon_musk.id, status: "active")
-aff_dt_2 = AskForFriendship.new(sender_id: donald_trump.id, recipient_id: xavier_niel.id, status: "active")
-aff_dt_3 = AskForFriendship.new(sender_id: donald_trump.id, recipient_id: pape_francois.id, status: "active")
-aff_dt_4 = AskForFriendship.new(sender_id: donald_trump.id, recipient_id: feca.id, status: "active")
-aff_dt_5 = AskForFriendship.new(sender_id: donald_trump.id, recipient_id: kebab.id, status: "active")
+# angela_merkel
+aff_dt_1 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: elon_musk.id, status: "active")
+aff_dt_2 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: xavier_niel.id, status: "active")
+aff_dt_3 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: pape_francois.id, status: "active")
+aff_dt_4 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: feca.id, status: "active")
+aff_dt_5 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: kebab.id, status: "active")
 # maxime
-aff_mp_1 = AskForFriendship.new(sender_id: donald_trump.id, recipient_id: elon_musk.id, status: "active")
-aff_mp_2 = AskForFriendship.new(sender_id: donald_trump.id, recipient_id: xavier_niel.id, status: "active")
-aff_mp_3 = AskForFriendship.new(sender_id: donald_trump.id, recipient_id: pape_francois.id, status: "active")
-aff_mp_4 = AskForFriendship.new(sender_id: donald_trump.id, recipient_id: feca.id, status: "active")
-aff_mp_5 = AskForFriendship.new(sender_id: donald_trump.id, recipient_id: kebab.id, status: "active")
+aff_mp_1 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: elon_musk.id, status: "active")
+aff_mp_2 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: xavier_niel.id, status: "active")
+aff_mp_3 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: pape_francois.id, status: "active")
+aff_mp_4 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: feca.id, status: "active")
+aff_mp_5 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: kebab.id, status: "active")
 puts "----- AskForFriendship initialized"
 
 ## friendship
-# donald_trump
-f1 = Friendship.create(sender_id: donald_trump.id, recipient_id: elon_musk.id, status: "active")
+# angela_merkel
+f1 = Friendship.create(sender_id: angela_merkel.id, recipient_id: elon_musk.id, status: "active")
 aff_dt_1.friendship_id = f1.id
 aff_dt_1.save
-f2 = Friendship.create(sender_id: donald_trump.id, recipient_id: xavier_niel.id, status: "active")
+f2 = Friendship.create(sender_id: angela_merkel.id, recipient_id: xavier_niel.id, status: "active")
 aff_dt_2.friendship_id = f2.id
 aff_dt_2.save
-f3 = Friendship.create(sender_id: donald_trump.id, recipient_id: pape_francois.id, status: "active")
+f3 = Friendship.create(sender_id: angela_merkel.id, recipient_id: pape_francois.id, status: "active")
 aff_dt_3.friendship_id = f3.id
 aff_dt_3.save
-f4 = Friendship.create(sender_id: donald_trump.id, recipient_id: feca.id,  status: "active")
+f4 = Friendship.create(sender_id: angela_merkel.id, recipient_id: feca.id,  status: "active")
 aff_dt_4.friendship_id = f4.id
 aff_dt_4.save
-f5 = Friendship.create(sender_id: donald_trump.id, recipient_id: kebab.id,  status: "active")
+f5 = Friendship.create(sender_id: angela_merkel.id, recipient_id: kebab.id,  status: "active")
 aff_dt_5.friendship_id = f5.id
 aff_dt_5.save
 # maxime
@@ -150,7 +150,7 @@ aff_mp_2.save
 f8 = Friendship.create(sender_id: maxime.id, recipient_id: pape_francois.id, status: "active")
 aff_mp_3.friendship_id = f8.id
 aff_mp_3.save
-f9 = Friendship.create(sender_id: maxime.id, recipient_id: donald_trump.id,  status: "active")
+f9 = Friendship.create(sender_id: maxime.id, recipient_id: angela_merkel.id,  status: "active")
 aff_mp_4.friendship_id = f9.id
 aff_mp_4.save
 f10 = Friendship.create(sender_id: maxime.id, recipient_id: kebab.id,  status: "active")
@@ -160,15 +160,15 @@ puts "----- Friendship created"
 
 
 ## guilds
-assemblee = Guild.create(name: "The Assembly", anagram: "42", points: 339, is_making_war: false ,owner_id: donald_trump.id)
+assemblee = Guild.create(name: "The Assembly", anagram: "42", points: 339, is_making_war: false ,owner_id: angela_merkel.id)
 order     = Guild.create(name: "The Order",     anagram: "42", points: 227, is_making_war: false, owner_id: elon_musk.id  )
 puts "----- Guilds created"
 
 ## guild participations
 # the Assemblee
-ap1 = GuildParticipation.create(user_id: donald_trump.id, guild_id: assemblee.id, is_admin: true, is_officer: false)
-donald_trump.guild_participation_id = ap1.id
-donald_trump.save
+ap1 = GuildParticipation.create(user_id: angela_merkel.id, guild_id: assemblee.id, is_admin: true, is_officer: false)
+angela_merkel.guild_participation_id = ap1.id
+angela_merkel.save
 #
 ap2 = GuildParticipation.create(user_id: xavier_niel.id, guild_id: assemblee.id, is_admin: false, is_officer: true)
 xavier_niel.guild_participation_id = ap2.id

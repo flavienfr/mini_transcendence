@@ -913,22 +913,33 @@ var OptionView = Backbone.View.extend({
 		var self = this;
 		console.log("submit two_factor_auth_form");
 
-		// affiche le spinner
-		var spinner = document.getElementById("spinner");
-		spinner.classList.add("active");
-
 		// récupération des inputs
 		let pseudo = $('#edit_profile_pseudo_input').val();
 		let title_name = $("#title_drop_down option:selected").text();
 		let fileInput = document.getElementById('edit_profile_avatar_input');
 		let attachment = fileInput.files[0];
+		const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+
+		let run_ajax = true;
+		if (attachment != null && !fileInput.files[0].name.match(/.(jpg|jpeg|png)$/i)) {
+			Swal.fire({
+				icon: 'warning',
+				title: 'Are you sure?',
+				text: 'Uploaded file format must be image jpg / jpeg / png',
+			})
+			run_ajax = false;
+			self.render();
+		}
 		let enabled_two_factor_auth = $("#edit_profile_two_factor_checkbox").is(':checked');
 		
 		// création du form
 		var formData = new FormData();
 		formData.append("name", pseudo);
 		formData.append("title_name", title_name);
-		if (attachment != null) { formData.append("photo", attachment, "not_important.jpg"); }
+		if (attachment != null) {
+			console.log("fileInput.files[0].name:", fileInput.files[0].name);
+			formData.append("photo", attachment, "not_important.jpg");
+		}
 		formData.append("enabled_two_factor_auth", enabled_two_factor_auth);
 
 		// Affichage des paires clefs/valeurs
@@ -937,58 +948,64 @@ var OptionView = Backbone.View.extend({
 		   console.log(pair[0]+ ', '+ pair[1]); 
 		}
   
-		$.ajax({
-			url: 'users/' + <%= current_user.id %>, // >
-			data: formData,
-			cache: false,
-        	contentType: false,
-        	processData: false,
-			type: 'PUT',
-			success: function(res) {
-				console.log("ok res: ", res);
-
-				// cache le spinner:
-				spinner.classList.remove("active");
-
-				Swal.fire({
-					icon: 'success',
-					title: 'Your profile has been updated',
-					showConfirmButton: false,
-					timer: 2000
-				})
-
-				self.render();
-			},
-			error: function (err) {
-				console.log("ko err:", err);
-
-				// cache le spinner:
-				spinner.classList.remove("active");
-
-				let footer_msg = "";
-
-				if (err.status == 401) {
-					footer_msg = "Unauthorized";
-				} else if (err.status == 422) {
-					for (var key in err.responseJSON.data) {
-						if (err.responseJSON.data.hasOwnProperty(key)) {
-							console.log(key + " -> " + err.responseJSON.data[key]);
-							footer_msg += (key + " " + err.responseJSON.data[key]);
+		if (run_ajax) {
+			// affiche le spinner
+			var spinner = document.getElementById("spinner");
+			spinner.classList.add("active");
+	
+			$.ajax({
+				url: 'users/' + <%= current_user.id %>, // >
+				data: formData,
+				cache: false,
+				contentType: false,
+				processData: false,
+				type: 'PUT',
+				success: function(res) {
+					console.log("ok res: ", res);
+	
+					// cache le spinner:
+					spinner.classList.remove("active");
+	
+					Swal.fire({
+						icon: 'success',
+						title: 'Your profile has been updated',
+						showConfirmButton: false,
+						timer: 2000
+					})
+	
+					self.render();
+				},
+				error: function (err) {
+					console.log("ko err:", err);
+	
+					// cache le spinner:
+					spinner.classList.remove("active");
+	
+					let footer_msg = "";
+	
+					if (err.status == 401) {
+						footer_msg = "Unauthorized";
+					} else if (err.status == 422) {
+						for (var key in err.responseJSON.data) {
+							if (err.responseJSON.data.hasOwnProperty(key)) {
+								console.log(key + " -> " + err.responseJSON.data[key]);
+								footer_msg += (key + " " + err.responseJSON.data[key]);
+							}
 						}
+						console.log("footer_msg:", footer_msg);
 					}
-					console.log("footer_msg:", footer_msg);
+	
+					Swal.fire({
+						icon: 'error',
+						title: 'Oops...',
+						text: 'Something went wrong!',
+						footer: footer_msg
+					})
+	
+					self.render();
 				}
-
-				Swal.fire({
-					icon: 'error',
-					title: 'Oops...',
-					text: 'Something went wrong!',
-					footer: footer_msg
-				})
-
-				self.render();
-			}
-		})
+			})
+		}	
 	},
 
 	render : async function() {

@@ -12,7 +12,7 @@ class FriendshipsController < ApplicationController
 
     # friendships_ids.delete(params[:id].to_i) 
     # @users = User.where("id IN (?)", friendships_ids)
-    render json: User.find(params[:id].to_i).get_friendships("active").as_json
+    render json: User.find(params[:id].to_i).get_friendships().as_json
   end
 
   # GET /friendships/1

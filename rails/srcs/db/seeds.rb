@@ -161,7 +161,7 @@ puts "----- Friendship created"
 
 ## guilds
 assemblee = Guild.create(name: "The Assembly", anagram: "42", points: 339, is_making_war: false ,owner_id: angela_merkel.id)
-order     = Guild.create(name: "The Order",     anagram: "42", points: 227, is_making_war: false, owner_id: elon_musk.id  )
+order     = Guild.create(name: "The Order",    anagram: "42", points: 227, is_making_war: false, owner_id: elon_musk.id  )
 puts "----- Guilds created"
 
 ## guild participations

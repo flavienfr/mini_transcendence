@@ -60,11 +60,11 @@
                                     console.log("users_name[data[i].user_id]:", users_name[data[i].user_id]);
                                     
                                     $("#scheme_step_" + j).append("<div class='podium-card' style='text-align: center; width: " + 100/size + "%; background-color: #212529; padding: 10px; margin: 0px;' ><p id='scheme_step_user1" + j + "' style='padding: 10px; margin: 0px; background-color: #CCCCCC'>" + users_name[data[i].user_id] + "</p></div>");
-                                    let elem = document.getElementById("scheme_step_user1" + j);
-                                    let link = "/profile/" + data[i].user_id;
-                                    elem.onclick = function(ev) { 
-                                        Backbone.history.navigate(link, {trigger: true});
-                                    };
+                                    // let elem = document.getElementById("scheme_step_user1" + j);
+                                    // let link = "/profile/" + data[i].user_id;
+                                    // elem.onclick = function(ev) { 
+                                    //     Backbone.history.navigate(link, {trigger: true});
+                                    // };
                                 }
                                 i++;
                             }
@@ -78,11 +78,11 @@
                             while (i < size)
                             {
                                 $("#scheme_step").append("<div class='podium-card' style='text-align: center; width: " + 100/size + "%; background-color: #212529; padding: 10px; margin: 0px;' ><p id='scheme_step_user2" + i + "' style='padding: 10px; margin: 0px; background-color: #CCCCCC'>" + users_name[data[i].user_id] + "</p></div>");
-                                let elem = document.getElementById("scheme_step_user2" + i);
-                                let link = "/profile/" + data[i].user_id;
-                                elem.onclick = function(ev) { 
-                                    Backbone.history.navigate(link, {trigger: true});
-                                };
+                                // let elem = document.getElementById("scheme_step_user2" + i);
+                                // let link = "/profile/" + data[i].user_id;
+                                // elem.onclick = function(ev) { 
+                                //   Backbone.history.navigate(link, {trigger: true});
+                                //};
                                 i++;
                             }
                         }

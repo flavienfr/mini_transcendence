@@ -424,7 +424,7 @@
                 }    
                 console.log("askforgame = " + ask_for_game.id)
                 if (host_score > guest_score)
-                    saveScore(ask_for_game.get("game_id"), ask_for_game.get("from_user_id"),host_score, guest_score)
+                    saveScore(ask_for_game.get("game_id"), ask_for_game.get("from_user_id"),host_score, guest_score);
                 else
                     saveScore(ask_for_game.get("game_id"), ask_for_game.get("to_user_id"), guest_score, host_score);
                 
@@ -438,9 +438,9 @@
                     {
                         console.log(game.toJSON());
                         if (host_score > guest_score)
-                            SaveTournament(game.get("tournament_id"), ask_for_game.get("from_user_id"), ask_for_game.get("to_user_id"), host_score, guest_score)
+                            SaveTournament(id_tournament, ask_for_game.get("from_user_id"), ask_for_game.get("to_user_id"), host_score, guest_score)
                         else 
-                            SaveTournament(game.get("tournament_id"), ask_for_game.get("to_user_id"), ask_for_game.get("from_user_id"), guest_score, host_score)
+                            SaveTournament(id_tournament, ask_for_game.get("to_user_id"), ask_for_game.get("from_user_id"), guest_score, host_score)
                     }}) 
                 }
             }});

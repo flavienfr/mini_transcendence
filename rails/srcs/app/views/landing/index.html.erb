@@ -20,7 +20,7 @@
 				refresh_live_match();
 				console.log("++++++++++++++++++++++host+++++++++++++++++++++++")
 				setTimeout(() => {
-					playview.render(true);
+					playview.render(true, event.detail.data.tournament_id);
 					pongview.setElement("#pong-area").render();
 				}, 4000);
 			}
@@ -1099,8 +1099,9 @@ var PlayView = Backbone.View.extend({
 		console.log("PlayView created");
 	},
 
-	render : function(is_tournament) {
+	render : function(is_tournament, tournament_id) {
 		tournament = is_tournament == true ? Date.now() : 0;
+		id_tournament = tournament_id;
 		notifview.render();
 		this.$el.html(this.template);
 		chatview.setElement("#chat_area").render_chat_main(); // https://solvemprobler.com/blog/2013/04/07/backbone-tips-rendering-views-and-their-childviews/

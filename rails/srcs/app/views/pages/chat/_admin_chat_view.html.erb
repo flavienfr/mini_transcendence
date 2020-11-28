@@ -78,7 +78,7 @@
 							show_div.append("<div style='display:flex;'><button class='dropdown-item' onclick='ft_show_conversation_admin(" +
 											JSON.stringify(data[i]) + ")'>" +
 											data[i].name + " (" + data[i].scope + ")" + "</button>" +
-											(<%== current_user.is_admin %> ? "<button onclick='ft_delete(" + JSON.stringify(data[i]) + ")'>Delete</button>" : "") +
+											(<%== current_user.is_admin || current_user.is_owner %> ? "<button onclick='ft_delete(" + JSON.stringify(data[i]) + ")'>Delete</button>" : "") +
 											"</div>");
 							i++;
 						}

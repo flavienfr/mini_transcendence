@@ -59,8 +59,8 @@
                                     console.log("data[i]:", data[i]);
                                     console.log("users_name[data[i].user_id]:", users_name[data[i].user_id]);
                                     
-                                    $("#scheme_step_" + j).append("<div class='podium-card' style='text-align: center; width: " + 100/size + "%; background-color: #212529; padding: 10px; margin: 0px;' ><p style='padding: 10px; margin: 0px; background-color: #CCCCCC'>" + users_name[data[i].user_id] + "</p></div>");
-                                    let elem = document.getElementById("scheme_step_" + j);
+                                    $("#scheme_step_" + j).append("<div class='podium-card' style='text-align: center; width: " + 100/size + "%; background-color: #212529; padding: 10px; margin: 0px;' ><p id='" + "scheme_step_user" + j + "' style='padding: 10px; margin: 0px; background-color: #CCCCCC'>" + users_name[data[i].user_id] + "</p></div>");
+                                    let elem = document.getElementById("scheme_step_user" + j);
                                     let link = "/profile/" + data[i].user_id;
                                     elem.onclick = function(ev) { 
                                         Backbone.history.navigate(link, {trigger: true});

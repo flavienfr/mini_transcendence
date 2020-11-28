@@ -91,13 +91,17 @@ ActiveRecord::Base.connection.disable_referential_integrity do
 end
 
 ## users
-francis = User.create(name: "francis", avatar: "https://cdn.intra.42.fr/users/fberger.jpg", current_status: "offline", points: 255, is_admin: false, guild_participation_id: nil, enabled_two_factor_auth: true) 
-yamin = User.create(name: "yamin", avatar: "https://cdn.intra.42.fr/users/ylegzoul.jpg", current_status: "offline", points: 31, is_admin: false, guild_participation_id: nil)
-flavien = User.create(name: "flavien", avatar: "https://cdn.intra.42.fr/users/froussel.jpg", current_status: "offline", points: 665, is_admin: false, guild_participation_id: nil)
-luc = User.create(name: "luc", avatar: "https://cdn.intra.42.fr/users/lhuang.jpg", current_status: "offline", points: 52, is_admin: false, guild_participation_id: nil) 
-maxime = User.create(name: "maxime", avatar: "https://cdn.intra.42.fr/users/mpouzol.jpg", current_status: "offline", points: 99, is_admin: false, guild_participation_id: nil) 
-#froussel = User.create(name: "Flavien Roussel", avatar: "https://cdn.intra.42.fr/users/froussel.jpg", current_status: "offline", points: 2000, is_admin: false, guild_participation_id: nil)
-fberger = User.create(student_id: 37271, name: "Francis Berger", avatar: "https://res.cloudinary.com/dwcxgy6qt/image/upload/q7jfqa4cd4q8xpnxmoz55sbmi1py", current_status: "offline", points: 36, is_admin: false, guild_participation_id: nil)
+# fake
+angela_merkel = User.create(name: "Angela Merkel", avatar: "https://cdn.radiofrance.fr/s3/cruiser-production/2016/11/8214f25e-188a-4b11-a7eb-fd255ebe08aa/838_000_i965n.jpg", current_status: "offline", points: 45, is_admin: false, is_owner: false, guild_participation_id: nil, enabled_two_factor_auth: true) 
+elon_musk = User.create(name: "Elon Musk", avatar: "https://cdn.futura-sciences.com/buildsv6/images/largeoriginal/d/9/a/d9a1058910_50163142_elon-musk1.jpg", current_status: "offline", points: 99, is_admin: false, is_owner: false, guild_participation_id: nil)
+xavier_niel = User.create(name: "Xavier Niel", avatar: "https://www.challenges.fr/assets/img/2018/05/23/cover-r4x3w1000-5b572372b44c2-xavier-niel-transfere-l-essentiel-de-ses-parts-d-iliad-a.jpg", current_status: "offline", points: 100, is_admin: false, is_owner: false, guild_participation_id: nil)
+pape_francois = User.create(name: "Pape Francois", avatar: "https://lh3.googleusercontent.com/proxy/1eXJICKSIFdmsut7AyvLNcb1ycbeDpCirtu7vAg1NCqkP7jHfuz5AkWqO4xqB7yhmBwuz3kw8FSu7B8eKOwKOP5ws1rGdyJtSPcc71nBD7w4oBkrYh9sfXID3dKle7YWyOVhXymXb6ScUrUe", current_status: "offline", points: 33, is_admin: false, is_owner: false, guild_participation_id: nil) 
+feca = User.create(name: "Feca feu", avatar: "https://pre.breakflip.com/uploads/Dofus/Feca/Feca_male.png", current_status: "offline", points: 1, is_admin: false, is_owner: false, guild_participation_id: nil) 
+kebab = User.create(name: "Salade Tomate Oignon", avatar: "https://static.lexpress.fr/medias_11842/w_1000,c_fill,g_north/kebab-antalya_6063300.jpeg", current_status: "offline", points: 1, is_admin: false, is_owner: false, guild_participation_id: nil) 
+# team
+fberger = User.create(student_id: 37271, name: "Francis", avatar: "https://res.cloudinary.com/dwcxgy6qt/image/upload/q7jfqa4cd4q8xpnxmoz55sbmi1py", current_status: "offline", points: 36, is_admin: true, is_owner: false, guild_participation_id: nil)
+maxime = User.create(student_id: 55895, name: "Maxime", avatar: "https://cdn.intra.42.fr/users/medium_mpouzol.jpg", current_status: "offline", points: 63, is_admin: true, is_owner: true, guild_participation_id: nil)
+flavien = User.create(student_id: 58251, name: "Flavien", avatar: "https://cdn.intra.42.fr/users/medium_froussel.jpg", current_status: "offline", points: 56, is_admin: true, is_owner: true, guild_participation_id: nil)
 puts "----- Users created"
 
 ## sessions
@@ -105,55 +109,87 @@ puts "----- Users created"
 
 
 ## ask_for_friendship
-aff1 = AskForFriendship.new(sender_id: fberger.id, recipient_id: yamin.id,   status: "active")
-aff2 = AskForFriendship.new(sender_id: fberger.id, recipient_id: flavien.id, status: "active")
-aff3 = AskForFriendship.new(sender_id: fberger.id, recipient_id: luc.id,     status: "active")
-aff4 = AskForFriendship.new(sender_id: fberger.id, recipient_id: maxime.id,  status: "active")
+# angela_merkel
+aff_dt_1 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: elon_musk.id, status: "active")
+aff_dt_2 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: xavier_niel.id, status: "active")
+aff_dt_3 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: pape_francois.id, status: "active")
+aff_dt_4 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: feca.id, status: "active")
+aff_dt_5 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: kebab.id, status: "active")
+# maxime
+aff_mp_1 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: elon_musk.id, status: "active")
+aff_mp_2 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: xavier_niel.id, status: "active")
+aff_mp_3 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: pape_francois.id, status: "active")
+aff_mp_4 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: feca.id, status: "active")
+aff_mp_5 = AskForFriendship.new(sender_id: angela_merkel.id, recipient_id: kebab.id, status: "active")
 puts "----- AskForFriendship initialized"
 
 ## friendship
-f1 = Friendship.create(sender_id: fberger.id, recipient_id: yamin.id,   status: "active")
-aff1.friendship_id = f1.id
-aff1.save
-f2 = Friendship.create(sender_id: fberger.id, recipient_id: flavien.id, status: "active")
-aff2.friendship_id = f2.id
-aff2.save
-f3 = Friendship.create(sender_id: fberger.id, recipient_id: luc.id,     status: "active")
-aff3.friendship_id = f3.id
-aff3.save
-f4 = Friendship.create(sender_id: fberger.id, recipient_id: maxime.id,  status: "active")
-aff4.friendship_id = f4.id
-aff4.save
+# angela_merkel
+f1 = Friendship.create(sender_id: angela_merkel.id, recipient_id: elon_musk.id, status: "active")
+aff_dt_1.friendship_id = f1.id
+aff_dt_1.save
+f2 = Friendship.create(sender_id: angela_merkel.id, recipient_id: xavier_niel.id, status: "active")
+aff_dt_2.friendship_id = f2.id
+aff_dt_2.save
+f3 = Friendship.create(sender_id: angela_merkel.id, recipient_id: pape_francois.id, status: "active")
+aff_dt_3.friendship_id = f3.id
+aff_dt_3.save
+f4 = Friendship.create(sender_id: angela_merkel.id, recipient_id: feca.id,  status: "active")
+aff_dt_4.friendship_id = f4.id
+aff_dt_4.save
+f5 = Friendship.create(sender_id: angela_merkel.id, recipient_id: kebab.id,  status: "active")
+aff_dt_5.friendship_id = f5.id
+aff_dt_5.save
+# maxime
+f6 = Friendship.create(sender_id: maxime.id, recipient_id: elon_musk.id, status: "active")
+aff_mp_1.friendship_id = f6.id
+aff_mp_1.save
+f7 = Friendship.create(sender_id: maxime.id, recipient_id: xavier_niel.id, status: "active")
+aff_mp_2.friendship_id = f7.id
+aff_mp_2.save
+f8 = Friendship.create(sender_id: maxime.id, recipient_id: pape_francois.id, status: "active")
+aff_mp_3.friendship_id = f8.id
+aff_mp_3.save
+f9 = Friendship.create(sender_id: maxime.id, recipient_id: angela_merkel.id,  status: "active")
+aff_mp_4.friendship_id = f9.id
+aff_mp_4.save
+f10 = Friendship.create(sender_id: maxime.id, recipient_id: kebab.id,  status: "active")
+aff_mp_5.friendship_id = f10.id
+aff_mp_5.save
 puts "----- Friendship created"
 
 
 ## guilds
-assemblee = Guild.create(name: "The Assemblee", anagram: "42", points: 5412, is_making_war: false ,owner_id: francis.id)
-order     = Guild.create(name: "The Order",     anagram: "42", points: 1235, is_making_war: false, owner_id: yamin.id  )
+assemblee = Guild.create(name: "The Assembly", anagram: "42", points: 339, is_making_war: false ,owner_id: angela_merkel.id)
+order     = Guild.create(name: "The Order",     anagram: "42", points: 227, is_making_war: false, owner_id: elon_musk.id  )
 puts "----- Guilds created"
 
 ## guild participations
 # the Assemblee
-ap1 = GuildParticipation.create(user_id: fberger.id, guild_id: assemblee.id, is_admin: true, is_officer: false)
-fberger.guild_participation_id = ap1.id
-fberger.save
-ap2 = GuildParticipation.create(user_id: flavien.id, guild_id: assemblee.id, is_admin: false, is_officer: true)
-flavien.guild_participation_id = ap2.id
-flavien.save
+ap1 = GuildParticipation.create(user_id: angela_merkel.id, guild_id: assemblee.id, is_admin: true, is_officer: false)
+angela_merkel.guild_participation_id = ap1.id
+angela_merkel.save
+#
+ap2 = GuildParticipation.create(user_id: xavier_niel.id, guild_id: assemblee.id, is_admin: false, is_officer: true)
+xavier_niel.guild_participation_id = ap2.id
+xavier_niel.save
+
 # the Order
-op1 = GuildParticipation.create(user_id: yamin.id, guild_id: order.id, is_admin: true, is_officer: false)
-yamin.guild_participation_id = op1.id
-yamin.save
-op2 = GuildParticipation.create(user_id: luc.id, guild_id: order.id, is_admin: false, is_officer: true)
-luc.guild_participation_id = op2.id
-luc.save
-op3 = GuildParticipation.create(user_id: maxime.id, guild_id: order.id, is_admin: false, is_officer: true)
-maxime.guild_participation_id = op3.id
-maxime.save
+op1 = GuildParticipation.create(user_id: elon_musk.id, guild_id: order.id, is_admin: true, is_officer: false)
+elon_musk.guild_participation_id = op1.id
+elon_musk.save
+#
+op2 = GuildParticipation.create(user_id: pape_francois.id, guild_id: order.id, is_admin: false, is_officer: true)
+pape_francois.guild_participation_id = op2.id
+pape_francois.save
+#
+op3 = GuildParticipation.create(user_id: feca.id, guild_id: order.id, is_admin: false, is_officer: true)
+feca.guild_participation_id = op3.id
+feca.save
 puts "----- Guild Participations created"
 
 
-## games
+## games for fberger / xavier_niel
 gm1 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
 gm2 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
 gm3 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
@@ -161,60 +197,99 @@ gm4 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.no
 gm5 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
 gm6 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
 gm7 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: fberger.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+
+## games for maxime / pape_francois
+gm8 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: pape_francois.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm9 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: pape_francois.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm10 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: pape_francois.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm11 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: pape_francois.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm12 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: maxime.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm13 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: maxime.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
+gm14 = Game.create(start_date: (DateTime.now - 60.seconds), end_date: DateTime.now, context: "ladder", winner_id: maxime.id, war_id: nil, tournament_id: nil, channel_id: nil, status: "played")
 puts "----- Games created"
 
-## game participations
-gm1p = GameParticipation.create(game_id: gm1.id, user_id: flavien.id, score: 1, status: "played", is_winner: false)
-gm2p = GameParticipation.create(game_id: gm1.id, user_id: fberger.id, score: 2, status: "played", is_winner: true)
+## game participations for fberger / xavier_niel
+gm1p = GameParticipation.create(game_id: gm1.id, user_id: xavier_niel.id, score: 42, status: "played", is_winner: true)
+gm2p = GameParticipation.create(game_id: gm1.id, user_id: fberger.id, score: 0, status: "played", is_winner: false)
 #
-gm3p = GameParticipation.create(game_id: gm2.id, user_id: flavien.id, score: 3, status: "played", is_winner: false)
-gm4p = GameParticipation.create(game_id: gm2.id, user_id: fberger.id, score: 4, status: "played", is_winner: true)
+gm3p = GameParticipation.create(game_id: gm2.id, user_id: xavier_niel.id, score: 42, status: "played", is_winner: true)
+gm4p = GameParticipation.create(game_id: gm2.id, user_id: fberger.id, score: 1, status: "played", is_winner: false)
 #
-gm5p = GameParticipation.create(game_id: gm3.id, user_id: flavien.id, score: 5, status: "ongoing", is_winner: false)
-gm6p = GameParticipation.create(game_id: gm3.id, user_id: fberger.id, score: 6, status: "ongoing", is_winner: false)
+gm5p = GameParticipation.create(game_id: gm3.id, user_id: xavier_niel.id, score: 42, status: "played", is_winner: true)
+gm6p = GameParticipation.create(game_id: gm3.id, user_id: fberger.id, score: 2, status: "played", is_winner: false)
 #
-gm7p = GameParticipation.create(game_id: gm4.id, user_id: flavien.id, score: 7, status: "ongoing", is_winner: false)
-gm8p = GameParticipation.create(game_id: gm4.id, user_id: fberger.id, score: 8, status: "ongoing", is_winner: false)
+gm7p = GameParticipation.create(game_id: gm4.id, user_id: xavier_niel.id, score: 42, status: "played", is_winner: true)
+gm8p = GameParticipation.create(game_id: gm4.id, user_id: fberger.id, score: 3, status: "played", is_winner: false)
 #
-gm9p = GameParticipation.create(game_id: gm5.id, user_id: flavien.id, score: 9, status: "ongoing", is_winner: false)
-gm10p = GameParticipation.create(game_id: gm5.id, user_id: fberger.id, score: 10, status: "ongoing", is_winner: false)
+gm9p = GameParticipation.create(game_id: gm5.id, user_id: xavier_niel.id, score: 42, status: "played", is_winner: true)
+gm10p = GameParticipation.create(game_id: gm5.id, user_id: fberger.id, score: 4, status: "played", is_winner: false)
 #
-gm11p = GameParticipation.create(game_id: gm6.id, user_id: flavien.id, score: 11, status: "ongoing", is_winner: false)
-gm12p = GameParticipation.create(game_id: gm6.id, user_id: fberger.id, score: 12, status: "ongoing", is_winner: false)
+gm11p = GameParticipation.create(game_id: gm6.id, user_id: xavier_niel.id, score: 42, status: "played", is_winner: true)
+gm12p = GameParticipation.create(game_id: gm6.id, user_id: fberger.id, score: 5, status: "played", is_winner: false)
+#
+gm13p = GameParticipation.create(game_id: gm7.id, user_id: xavier_niel.id, score: 42, status: "played", is_winner: true)
+gm14p = GameParticipation.create(game_id: gm7.id, user_id: fberger.id, score: 6, status: "played", is_winner: false)
+
+## game participations for maxime / pape_francois
+gm15p = GameParticipation.create(game_id: gm8.id, user_id: maxime.id, score: 1, status: "played", is_winner: true)
+gm16p = GameParticipation.create(game_id: gm8.id, user_id: pape_francois.id, score: 11, status: "played", is_winner: false)
+#
+gm17p = GameParticipation.create(game_id: gm9.id, user_id: maxime.id, score: 2, status: "played", is_winner: true)
+gm18p = GameParticipation.create(game_id: gm9.id, user_id: pape_francois.id, score: 11, status: "played", is_winner: false)
+#
+gm19p = GameParticipation.create(game_id: gm10.id, user_id: maxime.id, score: 3, status: "played", is_winner: true)
+gm20p = GameParticipation.create(game_id: gm10.id, user_id: pape_francois.id, score: 11, status: "played", is_winner: false)
+#
+gm21p = GameParticipation.create(game_id: gm11.id, user_id: maxime.id, score: 4, status: "played", is_winner: true)
+gm22p = GameParticipation.create(game_id: gm11.id, user_id: pape_francois.id, score: 11, status: "played", is_winner: false)
+#
+gm23p = GameParticipation.create(game_id: gm12.id, user_id: maxime.id, score: 5, status: "played", is_winner: true)
+gm24p = GameParticipation.create(game_id: gm12.id, user_id: pape_francois.id, score: 11, status: "played", is_winner: false)
+# gm7
+gm25p = GameParticipation.create(game_id: gm13.id, user_id: maxime.id, score: 6, status: "played", is_winner: true)
+gm26p = GameParticipation.create(game_id: gm13.id, user_id: pape_francois.id, score: 11, status: "played", is_winner: false)
+#
+gm27p = GameParticipation.create(game_id: gm14.id, user_id: maxime.id, score: 7, status: "played", is_winner: true)
+gm28p = GameParticipation.create(game_id: gm14.id, user_id: pape_francois.id, score: 11, status: "played", is_winner: false)
 puts "----- Game Participations created"
 
 
-
-
-
 ## Tournaments
-t1 = Tournament.create(rules: "to define later", incentives: "gain a title", deadline: (DateTime.now + 10.seconds), status: "ended", max_nb_player: 10)
-t2 = Tournament.create(rules: "to define later", incentives: "gain a title2", deadline: (DateTime.now + 10.seconds), status: "ended", max_nb_player: 10)
+t1 = Tournament.create(rules: "standard rules", incentives: "gain the title: the flexer", deadline: (DateTime.now + 10.seconds), status: "ended", max_nb_player: 10)
+t2 = Tournament.create(rules: "standard rules", incentives: "gain the title: the noob", deadline: (DateTime.now + 10.seconds), status: "ended", max_nb_player: 10)
+t3 = Tournament.create(rules: "life game", incentives: "gain the title: the big boss", deadline: (DateTime.now + 10.seconds), status: "ended", max_nb_player: 10)
 puts "----- Tournaments created"
 
 ## Tournaments participations
-t1p1 = TournamentParticipation.create(tournament_id: t1.id, user_id: flavien.id, score: 1, nb_won_game: 1, nb_lose_game: 10, status: "played")
-t1p2 = TournamentParticipation.create(tournament_id: t1.id, user_id: luc.id, score: 2, nb_won_game: 2, nb_lose_game: 3, status: "played")
-t1p3 = TournamentParticipation.create(tournament_id: t1.id, user_id: maxime.id, score: 3, nb_won_game: 3, nb_lose_game: 2, status: "played")
+t1p1 = TournamentParticipation.create(tournament_id: t1.id, user_id: xavier_niel.id, score: 1, nb_won_game: 1, nb_lose_game: 10, status: "played")
+t1p2 = TournamentParticipation.create(tournament_id: t1.id, user_id: pape_francois.id, score: 2, nb_won_game: 2, nb_lose_game: 3, status: "played")
+t1p3 = TournamentParticipation.create(tournament_id: t1.id, user_id: feca.id, score: 3, nb_won_game: 3, nb_lose_game: 2, status: "played")
 t1p4 = TournamentParticipation.create(tournament_id: t1.id, user_id: fberger.id, score: 10, nb_won_game: 10, nb_lose_game: 1, status: "played")
 
-t2p1 = TournamentParticipation.create(tournament_id: t2.id, user_id: flavien.id, score: 1, nb_won_game: 1, nb_lose_game: 10, status: "played")
-t2p2 = TournamentParticipation.create(tournament_id: t2.id, user_id: luc.id, score: 2, nb_won_game: 2, nb_lose_game: 3, status: "played")
-t2p3 = TournamentParticipation.create(tournament_id: t2.id, user_id: maxime.id, score: 3, nb_won_game: 3, nb_lose_game: 2, status: "played")
+t2p1 = TournamentParticipation.create(tournament_id: t2.id, user_id: xavier_niel.id, score: 1, nb_won_game: 1, nb_lose_game: 10, status: "played")
+t2p2 = TournamentParticipation.create(tournament_id: t2.id, user_id: pape_francois.id, score: 2, nb_won_game: 2, nb_lose_game: 3, status: "played")
+t2p3 = TournamentParticipation.create(tournament_id: t2.id, user_id: feca.id, score: 3, nb_won_game: 3, nb_lose_game: 2, status: "played")
 t2p4 = TournamentParticipation.create(tournament_id: t2.id, user_id: fberger.id, score: 10, nb_won_game: 10, nb_lose_game: 1, status: "played")
+
+t3p1 = TournamentParticipation.create(tournament_id: t3.id, user_id: xavier_niel.id, score: 42, nb_won_game: 10, nb_lose_game: 1, status: "played")
+t3p2 = TournamentParticipation.create(tournament_id: t3.id, user_id: pape_francois.id, score: 2, nb_won_game: 2, nb_lose_game: 3, status: "played")
+t3p3 = TournamentParticipation.create(tournament_id: t3.id, user_id: feca.id, score: 3, nb_won_game: 3, nb_lose_game: 2, status: "played")
+t3p4 = TournamentParticipation.create(tournament_id: t3.id, user_id: fberger.id, score: 10, nb_won_game: 0, nb_lose_game: 10, status: "played")
 puts "----- Tournaments participations created"
 
 ## User Title for the winner
-t1ut1 = Title.create(tournament_id: t1.id, user_id: fberger.id, name: "title 1", status: "")
-t2ut1 = Title.create(tournament_id: t2.id, user_id: fberger.id, name: "title 2", status: "")
-fberger.title_id = t2ut1.id
+t1t1 = Title.create(tournament_id: t1.id, user_id: elon_musk.id, name: "the flexer", status: "")
+elon_musk.title_id = t1t1.id
+elon_musk.save
+#
+t2t1 = Title.create(tournament_id: t2.id, user_id: fberger.id, name: "the noob", status: "")
+fberger.title_id = t2t1.id
 fberger.save
-# puts "----- User Titles created"
-
-
-
-
-
+#
+t3t1 = Title.create(tournament_id: t3.id, user_id: xavier_niel.id, name: "the big boss", status: "")
+xavier_niel.title_id = t3t1.id
+xavier_niel.save
+puts "----- Titles created"
 
 
 # War

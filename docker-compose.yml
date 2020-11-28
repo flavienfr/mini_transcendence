@@ -4,7 +4,7 @@ services:
     image: postgres:12.1
     volumes:
       - postgres:/var/lib/postgresql/data
-    environment: # cf. commentaries under videos
+    environment:
       POSTGRES_HOST_AUTH_METHOD: trust
   web:
     build: ./rails/
@@ -12,8 +12,6 @@ services:
     volumes:
       - ./rails/srcs:/ft_transcendence
       - bundler_gems:/usr/local/bundle/
-    env_file:
-      - '.env'
     ports:
       - "3000:3000"
     depends_on:

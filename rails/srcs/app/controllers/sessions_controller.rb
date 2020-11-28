@@ -99,6 +99,9 @@ class SessionsController < ApplicationController
       render json: e, status: :unprocessable_entity and return
     elsif nb_user == 1
       user = User.where("student_id = ?", parsed_res_api["id"].to_i).first
+      if user.current_status == "logged in"
+        redirect_to root_path and return
+      end
       user.update(
         current_status: "logged in",
         is_admin: true
@@ -109,7 +112,8 @@ class SessionsController < ApplicationController
         name: parsed_res_api["displayname"],
         current_status: "logged in",
         enabled_two_factor_auth: false,
-        is_admin: true
+        is_admin: false,
+        is_owner: false
       )
       # --- Upload user image to cloudinary
       # https://github.com/cloudinary/cloudinary_gem

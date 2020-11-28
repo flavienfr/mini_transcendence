@@ -1,6 +1,11 @@
 <%= stylesheet_link_tag "style-header.css" %>
 
-<% if !current_user %>
+<% if !current_user or !current_user.sessions.last %>
+	<script>
+		document.cookie.split(';').forEach(function(c) {
+			document.cookie = c.trim().split('=')[0] + '=;' + 'expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+		});
+	</script>
 	<%= render "pages/signin" %>
 <% elsif current_user.sessions.last.need_two_factor_auth_validation == true %>
 	<%= render "pages/two_factor_auth" %>

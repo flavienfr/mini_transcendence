@@ -37,7 +37,7 @@ class SessionsController < ApplicationController
       redirect_to root_path and return
     end
 
-    # else if clicked on "nope"
+    # else if clicked on authorize
     # --- Exchange your code for an access token
     puts "--- Exchange your code for an access token"
 

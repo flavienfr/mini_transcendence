@@ -43,7 +43,7 @@ class StartTournamentJob < ApplicationJob
       gameP2 = GameParticipation.create(user_id: participations[j + 1].user_id, game_id: game.id);
       if (participations.first.is_already_playing(participations.first, participations[j].user_id,participations[j + 1].user_id, game) == false)
         AskForGame.create(from_user_id: participations[j].user_id, to_user_id: participations[j + 1].user_id, status: "playing", game_type: "Tournament", game_id: game.id);
-        ActionCable.server.broadcast("notification_channel_" + participations[j].user_id.to_s, {game: "on", content: "host_user"});
+        ActionCable.server.broadcast("notification_channel_" + participations[j].user_id.to_s, {game: "on", content: "host_user", tournament_id:  args[0].id});
         ActionCable.server.broadcast("notification_channel_" + participations[j + 1].user_id.to_s, {game: "on", content: "guest_user", host_id: participations[j].user_id});
       end 
       j = j + 2;
@@ -71,7 +71,7 @@ class StartTournamentJob < ApplicationJob
           gameP2 = GameParticipation.create(user_id: participations[j + 1].user_id, game_id: game.id);
           if (participations.first.is_already_playing(participations.first, participations[j].user_id,participations[j + 1].user_id, game) == false)
             AskForGame.create(from_user_id: participations[j].user_id, to_user_id: participations[j + 1].user_id, status: "playing", game_type: "Tournament", game_id: game.id);
-            ActionCable.server.broadcast("notification_channel_" + participations[j].user_id.to_s, {game: "on", content: "host_user"});
+            ActionCable.server.broadcast("notification_channel_" + participations[j].user_id.to_s, {game: "on", content: "host_user", tournament_id: tournament.id});
             ActionCable.server.broadcast("notification_channel_" + participations[j + 1].user_id.to_s, {game: "on", content: "guest_user", host_id: participations[j].user_id});
           end
           j = j + 2;  

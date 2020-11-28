@@ -29,12 +29,12 @@ class User < ApplicationRecord
     validates :name, presence: true, length: { minimum: 3 }, uniqueness: { case_sensitive: false }
     
     # class methods
-    def get_match_history(status)
+    def get_match_history()
         data = { "games": "", "games_participations": "", "users": "" }
         games_participations = {}
         users = {}
 
-        games = self.games.where("games.status = ?", status).order(start_date: :desc)
+        games = self.games.order(start_date: :desc)
         data["games"] = games
 
         games.each do |game|
@@ -50,16 +50,16 @@ class User < ApplicationRecord
         return data
     end
 
-    def get_friendships(status)
+    def get_friendships()
         data = { "friendships": "", "users": "" }
         users = {}
         # 
-        sent = self.sent_friendships.where("friendships.status = ?", status)
+        sent = self.sent_friendships
         sent.each do |friendship|
             users[friendship.recipient_id] = User.find(friendship.recipient_id)
         end
         # 
-        received = self.received_friendships.where("friendships.status = ?", status)
+        received = self.received_friendships
         received.each do |friendship|
             users[friendship.sender_id] = User.find(friendship.sender_id)
         end

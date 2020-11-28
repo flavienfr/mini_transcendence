@@ -34,6 +34,7 @@ class SessionsController < ApplicationController
 
     # if clicked on "nope"
     if (params.has_key?(:error))
+      cookies.delete :id
       redirect_to root_path and return
     end
 

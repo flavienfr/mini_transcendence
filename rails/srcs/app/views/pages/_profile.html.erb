@@ -57,7 +57,6 @@
                         <p class="score">Score</p>
                         <p class="opponent-avatar"></p>
                         <p class="opponent-name">Opponent</p>
-                        <p class="duration">Duration</p>
                         <p class="date">Date</p>
                     </div>
                     <div class="match-cards">
@@ -83,8 +82,6 @@
                                 <div class="opponent-name">
                                     <a class="" onclick="Backbone.history.navigate('/profile/<%%= recipient.id %>', {trigger: true});" ><%%= recipient.name %></a>
                                 </div>
-                                <%% let seconds = Math.round((Date.parse(game.end_date) - Date.parse(game.start_date)) / 60000); %>
-                                <p class="duration"><%%= seconds + " min" %></p>
                                 <p class="date"><%%= timeAgo.format(Date.now() - (Date.now() - Date.parse(game.created_at))) %></p>
                             </div>
                         <%% } %>
@@ -99,7 +96,7 @@
                             <%% if (friends.users && friends.users.hasOwnProperty(current_user.id)) { %>
                                 <button type="button" class="ask-for-friendship btn btn-secondary">Already friend</button>
                             <%% } else { %>
-                                <button type="button" id="add_to_friend" class="ask-for-friendship btn btn-success">Add of <%%= target_user.name %> to friends</button>
+                                <button type="button" id="add_to_friend" class="ask-for-friendship btn btn-success">Add <%%= target_user.name %> to friends</button>
                             <%% } %>
                         <%% } %>
 

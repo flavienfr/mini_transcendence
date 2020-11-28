@@ -11,15 +11,15 @@ consumer.subscriptions.create("PlayerChannel", {
 
 
   async received(arg) {
+    if (!usercollection) {
+      return ;
+    }
     if (arg.current_status) {
       await usercollection.fetch();
       return ;
     }
     await playercollection.fetch();
     await usercollection.fetch();
-    if (!usercollection) {
-      return ;
-    }
     var list_ranked = playercollection.where({game_type: "ranked"});
     var list_casual = playercollection.where({game_type: "casual"});
 

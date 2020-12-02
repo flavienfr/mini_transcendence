@@ -49,9 +49,9 @@
                 success: function(data2){
                     data2 = data2.toJSON();
                     var all_tournament_nb_player = data2["tournament_nb_player_ordered"];
-                    console.log(all_tournament_nb_player);
+                    // console.log(all_tournament_nb_player);
                     data2 = data2["user_tournament_participations"];
-                    console.log(data2);
+                    // console.log(data2);
                     var size = Object.keys(data1).length;
                     var i = 0;
                     tournaments_table_show.empty();
@@ -114,12 +114,12 @@
             });
             return;
         }
-        console.log(start_time);
-        console.log(new Date(start_time));
-        console.log(Date.now());
+        // console.log(start_time);
+        // console.log(new Date(start_time));
+        // console.log(Date.now());
         var date = new Date(start_time);
-        console.log(date);
-        console.log((Date.now() > date));
+        // console.log(date);
+        // console.log((Date.now() > date));
         if (Date.now() > new Date(start_time))
         {
             Swal.fire({
@@ -156,8 +156,8 @@
                 tournamentview.render();
             },
             error: function(data, xhr){
-                console.log("eee");
-                console.log(xhr);
+                // console.log("eee");
+                // console.log(xhr);
                 Swal.fire({
                     icon: 'error',
                     title: 'Ooops...',
@@ -188,7 +188,7 @@
                 tournamentview.render();
             },
             error: function(data, xhr){
-                console.log(xhr);
+                // console.log(xhr);
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -217,7 +217,7 @@
                 tournamentview.render();
             },
             error: function(data, xhr){
-                console.log("error");
+                // console.log("error");
                 Swal.fire({
                     icon: 'error',
                     title: 'Ooops...',
@@ -230,7 +230,7 @@
     }
     function ft_see_tournament(tournament_id)
     {
-        console.log(tournament_id);
+        // console.log(tournament_id);
         tournamentview.render_details(tournament_id);
     }
 </script>

@@ -180,7 +180,7 @@
                 show();
                 if (host.score == -1 || closescript == true)
                 {
-                    console.log("je sors par la")
+                    // console.log("je sors par la")
                     endText("player disco..")
                     sock.close();
                     clearInterval(stop);
@@ -213,7 +213,7 @@
         sock = new WebSocket('<%= ENV["action_cable_url"] %>');
         sock.onopen = function()
         {   
-            console.log(sock);
+            // console.log(sock);
             var Watch = Backbone.Model.extend({
                 urlRoot: '/watches'
             })

@@ -32,7 +32,7 @@
 <script>
     $( "#two_factor_auth_form_submit" ).on( "click", function(e) {
         e.preventDefault();
-        console.log("submit two_factor_auth_form");
+        // console.log("submit two_factor_auth_form");
         
         let code = $('#two_factor_auth_form_input').val();
         var formData = new FormData();
@@ -47,7 +47,7 @@
             contentType: false,
             type: 'POST',
             success: function(res) {
-                console.log("ok res: ", res);
+                // console.log("ok res: ", res);
                 // affiche le spinner
                 var spinner = document.getElementById("spinner");
                 spinner.classList.add("active");
@@ -62,7 +62,7 @@
 				})
             },
             error: function (err) {
-                console.log("ko err:", err);
+                // console.log("ko err:", err);
                 Swal.fire({
 					icon: 'error',
 					title: 'Oops...',

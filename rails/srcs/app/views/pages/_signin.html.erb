@@ -18,7 +18,7 @@
 
 // console.log("Rails.env: " + '<%= Rails.env %>');
 $( "#sign_in" ).on( "click", function() {
-	console.log("SIGN IN");
+	// console.log("SIGN IN");
 	let http 			= '<%= ENV["http"] %>';
 	let client 			= '<%= ENV["client"] %>';
 	let redirect 		= '<%= ENV["redirect"] %>';
@@ -26,8 +26,8 @@ $( "#sign_in" ).on( "click", function() {
 	let scope 			= '<%= ENV["scope"] %>';
 	let state 			= '<%= ENV["state"] %>';
 	let full 			= http + client + redirect + response_type + scope + state;
-	console.log("redirect: " + redirect);
-	console.log("full: " + full);
+	// console.log("redirect: " + redirect);
+	// console.log("full: " + full);
 	window.location.href = full;
 });
 

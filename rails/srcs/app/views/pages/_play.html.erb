@@ -78,7 +78,7 @@ function triggerMouseOut(event) {
 
 async function add_to_list(id)
 {
-    console.log("join list");
+    // console.log("join list");
     var selectElmt = document.getElementById("mode_match_making");
     var valeur = selectElmt.options[selectElmt.selectedIndex].value;
     var data = {
@@ -104,7 +104,7 @@ async function add_to_list(id)
 
 async function  quit_list(id)
 {
-    console.log("quit list");
+    // console.log("quit list");
     await playercollection.fetch();
     var player = playercollection.findWhere({user_id: id});
     if (player)

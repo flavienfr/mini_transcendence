@@ -408,7 +408,7 @@
                     {
                          success: function ()
                          {
-                             console.log("save ending ok")
+                            //  console.log("save ending ok")
                             if (own_score > guest.score)
                                 own_score = 11;
                             else
@@ -422,7 +422,7 @@
                     socket.close();
                     return ;
                 }    
-                console.log("askforgame = " + ask_for_game.id)
+                // console.log("askforgame = " + ask_for_game.id)
                 if (host_score > guest_score)
                     saveScore(ask_for_game.get("game_id"), ask_for_game.get("from_user_id"),host_score, guest_score);
                 else
@@ -436,7 +436,7 @@
                     var game = new Games({id: ask_for_game.get("game_id")});
                     game.fetch({ success: function(data)
                     {
-                        console.log(game.toJSON());
+                        // console.log(game.toJSON());
                         if (host_score > guest_score)
                             SaveTournament(id_tournament, ask_for_game.get("from_user_id"), ask_for_game.get("to_user_id"), host_score, guest_score)
                         else 
@@ -448,9 +448,9 @@
 
         function saveScore(game_id, winner_id, winner_score, loser_score)
         {
-            console.log("winner_id = " + winner_id);
-            console.log("winner_score = " + winner_score);
-            console.log("looser_score = " + loser_score);
+            // console.log("winner_id = " + winner_id);
+            // console.log("winner_score = " + winner_score);
+            // console.log("looser_score = " + loser_score);
 			data = {
 				winner_id: winner_id,
 				winner_score: winner_score,
@@ -581,7 +581,8 @@ window.onbeforeunload = function() {
     clearInterval(stop);
     socket.onclose = function () {
     socket.close();
-    console.log("socket pongchannel close")}; // disable onclose handler first
+    // console.log("socket pongchannel close")
+}; // disable onclose handler first
 };
 
 var socket = new WebSocket('<%= ENV["action_cable_url"] %>');

@@ -16,8 +16,8 @@
                 data = data.toJSON();
                 var users_name = data["users"];
                 data = data["participations"];
-                console.log("here");
-                console.log(data);
+                // console.log("here");
+                // console.log(data);
                 var Tournament = Backbone.Model.extend({
                     urlRoot: '/tournaments'
                 });
@@ -25,7 +25,7 @@
                 tournament.fetch({
                     success: function(data2){
                         data2 = data2.toJSON();
-                        console.log(data2);
+                        // console.log(data2);
                         var show_scheme_div = $("#tournament_scheme");
                         var size = Object.keys(data).length;
                         var i = 0;
@@ -42,8 +42,8 @@
                         //j = 1;//a enlever
                         while (j <= data2.step && data2.step)
                         {
-                            console.log("step");
-                            console.log(data2.step);
+                            // console.log("step");
+                            // console.log(data2.step);
                             if (data2.step == j)
                                 break;
                             show_scheme_div.append("<div id='scheme_step_" + j + "' style='display: flex; flex-direction: row;'>");
@@ -51,13 +51,13 @@
                             size = size > Object.keys(data).length ? Object.keys(data).length : size;
                             while (i < Object.keys(data).length)
                             {
-                                console.log("step - j : ");
-                                console.log(data2.step - j);
-                                console.log("won: " + data[i].nb_won_game);
+                                // console.log("step - j : ");
+                                // console.log(data2.step - j);
+                                // console.log("won: " + data[i].nb_won_game);
                                 if (data[i].nb_won_game >= (data2.step - j))//nb_won_game pas possible a 0 mais => NULL
                                 {
-                                    console.log("data[i]:", data[i]);
-                                    console.log("users_name[data[i].user_id]:", users_name[data[i].user_id]);
+                                    // console.log("data[i]:", data[i]);
+                                    // console.log("users_name[data[i].user_id]:", users_name[data[i].user_id]);
                                     
                                     $("#scheme_step_" + j).append("<div class='podium-card' style='text-align: center; width: " + 100/size + "%; background-color: #212529; padding: 10px; margin: 0px;' ><a href='/#profile/" + data[i].user_id + "' id='scheme_step_user1" + j + "' style='padding: 10px; margin: 0px; background-color: #CCCCCC; width: 100%; display: block;'>" + users_name[data[i].user_id] + "</a></div>");
                                     // let elem = document.getElementById("scheme_step_user1" + j);
@@ -112,7 +112,7 @@
         });
         function ft_go_to_live(host_id)
         {
-            console.log("host+" + host_id);
+            // console.log("host+" + host_id);
             save_watch(host_id);
         }
     </script>

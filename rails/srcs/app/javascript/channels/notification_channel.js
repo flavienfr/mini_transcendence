@@ -20,7 +20,7 @@ consumer.subscriptions.create({channel: "NotificationChannel", room_id: event.de
   }
   if (data.game)
   {
-    console.log("---------->>>>>>>>>>");
+    // console.log("---------->>>>>>>>>>");
     document.dispatchEvent(new CustomEvent("start_game", {
       detail: {data: data}
     }));

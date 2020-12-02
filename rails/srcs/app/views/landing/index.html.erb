@@ -18,12 +18,12 @@
 			detail: {id: <%= current_user.id %>} //>#color patch
 		}));
 		document.addEventListener("start_game", function(event){
-			console.log("start");
-			console.log(event.detail);
+			// console.log("start");
+			// console.log(event.detail);
 			if (event.detail.data.content == "host_user")
 			{
 				refresh_live_match();
-				console.log("++++++++++++++++++++++host+++++++++++++++++++++++")
+				// console.log("++++++++++++++++++++++host+++++++++++++++++++++++")
 				setTimeout(() => {
 					playview.render(true, event.detail.data.tournament_id);
 					pongview.setElement("#pong-area").render();
@@ -31,7 +31,7 @@
 			}
 			else
 			{
-				console.log("--------------------guest------------------")
+				// console.log("--------------------guest------------------")
 				var host_id = event.detail.data.host_id
 					setTimeout(() => {
 				playview.render(true);
@@ -76,8 +76,8 @@
 			{
 				var tournament_id = event.detail.data.refresh_tournament_details_id;
 				var val_hidden = $("#tournament_details_hidden_id").val();
-				console.log("tournament_id" + tournament_id);
-				console.log("val" + val_hidden);
+				// console.log("tournament_id" + tournament_id);
+				// console.log("val" + val_hidden);
 				if (val_hidden == "tournament_details_" + tournament_id)
 				{
 					tournamentview.render_details(tournament_id);
@@ -113,7 +113,8 @@
 		}
 		window.onbeforeunload = function() {
     	socket.onclose = function () {socket_notif.close();
-    	console.log("socket pongnotchannel close")};
+		// console.log("socket pongnotchannel close")
+	};
 		};
 		<% if(current_user.is_owner || current_user.is_admin) %>
 			$("#navbar-id").append("<li class='nav-item'><a id='nav_to_admin' class='nav-link'>ADMIN</a></li>");
@@ -169,7 +170,7 @@ var User = Backbone.Model.extend({
 	},
 
 	initialize : function() {
-		console.log("UserModel created");
+		// console.log("UserModel created");
 	  },
 });
 
@@ -178,7 +179,7 @@ var Users = Backbone.Collection.extend({
 	url: "/users.json",
 
 	initialize : function() {
-		console.log("UserCollection created");
+		// console.log("UserCollection created");
 	}
 });
 
@@ -219,7 +220,7 @@ var Guilds = Backbone.Collection.extend({
 	url: "/guilds.json",
 
 	initialize : function() {
-		console.log("UserCollection created");
+		// console.log("UserCollection created");
 	}
 });
 
@@ -241,7 +242,7 @@ var Friendships = Backbone.Collection.extend({
 	url: "/friendships.json",
 
 	initialize : function() {
-		console.log("Collection created");
+		// console.log("Collection created");
 	}
 });
 
@@ -332,7 +333,7 @@ var LogView = Backbone.View.extend({
 	collection: usercollection,
 
 	initialize : async function() {
-		console.log("LogView created");
+		// console.log("LogView created");
 		this.listenTo(this.collection, 'add remove', this.render, this);
 		this.collection.url = "/users.json";
 	  	await this.collection.fetch({wait: true});
@@ -353,7 +354,7 @@ var LogView = Backbone.View.extend({
 		user.urlRoot = "/users";
 		await user.fetch();
 		
-	  	console.log("Render Log");
+	  	// console.log("Render Log");
 		this.$el.html(this.template({
 			users: this.collection.toJSON(),
             user: user.toJSON()
@@ -364,14 +365,14 @@ var LogView = Backbone.View.extend({
 	},
 
 	add: function() {
-		console.log("Add user");
+		// console.log("Add user");
 		var user = new User({name : 'hemil', autre:'tete'});
 		this.collection.create(user);
 		this.render();
 	 },
 	 
   	delete: function() {
-		console.log("Delete user");
+		// console.log("Delete user");
 		var users = this.collection.toJSON();
 		var user = users[users.length - 1];
 		if (user){
@@ -384,7 +385,7 @@ var LogView = Backbone.View.extend({
 	  
 	 logout_main: function() { 
 		var session_id = <%== current_user.sessions.last.id %>; // anti jaune >
-		console.log("inside logout_main");
+		// console.log("inside logout_main");
 		$.ajax({
 			url: "/sessions/" + session_id,
 			data: false,
@@ -392,7 +393,7 @@ var LogView = Backbone.View.extend({
 			contentType: false,
 			type: 'DELETE',
 			success: function(){
-				console.log("inside logout_main: DELETE sent ! -> go to ", '<%= ENV["site_url"] %>');
+				// console.log("inside logout_main: DELETE sent ! -> go to ", '<%= ENV["site_url"] %>');
 				window.location.href = '<%= ENV["site_url"] %>';
 			}
 		})
@@ -403,7 +404,7 @@ var LogView = Backbone.View.extend({
 		usr = this.collection.toJSON(); 
 		for (let i = 0; i < usr.length; i++)
 		{
-			console.log(usr[i].name, " : ", usr[i].current_status);
+			// console.log(usr[i].name, " : ", usr[i].current_status);
 		}
 	}
 
@@ -422,7 +423,7 @@ var NotifView = Backbone.View.extend({
 		await this.collection.fetch();
 
 		this.$el.html(this.template({notification: this.collection.toJSON()}));
-		console.log("Render Notif");
+		// console.log("Render Notif");
 		return this;
 	},
 })
@@ -589,8 +590,8 @@ var MsgView = Backbone.View.extend({
 	template: _.template($("#msg-template").html()),
 
 	render: function(channel){
-		console.log("-->");
-		console.log(channel);
+		// console.log("-->");
+		// console.log(channel);
 		if (channel && channel.name)
 		{
 			if (channel.scope == "direct")
@@ -623,8 +624,8 @@ var MsgView = Backbone.View.extend({
 							}
 							i++;
 						}
-						console.log(channel);
-						console.log(target);
+						// console.log(channel);
+						// console.log(target);
 						el.html(temp({receiver: channel, target: target}));
 					}
 				});
@@ -650,7 +651,7 @@ var GuildView = Backbone.View.extend({
 	collection: guildcollection,
 
 	initialize : function() {
-		console.log("GuildView created");
+		// console.log("GuildView created");
 	},
 	events: {
 		"click #all_guild_btn": "render_all_guild",
@@ -662,10 +663,10 @@ var GuildView = Backbone.View.extend({
 	},
 	join: async function(evt) {
 		evt.preventDefault();
-		console.log("Join guild");
+		// console.log("Join guild");
 
 		var guild_name = $("#all_guild_dropdown option:selected").text();
-		console.log("guild_name", guild_name)
+		// console.log("guild_name", guild_name)
 
 		var the_guild = this.collection.findWhere({name: guild_name});
 		the_guild = the_guild.toJSON();
@@ -779,7 +780,7 @@ var GuildView = Backbone.View.extend({
 		wars.url = "/wars.json/?guild_id=" + guild.id;
 		await wars.fetch();
 
-		console.log("war history: ", wars.toJSON());//#dell me
+		// console.log("war history: ", wars.toJSON());//#dell me
 
 		this.$el.html(this.template_guild_history({  
 			wars: wars.toJSON(),
@@ -788,7 +789,7 @@ var GuildView = Backbone.View.extend({
 			owner: owner.toJSON(),
 			is_current_user_guild,
 		}));
-		console.log(guild);
+		// console.log(guild);
 		guildusersview.setElement("#show_guild_users_id").render(guild.id, false);
 	},
 	render_all_guild : async function() {
@@ -870,14 +871,14 @@ var LiveView = Backbone.View.extend({
 	template: _.template($('#live-template').html()),
 
 	initialize : function() {
-		console.log("LiveView created");
+		// console.log("LiveView created");
 	},
 
 
 	render : function() {
 		this.$el.html(this.template);
 		chatview.setElement("#chat_area").render_chat_main(); // https://solvemprobler.com/blog/2013/04/07/backbone-tips-rendering-views-and-their-childviews/
-		console.log("Render Live");
+		// console.log("Render Live");
 		refresh();
 		return this;
 	},
@@ -889,7 +890,7 @@ var OptionView = Backbone.View.extend({
 	template: _.template($('#option-template').html()),
   
 	initialize : function() {
-		console.log("OptionView created");
+		// console.log("OptionView created");
 	},
   
 	events: {
@@ -898,9 +899,9 @@ var OptionView = Backbone.View.extend({
 	},
 
 	logout: async function() {
-		console.log("LOG OUT") 
+		// console.log("LOG OUT") 
 		var session_id = <%== current_user.sessions.last.id %>; // anti jaune >
-		console.log("inside logout");
+		// console.log("inside logout");
 		$.ajax({
 			url: "/sessions/" + session_id,
 			data: false,
@@ -908,7 +909,7 @@ var OptionView = Backbone.View.extend({
 			contentType: false,
 			type: 'DELETE',
 			success: function(){
-				console.log("inside logout: DELETE sent ! -> go to ", '<%= ENV["site_url"] %>');
+				// console.log("inside logout: DELETE sent ! -> go to ", '<%= ENV["site_url"] %>');
 				window.location.href = '<%= ENV["site_url"] %>';
 			}
 		})
@@ -917,7 +918,7 @@ var OptionView = Backbone.View.extend({
 	update : async function(e){
 		e.preventDefault();
 		var self = this;
-		console.log("submit two_factor_auth_form");
+		// console.log("submit two_factor_auth_form");
 
 		// récupération des inputs
 		let pseudo = $('#edit_profile_pseudo_input').val();
@@ -943,16 +944,16 @@ var OptionView = Backbone.View.extend({
 		formData.append("name", pseudo);
 		formData.append("title_name", title_name);
 		if (attachment != null) {
-			console.log("fileInput.files[0].name:", fileInput.files[0].name);
+			// console.log("fileInput.files[0].name:", fileInput.files[0].name);
 			formData.append("photo", attachment, "not_important.jpg");
 		}
 		formData.append("enabled_two_factor_auth", enabled_two_factor_auth);
 
 		// Affichage des paires clefs/valeurs
-		console.log("current_user_id:", current_user_id);
-		for (var pair of formData.entries()) {
-		   console.log(pair[0]+ ', '+ pair[1]); 
-		}
+		// console.log("current_user_id:", current_user_id);
+		// for (var pair of formData.entries()) {
+		// //    console.log(pair[0]+ ', '+ pair[1]); 
+		// }
   
 		if (run_ajax) {
 			// affiche le spinner
@@ -967,7 +968,7 @@ var OptionView = Backbone.View.extend({
 				processData: false,
 				type: 'PUT',
 				success: function(res) {
-					console.log("ok res: ", res);
+					// console.log("ok res: ", res);
 	
 					// cache le spinner:
 					spinner.classList.remove("active");
@@ -982,7 +983,7 @@ var OptionView = Backbone.View.extend({
 					self.render();
 				},
 				error: function (err) {
-					console.log("ko err:", err);
+					// console.log("ko err:", err);
 	
 					// cache le spinner:
 					spinner.classList.remove("active");
@@ -994,11 +995,11 @@ var OptionView = Backbone.View.extend({
 					} else if (err.status == 422) {
 						for (var key in err.responseJSON.data) {
 							if (err.responseJSON.data.hasOwnProperty(key)) {
-								console.log(key + " -> " + err.responseJSON.data[key]);
+								// console.log(key + " -> " + err.responseJSON.data[key]);
 								footer_msg += (key + " " + err.responseJSON.data[key]);
 							}
 						}
-						console.log("footer_msg:", footer_msg);
+						// console.log("footer_msg:", footer_msg);
 					}
 	
 					Swal.fire({
@@ -1032,16 +1033,16 @@ var OptionView = Backbone.View.extend({
         	processData: false,
 			type: 'GET',
 			success: function(res) {
-				console.log("ok res: ", res);
+				// console.log("ok res: ", res);
 				titles = res.data["titles"];
 			},
 			error: function (err) {
-				console.log("ko err:", err);
+				// console.log("ko err:", err);
 				titles = [];
 			}
 		})
 
-		console.log("titles:", titles);
+		// console.log("titles:", titles);
 
 		this.$el.html(this.template({
 			user: user.toJSON(),
@@ -1076,7 +1077,7 @@ var AdminView = Backbone.View.extend({
 	render: function(){
 		var el = this.$el;
 		var temp = this.template;
-		console.log("ADMIN !!!!!!!");
+		// console.log("ADMIN !!!!!!!");
 		var User = Backbone.Model.extend({
 			urlRoot: "/users"
 		});
@@ -1101,7 +1102,7 @@ var PlayView = Backbone.View.extend({
 	template: _.template($('#play-template').html()),
 	
 	initialize : function() {
-		console.log("PlayView created");
+		// console.log("PlayView created");
 	},
 
 	render : function(is_tournament, tournament_id) {
@@ -1110,7 +1111,7 @@ var PlayView = Backbone.View.extend({
 		notifview.render();
 		this.$el.html(this.template);
 		chatview.setElement("#chat_area").render_chat_main(); // https://solvemprobler.com/blog/2013/04/07/backbone-tips-rendering-views-and-their-childviews/
-		console.log("Render Play");
+		// console.log("Render Play");
 		return this;
 	},
 	//new_game : function(){
@@ -1128,7 +1129,7 @@ var ProfileView = Backbone.View.extend({
 	collection: usercollection,
   
 	initialize : function() {
-		console.log("Profile View initialized");
+		// console.log("Profile View initialized");
 	},
 
 	events: {
@@ -1144,7 +1145,7 @@ var ProfileView = Backbone.View.extend({
 		}
 		else
 		{
-			console.log("Add friend");
+			// console.log("Add friend");
 			var current_id = current_user_id;
 			user = this.collection.findWhere({id: parseInt(current_id)});
 			user = user.toJSON();
@@ -1176,7 +1177,7 @@ var ProfileView = Backbone.View.extend({
 	},
 
 	ask_duel : async function() {
-		console.log("Ask a duel");
+		// console.log("Ask a duel");
 
 		var data = {
 			from_user_id: current_user_id,
@@ -1212,7 +1213,7 @@ var ProfileView = Backbone.View.extend({
 		user_cible = target_user_id;
 
 		var self = this;
-		console.log("target_user_id:", target_user_id);
+		// console.log("target_user_id:", target_user_id);
 		$.ajax({
 			url: 'users/' + current_user_id + '/profile?target_user_id=' + target_user_id, // >
 			data: false,
@@ -1221,7 +1222,7 @@ var ProfileView = Backbone.View.extend({
         	processData: false,
 			type: 'GET',
 			success: function(res) {
-				console.log("ok res: ", res);
+				// console.log("ok res: ", res);
 				self.$el.html(self.template({
 						current_user: res.data["current_user"],
 						target_user: res.data["target_user"],
@@ -1234,7 +1235,7 @@ var ProfileView = Backbone.View.extend({
 				return self;
 			},
 			error: function (err) {
-				console.log("ko err:", err);
+				// console.log("ko err:", err);
 				Swal.fire({
 					icon: 'error',
 					title: 'Oops...',
@@ -1263,12 +1264,12 @@ var TournamentView = Backbone.View.extend({
 	template_tournament_details: _.template($("#tournament_details-template").html()),
   
 	initialize : function() {
-		console.log("TournamentView created");
+		// console.log("TournamentView created");
 	},
   
 	render : function() {
 		this.$el.html(this.template);
-		console.log("Render Tournament");
+		// console.log("Render Tournament");
 		return this;
 	},
 
@@ -1296,7 +1297,7 @@ var WarView = Backbone.View.extend({
 		"click #quit_request": "quit_request"
 	},
 	quit_request: function(){
-		console.log("quit_request");
+		// console.log("quit_request");
 		self = this;
 		Backbone.ajax({
 			url: 'ask_for_wars/is_in_request/?current_user_id=' + current_user_id,
@@ -1307,14 +1308,14 @@ var WarView = Backbone.View.extend({
 					Swal.fire("", "To late to quit the request is already accept.", "error");
 					self.render();
 				}
-				console.log("succes", response);
+				// console.log("succes", response);
 				Backbone.ajax({
 					url: '/ask_for_wars/' + response.ask_for_war_id,
 					data: {},
 					type: 'DELETE',
 					dataType: 'json',
 					success: function(response) {
-						console.log("delete ok");
+						// console.log("delete ok");
 						self.render();
 					},
 					error: function(){
@@ -1328,9 +1329,9 @@ var WarView = Backbone.View.extend({
 		});
 	},
 	duel_match: function(event){
-		console.log("war duel", event.currentTarget.id);
+		// console.log("war duel", event.currentTarget.id);
 		to_user_id = event.currentTarget.id.split("=")[1];
-		console.log("war duel", to_user_id);
+		// console.log("war duel", to_user_id);
 
 		var data = {
 			from_user_id: current_user_id,
@@ -1362,7 +1363,7 @@ var WarView = Backbone.View.extend({
 		});
 	},
 	radom_match: function(){
-		console.log("radom_match");
+		// console.log("radom_match");
 
 		var data = {
 			from_user_id: current_user_id,
@@ -1406,7 +1407,7 @@ var WarView = Backbone.View.extend({
 
 		range_time = $('#RangeTime').val();
 		range_time = range_time.split(" to ");
-		console.log("RangeTime", range_time[0], range_time[1]);
+		// console.log("RangeTime", range_time[0], range_time[1]);
 		if (isEmpty(range_time[0]) || isEmpty(range_time[1])){
 			Swal.fire("", "Need range date to declare war", "error");
 			return
@@ -1415,7 +1416,7 @@ var WarView = Backbone.View.extend({
 		let is_wartime = true;
 		war_range_time = $('#WarRangeTime').val();
 		war_range_time = war_range_time.split(" to ");
-		console.log("WarRangeTime", war_range_time[0], war_range_time[1]);
+		// console.log("WarRangeTime", war_range_time[0], war_range_time[1]);
 		if (isEmpty(war_range_time[0]) || isEmpty(war_range_time[1])){
 			is_wartime = false
 		}
@@ -1515,12 +1516,12 @@ var WarView = Backbone.View.extend({
 				dataType: 'json',
 				success: async function(response) {
 					if (response.is_war){
-						console.log("is war");
+						// console.log("is war");
 						self.$el.html(self.template_war_info({
 							info: response,
 							guilds: self.collection
 						}));
-						console.log("response: ", response);
+						// console.log("response: ", response);
 					}
 					else{
 						Backbone.ajax({
@@ -1528,7 +1529,7 @@ var WarView = Backbone.View.extend({
 							data: {},
 							type: 'GET',
 							success: function(response){
-								console.log("succes", response);
+								// console.log("succes", response);
 
 								self.$el.html(self.template({
 									guilds: self.collection.toJSON(),
@@ -1558,7 +1559,7 @@ var LadderView = Backbone.View.extend({
 		var users = new Users();
 		users.url = "/users/ladder";
 		await users.fetch();
-		console.log(users.toJSON());
+		// console.log(users.toJSON());
 		
 		
 		// ----------------------
@@ -1592,7 +1593,7 @@ listbtnview = new ListbtnView();
 //*************************************** Notification handler ***************************************
 
 async function delete_notif(notif) {
-	console.log("Delete notif")
+	// console.log("Delete notif")
 	the_notif = notificationcollection.findWhere({id: notif.id});
 	the_notif.urlRoot = "/notifications/";	
 	await the_notif.destroy();
@@ -1634,9 +1635,9 @@ async function ft_refuse_notif(notif) {
 };
 
 async function ft_accept_notif(notif) {
-	console.log("Acceptnotif");
+	// console.log("Acceptnotif");
 	if (notif.table_type == "add_friend"){			
-		console.log("add friend");
+		// console.log("add friend");
 		var data = {
 			sender_id: notif.from_user_id, 
 			recipient_id: notif.user_id, 
@@ -1656,7 +1657,7 @@ async function ft_accept_notif(notif) {
 		delete_notif(notif);
 	}
 	else if (notif.table_type == "ask_for_war") {
-		console.log("ask_for_war");
+		// console.log("ask_for_war");
 		Backbone.ajax({
 			url: '/ask_for_wars/' + notif.table_id,
 			data: {},
@@ -1687,7 +1688,7 @@ async function ft_accept_notif(notif) {
 		});
 	}
 	else if (notif.table_type == "ask_for_game") {
-		console.log("ask_for_game");
+		// console.log("ask_for_game");
 		var data = {
 			user_id: current_user_id,
 		}
@@ -1726,7 +1727,7 @@ async function ft_accept_notif(notif) {
 			user_id: notif.from_user_id,
 			guild_id: notif.table_id,
 		});
-		console.log("guildparticip", guildparticip.toJSON());
+		// console.log("guildparticip", guildparticip.toJSON());
 
 		guildparticip.save(guildparticip, {
 			success: function(model, response) {
@@ -1753,7 +1754,7 @@ async function ft_accept_notif(notif) {
 //******************************************** Game launcher ********************************************
 
 function launch_game(ask_for_game) {
-	console.log("from_user_id: ", ask_for_game.from_user_id," to_user_id: ", ask_for_game.to_user_id, "id", ask_for_game.id);
+	// console.log("from_user_id: ", ask_for_game.from_user_id," to_user_id: ", ask_for_game.to_user_id, "id", ask_for_game.id);
 
 
 	socket_notif.send(JSON.stringify({
@@ -1777,8 +1778,8 @@ function launch_game(ask_for_game) {
 
 async function ft_duel(target_id)
 {
-	console.log("Ask a duel");
-	console.log(target_id)
+	// console.log("Ask a duel");
+	// console.log(target_id)
 
 		var data = {
 			from_user_id: current_user_id,

@@ -6,11 +6,11 @@ export var LogView = Backbone.View.extend({
 	collection: usercollection,
 
 	initialize : function() {
-		console.log("LogView created");
+		// console.log("LogView created");
 		this.listenTo(this.collection, 'add remove', this.render, this);
 		this.collection.url = "/users.json";
 	  	this.collection.fetch();
-	  	console.log(this.collection.toJSON());
+	  	// console.log(this.collection.toJSON());
 	},
 
 	events: {
@@ -20,28 +20,28 @@ export var LogView = Backbone.View.extend({
   	},
 
 	render : function() {
-	  	console.log("Render Log");
+	  	// console.log("Render Log");
 		this.$el.html(this.template({usr: this.collection.toJSON()}));
 	  	return this;
 
 	},
 
 	add: function() {
-		console.log("Add user");
+		// console.log("Add user");
 		var user = new User({name : 'test'});
 		this.collection.create(user);
 		this.render();
 	 },
 	 
   	delete: function() {
-		console.log("Delete user");
+		// console.log("Delete user");
 		var users = this.collection.toJSON();
 		var user = users[users.length - 1];
 		if (user){
 			var to_delete = this.collection.get(user.id);
 	  		this.collection.url = "/users"
 			to_delete.destroy();
-	  		console.log(this.collection.toJSON());
+	  		// console.log(this.collection.toJSON());
 			this.render();
 		}	
 	 },
@@ -55,9 +55,9 @@ export var LogView = Backbone.View.extend({
 		let state 			= "state=a_very_long_random_string_witchmust_be_unguessable";
 
 		let full 			= http + client + redirect + response_type + scope + state;
-		console.log("full:" + full);
+		// console.log("full:" + full);
 		window.location.href = full;
-		console.log("Delete user");
+		// console.log("Delete user");
 	},
 
 });

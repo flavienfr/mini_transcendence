@@ -12,8 +12,8 @@ consumer.subscriptions.create({channel: "NotificationChannel", room_id: event.de
 
   received(data) {
   if (data.sender || data.kicked_from || data.refresh || data.channel_destroyed || data.refresh_tournament_details_id) {
-    console.log("notif");
-    console.log(data);
+    // console.log("notif");
+    // console.log(data);
     document.dispatchEvent(new CustomEvent("notif", {
       detail: {data: data}
     }));

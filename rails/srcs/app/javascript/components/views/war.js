@@ -16,8 +16,8 @@ export var WarView = Backbone.View.extend({
 	render_guild_info : function() {
 		var guild_name = $("#guild_drop_down option:selected").text();
 		var guild_to_print = this.collection.findWhere({name: guild_name});
-		console.log("change", guild_name);
-		console.log("model", guild_to_print.attributes);
+		// console.log("change", guild_name);
+		// console.log("model", guild_to_print.attributes);
 		this.model = guild_to_print;
 		this.$('.war_pannel_header').html(this.template_guilds(this.model.toJSON()));
 	},

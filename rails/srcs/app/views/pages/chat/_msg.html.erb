@@ -6,8 +6,8 @@
         var Message = Backbone.Model.extend({
             urlRoot: '/messages'
         });
-        console.log("here");
-        console.log(<%%= JSON.stringify(receiver) %>);
+        // console.log("here");
+        // console.log(<%%= JSON.stringify(receiver) %>);
         var message = new Message();
         message.fetch({
             data: {user_id: <%== current_user.id %>, receiver_id: <%%= receiver.scope == "direct" ? target.id : receiver.id %>, scope: '<%%= receiver.scope ? receiver.scope : "direct" %>'},

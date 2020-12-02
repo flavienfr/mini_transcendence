@@ -16,7 +16,7 @@ const canvas = document.getElementById("pong");
 const context = canvas.getContext("2d");
 const element = document.getElementById("pong-id");
 pong_id = element.getAttribute("data-pong-id");
-console.log("pong id = " + pong_id);
+// console.log("pong id = " + pong_id);
 canvas.addEventListener("mousemove", movePaddle);
 
 
@@ -231,7 +231,7 @@ socket.onopen=  function()
                 pong_id: pong_id
             })
         }));
-      console.log("subscribe ok");
+    //   console.log("subscribe ok");
     } 
 
 function ft_send()

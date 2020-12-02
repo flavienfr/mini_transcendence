@@ -49,11 +49,11 @@ consumer.subscriptions.create("PlayerChannel", {
         dataType: 'json',
         contentType: 'application/json',
         success: function(response) {
-            console.log("LAUNCH GAME");
+            // console.log("LAUNCH GAME");
             launch_game(response.ask_for_game); 
         },
         error: async function(response){
-        	console.log("erreur 88");
+        	// console.log("erreur 88");
         	for(let i = 0; i < list_ranked.length; i++)
         	{
         	  player = usercollection.get({id: list_ranked[i].toJSON().user_id}).toJSON();
@@ -102,7 +102,7 @@ consumer.subscriptions.create("PlayerChannel", {
         dataType: 'json',
         contentType: 'application/json',
         success: function(response) {
-            console.log("LAUNCH GAME");
+            // console.log("LAUNCH GAME");
             launch_game(response.ask_for_game); 
         },
         error: function(){

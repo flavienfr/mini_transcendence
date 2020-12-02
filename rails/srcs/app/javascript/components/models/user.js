@@ -10,7 +10,7 @@ export var User = Backbone.Model.extend({
 	},
 
 	initialize : function() {
-		console.log("UserModel created");
+		// console.log("UserModel created");
 	  },
 
 });
@@ -20,7 +20,7 @@ var Users = Backbone.Collection.extend({
 	url: "/users",
 
 	initialize : function() {
-		console.log("UserCollection created");
+		// console.log("UserCollection created");
 		this.fetch({reset: true});
 	}
 });

@@ -260,7 +260,8 @@ const msg = JSON.parse(response);
 window.onbeforeunload = function() {
     clearInterval(stop);
     socket.onclose = function () {socket.close();
-    console.log("socket pongchannel close")}; // disable onclose handler first
+    // console.log("socket pongchannel close")
+    }; // disable onclose handler first
 };
 
 var socket = new WebSocket('<%= ENV["action_cable_url"] %>');

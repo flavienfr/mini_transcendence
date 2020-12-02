@@ -3,12 +3,12 @@ export var OptionView = Backbone.View.extend({
 	template: _.template($('#option-template').html()),
   
 	initialize : function() {
-		console.log("OptionView created");
+		// console.log("OptionView created");
 	},
   
 	render : function() {
 	  this.$el.html(this.template);
-		console.log("Render Option");
+		// console.log("Render Option");
 		return this;
 	}
 });

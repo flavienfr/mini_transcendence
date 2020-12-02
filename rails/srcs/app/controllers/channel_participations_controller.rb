@@ -56,8 +56,8 @@ class ChannelParticipationsController < ApplicationController
   def create
     puts params;
     if (params[:scope] == "direct")
-      smaller = params[:user_id] < params[:receiver_id] ? params[:user_id] : params[:receiver_id];
-      bigger = params[:user_id] < params[:receiver_id] ? params[:receiver_id] : params[:user_id];
+      smaller = params[:user_id].to_i < params[:receiver_id].to_i ? params[:user_id] : params[:receiver_id];
+      bigger = params[:user_id].to_i < params[:receiver_id].to_i ? params[:receiver_id] : params[:user_id];
       channel_name = "conversation_channel_" + smaller.to_s + "_" + bigger.to_s;
       if (Channel.where("name = ? AND scope = 'direct'", channel_name).size == 0)
         @new_channel = {};

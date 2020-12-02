@@ -137,7 +137,7 @@ class SessionsController < ApplicationController
         user.avatar = Cloudinary::Utils.cloudinary_url(user.photo.key)
       rescue => e
         puts "error in 'Upload user image to cloudinary':", e
-        render json: e, status: :internal_server_error and return
+        render json: e, status: :unprocessable_entity and return
       end
     end
     user.save

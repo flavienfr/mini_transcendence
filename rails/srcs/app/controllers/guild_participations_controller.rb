@@ -105,6 +105,7 @@ end
 	user = @guild_participation.user
 	guild_size = guild.users.size 
 	is_admin = @guild_participation.is_admin
+	json_render = {}
 
 	if (guild.is_making_war)#test with admin to quit somewone in war
 		json_render["msg"] = "You can't leave your guild during war."

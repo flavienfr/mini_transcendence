@@ -105,11 +105,12 @@ end
 	user = @guild_participation.user
 	guild_size = guild.users.size 
 	is_admin = @guild_participation.is_admin
+	json_render = {}
 
 	if (guild.is_making_war)#test with admin to quit somewone in war
 		json_render["msg"] = "You can't leave your guild during war."
 		json_render["is_msg"] = 1
-		render json: json_render, status: :ok and return
+    render json: json_render, status: :unprocessable_entity and return
   end
   
   guild_id = @guild_participation.guild.id;

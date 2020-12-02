@@ -86,12 +86,12 @@ class AskForWarsController < ApplicationController
 		render json: json_render, status: :unprocessable_entity and return
 	end
 	if (to_guild.is_making_war == true)
-		json_render["msg"] = to_guild.name + " is aleready in war"
+		json_render["msg"] = to_guild.name + " is already in war"
 		json_render["is_msg"] = 1
 		render json: json_render, status: :unprocessable_entity and return
 	end
 	if (from_guild.is_making_war == true)
-		json_render["msg"] = "Your guild is aleready in war"
+		json_render["msg"] = "Your guild is already in war"
 		json_render["is_msg"] = 1
 		render json: json_render, status: :unprocessable_entity and return
 	end
@@ -208,8 +208,8 @@ class AskForWarsController < ApplicationController
 	the_war = War.find(@ask_for_war.war_id)
 	json_render = {}
 
-	if (from_guild.war_participation_id != nil)
-		json_render["msg"] = from_guild.name + " is in war.\nYou cannot accept several wars at the time."
+	if (to_guild.war_participation_id != nil)
+		json_render["msg"] = to_guild.name + " is in war.\nYou cannot accept several wars at the time."
 		json_render["is_msg"] = 1
 		json_render["status"] = "keep_alive"
 		render json: json_render, status: :unprocessable_entity and return

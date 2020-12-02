@@ -6,8 +6,8 @@ class MessagesController < ApplicationController
   def index
     puts params;
     if params[:scope] == "direct"
-      smaller = params[:user_id] < params[:receiver_id] ? params[:user_id] : params[:receiver_id];
-      bigger = params[:user_id] < params[:receiver_id] ? params[:receiver_id] : params[:user_id];
+      smaller = params[:user_id].to_i < params[:receiver_id].to_i ? params[:user_id] : params[:receiver_id];
+      bigger = params[:user_id].to_i < params[:receiver_id].to_i ? params[:receiver_id] : params[:user_id];
       channel_name = "conversation_channel_" + smaller.to_s + "_" + bigger.to_s;
       @channel = Channel.where("name = ? AND scope = ?", channel_name, params[:scope]);
       if (@channel.size == 0 || params[:receiver_id] == "0")

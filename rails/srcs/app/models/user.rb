@@ -26,7 +26,7 @@ class User < ApplicationRecord
     has_one_attached :photo
     
     # server side validations
-    validates :name, presence: true, length: { minimum: 3 }, uniqueness: { case_sensitive: false }
+    validates :name, presence: true, length: { minimum: 3, maximum: 25 }, format: {with: /\A[A-Za-z0-9 ]+\z/}, uniqueness: { case_sensitive: false }
     
     # class methods
     def get_match_history()

@@ -255,9 +255,9 @@ puts "----- Game Participations created"
 
 
 ## Tournaments
-t1 = Tournament.create(rules: "standard rules", incentives: "gain the title: the flexer", deadline: (DateTime.now + 10.seconds), status: "ended", max_nb_player: 10)
-t2 = Tournament.create(rules: "standard rules", incentives: "gain the title: the noob", deadline: (DateTime.now + 10.seconds), status: "ended", max_nb_player: 10)
-t3 = Tournament.create(rules: "life game", incentives: "gain the title: the big boss", deadline: (DateTime.now + 10.seconds), status: "ended", max_nb_player: 10)
+t1 = Tournament.create(rules: "standard rules", incentives: "the flexer", deadline: (DateTime.now + 10.seconds), status: "ended", max_nb_player: 10)
+t2 = Tournament.create(rules: "standard rules", incentives: "the noob", deadline: (DateTime.now + 10.seconds), status: "ended", max_nb_player: 10)
+t3 = Tournament.create(rules: "life game", incentives: "the big boss", deadline: (DateTime.now + 10.seconds), status: "ended", max_nb_player: 10)
 puts "----- Tournaments created"
 
 ## Tournaments participations

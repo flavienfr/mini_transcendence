@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
         if cookies.signed[:id]
             # find current_user
             puts "existing cookies.signed[:id]"
-            @current_user = User.find(cookies.signed[:id])
+            @current_user = User.find_by(id: cookies.signed[:id])
         elsif params[:type]
             puts "OK                        aaaaaaaaaaa"
             @current_user = User.find(2);

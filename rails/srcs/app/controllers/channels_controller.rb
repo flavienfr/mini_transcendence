@@ -62,6 +62,13 @@ class ChannelsController < ApplicationController
   # POST /channels
   # POST /channels.json
   def create
+    if (params[:password] && params[:password].length > 25)
+      respond_to do |format|
+        format.html
+        format.json {render json: {error_text: "password too large"}, status: :unprocessable_entity}
+      end
+      return;
+    end
     if (params[:password] && params[:password].length > 0)
       params["channel"]["password"] = BCrypt::Password.create(params[:password]);
     end
@@ -101,6 +108,13 @@ class ChannelsController < ApplicationController
   # PATCH/PUT /channels/1.json
   def update
     if (user_is_channel_owner?(params[:id]))
+      if (params["channel"]["scope"] == "protected-group" && params["channel"][:password] && params["channel"][:password].length > 25)
+        respond_to do |format|
+          format.html
+          format.json {render json: {error_text: "password too large"}, status: :unprocessable_entity}
+        end
+        return;
+      end
       if (params["channel"][:password] && params["channel"][:password].length > 0)
         params["channel"][:password] = BCrypt::Password.create(params["channel"][:password]);
       end

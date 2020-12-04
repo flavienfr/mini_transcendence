@@ -67,7 +67,11 @@ class GuildsController < ApplicationController
 		owner_id: params[:owner_id],
 		war_participation_id: nil
 	)
-	@guild.save
+  if !@guild.save
+    json_render["msg"] = "The arguments are not valid."
+		json_render["is_msg"] = 1
+		render json: json_render, status: :unprocessable_entity and return
+  end
 
 	@guild_participation = GuildParticipation.new(
 		user_id: params[:user_id],

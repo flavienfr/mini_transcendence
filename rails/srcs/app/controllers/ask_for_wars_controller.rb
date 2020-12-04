@@ -52,13 +52,13 @@ class AskForWarsController < ApplicationController
 		json_render["msg"] = "You need to be in a guild to declare war."
 		json_render["is_msg"] = 1
 		render json: json_render, status: :unprocessable_entity and return
-	end
-	
-	#UTILS VARIABLE
+  end
+ 
+  #UTILS VARIABLE
 	from_guild = User.find(params[:current_user_id]).guild_participations.first.guild
 	from_guild_id = from_guild.id
 	to_guild = Guild.find(params[:to_guild_id])
-	to_guild_id = params[:to_guild_id]
+  to_guild_id = params[:to_guild_id]
 
 	#CHECK PARAMS
 	puts  "--------- Time.zone ----------" + params[:start_date].to_s + " < " + Time.zone.now.to_s
@@ -127,7 +127,11 @@ class AskForWarsController < ApplicationController
 		count_all_matchs_for_war: params[:is_all_matches],
 		status: "pending"
 	)
-	@war.save
+  if !@war.save
+    json_render["msg"] = "The arguments are not valid."
+		json_render["is_msg"] = 1
+		render json: json_render, status: :unprocessable_entity and return
+  end
 	puts "----- War ----"
 	puts @war.to_json
 	puts "--------------"

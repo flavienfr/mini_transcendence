@@ -127,7 +127,7 @@ async function  quit_list(id)
 //-------------------------------MAIN--------------------------------------//
 
 get_canvas(canvas);
-console.log("is tournamsent ? " + <%%= tournament %>);
+//console.log("is tournamsent ? " + <%%= tournament %>);
 socket_notif.onmessage = function(event) {// this function check every message, for know if the message is for her, it check the guest params, if the guest params correspond to the curent id the guest it for her  
     const response = event.data;
     const msg = JSON.parse(response);

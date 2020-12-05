@@ -135,11 +135,11 @@ aff_dt_2.save
 # aff_dt_3.friendship_id = f3.id
 # aff_dt_3.save
 # f4 = Friendship.create(sender_id: angela_merkel.id, recipient_id: feca.id,  status: "active")
-aff_dt_4.friendship_id = f4.id
-aff_dt_4.save
+# aff_dt_4.friendship_id = f4.id
+# aff_dt_4.save
 # f5 = Friendship.create(sender_id: angela_merkel.id, recipient_id: kebab.id,  status: "active")
-aff_dt_5.friendship_id = f5.id
-aff_dt_5.save
+# aff_dt_5.friendship_id = f5.id
+# aff_dt_5.save
 # maxime
 f6 = Friendship.create(sender_id: maxime.id, recipient_id: elon_musk.id, status: "active")
 aff_mp_1.friendship_id = f6.id
@@ -150,12 +150,12 @@ aff_mp_2.save
 # f8 = Friendship.create(sender_id: maxime.id, recipient_id: pape_francois.id, status: "active")
 # aff_mp_3.friendship_id = f8.id
 # aff_mp_3.save
-f9 = Friendship.create(sender_id: maxime.id, recipient_id: angela_merkel.id,  status: "active")
-aff_mp_4.friendship_id = f9.id
-aff_mp_4.save
+# f9 = Friendship.create(sender_id: maxime.id, recipient_id: angela_merkel.id,  status: "active")
+# aff_mp_4.friendship_id = f9.id
+# aff_mp_4.save
 # f10 = Friendship.create(sender_id: maxime.id, recipient_id: kebab.id,  status: "active")
-aff_mp_5.friendship_id = f10.id
-aff_mp_5.save
+# aff_mp_5.friendship_id = f10.id
+# aff_mp_5.save
 puts "----- Friendship created"
 
 

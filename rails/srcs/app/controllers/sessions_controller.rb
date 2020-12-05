@@ -110,8 +110,7 @@ class SessionsController < ApplicationController
         redirect_to root_path and return
       end
       user.update(
-        current_status: "logged in",
-        is_admin: true
+        current_status: "logged in"
       )
     else
       user = User.new(

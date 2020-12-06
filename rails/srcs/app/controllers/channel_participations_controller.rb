@@ -55,6 +55,7 @@ class ChannelParticipationsController < ApplicationController
   # POST /channel_participations.json
   def create
     puts params;
+    channel = Channel.find_by(id: params[:receiver_id]);
     if (params[:scope] == "direct")
       smaller = params[:user_id].to_i < params[:receiver_id].to_i ? params[:user_id] : params[:receiver_id];
       bigger = params[:user_id].to_i < params[:receiver_id].to_i ? params[:receiver_id] : params[:user_id];
@@ -87,7 +88,7 @@ class ChannelParticipationsController < ApplicationController
         format.html
         format.json {render json: channel}
       end
-    elsif (params[:scope] == "public-group" || params[:added])
+    elsif (channel.scope == "public-group" || params[:added])
       if (params[:added] && !user_is_channel_participant?(params[:receiver_id]) && !user_is_admin_owner?)
         respond_to do |format|
           format.html
@@ -113,13 +114,20 @@ class ChannelParticipationsController < ApplicationController
         format.html
         format.json {render json: ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).first.channel}
       end
-    elsif (params[:scope] == "private-group")
+    elsif (channel.scope == "private-group")
+      if (!ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).first)
+        respond_to do |format|
+          format.html
+          format.json {render json: {error_text: "not_authorized"}, status: :unauthorized}
+        end
+        return;
+      end
       respond_to do |format|
         format.html
         format.json {render json: ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).first.channel}
       end
     else
-      if (params[:scope] == "protected-group" && BCrypt::Password.new(Channel.find_by(id: params[:receiver_id]).password) == params[:password])
+      if (channel.scope == "protected-group" && Channel.find_by(id: params[:receiver_id]) && Channel.find_by(id: params[:receiver_id]).password && BCrypt::Password.new(Channel.find_by(id: params[:receiver_id]).password) == params[:password])
         if (ChannelParticipation.where("user_id = ? AND channel_id = ?", params[:user_id], params[:receiver_id]).size == 0)
           params[:channel_participation]["user_id"] = params[:user_id];
           params[:channel_participation]["channel_id"] = params[:receiver_id];

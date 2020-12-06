@@ -94,70 +94,102 @@
 		<%% } %>
 		function ft_show_conversation(channel_or_user_selected)
 		{
-			if (channel_or_user_selected.scope == "protected-group")//protected
+			if (channel_or_user_selected.scope)
+			{
+				var Channel = Backbone.Model.extend({
+					urlRoot: '/channels'
+				});
+				var channel = new Channel({id: channel_or_user_selected.id});
+				channel.fetch({
+					success: function(channel_recup){
+						channel_recup = channel_recup.toJSON();
+						if (channel_recup.scope == "protected-group")//protected
+						{
+							var ChannelParticipation = Backbone.Model.extend({
+								urlRoot: '/channel_participations'
+							});
+							var channel_participation = new ChannelParticipation();
+							channel_participation.fetch({
+								data: {user_id: <%== current_user.id %>, receiver_id: channel_recup.id},
+								success: function(data)
+								{
+									data = data.toJSON();
+									if ($.isEmptyObject(data) || data.length == 0)//on met first coté rails mtn
+									{
+										var pwd = prompt("a password is needed");
+										channel_participation = new ChannelParticipation();
+										channel_participation.save(
+										{
+											user_id: <%== current_user.id %>,
+											receiver_id: channel_recup.id,
+											name: channel_recup.name,
+											scope: channel_recup.scope,
+											password: pwd
+										},
+										{
+											success: function(data)
+											{
+												data = data.toJSON();
+												if (data.res)
+													chatview.setElement("#chat_area").render_chat_main(channel_recup);
+												else
+												{
+													Swal.fire({
+														icon: "error",
+														title: "Ooopsss",
+														text: "wrong password"
+													});
+												}
+											}
+										})
+									}
+									else
+										chatview.setElement("#chat_area").render_chat_main(channel_recup);
+								}
+							});
+							return;
+						}
+						//public
+						var ChannelParticipation = Backbone.Model.extend({
+							urlRoot: '/channel_participations'
+						});
+						var channel_participation = new ChannelParticipation();
+						channel_participation.save(
+						{
+							user_id: <%== current_user.id %>,
+							receiver_id: channel_recup.id,//quand c est user on envoie le user id de la personne a qui on parle et cote rails ca sera channel id dans participation
+							name: channel_recup.name,
+							scope: (channel_recup.scope ? channel_recup.scope : "direct")
+						},
+						{
+							success: function(data)//data contiendra les datas de la requete aussi
+							{
+								chatview.setElement("#chat_area").render_chat_main(data.toJSON());//public donc on peut afficher directe
+							}
+						});
+					}
+				});
+			}
+			else
 			{
 				var ChannelParticipation = Backbone.Model.extend({
 					urlRoot: '/channel_participations'
 				});
 				var channel_participation = new ChannelParticipation();
-				channel_participation.fetch({
-					data: {user_id: <%== current_user.id %>, receiver_id: channel_or_user_selected.id},
-					success: function(data)
+				channel_participation.save(
+				{
+					user_id: <%== current_user.id %>,
+					receiver_id: channel_or_user_selected.id,//quand c est user on envoie le user id de la personne a qui on parle et cote rails ca sera channel id dans participation
+					name: channel_or_user_selected.name,
+					scope: "direct"
+				},
+				{
+					success: function(data)//data contiendra les datas de la requete aussi
 					{
-						data = data.toJSON();
-						if ($.isEmptyObject(data) || data.length == 0)//on met first coté rails mtn
-						{
-							var pwd = prompt("a password is needed");
-							channel_participation = new ChannelParticipation();
-							channel_participation.save(
-							{
-								user_id: <%== current_user.id %>,
-								receiver_id: channel_or_user_selected.id,
-								name: channel_or_user_selected.name,
-								scope: channel_or_user_selected.scope,
-								password: pwd
-							},
-							{
-								success: function(data)
-								{
-									data = data.toJSON();
-									if (data.res)
-										chatview.setElement("#chat_area").render_chat_main(channel_or_user_selected);
-									else
-									{
-										Swal.fire({
-											icon: "error",
-											title: "Ooopsss",
-											text: "wrong password"
-										});
-									}
-								}
-							})
-						}
-						else
-							chatview.setElement("#chat_area").render_chat_main(channel_or_user_selected);
+						chatview.setElement("#chat_area").render_chat_main(data.toJSON());//public donc on peut afficher directe
 					}
 				});
-				return;
 			}
-			//public
-			var ChannelParticipation = Backbone.Model.extend({
-				urlRoot: '/channel_participations'
-			});
-			var channel_participation = new ChannelParticipation();
-			channel_participation.save(
-			{
-				user_id: <%== current_user.id %>,
-				receiver_id: channel_or_user_selected.id,//quand c est user on envoie le user id de la personne a qui on parle et cote rails ca sera channel id dans participation
-				name: channel_or_user_selected.name,
-				scope: (channel_or_user_selected.scope ? channel_or_user_selected.scope : "direct")
-			},
-			{
-				success: function(data)//data contiendra les datas de la requete aussi
-				{
-					chatview.setElement("#chat_area").render_chat_main(data.toJSON());//public donc on peut afficher directe
-				}
-			});
 		}
 		function ft_show_channels()
 		{

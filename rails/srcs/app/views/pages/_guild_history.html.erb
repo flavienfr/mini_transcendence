@@ -54,10 +54,18 @@
 									<td>equality</td>
 									<td>(<%%= wars[i].prize_in_points %>)</td>
 								<%% }else if (wars[i].winner_id == guild.id) {%>
-									<td><%%= guilds.findWhere({id: wars[i].winner_id}).toJSON().name %></td>
+                  <%% if (guilds.findWhere({id: wars[i].winner_id}) {%>
+									  <td><%%= guilds.findWhere({id: wars[i].winner_id}).toJSON().name %></td>
+                  <%% } else { %>
+									  <td> no guild </td>
+                  <%% } %>
 									<td>+<%%= wars[i].prize_in_points %></td>
 								<%% }else { %>
-									<td><%%= guilds.findWhere({id: wars[i].winner_id}).toJSON().name %></td>
+                  <%% if (guilds.findWhere({id: wars[i].winner_id}) {%>
+									  <td><%%= guilds.findWhere({id: wars[i].winner_id}).toJSON().name %></td>
+                  <%% } else { %>
+									  <td> no guild </td>
+                  <%% } %>
 									<td>-<%%= wars[i].prize_in_points %></td>
 								<%% } %>
 								<td><%%= start_date.toLocaleDateString('fr-FR', options) %></td>
